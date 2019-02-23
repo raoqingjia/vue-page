@@ -1,0 +1,435 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>发布流程</title>
+    <link type="text/css" href="lib/jquery-ui-1.8.4.custom/css/jquery-ui-1.8.4.custom.css" rel="stylesheet"/>
+    <script type="text/javascript" src="lib/myflow/raphael-min.js"></script>
+    <script type="text/javascript" src="lib/jquery-ui-1.8.4.custom/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-ui-1.8.4.custom/js/jquery-ui-1.8.4.custom.min.js"></script>
+    <script type="text/javascript" src="lib/myflow/myflow.js"></script>
+    <script type="text/javascript" src="lib/myflow/myflow.jpdl4.js"></script>
+    <script type="text/javascript" src="lib/myflow/myflow.editors.js"></script>
+    <style type="text/css">
+        html{
+            height: 100%;
+            width: 100%;
+        }
+        body {
+            margin: 0;
+            pading: 0;
+            text-align: left;
+            font-family: Arial, sans-serif, Helvetica, Tahoma;
+            font-size: 12px;
+            line-height: 1.5;
+            color: black;
+            background-image: url(img/bg.png);
+            position: relative;
+        }
+
+        .node {
+            width: 70px;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid #fff;
+        }
+
+        .mover {
+            border: 1px solid #ddd;
+            background-color: #ddd;
+        }
+
+        .selected {
+            background-color: #ddd;
+        }
+
+        #pointer {
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        #path {
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        #task {
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        #state {
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        img {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .node {
+            width: 90px;
+            padding: 0 8px;
+            text-align: left;
+        }
+
+        .node img {
+            display: inline-block;
+        }
+
+        #myflow_tools {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: #fff;
+            cursor: default;
+            padding: 3px;
+            z-index: 10;
+        }
+
+        #myflow_props {
+            position: fixed;
+            top: 30px;
+            right: 50px;
+            z-index: 101;
+            background-color: #fff;
+            width: 220px;
+            padding: 3px;
+        }
+
+        #myflow_props table {
+            width: 100%;
+        }
+
+        #myflow_props th {
+            width: auto;
+            /*white-space: nowrap;*/
+            letter-spacing: 2px;
+            text-align: left;
+            padding: 6px;
+            background: #ddd;
+        }
+
+        #myflow_props td {
+            background: #fff;
+            min-width: 90px;
+            padding: 6px;
+        }
+
+        .tools_box, .props_box {
+            position: relative;
+            z-index: 11;
+        }
+
+        #delete {
+            width: 90px;
+            padding: 0 8px;
+            text-align: left;
+        }
+
+        #delete:hover {
+            /*border: 1px solid #ddd;*/
+            background-color: #ddd;
+        }
+
+        .readonly {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+            background-color: transparent;
+            width: 100%;
+            height: 100%;
+            z-index: 102;
+        }
+
+        body{
+            /*overflow: hidden;*/
+        }
+        .cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            height: 100%;
+            z-index: 10001;
+        }
+        .cover>.box{
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            width: 400px;
+            height:180px;
+            margin-left: -200px;
+            border: 1px solid #cccccc;
+            background-color: #ffffff;
+            z-index: 10002;
+            cursor: pointer;
+        }
+
+        .cover>.box>h4{
+            padding: 0;
+            margin: 0;
+            height: 35px;
+            line-height: 35px;
+            font-size: 18px;
+            border-bottom: 1px solid #edeeee;
+            background: #f8f8f8;
+        }
+        .cover>.box>h4>.title{
+            float: left;
+            margin-left: 15px;
+        }
+        .cover>.box>h4>.cancel{
+            float: right;
+            display: block;
+            margin: 8px 8px 0 0;
+            width: 17px;
+            height: 17px;
+            background:url("img/cls.png") no-repeat left top;
+        }
+        .cover>.box>p{
+            margin-top: 40px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+
+            $('#myflow').myflow(
+                    {
+                        basePath: "",
+                        restore: eval("({states:{rect1:{type:'start',text:{text:'开始'}, attr:{ x:297, y:32, width:50, height:50}, props:{show:{value:'开始'}}},rect2:{type:'task',text:{text:'任务'}, attr:{ x:271, y:148, width:100, height:50}, props:{text:{value:'任务'},rolename:{value:'::111'},groupname:{value:':sss'},localkey:{value:'123'},transformationGlobal:{value:'aaaa'}}},rect4:{type:'subprocess',text:{text:'子流程'}, attr:{ x:173, y:251, width:100, height:50}, props:{show:{value:'子流程'},processname:{value:''},invariablekey:{value:''},transformationGlobal:{value:''}}},rect6:{type:'auto',text:{text:'自动'}, attr:{ x:377, y:254, width:100, height:50}, props:{show:{value:'自动'},transformationGlobal:{value:''}}},rect7:{type:'join',text:{text:'合并'}, attr:{ x:293, y:347, width:50, height:50}, props:{show:{value:'合并'},transformationGlobal:{value:''}}},rect8:{type:'end',text:{text:'结束'}, attr:{ x:296, y:471, width:50, height:50}, props:{show:{value:'结束'}}}},paths:{path3:{from:'rect1',to:'rect2', dots:[],text:{text:'TO 任务'},textPos:{x:0,y:-10}, props:{show:{value:''},xpath:{value:''}}},path9:{from:'rect2',to:'rect4', dots:[],text:{text:'TO 子流程'},textPos:{x:0,y:-10}, props:{show:{value:''},xpath:{value:''}}},path10:{from:'rect4',to:'rect7', dots:[],text:{text:'TO 合并'},textPos:{x:0,y:-10}, props:{show:{value:''},xpath:{value:''}}},path11:{from:'rect7',to:'rect8', dots:[],text:{text:'TO 结束'},textPos:{x:0,y:-10}, props:{show:{value:''},xpath:{value:''}}},path12:{from:'rect2',to:'rect6', dots:[],text:{text:'TO 自动'},textPos:{x:0,y:-10}, props:{show:{value:''},xpath:{value:''}}},path13:{from:'rect6',to:'rect7', dots:[],text:{text:'TO 合并'},textPos:{x:0,y:-10}, props:{show:{value:''},xpath:{value:''}}}},props:{props:{name:{value:'新建流程'},globalkey:{value:''}}}})"),
+                        tools: {
+                            save: {
+                                onclick: function (data) {
+                                    console.log(data);
+
+                                    var _data = eval("(" + data + ")");
+                                     console.log(_data);
+
+                        // https://blog.csdn.net/lilinoscar/article/details/52385185  设计流程图（raphael）源码myflow.js参数解析
+
+                                    // 开始节点不允许有进入轨迹线，结束节点不许有出去的轨迹线
+                                    //  先要获取 开始节点与结束节点的rect   之后去path中的from,to中校验 开始结束节点的rect
+                                    var startRect="",endRect="";
+                                    for (keys in _data.states) {
+                                        var  items= _data.states[keys];
+                                        if(items.type=="start"){
+                                            startRect=keys;
+                                        }
+                                        if(items.type=="end"){
+                                            endRect=keys;
+                                        }
+                                    }
+
+                                    var toStart=[];
+                                    for (keys in _data.paths) {
+                                        var items = _data.paths[keys];
+                                        if(items.to==startRect){
+                                            alert("开始节点不可有进入轨迹线");
+                                            return
+                                        }
+                                        if(items.from==endRect){
+                                              alert("结束节点不可有出入轨迹线");
+                                            return
+                                        }
+                                    }
+
+
+                                    //校验流程线名称不能为空
+                                    for (keys in _data.paths) {
+                                        var  items= _data.paths[keys];
+                                        if(items.text.text==""){
+                                            alert("流程线名称不能为空");
+                                           return
+                                        }
+                                    }
+
+                                    //判断流程线是否重复重叠
+                                    var path_ary=[];
+                                    for (keys in _data.paths) {
+                                        var  items= _data.paths[keys];
+                                        path_ary.push(items.from+"-"+items.to);
+                                    }
+
+                                    var oary = path_ary.sort();
+                                    for (var i = 0; i < path_ary.length; i++) {
+                                        if (oary[i] == oary[i + 1]) {
+                                            alert("两节点之间轨迹线重复");
+                                            return;
+                                        }
+                                    }
+
+                                    //检验节点名称是否重复
+                                    var val_ary = [];
+                                    for (keys in _data.states) {
+                                        var items = _data.states[keys];
+                                        val_ary.push(items.text.text)
+                                    }
+                                    var nary = val_ary.sort();
+                                    for (var i = 0; i < val_ary.length; i++) {
+                                        if (nary[i] == nary[i + 1]) {
+                                            alert(nary[i] + ":节点命名重复，无法保存");
+                                            return;
+                                        }
+                                    }
+
+                                    // 除了开始 跟结束节点之外 都要有进入线和流出线
+                                     //先把处 star end 节点之外的rect节点都取出来，之后进行判断
+                                     var rect_ary=[];
+                                     var rect_ary_flag=[];
+                                    for (keys in _data.states) {
+                                        var items = _data.states[keys];
+                                        if(items.type!='start'&&items.type!='end'){
+                                            rect_ary.push(keys)
+                                        }
+                                    }
+
+                                    for(var i=0;i<rect_ary.length;i++){
+                                        var flag_1=false,flag_2=false;
+
+                                        for (keys in _data.paths) {
+                                            var items =_data.paths[keys];
+                                            if(items.from==rect_ary[i]){
+                                                flag_1=true
+                                            }
+                                        }
+                                        for (keys in _data.paths) {
+                                            var items = _data.paths[keys];
+                                            if(items.to==rect_ary[i]){
+                                                flag_2=true
+                                            }
+                                        }
+                                        if(flag_1&&flag_2){
+                                            rect_ary_flag.push(rect_ary[i])
+                                        }
+                                    }
+
+                                    if(rect_ary.length!=rect_ary_flag.length){
+                                        console.log(rect_ary);
+                                        console.log(rect_ary_flag);
+                                        alert("除开始、结束节点外，其他节点都应有流入先与流出线")
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+
+
+            $("#delete").bind("click", function () {    //删除功能
+                $(document).trigger("keydown", true);
+            });
+
+            if (true) {
+                $(".readonly").hide();  //可编辑状态
+            } else {
+                $(".readonly").show();  //只读状态
+                readonly = true            //禁止删除
+            }
+
+        });
+    </script>
+</head>
+<body>
+<!--<div class="cover">-->
+      <!--<div class="box">-->
+          <!--<h4><span class="title">警告</span><span class="cancel"></span></h4>-->
+          <!--<p>命名重复</p>-->
+      <!--</div>-->
+<!--</div>-->
+
+<div id="myflow_tools" class="ui-widget-content">
+    <div id="myflow_tools_handle" class="ui-widget-header">工具集</div>
+    <div class="tools_box">
+        <div class="readonly"></div>
+        <div class="node" id="myflow_save">
+            <img src="img/save.gif"/>
+            <span>保存</span>
+        </div>
+        <div>
+            <hr/>
+        </div>
+        <div class="node selectable" id="pointer">
+            <img src="img/select16.gif"/>
+            <span> 选择</span>
+        </div>
+        <div class="node selectable" id="path">
+            <img src="img/16/flow_sequence.png"/>
+            <span> 转换</span>
+        </div>
+        <div>
+            <hr/>
+        </div>
+        <div class="node state" id="start" type="start">
+            <img src="img/16/start_event_empty.png"/>
+            <span> 开始</span>
+        </div>
+        <div class="node state" id="task" type="task">
+            <img src="img/16/task_empty.png"/>
+            <span>任务</span>
+        </div>
+        <div class="node state" id="subprocess" type="subprocess">
+            <img src="img/16/task_empty.png"/>
+            <span>子流程</span>
+        </div>
+        <div class="node state" id="oval" type="auto">
+            <img src="img/16/task_oval.png"/>
+            <span>自动</span>
+        </div>
+        <div class="node state" id="join" type="join">
+            <img src="img/16/gateway_parallel.png"/>
+            <span>合并</span>
+        </div>
+        <div class="node state" id="fork" type="fork"><img
+                src="img/16/static_branch.png"/>
+            <span>静态分支</span>
+        </div>
+        <div class="node state" id="foreach" type="foreach">
+            <img src="img/16/dynamic_branch.png"/>
+            <span>动态分支</span>
+        </div>
+
+        <div class="node state" id="end" type="end">
+            <img src="img/16/end_event_terminate.png"/>
+            <span>结束</span>
+        </div>
+        <!--<div class="node state" id="cancel" type="cancel">-->
+            <!--<img src="img/16/end_event_cancel.png"/>-->
+            <!--<span>取消</span>-->
+        <!--</div>-->
+        <div class="node state" id="end-error" type="error">
+            <img src="img/16/end_event_error.png"/>
+            <span>错误</span>
+        </div>
+        <div id="delete">
+            <img src="img/16/rem.png"/>
+            <span>删除</span>
+        </div>
+    </div>
+</div>
+<div id="myflow_props" class="ui-widget-content">
+    <div id="myflow_props_handle" class="ui-widget-header">属性</div>
+    <div class="props_box">
+        <div class="readonly"></div>
+        <table border="1" width="100%" cellpadding="0" cellspacing="0">
+            <!--<tr>-->
+            <!--<td>aaa</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>aaa</td>-->
+            <!--</tr>-->
+        </table>
+    </div>
+</div>
+
+<div id="myflow"></div>
+</body>
+</html>            
