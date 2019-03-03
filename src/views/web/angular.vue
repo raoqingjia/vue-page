@@ -1352,10 +1352,8 @@ Angular4 报错：Uncaught Error: Template parse errors
 1、在Angular中将http方法封装已经屡见不鲜，我建议是把get请求也封装为post的请求方式，因为get请求传输参数过长的话，写起来和看起来能让你崩溃
 2、Service 类似Java中一个Class类，在该类中编写一定业务逻辑，插入到目标元素中，Service中的函数都想是静态函数其使用方法也是： 类名.方法名
 3、Component 通过Java去理解类似一个Servlet加Jsp，html就是他的Jsp展示层，ts就是Servlet业务处理层，前端思想可以理解component是一个封装好的插件，有dom元素有样式，有对逻辑应的交互
-4、利用Angular、Vue、React这类框架，一定要有数据操作(渲染)dom的思想，是不是手动操作dom元素，手动操作dom多半是jQuery和Js
-
-
-
+4、Component 组件名称都会自带app，因为app算是组件的私有前缀
+5、利用Angular、Vue、React这类框架，一定要有数据操作(渲染)dom的思想，是不是手动操作dom元素，手动操作dom多半是jQuery和Js
           </pre>
         </div>
       </div>

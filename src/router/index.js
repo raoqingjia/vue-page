@@ -71,7 +71,7 @@ export const routes=[
       },
       {
         path: '/css/linefeed',
-        name: 'css文字换行',
+        name: 'css强制文字换行',
         type:"css",
         created:"2018-03-18",
         component: resolve =>require(['@/views/css/linefeed'],resolve)
@@ -173,6 +173,13 @@ export const routes=[
         type:"css",
         created:"2018-06-15",
         component: resolve =>require(['@/views/css/key-frames'],resolve)
+      },
+      {
+        path: '/css/tableCell',
+        name: 'display:table-cell;',
+        type:"css",
+        created:"2019-03-03",
+        component: resolve =>require(['@/views/css/table-cell'],resolve)
       },
       //js案例
       {
