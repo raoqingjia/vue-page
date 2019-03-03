@@ -75,10 +75,6 @@ http.createServer(function(requset,response){   //request是客户端相关信�
 </template>
 
 <script>
-
- var open = require("open");
-  console.log("open+");
-  open("http://www.baidu.com", "chrome");
   export default {
     name: '',
     data () {
@@ -89,8 +85,6 @@ http.createServer(function(requset,response){   //request是客户端相关信�
     },
     mounted(){
       this.$nextTick(function(){
-        console.log("open");
-        open("http://www.baidu.com", "chrome");
       })
     },
     computed:{

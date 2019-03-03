@@ -7,40 +7,57 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
+          <h3>1、GIt设置全局变量</h3>
+          <pre>
+git config --list                可以查看配置的一些东西
+git config --list --global       查找当前全局配置
+git config user.name = git config --get user.name         查找当前user.name
+git config --global user.name zhanghu                     设置git全局用户姓名
+git config --global user.email 10078044533@163.com        设置git全局用户邮箱
+git config --global --replace-all user.name   zhanghu01             修改git全局用户姓名
+git config --global --replace-all user.email  10078044532@163.com   修改git全局用户姓名</pre>
           <h3>
-            1、GIt设置代理
+            2、GIt设置代理
           </h3>
-          <!--<article>-->
-            <!--<p>开始安装的一切前提是安装了node.js，有npm或cnpm，全局安装了gulp执行npm install gulp -g命令</p>-->
-            <!--<p>再手动安装配置文件执行npm init创建package.json文档,这个文档中包含了当前项目的相关信息，例如通过npm安装依赖的模块的版本信息之类。</p>-->
-            <!--<p>之后本地安装gulp，执行npm install gulp &#45;&#45;save-dev命令</p>-->
-          <!--</article>-->
-           <pre>
+          <pre>
 GIt添加代理
-git config --global http.proxy http://10.1.57.56:8080  //这个就可以用
+git config --global http.proxy http://10.1.57.56:8080
 git config --global https.proxy https://10.1.57.56:8080
-git config --global http.proxy 'socks5://10.1.57.56:8080'
-git config --global https.proxy 'socks5://10.1.57.56:8080'
-
 GIt取消代理
 git config --global --unset http.proxy
 git config --global --unset https.proxy</pre>
-          <h3>2、GIt设置全局变量</h3>
+          <h3>3、git命令大全</h3>
           <pre>
-git config --list       可以查看配置的一些东西
-git config --list --global     查找当前global
-git config user.name = git config --get user.name 查找当前user.name
-git config --global user.name zhanghu       设置user.name
-git config --global user.email 10078044533  设置user.email
-git config --global --add user.name othername    添加一个user.name
-git config --global --unset user.name othername  删除user.name中的叫othername
-git config --global --replace-all user.email "输入你的邮箱"
-git config --global --replace-all user.name "输入你的用户名"</pre>
-          <h3>3、查找git帮助文档</h3>
-          <pre>
-man git-config
-git config --help
-git help config</pre>
+cd：切换目录，后接要切换到的目录，例如从c盘切换到d盘；
+ls（list命令）：显示当前目录下所有的文件；
+ls -a（list-all命令）：显示当前目录下所有的文件，包括隐藏的目录；
+mkdir    创建一个目录，后接目录名，例如在桌面创建一个oxc目录
+rm   文件名称         系统中的删除文名称
+rm -r dir文件夹名称   系统中的删除文件名称
+cat   输出文件内容，例如输出a.txt文件的内容；
+
+git add         将文件添加到暂存区
+git status      查看暂存区信息，或是查看当前分支有哪些修改
+git stash show  查看stash中的内容
+git stash pop   将stash中的内容提出来
+git commit      将文件提交到本地库
+git log         查询版本的历史，按q退出历史记录列表
+git push        把本地库的修改提交到远程库中
+git mv  a b     重命名文件将a文件命名为b文件
+git rm  a       删除工作区跟暂存区a文件
+git rm --cached a      删除暂存区中的a文件
+git reset --hard HEAD  回退版本信息
+
+分支操作相关命令
+git branch         查看本地分支
+git branch -r      查看远程仓库有那几个分支
+git branch [name]  创建本地分支，新分支创建后不会自动切换为当前分支
+git branch -d [name]  删除分支，-d选项只能删除已经参与了合并的分支，
+对于未有合并的分支是无法删除的。如果想强制删除一个分支，可以使用-D选项
+git checkout [name]      切换分支
+git checkout -b [name]   创建新分支并立即切换到新分支
+git push origin [name]    创建远程分支(本地分支push到远程)
+git push origin :heads/[name]  删除远程分支</pre>
           <h3>4.本地获取Git项目仓库方法</h3>
           <pre>
 1)使用git init
@@ -54,17 +71,18 @@ git remote add origin  https://你提交的路径
 git push -u origin master
 
 2)使用git clone
-git clone   https://你克隆的路径（记得加.git）
 git clone是将git库上的文件全部克隆到本地文件中
-例如git clone https://github.com/polaristech-io/ocp36-console.git
-上面的git clone 默认克隆下拉的是master上的，如果想克隆其他分支则是
-git clone -b 分支名称  master的远程仓库
+git clone   https://你克隆的路径（记得加.git）
+git clone   https://github.com/polaristech-io/ocp36-console.git
+git clone  默认克隆下拉的是master上的，如果想克隆其他分支则是
+git clone -b 分支名称
+或者本地创建对应分支，切换分支
 
-更新提交代码流程
+3)更新提交代码流程
 git pull   先更新本地代码，之后提交代码
 git add .  添加更新文件
 git commit -m 'description'    对本次版本更新进行描述
-git push origin master   提交到git仓库</pre>
+git push origin master   提交到git仓库中master分支</pre>
           <h3>
             5、Git中ssh与https究竟有何不同
           </h3>
@@ -109,50 +127,8 @@ Hi xxx! You've successfully authenticated, but GitHub does not provide shell acc
 HostName http.gitlab.com
 Port 41
 IdentityFile C:\Users\Administrator\.ssh\id_rsa
-User userName</p>
-<span>webstrom中</span>
- webstrom 在git pull或者git push时报错，但是用命令提示符git push没报错
-webstrom中报  Could not read from remote repository.
- setting -> git -> SSH executable不小心选成了built-in了 改成native就行
-          </pre>
-      <h3>6、git命令大全</h3>
-      <pre>
-cd：切换目录，后接要切换到的目录，例如从c盘切换到d盘；
-ls（list命令）：显示当前目录下所有的文件；
-ls -a（list-all命令）：显示当前目录下所有的文件，包括隐藏的目录；
-mkdir    创建一个目录，后接目录名，例如在桌面创建一个oxc目录
-rm   文件名称         系统中的删除文名称
-rm -r dir文件夹名称   系统中的删除文件名称
-cat   输出文件内容，例如输出a.txt文件的内容；
-
-删除远程文件的命令：
-git rm -r --cached dirname
-git commit -m "delete file"
-git push origin master
-
-git add         将文件添加到暂存区
-git status      查看暂存区信息，或是查看当前分支有哪些修改
-git stash show  查看stash中的内容
-git stash pop   将stash中的内容提出来
-git commit      将文件提交到本地库
-git push        把本地库的修改提交到远程库中
-git mv  a b     重命名文件将a文件命名为b文件
-git rm  a       删除工作区跟暂存区a文件
-git rm --cached a      删除暂存区中的a文件
-git reset --hard HEAD  回退版本信息
-
-分支(branch)操作相关命令
-git branch 查看本地分支
-git branch -r 查看远程分支
-git branch [name]  创建本地分支，新分支创建后不会自动切换为当前分支
-git branch -d [name]  删除分支，-d选项只能删除已经参与了合并的分支，
-对于未有合并的分支是无法删除的。如果想强制删除一个分支，可以使用-D选项
-git checkout [name]  切换分支
-git checkout -b [name]   创建新分支并立即切换到新分支
-git merge [name]        合并分支，将名称为[name]的分支与当前分支合并
-git push origin [name]    创建远程分支(本地分支push到远程)
-git push origin :heads/[name]  删除远程分支</pre>
-          <h3>7、git操作错误合集</h3>
+User userName</p></pre>
+          <h3>6、git操作错误合集</h3>
           <pre>
 ① 在 git add  文件夹名称时报错
 Git操作的过程中突然显示Another git process semms to be running in this repository, e.g. an editor opened by
@@ -173,7 +149,11 @@ git merge --abort
 git reset --merge
 合并后记得一定要提交这个本地的合并
 然后在获取线上仓库
-git pull       </pre></div>
+git pull
+④ webstrom 在git pull或者git push时报错，但是用命令提示符git push没报错
+webstrom中报  Could not read from remote repository.
+setting -> git -> SSH executable不小心选成了built-in了 改成native就行          </pre>
+        </div>
       </div>
     </div>
   </div>
@@ -182,14 +162,14 @@ git pull       </pre></div>
 <script>
   export default {
     name: 'git',
-    data () {
+    data() {
       return {
         created: this.$route.query.created,
         title: this.$route.query.name
       }
     },
-    methods:{
-      toggle(){
+    methods: {
+      toggle() {
 
       }
     }

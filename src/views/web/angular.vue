@@ -12,39 +12,37 @@
           </ul>
           <h3>1、利用angular-cli搭建项目</h3>
           <pre>
-如果你之前安装angular-cli失败过，最好在安装angular-cli之前先卸载干净，用以下两句：
-卸载旧版本
-npm uninstall -g angular-cli
-npm cache clean或npm cache verify
-如果上面卸载执行失败，则执行卸载新版本
-npm uninstall @angular/cli
-安装 Angular CLI
-指定版本安装  如果npm不行就缓存cnpm
+1) 全局安装 angular-cli
+指定版本安装
 npm install -g @angular/cli@1.4.1    angular-cli的版本是1.4.1  安装后的angular是4.0版本
 安装最新版本
 npm install -g @angular/cli@latest    angular-cli的版本是最新版本  安装后的angular是的最新版本，现在angular最新版本是5.0
-本地安装
+2) 本地安装angular-cli
 npm install --save-dev @angular/cli@latest
-检测 Angular CLI 是否安装成功
+3) 检测 Angular CLI 是否安装成功
 ng --version
-创建新的项目
+4) 创建新的项目
 ng new project-name -routing (-routing可加可不加，加上就会自动生成路由配置文件)
 切换到项目下
 cd project-name
-启动本地服务器
+5) 启动本地服务器
 ng serve  或者  npm run start
-使用–-open（或-o）参数可以自动打开浏览器并访问http://localhost:4200/
-单元测试
-test build
+使用-open（或-o）参数可以自动打开浏览器并访问http://localhost:4200/
+
 
 ng serve 与 npm start 的区别
 
 
-命令行修改端口号
+6) 命令行修改端口号
 ng server --port 4201
-(ng serve --host localhost --port 4201)
+ng serve --host localhost --port 4201
 
-console.log(`${this.name} has been notified.`);
+7)卸载旧版本
+npm uninstall -g angular-cli
+npm cache clean或npm cache verify
+如果上面卸载执行失败，则执行卸载新版本
+npm uninstall @angular/cli
+如果之前安装angular-cli失败过，最好在安装angular-cli之前先卸载干净
 
 我认为最简洁的Angular4 中文文档  http://www.520jiu.com/2018/01/31/angular4-%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/
   </pre>
@@ -1344,7 +1342,21 @@ npm i -D postcss-loader
  import 'core-js/es6/set';
 
 问题04：解决IE10 IE9出现异常SCRIPT5011:不能执行已释放Script的代码
-在IE上调试切换 IE版本时出现这个问题， 如果定义好IE默认版本，不切换到其他版本就没事</pre>
+在IE上调试切换 IE版本时出现这个问题， 如果定义好IE默认版本，不切换到其他版本就没事
+问题05：
+Angular4 报错：Uncaught Error: Template parse errors
+在module中没有注册对应组件
+ </pre>
+          <h3>21、angular认知记录</h3>
+          <pre>
+1、在Angular中将http方法封装已经屡见不鲜，我建议是把get请求也封装为post的请求方式，因为get请求传输参数过长的话，写起来和看起来能让你崩溃
+2、Service 类似Java中一个Class类，在该类中编写一定业务逻辑，插入到目标元素中，Service中的函数都想是静态函数其使用方法也是： 类名.方法名
+3、Component 通过Java去理解类似一个Servlet加Jsp，html就是他的Jsp展示层，ts就是Servlet业务处理层，前端思想可以理解component是一个封装好的插件，有dom元素有样式，有对逻辑应的交互
+4、利用Angular、Vue、React这类框架，一定要有数据操作(渲染)dom的思想，是不是手动操作dom元素，手动操作dom多半是jQuery和Js
+
+
+
+          </pre>
         </div>
       </div>
     </div>
