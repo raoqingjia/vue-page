@@ -1353,10 +1353,20 @@ Angular4 报错：Uncaught Error: Template parse errors
 2、Service 类似Java中一个Class类，在该类中编写一定业务逻辑，插入到目标元素中，Service中的函数都想是静态函数其使用方法也是： 类名.方法名
 3、Component 通过Java去理解类似一个Servlet加Jsp，html就是他的Jsp展示层，ts就是Servlet业务处理层，前端思想可以理解component是一个封装好的插件，有dom元素有样式，有对逻辑应的交互
 4、利用Angular、Vue、React这类框架，一定要有数据操作(渲染)dom的思想，是不是手动操作dom元素，手动操作dom多半是jQuery和Js
-
-
-
-          </pre>
+5、&#60ng-template>的理解
+&#60ng-template>是一个 Angular 元素，它永远不会直接显示出来。在渲染视图之前，Angular 会把&#60ng-template>及其内容替换为一个注释。
+&#60ng-template #tptest>
+ &#60span>template test&#60/span>
+&#60/ng-template>
+@ViewChild('tptest') tptest: TemplateRef&#60any>;
+通过ElementRef不能调取ng-template中的dome元素，通过this.ElementRef.nativeElement这种调取方法是失效的，我理解为ng-template是一个TemplateRef实例
+在指令中通过依赖注入TemplateRef可以直接拿到ng-tempalte的TemplateRef，但是在component组件中我们则需要使用viewChild
+&#60ng-template>在ng中主要通过viewChild TemplateRef ViewContainerRef来实现结构性操作。
+6、&#60ng-template>、#60ng-content>、&#60ng-container>三者分析
+&#60ng-template>是一个自带display:none的隐藏元素，通常将它当作一个嵌入式的模版，通过ViewChild获取它的一个实例，可见它是一个TemplateRef实例
+&#60ng-content>元素作内容映射，所谓内容映射，是指在组件内嵌入模版代码，方便定制可复用的组件
+&#60ng-container>是Angular2定义的一个特殊的tag、&#60ng-container>在html中并不存在，它仅仅是作为一个容器使用
+</pre>
         </div>
       </div>
     </div>
