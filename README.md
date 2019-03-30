@@ -1,27 +1,4 @@
-# vue-pages
-
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-
-
-
 首页中 笔记 案例 的图片大小一致为 40*50
 
-项目中的图片大小
+store文件夹中index.js 配置了
+一级菜单栏，前段案例的链接和描述，软件下载文件描述信息和链接
