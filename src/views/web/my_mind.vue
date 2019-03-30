@@ -14,7 +14,9 @@
             一、Angular、Vue所思
           </h3>
           <pre>
-<span>1、关于组件化</span>
+<span>1、关于框架思想</span>
+利用Angular、Vue、React这类框架，一定要有数据操作(渲染)dom的思想，是不是手动操作dom元素，手动操作dom多半是jQuery和Js
+<span>2、关于组件化</span>
 Angualr一个组件实现了将html、css、ts交互层的拆分，三个文件构成一个组件，条理清晰，也可以一个.ts构成一个组件但是就不如.vue那样清晰
 Vue的.vue类似Jquery时代的html、css、js融入到一起，一个.vue就是一个组件查找方便
 二者在git代码提交上感觉Angualr要好一些，结构层次分开，改css提交css，改html提交html，但是Vue一改就要将整个.vue文件提交，在git上查看修改位置时不太方便
