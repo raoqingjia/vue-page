@@ -129,6 +129,24 @@ JSONP的出现是为了解决Ajax跨域请求问题，所谓的跨域请求问�
     以上2种一般配合content属性使用，表示此元素的原有文本前/后增加对应内容,first-letter不能应用于a等行内元素
 
 <span>7、说一下max-height、min-height、height之间的基准</span>
+max-height 这个属性会阻止 height 属性的设置值变得比 max-height 更大，
+min-height 这个属性会阻止 height 属性的设置值变得比 min-height 更小，
+max-height 属性用来设置给定元素的最大高度. 如果height 属性设置的高度比该属性设置的高度还大,则height 属性会失效.
+min-height 属性用来设置给定元素的最小高度. 如果height 属性设置的高度比该属性设置的高度还小,则height 属性会失效.
+max-height 重载（覆盖掉） height, 但是 min-height 又会重载（覆盖掉） max-height.
+
+<span>8、水平、垂直居中的方式</span>
+1、绝对定位与负margin
+先left:50%,然后margin为元素宽的负一半
+2、绝对定位margin值为auto
+Top、bottom、left、right为0，margin: auto;
+3、借助绝对定位与平移
+Trandform: translate(-50%,-50%);
+4、借助display: table;
+5、盒子
+6、(1)行内元素: text-align: center;
+(2)margin: 0 auto;
+  Inline-block (在子元素) 配合text-align: center;(在父元素)
 
 
 <span>6、如何理解html、css、js之间的关系</span>
@@ -137,7 +155,7 @@ Js类似人的大脑中枢，指挥人的日常行动
 如果说HTML是肉身、CSS就是皮相、Javascript就是灵魂
 如果说HTML是建筑师，CSS就是干装修的，Javascript是魔术师    </pre>
           <h3>四、规范手守则</h3>
-<pre>
+          <pre>
 <span>① AMD与CMD规范</span>
 AMD 规范是异步模块加载机制。
 CMD 规范是一个模块就是一个文件
@@ -157,20 +175,20 @@ cmd 规范 https://github.com/seajs/seajs/issues/242
 <script>
   export default {
     name: 'http_error',
-    data () {
+    data() {
       return {
         created: this.$route.query.created,
         title: this.$route.query.name,
-        catalogue:[]
+        catalogue: []
       }
     },
-    mounted:function(){
-      this.$nextTick(function(){
+    mounted: function () {
+      this.$nextTick(function () {
         this.createCatalogue();
       })
     },
     methods: {
-      jump (index) {
+      jump(index) {
 //        let jump = document.getElementsByTagName('h3');
 //       // 获取需要滚动的距离
 //        let total = jump[index].offsetTop;
@@ -194,8 +212,8 @@ cmd 规范 https://github.com/seajs/seajs/issues/242
           smoothUp()
         }
 
-        function smoothDown () {
-          if (total>distance ) {
+        function smoothDown() {
+          if (total > distance) {
             distance += step;
             document.body.scrollTop = distance;
             document.documentElement.scrollTop = distance;
@@ -205,8 +223,9 @@ cmd 规范 https://github.com/seajs/seajs/issues/242
             document.documentElement.scrollTop = total
           }
         }
-        function smoothUp () {
-          if ( total<distance) {
+
+        function smoothUp() {
+          if (total < distance) {
             distance -= step;
             document.body.scrollTop = distance;
             document.documentElement.scrollTop = distance;
@@ -218,13 +237,13 @@ cmd 规范 https://github.com/seajs/seajs/issues/242
         }
       },
       //创建目录函数
-      createCatalogue(){
+      createCatalogue() {
         let object = document.getElementsByTagName('h3');
-        var flag=[];
-        for(var i=0;i<object.length;i++){
-          flag.push({name:object[i].innerHTML})
+        var flag = [];
+        for (var i = 0; i < object.length; i++) {
+          flag.push({name: object[i].innerHTML})
         }
-        this.catalogue=flag;
+        this.catalogue = flag;
       }
     }
   }

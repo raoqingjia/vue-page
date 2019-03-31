@@ -21,7 +21,6 @@ Angualr一个组件实现了将html、css、ts交互层的拆分，三个文件�
 Vue的.vue类似Jquery时代的html、css、js融入到一起，一个.vue就是一个组件查找方便
 二者在git代码提交上感觉Angualr要好一些，结构层次分开，改css提交css，改html提交html，但是Vue一改就要将整个.vue文件提交，在git上查看修改位置时不太方便
 但是Angular将功能拆分的很细有一个问题就是文件太多了，典型的MVC思想啊
-
 </pre>
 
         </div>
