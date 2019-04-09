@@ -1366,7 +1366,23 @@ Angular4 报错：Uncaught Error: Template parse errors
 &#60ng-template>是一个自带display:none的隐藏元素，通常将它当作一个嵌入式的模版，通过ViewChild获取它的一个实例，可见它是一个TemplateRef实例
 &#60ng-content>元素作内容映射，所谓内容映射，是指在组件内嵌入模版代码，方便定制可复用的组件
 &#60ng-container>是Angular2定义的一个特殊的tag、&#60ng-container>在html中并不存在，它仅仅是作为一个容器使用
-</pre>
+7、使用require 出现的问题： Cannot find name 'require'. Do you need to install......
+问题解决：
+找到tsconfig.app.json文件，在types中加入"node"即可
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "baseUrl": "./",
+    "module": "es2015",
+    "types": [
+      "node"    // 这里加入"node"即可
+    ]
+  },
+  "exclude": [
+    "test.ts",
+  ]
+}</pre>
         </div>
       </div>
     </div>

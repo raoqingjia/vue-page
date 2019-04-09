@@ -7,17 +7,20 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <h3>ES6的兼容性问题</h3>
+          <ul class="catalogue">
+            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
+          </ul>
+          <h3>1、ES6的兼容性问题</h3>
           <pre>
 http://baijiahao.baidu.com/s?id=1596777607567884035&wfr=spider&for=pc
 https://www.cnblogs.com/izengbin/p/7061039.html
 https://www.2cto.com/kf/201712/708311.html
 ES6标准新增了一种新的函数：Arrow Function（箭头函数）。
 目前各大浏览器对ES6的支持度已经越来越高了，超过90%的 ES6 语法特性都实现了。nodejs微信开发,完全支持ES6的语法</pre>
-          <h3>Babel 转码器</h3>
+          <h3>2、Babel 转码器</h3>
           <pre>
 该转码器可以吧ES6语法转码为ES5语法，意味着，可以借助于Babel转码器提高ES6的兼容性</pre>
-          <h3>ES6 变量扩展</h3>
+          <h3>3、ES6 变量扩展</h3>
           <pre>
 <span>① let 关键字</span>
 1）用来声明变量。它的用法类似于var，但是所声明的变量，只在let命令所在的代码块内有效
@@ -75,7 +78,7 @@ object.name = "Jason";    // 正确</p>
 <span>③ 顶层对象和全局变量</span>
 ES6中将顶层对象(浏览器中是window对象，node中是Global对象)与全局变量不再挂钩。
 但是，为了保持兼容性，var命令和function命令声明的全局变量，依旧是顶层对象的属性；另一方面规定，let命令、const命令、class命令声明的全局变量，不属于顶层对象的属性。</pre>
-          <h3>ES6 对象的简化写法</h3>
+          <h3>4、ES6 对象的简化写法</h3>
           <pre>
 <span>① 属性的简化写法</span>
 <p class="pre-cmd">var foo = 'name1';
@@ -112,7 +115,7 @@ age : 20
 }
 console.log(p[attName])  // 李四</p>
 但是感觉在这里ES6的写法有点鸡肋，也没感觉有多好用</pre>
-          <h3>export，export default，import </h3>
+          <h3>5、export，export default，import </h3>
           <pre>
 <span>① ES6模块主要有两个功能：export和import</span>
 export用于对外输出本模块（一个文件可以理解为一个模块）变量的接口
@@ -134,7 +137,7 @@ export { name, age, add}
 var name="李四";
 export default name
 //import name from "/.a.js" 这里name不需要大括号</p></pre>
-          <h3>函数function(){}</h3>
+          <h3>6、函数function(){}</h3>
           <pre>
 <span>① 设置默认参数的函数</span>
 //这个函数如果只传入第一个参数，后面两个不传入，则会使用默认值。如果后面两个也传入了参数，则不会使用默认值。
@@ -212,7 +215,7 @@ var foo1 = ()=>{
   })("zs");
 console.log(person);</p>   //返回的是个对象
 </pre>
-          <h3>Object对象新增的方法</h3>
+          <h3>7、Object对象新增的方法</h3>
           <pre>
 ECMAScript 6在全局Object上添加了几个新的方法来完成一些特定任务
 <span>① Object.is()</span>
@@ -260,15 +263,14 @@ var p1 = {
 var p2 = {};
 Object.assign(p2, p, p1); //p和p1都是提供者
 console.log(p2.name); // zs 这里p1的name值覆盖了p的</p></pre>
-          <h3>字符串新增功能</h3>
+          <h3>8、字符串新增功能</h3>
           <pre>
-<span>① ES6新增了三个方法来查找字符串</span>
-在以前在字符串中查找字符串的时候，都是使用indexOf方法。
+<span>1、includes(),startsWith(),endsWith()</span>
 includes()   如果给定文本存在于字符串中的任意位置时返回 true，否则返回 false
 startsWith() 如果在给定文本出现在字符串开头时返回 true，否则返回 false
 endsWith()   如果给定文本出现在字符串末尾时返回 true，否则返回 false
-上述的三个方法返回的都是Boolean值
-<p class="pre-cmd">var msg = "Hello world!";
+上述的三个方法返回的都是Boolean值，比indexOf()好用
+<p class="p-cmd">var msg = "Hello world!";
 console.log(msg.startsWith("h"));        // false
 console.log(msg.endsWith("e"));          // false
 console.log(msg.includes("H"));          // true
@@ -281,57 +283,33 @@ console.log(msg.startsWith("e", 1));        // true
 console.log(msg.endsWith("!",12));          // true
 console.log(msg.includes("o", 7));          // true</p>
 注意：每个方法都接收两个参数：需要搜索的文本和可选的起始索引值。当提供第二个参数后，includes() 和 startsWith() 会以该索引为起始点进行匹配，而 endsWith() 将字符串的长度与参数值相减并将得到的值作为检索的起始点。若第二个参数未提供，includes() 和 startsWith() 会从字符串的起始中开始检索，endsWith() 则是从字符串的末尾。实际上，第二个参数减少了需要检索的字符串的总量。
-<span>②  repeat() 方法</span>
+<span>2、repeat()</span>
 接受一个数字参数作为字符串的重复次数。该方法返回一个重复包含初始字符串的新字符串，重复次数等于参数。
-<p class="pre-cmd">console.log("x".repeat(3));         // "xxx"
+<p class="p-cmd">console.log("x".repeat(3));         // "xxx"
 console.log("hello".repeat(2));     // "hellohello"
 console.log("abc".repeat(4));       // "abcabcabcabc"</p>
-<span>③ ES6支持多行字符串</span>
-ES5中 利用 \
-<p class="pre-cmd">var s = "abc\
-    aaaaad\
-    fadfja";
-    console.log(s); //但是输出的结果中不换行但是换行位置有空格，是用引号设置字符串</p>
-ES6中利用 ``反引号 不是 '' "" 引号
-<p class="pre-cmd">var s = `abc
-    aaaaa
-    dsalfja
-    dfadfja`;
-    console.log(s);  //打印出的结果也是换行的</p>
-反引号中的所有空格和缩进都是有效字符。
-<span>④ 字符串置换</span>
+<span>2、padStart(),padEnd()</span>
+如果某个字符串不够指定长度，可以在头部或尾部补全。padStart()用于头部补全，padEnd()用于尾部补全。
+<p class="p-cmd">'x'.padStart(5, 'ab') // 'ababx'
+'x'.padStart(4, 'ab') // 'abax'
+'x'.padEnd(5, 'ab') // 'xabab'
+'x'.padEnd(4, 'ab') // 'xaba'</p>
+padStart()和padEnd()一共接受两个参数，第一个参数是字符串补全生效的最大长度，第二个参数是用来补全的字符串。
+<p class="p-cmd">'x'.padStart(4) // '   x'
+'x'.padEnd(4) // 'x</p>
+如果省略第二个参数，默认使用空格补全长度。
+<span>3、字符串置换</span>
 置换允许将 JavaScript 表达式嵌入到模板字面量中并将其结果作为输出字符串中的一部分。
 语法：${变量名、表达式、任意运算、方法调用等}可以嵌入任何有效的JavaScript代码
 <p class="pre-cmd">var name = "李四";
 var msg = `欢迎你${name}同学`;
-console.log(msg)</p>
-<span>⑤ 模板标签</span>
-一个模板标签可以被转换为模板字面量并作为最终值返回。标签在模板的头部，即左 ` 字符之前指定，如下所示：
-let message = myTag`Hello world`;
-myTag就是模板标签，myTag其实是一个函数，这个函数会被调用来处理这个模板字符串。
-<p class="pre-cmd">let name = '张三',
-age = 20,
-message = show`我来给大家介绍${name}的年龄是${age}.`;
-/*
-应该定义一个函数show:
-参数1：一个字符串数组,在本例中包含三个元素。
-0:"我来给大家介绍"
-1:"的年龄是"
-2:"."
-参数2和参数3：表示需要置换的字符串的值。
-*/
-function show(stringArr, value1, value2) {
-  console.log(stringArr); // ["我来给大家介绍", "的年龄是", ".", raw: Array(3)]
-  console.log(value1);  // 张三
-  console.log(value2);  // 20
-  return "abc";
-}
-console.log(message); //abc</p>
-重点记住模板标签的首个参数是个字符串的数组，余下的参数为每次置换的对应值。
-为了简化书写，一般把Value1和Value2写成剩余字符串的形式
-function show(stringArr, ...values){
-}</pre>
-          <h3>对象解构</h3>
+console.log(msg)</p></pre>
+          <h3>9、数值的扩展</h3>
+          <pre>
+
+
+          </pre>
+          <h3>9、对象解构</h3>
           <pre>
 <span>① 对象解构的基本形式</span>
 对象结构的语法就是在赋值语句=的左侧使用类似对象字面量的结构，简单的说就是let { type, name } = object;
@@ -386,7 +364,7 @@ console.log(localName);     // "foo"</p>
 let { type: localType, name: localName = "bar" } = node; //这里本没有name，但是我给设置初始值了
 console.log(localType);     // "Identifier"
 console.log(localName);     // "bar" </p></pre>
-          <h3>数组解构</h3>
+          <h3>10、数组解构</h3>
           <pre>
 数据解构的语法和对象解构看起来类似，只是将对象字面量替换成了数组字面量，而且解构操作的是数组内部的位置（索引）而不是对象中的命名属性
 <span>① 基本写法</span>
@@ -419,7 +397,7 @@ ES6中完全可以抛弃第三方变量这种方式，使用我们的数组解�
 [a, b] = [b, a];  //这样的写法太方便了，交叉互换
 console.log(a);
 console.log(b)</p></pre>
-          <h3>新的基本类型：Symbol</h3>
+          <h3>11、新的基本类型：Symbol</h3>
           <pre>
 以前我们有5种基本数据类型：Number、String、Boolean、Null、Undefined
 ES6新增了一种新的数据类型：Symbol
@@ -443,20 +421,74 @@ console.log(typeof symbol);   // "symbol"
     data () {
       return {
         created: this.$route.query.created,
-        title: this.$route.query.name
+        title: this.$route.query.name,
+        catalogue:[]
       }
     },
     mounted(){
       this.$nextTick(function(){
-
+        this.createCatalogue();
       })
     },
     computed:{
 
     },
     methods: {
-      toggle(){
+      jump (index) {
+//        let jump = document.getElementsByTagName('h3');
+//       // 获取需要滚动的距离
+//        let total = jump[index].offsetTop;
+//        // Chrome
+//        document.body.scrollTop = total;
+//        // Firefox
+//        document.documentElement.scrollTop = total;
+//       // Safari
+//        window.pageYOffset = total
+//        https://www.cnblogs.com/wisewrong/p/6495726.html  参考网站
+        let jump = document.getElementsByTagName('h3');
+        let total = jump[index].offsetTop;  // 获取目标位置滚动的距离
+        let distance = document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
+        // 平滑滚动，时长500ms，每10ms一跳，共50跳
+        let step = total / 50;
+        if (total > distance) {
+          smoothDown()
+        } else {
+          let newTotal = distance - total;  //防止total，let step=total/50太小，移动缓慢
+          step = newTotal / 50;
+          smoothUp()
+        }
 
+        function smoothDown () {
+          if (total>distance ) {
+            distance += step;
+            document.body.scrollTop = distance;
+            document.documentElement.scrollTop = distance;
+            setTimeout(smoothDown, 10)
+          } else {
+            document.body.scrollTop = total;
+            document.documentElement.scrollTop = total
+          }
+        }
+        function smoothUp () {
+          if ( total<distance) {
+            distance -= step;
+            document.body.scrollTop = distance;
+            document.documentElement.scrollTop = distance;
+            setTimeout(smoothUp, 10)
+          } else {
+            document.body.scrollTop = total;
+            document.documentElement.scrollTop = total
+          }
+        }
+      },
+      //创建目录函数
+      createCatalogue(){
+        let object = document.getElementsByTagName('h3');
+        var flag=[];
+        for(var i=0;i<object.length;i++){
+          flag.push({name:object[i].innerHTML})
+        }
+        this.catalogue=flag;
       }
     }
   }
