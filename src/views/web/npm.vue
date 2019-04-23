@@ -98,7 +98,12 @@ at Object.&#60anonymous&#62 (C:\ecWebTest\node_modules\.0.3.8@orchestrator\lib\r
         at Function.Module._load (module.js:489:3)
 解决方法
 1：将node_modules文件夹以及子文件全部删除；
-2：重装本地依赖包：npm install</pre>
+2：重装本地依赖包：npm install
+
+七、如果报Found bindings for the following nvironments:   - Windows 64-bit with Node.js 6.x
+简单的说，这段代码就是告诉你，node-sass 不兼容 node v6 的版本。那就很好解决了。在当前项目下面执行
+npm i node-sass -D 或是 npm rebuild node-sass --force 和 npm install node-sass
+          </pre>
           <h3>
             4、nodejs全局安装和本地安装的区别 （http://www.cnblogs.com/PeunZhang/p/5629329.html#install-global转载地址）
           </h3>

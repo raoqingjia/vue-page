@@ -308,6 +308,13 @@ export const routes=[
         created:"2018-05-11",
         component: resolve =>require(['@/views/js/jsPrototype'],resolve)
       },
+      {
+        path: '/js/import_require',
+        name: 'import与require的区别',
+        type:"js",
+        created:"2019-04-9",
+        component: resolve =>require(['@/views/js/import_require'],resolve)
+      },
       //jquery案例
       {
         path: '/jq/domMoreEvents',
@@ -536,7 +543,7 @@ export const routes=[
       },
       {
         path: '/note/angular',
-        name:"Angular 4.0",
+        name:"Angular",
         type:"web",
         img:require("../img/angular4-icon.png"),
         description:"基于angular-cli脚手架搭建...",
