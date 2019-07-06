@@ -789,8 +789,17 @@ export const routes=[
         name:"Linux",
         type:"java",
         img:require("../img/linux-icon.png"),
-        description:"linux相关的安装,命令行...",
-        created:"持续更新 最后版本 2018-04-08",
+        description:"linux相关的操作命令及注意点...",
+        created:"持续更新 最后版本 2019-06-18",
+        component: resolve =>require(['@/views/java/linux'],resolve)
+      },
+      {
+        path: '/note/spring',
+        name:"Spring",
+        type:"java",
+        img:require("../img/linux-icon.png"),
+        description:"Spring笔记简述，常用注解...",
+        created:"持续更新 最后版本 2019-06-30",
         component: resolve =>require(['@/views/java/linux'],resolve)
       },
       //生活情感记录
