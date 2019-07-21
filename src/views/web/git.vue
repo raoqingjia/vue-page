@@ -60,7 +60,7 @@ git push origin [name]    创建远程分支(本地分支push到远程)
 git push origin :heads/[name]  删除远程分支</pre>
           <h3>4.本地获取Git项目仓库方法</h3>
           <pre>
-1)使用git init
+<span>① 使用git init</span>
 先在git上或github上创建一个库，之后根据提示按步骤操作，但是可能缺少一些操作步骤
 在本地touch README.md产生一个内容为空的README.md文件，右击鼠标点出git命令框输入git命令
 git init
@@ -70,7 +70,7 @@ git commit -m  'description'
 git remote add origin  https://你提交的路径
 git push -u origin master
 
-2)使用git clone
+<span>② 使用git clone</span>
 git clone是将git库上的文件全部克隆到本地文件中
 git clone   https://你克隆的路径（记得加.git）
 git clone   https://github.com/polaristech-io/ocp36-console.git
@@ -78,13 +78,31 @@ git clone  默认克隆下拉的是master上的，如果想克隆其他分支则
 git clone -b 分支名称
 或者本地创建对应分支，切换分支
 
-3)更新提交代码流程
+<span>③ 更新提交代码流程</span>
 git pull   先更新本地代码，之后提交代码
 git add .  添加更新文件
 git commit -m 'description'    对本次版本更新进行描述
 git push origin master   提交到git仓库中master分支</pre>
           <h3>
-            5、Git中ssh与https究竟有何不同
+            5、 git强制更新代码
+          </h3>
+          <pre>
+<span>① git远程强制更新到本地</span>
+git fetch --all
+git reset --hard origin/master
+git pull
+<span>② git远程分支版本回退的方法</span>
+如果要回滚远程分支，首先要回退本地分支
+git reflog  命令查看你的历史更改记录
+git reset --hard HEAD@{n}   n是你要回退到的引用位置 HEAD@{n}
+git reset --hard 84ef223    84ef223 为版本号 HEAD 前面那一串数字
+git push -f origin master  强制推送到远程分支
+
+或者回滚commit
+git log
+git reset commit_id </pre>
+          <h3>
+            6、Git中ssh与https究竟有何不同
           </h3>
           <pre>
 <span>① 区别</span>
@@ -128,7 +146,7 @@ HostName http.gitlab.com
 Port 41
 IdentityFile C:\Users\Administrator\.ssh\id_rsa
 User userName</p></pre>
-          <h3>6、git操作错误合集</h3>
+          <h3>7、git操作错误合集</h3>
           <pre>
 ① 在 git add  文件夹名称时报错
 Git操作的过程中突然显示Another git process semms to be running in this repository, e.g. an editor opened by

@@ -637,16 +637,20 @@ export class TestPipe implements PipeTransform {
   }
 }</p>
 3) pipe的使用
-<p class="pre-cmd">&#60div>
+&#60p class="pre-cmd">&#60div>
   &#60p>{ { 'lo' | test:3 }}&#60/p> <!-- Output: lololo -->
-&#60/div></p>
+&#60/div>&#60/p>
 <span>③ 纯管道的与非纯管道</span>
 Angular有两类管道：纯的与非纯的。 默认情况下，管道都是纯的
 纯管道:
 Angular只有在它检测到输入值发生了纯变更时才会执行纯管道。 纯变更是指对原始类型值(String、Number、Boolean、Symbol)的更改， 或者对对象引用(Date、Array、Function、Object)的更改。
 非纯管道:
 Angular会忽略(复合)对象内部的更改。 如果我们更改了输入日期(Date)中的月份、往一个输入数组(Array)中添加新值或者更新了一个输入对象(Object)的属性，Angular都不会调用纯管道。数据更改后却不会通过纯管道更新。
-@Pipe({name: "biaoqianPipe",pure: false})使用非纯管道</pre>
+@Pipe({name: "biaoqianPipe",pure: false})使用非纯管道
+<span>④ 往*ngFor 命令中添加一个 Pipe 管道</span>
+&#60div *ngFor="let hero of ( heroes | flyingHeroes)">
+  { hero.name}}
+&#60/div></pre>
           <h3>12、创建服务Service</h3>
           <pre>
 利用命令行创建服务

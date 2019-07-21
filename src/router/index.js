@@ -800,7 +800,7 @@ export const routes=[
         img:require("../img/linux-icon.png"),
         description:"Spring笔记简述，常用注解...",
         created:"持续更新 最后版本 2019-06-30",
-        component: resolve =>require(['@/views/java/linux'],resolve)
+        component: resolve =>require(['@/views/java/spring'],resolve)
       },
       //生活情感记录
       {
