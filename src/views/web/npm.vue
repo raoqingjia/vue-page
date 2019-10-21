@@ -8,15 +8,19 @@
         </p>
         <div class="art-content">
           <h3>
-            1、淘宝镜像安装 npm install
+            1、 node.js和npm的关系
           </h3>
-          <article>
-            <p>npm install --registry=https://registry.npm.taobao.org</p>
-          </article>
+            <pre>
+node.js是javascript的一种运行环境，是对Google V8引擎进行的封装。是一个服务器端的javascript的解释器。
+包含关系，nodejs中含有npm，比如说你安装好nodejs，你打开cmd输入npm -v会发现出啊线npm的版本号，说明npm已经安装好。
+其实npm是nodejs的包管理器（package manager）。我们在Node.js上开发时，会用到很多别人已经写好的javascript代码，如果每当我们需要别人的代码时，都根据名字搜索一下，下载源码，解压，再使用，会非常麻烦。于是就出现了包管理器npm。
+            </pre>
           <h3>
             2、npm参数配置
           </h3>
            <pre>
+淘宝镜像安装 npm install npm install --registry=https://registry.npm.taobao.org
+
 设置npm中的代理
 npm config set proxy=http://10.1.57.56:8080
 
@@ -105,7 +109,26 @@ at Object.&#60anonymous&#62 (C:\ecWebTest\node_modules\.0.3.8@orchestrator\lib\r
 npm i node-sass -D 或是 npm rebuild node-sass --force 和 npm install node-sass
           </pre>
           <h3>
-            4、nodejs全局安装和本地安装的区别 （http://www.cnblogs.com/PeunZhang/p/5629329.html#install-global转载地址）
+            4、node打包项目出现的内存溢出的解决方案
+          </h3>
+          <pre>
+项目的js代码，已经超过10w行，打包的时候出现了这样的一个问题：
+FATAL ERROR: CALL_AND_RETRY_LAST Allocation failed - process out of memory
+第一种方案：increase-memory-limit
+使用这样的一个第三方的包，重新设置node打包的内存限制。
+npm install --save increase-memory-limit
+在项目的根目录下：
+increase-memory-limit
+执行这个命令，会给node设置–max-old-space-size=4096大小的一个限制。如果还不行的话，可以设置一个更大的值
+这个时候，再执行你的打包命令：npm run build
+第二种方案  node --max-old-space-size
+package.json下配置
+"scripts": {
+    "build": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build  --environment=test --prod",
+}
+之后执行打包命令：npm run build</pre>
+          <h3>
+           5、nodejs全局安装和本地安装的区别 （http://www.cnblogs.com/PeunZhang/p/5629329.html#install-global转载地址）
           </h3>
           <pre>
 什么是全局安装（global）

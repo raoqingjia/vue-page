@@ -7,27 +7,6 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <h3>MySQL简介L</h3>
-          <pre>
-数据库 Oracle （市场占有率最大） DB2   MS Sql Server (只能在微软使用)  MySql
-MySQ是一款开源的关系型数据库 存储数据结构以关系为主，以表为基础数据是放在表里。
-MySQL属于oracle，开源社区维护了MySQL一个分之版本MariaDB,可以理解为MySQL与MariaDB功能是兼容的一回事。安装MariaDB跟安装了MySQL的运行效果是一样的。
-Data Base Management System: 数据库管理系统，用于管理保存数据的文件，通过统一的方式对文件中的数据进行增删改查。
-常见DBMS：
-MySQL：开源 Oracle公司，市场排名第一。
-Oracle：闭源 市场占有率排名第二，性能最高的数据库，价格最贵
-DB2：闭源 IBM公司的产品
-SQLServer：微软产品 闭源收费
-SQLite ：轻量级数据库 只有几十k 移动设备android、ios
-          </pre>
-          <h3>MySQL的安装流程</h3>
-          <pre>
-1）2018年7月最新版本是8版本，但是越是最新的越是不稳定，我安装的是MySQL Community Server 5.5
-2）linux 环境用yum有网环境下安装 mariadb
-3）安装时需要设置root用户名和密码
-4）安装过程中需要勾选数据库编码为utf8，用于支持中文;
-5）如果是MAC的安装，安装密码是系统提前生成好的，你要记住密码后再自己更改
-6）利用cmd执行mysql肯能报未定义的命令，说明要配置环境变量,配置完环境变量后重启一下</pre>
           <h3>MySQL的客户端和服务端</h3>
           <pre>
 <span>① 服务端：</span>
@@ -36,34 +15,6 @@ MySQL服务器占用3306端口。
 <span>② 客户端：</span>
 使用命令行去链接，在命令行中只能执行SQL命令，mysql命令不区分大小写
 如果MySQL设置手动启动，每次开机都都要执行net start mysql启动mysql</pre>
-          <h3>MySQL的默认配置</h3>
-         <pre>
-<span>① 查看数据库配置文件</span>
-  linux cat/var/lib/mysql/db1/db.opt
-  windows mysql安装目录/data 把文件拖拽到记事本
-<span>② 数据库使用默认字符编码</span>
-  utf8 英文单字节 中文三字节 Unicode统一码   //面向全球
-  GBK 双字节   //只面向国内
-  数据库建立时就需要考虑用户编码的定义
-<span>③ 字符的排序方式</span>
-  collation 排列、校对
-  show collation;
-  show collation like 'gbk%';  %在此表示通配符
-  show collation like 'utf8%'    查找utf8开头的排列方式
-  show collation like 'utf8\_%'  查找utf8_ 开头的排列方式  通过%值匹配匹配 utf8_  \_将_转译，否则将_理解也是一个通配符
-  下面是常用的排序
-  gbk_chinese_ci  中文字符排序不区分大小写 _ci是表示不区分大小写
-  utf8_general_ci
-<span>④ 数据库目录中的表文件</span>
-  user.frm  --表结构文件
-  user.myd  --数据存储文件
-  user.myi  ---索引文件
-<span>⑤ 存储引擎engine</span>
-  1）innodb
-  支持数据库高级功能  支持事务、外键
-  2）myisam
-  数据存储基本功能/效率非常高  常用的存储引擎
-</pre>
           <h3>MySQL的命令执行</h3>
           <pre>
  demo 是数据库名  sheet01 是数据表名
@@ -71,52 +22,66 @@ MySQL服务器占用3306端口。
 <p class="pre-cmd">* 关闭/重启mysql的服务
   net stop mysql
   net start mysql
+
 * 命令连接到MySQL服务器
   mysql -uraoqingjia  -p123456
+
 * 指定ip和端口
   mysql -h   指定IP地址 -P   指定端口 大写的P是端口，小写的P是密码
   mysql -hlocalhost -P3306
+
 * 退出客户端
   exit 或 \q    window里面ctrl+c也退出啦</p>
 <span>② 对数据库的操作</span>
 <p class="pre-cmd">
 * 显示mysql中所有数据库
   show databases;  等同于  show schemas;
-  //别忘了加s、加分号;  schema：数据库中一组对象的集合，即数据库
+
 * 创建数据库
-  create database demo;  //database没有s 别忘了加分号 ;
-  create database demo charset utf8   //utf8字符编码的设定是重点
-  create database demo charset gbk
-*  查看指定数据库信息
+  create database demo charset utf8
+
+* 查看指定数据库信息
   show create database  demo0;
-*  修改数据库编码
+
+* 修改数据库编码
   alter database demo  charset gbk;
-  修改编码类型的同时，排序的方式也会发生改变变成gbk_chinese_ci
   数据库的库名不许改，只能改库的编码，和排序方式
+
 * 修改数据库排序（很少用）
   alter database demo  collate  gbk_bin;
-  这里写的是collate动词
-*  进数据库
+
+* 进数据库
   use demo;
+
 * 删除库（不可恢复）
-  drop database demo01;</p>
+  drop database demo01;
+</p>
+
  <span>③  对数据表的操作</span>
 <p class="pre-cmd">*  查看数据库中所有的表
-  show tables;   //table需要加s
+  show tables;
+
 *  查看一张表的编码类型，字段
   desc  sheet01;
+
 *  查看一张数据表的字段和数据
-  select * from sheet01;   //  *是查询所有字段
-  select age,id,name  from sheet01;  //值查询age，id，name三个字段
+  select * from sheet01;              //  *是查询所有字段
+  select age,id,name  from sheet01;   //值查询age，id，name三个字段
   select * from sheet01  limit 10;    //  limit 10 只看前10行
+
 * 创建数据表
-  create table sheet01 (     // 表结构，记得是用括号()
-      id int,                  //id是你声明的key值,是int整数类型，记得逗号隔开
-      name varchar(100),       //varchar(100)可变的字符，字符最多存100个字节
-      salary decimal(6,2)      // 一共6位数，有2位小数，前四后二  例如  2222.22
-    )engine=innodb charset=gbk;                   //记得加分号 engine=innodb / myisam
-  创建表结构时没必要非写成一行，可以enter回车最后;结束就行
-  varchar长度可变的字符串，最长不能超过16
+  create table sheet01 (           // 表结构，记得是用括号()
+      id int,                      //id是你声明的key值,是int整数类型，记得逗号隔开
+      name varchar(100),           //varchar(100)可变的字符，字符最多存100个字节
+      salary decimal(6,2)          // 一共6位数，有2位小数，前四后二  例如  2222.22
+    )engine=innodb charset=gbk;     //记得加分号 engine=innodb / myisam
+
+* 存储引擎engine
+  1）innodb
+  支持数据库高级功能  支持事务、外键
+  2）myisam
+  数据存储基本功能/效率非常高  常用的存储引擎
+
 * 向表里添加数据
   insert into sheet01
             (id,name,salary) values
@@ -126,50 +91,50 @@ MySQL服务器占用3306端口。
             values
             (2,'Jerry',150.33);
   insert into sheet01 (id,name,salary) values (3,'Emily',300.06);
-如何你想表中插入数据是，像id,name,salary写成了ids,names,salarys会报错，或者是插入数据不符合表定义的类型也会报错
+
 * 修改表名
   rename table sheet01 to  tb_sheet01;  //sheet01表名修改为tb_sheet01
+
 * 修改表的引擎属性
-  alter table  sheet01
-  engine=myisam;
+  alter table  sheet01  engine=myisam;
+
 * 修改表编码
-  alter table  sheet01
-  charset=utf8;
+  alter table  sheet01  charset=utf8;
+
 * 查看修引擎、编码是否改成功码
   show create table  sheet01;
   show create table  sheet01\G;  // \G防止显示详细信息时换行
-* 添加字段
-  first  加在第一个 、 after  指定加在某个字段之后
+
+* 向表结构中添加字段
+  first  表示加在第一个位置 、 after  指定加在某个字段之后
   alter table sheet01 add (  //如果不涉及插入位置可以一次插入多个
        sex char(1),
        tel char(11)
   );
   alter table sheet01 add  id int  first;    //将id添加在第一个字段前
-* 修改字段名和数据类型
-  alter table sheet01 change sex gender varchar(10); 将sex改为gender并且赋值变量类型
+
+* 修改字段名称和数据类型
+  alter table sheet01 change sex gender varchar(10); 将sex改为gender并且修改赋值变量类型为varchar(10)
+
 * 修改字段数据类型
   alter table sheet01 modify age varchar(20);   将age类型修改为varchar(20)
+
 * 修改字段顺序
   alter table sheet01 modify age varchar(20) after name ;  将age改到name的后边
+
 * 修改id是7的商品，price降价12%，修num改库存量为20
-  update sheet01
-  set price=round(price*0.88),num=20
-  where id=7;
+  update sheet01 set price=round(price*0.88),num=20 where id=7;
+
 * 删除商品id是7
   delete from sheet01 where id=7;
+
 * 删除字段
   alter table sheet01 drop  age;  直接删除age;
+
 * 删除表（不可恢复）
   drop table sheet01;
-  drop table if exists sheet01;   //if exists表示如果存在则删除
-</p>
-<span>③ 数据库分类</span>
-1） 关系型数据库
-用表保存数据，相关数据存入一张表
-2) 非关系型数据库
-   对象数据库
-   键值数据库
-<span>④ 命令行错误提示</span>
+  drop table if exists sheet01;   //if exists表示如果存在则删除</p>
+<span>③ 命令行错误提示</span>
 -> 这样显示说明你没加分号，需要加;
 ERROR 1049 说明输入的 名称有误，没有找到
 ERROR 1064 说明输入的命令是错的，看看是不是没加s，或是单词写错了，或是定义类型是错的
@@ -178,16 +143,14 @@ ERROR 1045 (28000): Access denied for user 'raoiqngjia'@'localhost' (using passw
 error    Subquery returns more than 1 row
 查询结果有多行，过滤结果不能用 = 判断
 Unknown column 'total' in 'field list'    文件中没有找到 total
-Table '表名db.table'' doesn't exist               多半是表不存在或者表名写错或者database选错
-
-          </pre>
+Table '表名db.table'' doesn't exist               多半是表不存在或者表名写错或者database选错 </pre>
           <h3>MySQL的数据类型</h3>
           <pre>
 <span>字符串</span>
-char(固定字符长度)      定长字符串()指定固定长度,字符长度不足时补充空格 最多255个字节，
-varchar(最大字符长度)   可变长度字符串，超过最大长度将会出错   最多65535个字节，但使用时一般不超过255个字节
-text                    65535字节，但是只占表的10个字节，如果表述文本就用text
-blob                    大数据对象，以字节方式存储数据
+<p class="pre-cmd">char(固定字符长度)      定长字符串()指定固定长度,字符长度不足时补充空格 最多255个字节，
+varchar(最大字符长度)   可变长度字符串，最多65535个字节，但使用时一般不超过255个字节
+text                  65535字节，但是只占表的10个字节，如果表述文本就用text
+blob                  大数据对象，以字节方式存储数据</p>
 <span>数字</span>
 tinyint          1个字节  -128~127
 smallint         2个字节

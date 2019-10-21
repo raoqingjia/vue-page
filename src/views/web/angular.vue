@@ -1358,7 +1358,15 @@ npm i -D postcss-loader
 Angular4 报错：Uncaught Error: Template parse errors
 在module中没有注册对应组件
  </pre>
-          <h3>21、angular认知记录</h3>
+          <h3>21、Angular Cli打包的事</h3>
+          <pre>
+ng build  常规的压缩操作    代码体积最大
+ng build --aot   angular预编译   对angular中浏览器结实的部分转化成浏览器能直接读取的内容    代码体积较小
+ng build --prod   angular预编译    取消console等显示  尽可能合并相同功能代码    代码体积最小 
+--prod 默认 开启了--aot
+--prod参数后，angular-cli会把用不到的包都删掉，而--aot参数是让angular-cli启动预编译特性，最后angular-cli会在项目根目录下生成一个dist目录，里面就是编译，压缩好的文件。
+          </pre>
+          <h3>22、angular认知记录</h3>
           <pre>
 1、在Angular中将http方法封装已经屡见不鲜，我建议是把get请求也封装为post的请求方式，因为get请求传输参数过长的话，写起来和看起来能让你崩溃
 2、Service 类似Java中一个Class类，在该类中编写一定业务逻辑，插入到目标元素中，Service中的函数都想是静态函数其使用方法也是： 类名.方法名
