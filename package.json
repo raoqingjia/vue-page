@@ -21,7 +21,7 @@
     "jszip": "^3.1.5",
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.22.1",
-    "open": "0.0.5",
+    "open": "6.0.0",
     "sass-loader": "^6.0.7",
     "swiper": "^3.4.2",
     "tiny-pinyin": "^1.2.1",
