@@ -529,22 +529,43 @@ export const routes = [
         path: '/other/xFrameOptions',
         name: 'iframe 内嵌报错：X-Frame-Options to sameorigin',
         type: "other",
-        created: "2021-02-24",
+        created: "2019-02-24",
         component: resolve => require(['@/views/other/xFrameOptions'], resolve)
       },
       {
         path: '/other/angularCliBuild',
         name: 'Angular Cli打包的事',
         type: "other",
-        created: "2021-03-02",
+        created: "2019-03-02",
         component: resolve => require(['@/views/other/angularCliBuild'], resolve)
       },
       {
         path: '/other/npmBuildOutOfMemory',
         name: 'npm run build时报错FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed -错误',
         type: "other",
-        created: "2021-03-02",
+        created: "2019-03-02",
         component: resolve => require(['@/views/other/npmBuildOutOfMemory'], resolve)
+      },
+      {
+        path: '/other/designMenuSql',
+        name: '关于菜单sql表结构思路',
+        type: "other",
+        created: "2019-04-12",
+        component: resolve => require(['@/views/other/designMenuSql'], resolve)
+      },
+      {
+        path: '/other/intTinyIntBigint',
+        name: 'mysql中int、bigint、smallint 和 tinyint的区别介绍',
+        type: "other",
+        created: "2019-04-12",
+        component: resolve => require(['@/views/other/intTinyIntBigint'], resolve)
+      },
+      {
+        path: '/other/intLength',
+        name: 'mysql中int长度的意义',
+        type: "other",
+        created: "2019-04-12",
+        component: resolve => require(['@/views/other/intLength'], resolve)
       },
       //工作笔记
       {
