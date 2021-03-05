@@ -65,6 +65,13 @@ export const routes = [
         created: "2018-02-27",
         component: resolve => require(['@/views/h5/h5historyApi'], resolve)
       },
+      {
+        path: '/h5/imgShowBorderError',
+        name: 'img出现边框，css设置无效',
+        type: "h5",
+        created: "2018-03-12",
+        component: resolve => require(['@/views/h5/imgShowBorderError'], resolve)
+      },
       //css案例
       {
         path: '/css/text-indent',
@@ -305,6 +312,13 @@ export const routes = [
         created: "2018-05-11",
         component: resolve => require(['@/views/js/jsPrototype'], resolve)
       },
+      {
+        path: '/js/ieDateError',
+        name: 'ie下new Date()带参数不兼容的问题',
+        type: "js",
+        created: "2018-05-22",
+        component: resolve => require(['@/views/js/ieDateError'], resolve)
+      },
       //jquery案例
       {
         path: '/jq/domMoreEvents',
@@ -331,15 +345,22 @@ export const routes = [
         path: '/jq/jqueryOnLive',
         name: 'jQuery给动态添加的元素绑定事件的方法',
         type: "jq",
-        created: "2021-02-24",
+        created: "2019-02-24",
         component: resolve => require(['@/views/jq/jqueryOnLive'], resolve)
       },
       {
         path: '/jq/trigger',
         name: 'trigger()方法自动触发事件',
         type: "jq",
-        created: "2021-02-24",
+        created: "2019-04-24",
         component: resolve => require(['@/views/jq/trigger'], resolve)
+      },
+      {
+        path: '/jq/jqVersion',
+        name: 'jquery的版本问题',
+        type: "jq",
+        created: "2019-12-02",
+        component: resolve => require(['@/views/jq/jqVersion'], resolve)
       },
       //app
       {
