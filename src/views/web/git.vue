@@ -125,16 +125,18 @@ webstrom中报  Could not read from remote repository.
           </pre>
           <h3>git操作错误合集</h3>
           <pre>
-① 在 git add  文件夹名称时报错
+1)在 git add  文件夹名称时报错
 Git操作的过程中突然显示Another git process semms to be running in this repository, e.g. an editor opened by
 ‘git commit’. Please make sure all processes are terminated then try again. If it still fails, a git process remove
 the file manually to continue…
 翻译过来就是git被另外一个程序占用，重启机器也不能够解决。
 原因在于Git在使用过程中遭遇了奔溃，部分被上锁资源没有被释放导致的。
 解决方案：进入项目文件夹下的 .git文件中（需要显示隐藏文件夹）删除index.lock文件即可。
-② 在git上edit编辑了master后，修改dev后merge到master失败，不能merge的问题
+
+2)在git上edit编辑了master后，修改dev后merge到master失败，不能merge的问题
 正常开发操作dev后将dev上的代码合并到mater上，dev的版本一直高于master，但是我在git上手动操作master后，master的版本就高于dev了，这样就不允许dev再合并到master上了，办法有两种，第一种是将master干掉，利用dev从新生成一份dev；但是太爆裂了，正常来说是不能操作master的；第二种办法是删除dev，利用master创建一个新的dev分支，本地代码重新pull一下，修改dev后从新提交到git上再merge到master上。
-③ 遇到这么一个问题：
+
+3)遇到这么一个问题：
 You have not concluded your merge (MERGE_HEAD exists). Please, commit
 your changes before you can merge.
 问题的原因是， 以前的pull 之后merge 失败， git 进入conflict 状态。
@@ -144,7 +146,11 @@ git merge --abort
 git reset --merge
 合并后记得一定要提交这个本地的合并
 然后在获取线上仓库
-git pull       </pre></div>
+git pull
+
+4)git push时报10053
+这种情况只是暂时跟服务器断了联系，重新提交即可
+          </pre></div>
       </div>
     </div>
   </div>

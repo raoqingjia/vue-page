@@ -588,6 +588,13 @@ export const routes = [
         created: "2019-04-12",
         component: resolve => require(['@/views/other/intLength'], resolve)
       },
+      {
+        path: '/other/http413',
+        name: '页面报错POST 413',
+        type: "other",
+        created: "2019-06-23",
+        component: resolve => require(['@/views/other/http413'], resolve)
+      },
       //工作笔记
       {
         path: '/note/apache',
@@ -847,7 +854,7 @@ export const routes = [
         type: "java",
         img: require("../img/mysql-icon.png"),
         description: "mysql相关的安装,命令行...",
-        created: "持续更新 最后版本 2018-04-08",
+        created: "持续更新 最后版本 2019-04-08",
         component: resolve => require(['@/views/java/mysql'], resolve)
       },
       {
@@ -856,16 +863,7 @@ export const routes = [
         type: "java",
         img: require("../img/linux-icon.png"),
         description: "linux相关的安装,命令行...",
-        created: "持续更新 最后版本 2018-04-08",
-        component: resolve => require(['@/views/java/linux'], resolve)
-      },
-      {
-        path: '/note/linux',
-        name: "Linux",
-        type: "java",
-        img: require("../img/linux-icon.png"),
-        description: "linux相关的安装,命令行...",
-        created: "持续更新 最后版本 2018-04-08",
+        created: "持续更新 最后版本 2019-08-08",
         component: resolve => require(['@/views/java/linux'], resolve)
       },
       {
@@ -874,17 +872,26 @@ export const routes = [
         type: "java",
         img: require("../img/activemq-icon.jpg"),
         description: "activeMq相关的安装,命令行...",
-        created: "持续更新 最后版本 2021-02-25",
+        created: "持续更新 最后版本 2020-02-25",
         component: resolve => require(['@/views/java/activeMq'], resolve)
       },
       {
         path: '/note/docker',
-        name: "ActiveMQ",
+        name: "Docker",
         type: "java",
         img: require("../img/docker-icon.png"),
         description: "docker相关的安装,命令行...",
-        created: "持续更新 最后版本 2021-03-28",
+        created: "持续更新 最后版本 2020-03-28",
         component: resolve => require(['@/views/java/docker'], resolve)
+      },
+      {
+        path: '/note/php',
+        name: "php",
+        type: "java",
+        img: require("../img/php-icon.jpg"),
+        description: "php基础知识...",
+        created: "持续更新 最后版本 2020-06-28",
+        component: resolve => require(['@/views/java/php'], resolve)
       },
       //生活情感记录
       {
