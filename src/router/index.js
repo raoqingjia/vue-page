@@ -595,6 +595,27 @@ export const routes = [
         created: "2019-06-23",
         component: resolve => require(['@/views/other/http413'], resolve)
       },
+      {
+        path: '/other/pcDifferentApp',
+        name: '为什么一套项目不能同时适配pc端和移动端',
+        type: "other",
+        created: "2019-07-18",
+        component: resolve => require(['@/views/other/pcDifferentApp'], resolve)
+      },
+      {
+        path: '/other/understandH5',
+        name: 'H5 是做什么，和移动端有啥区别',
+        type: "other",
+        created: "2019-07-18",
+        component: resolve => require(['@/views/other/understandH5'], resolve)
+      },
+      {
+        path: '/other/absWebPackageGuide',
+        name: '新架构手动打包指南',
+        type: "other",
+        created: "2019-08-03",
+        component: resolve => require(['@/views/other/absWebPackageGuide'], resolve)
+      },
       //工作笔记
       {
         path: '/note/apache',
