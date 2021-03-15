@@ -319,6 +319,13 @@ export const routes = [
         created: "2018-05-22",
         component: resolve => require(['@/views/js/ieDateError'], resolve)
       },
+      {
+        path: '/js/jsUndefined ',
+        name: 'js中undefined的几种情况',
+        type: "js",
+        created: "2019-02-06",
+        component: resolve => require(['@/views/js/jsUndefined'], resolve)
+      },
       //jquery案例
       {
         path: '/jq/domMoreEvents',
