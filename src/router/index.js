@@ -616,6 +616,13 @@ export const routes = [
         created: "2019-08-03",
         component: resolve => require(['@/views/other/absWebPackageGuide'], resolve)
       },
+      {
+        path: '/other/serviceRequest',
+        name: 'spring boot中服务直接调取的两种方式',
+        type: "other",
+        created: "2019-08-08",
+        component: resolve => require(['@/views/other/serviceRequest'], resolve)
+      },
       //工作笔记
       {
         path: '/note/apache',
