@@ -52,6 +52,18 @@ $colors = array("red","green","blue","yellow");
 foreach ($colors as $value) {
   echo "$value < br>";
 }
+
+
+ $lang是本地存贮变量，存贮再 lang文件夹zh-cn.php文件中
+< tr>
+ < th>< ?php echo $lang->task->progress;?>< /th>
+ < td>< ?php echo $task->progress . '%';?>< /td>  . 用来拼接字符串先展示 80%
+< tr>
+ 数组回显逻辑，$task->bugSource是数据库存贮值，$lang->task->bugSourceList是本地存储变量
+< tr>
+  < th>< ?php echo $lang->task->bugSource;?>< /th>
+  < td>< ?php echo $lang->task->bugSourceList[$task->bugSource];?>< /td>
+< /tr>
           </pre>
         </div>
       </div>

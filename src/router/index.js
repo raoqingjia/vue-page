@@ -72,6 +72,13 @@ export const routes = [
         created: "2018-03-12",
         component: resolve => require(['@/views/h5/imgShowBorderError'], resolve)
       },
+      {
+        path: '/h5/understandH5',
+        name: 'H5 是做什么，和移动端有啥区别',
+        type: "h5",
+        created: "2019-07-18",
+        component: resolve => require(['@/views/h5/understandH5'], resolve)
+      },
       //css案例
       {
         path: '/css/text-indent',
@@ -325,6 +332,13 @@ export const routes = [
         type: "js",
         created: "2019-02-06",
         component: resolve => require(['@/views/js/jsUndefined'], resolve)
+      },
+      {
+        path: '/js/efficiencyOfFor',
+        name: 'for循环中通过new Date().getTime()获取唯一id的bug',
+        type: "js",
+        created: "2019-04-26",
+        component: resolve => require(['@/views/js/efficiencyOfFor'], resolve)
       },
       //jquery案例
       {
@@ -608,13 +622,6 @@ export const routes = [
         type: "other",
         created: "2019-07-18",
         component: resolve => require(['@/views/other/pcDifferentApp'], resolve)
-      },
-      {
-        path: '/other/understandH5',
-        name: 'H5 是做什么，和移动端有啥区别',
-        type: "other",
-        created: "2019-07-18",
-        component: resolve => require(['@/views/other/understandH5'], resolve)
       },
       {
         path: '/other/absWebPackageGuide',
