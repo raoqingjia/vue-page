@@ -16,7 +16,7 @@
 docker version   显示版本信息
 docker info  显示docker的系统信息，镜像和容器的数量
 docker  命令  --help   帮助命令
-            
+
 镜像命令
 docker images  查看所有本地主机上的镜像
 docker images|grep node1  查看叫node1的镜像
@@ -28,7 +28,7 @@ docker rmi  -f $(docker images -aq)   删除全部镜像
 
 容器命令
 有了录镜像才可以创建容器
-docker run  [可选参数]  image  新建容器并启动
+docker run  [可选参数]  image 建容启动容器并进入容器
 --name="name"  容器名字
 -d     后台方式运行
 -it    使用交互方式运行，进入容器查看内容
@@ -48,11 +48,27 @@ docker ps 查看当前运行的容器
   -q   只显示容器id
 docker rm 容器id   删除容器    -f 运行中容器也可删除
 docker rm  -f $(docker ps -aq)  删除所有容器
-
 举例
 docker pull centos      下载centos镜像
 docker run -it centos /bin/bash   运行容器
 exit
+
+日志、元数据、进程的查看
+docker logs -tf  --tail 10 容器id
+docker top  容器id   查看容器中运行的进程信息，支持 ps 命令参数
+docker inspect [OPTIONS] NAME|ID   获取容器/镜像的元数据。
+
+进入容器
+docker exec -it containerId  bash    进入容器开启一个新终端交互
+docker attach 容器id                 进入容器正在执行的终端，不会中断进程
+
+宿主机和容器内的文件相互拷贝命令
+docker cp gbss-node:/GridWeb/node_modules.tar  /opt   将gbss-node容器内的node_modules.tar赋值到opt目录下
+docker cp /opt/test.js testtomcat：/usr/local/tomcat/webapps/test/js  将宿主机opt文件拷贝到容器中
+
+docker run -d --name nginx01 -p 3344:80 nginx  公网的3344访问我的80Nginx
+-d 后台运行  --name 给容器命名  -p宿主机端口，容器内部端口
+            curl localhost:3344
 
           </pre>
         </div>

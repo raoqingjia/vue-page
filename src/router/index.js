@@ -637,6 +637,13 @@ export const routes = [
         created: "2019-08-08",
         component: resolve => require(['@/views/other/serviceRequest'], resolve)
       },
+      {
+        path: '/other/jwttoken',
+        name: 'JWT token 前端解码',
+        type: "other",
+        created: "20120-1-15",
+        component: resolve => require(['@/views/other/jwttoken'], resolve)
+      },
       //工作笔记
       {
         path: '/note/apache',
