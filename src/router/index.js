@@ -590,23 +590,30 @@ export const routes = [
       },
       {
         path: '/other/designMenuSql',
-        name: '关于菜单sql表结构思路',
+        name: '关于头部一级导航菜单sql表结构思路',
         type: "other",
         created: "2019-04-12",
         component: resolve => require(['@/views/other/designMenuSql'], resolve)
       },
       {
+        path: '/other/designNoticeSql',
+        name: '关于公告信息sql表结构思路',
+        type: "other",
+        created: "2019-04-12",
+        component: resolve => require(['@/views/other/designNoticeSql'], resolve)
+      },
+      {
         path: '/other/intTinyIntBigint',
         name: 'mysql中int、bigint、smallint 和 tinyint的区别介绍',
         type: "other",
-        created: "2019-04-12",
+        created: "2019-04-15",
         component: resolve => require(['@/views/other/intTinyIntBigint'], resolve)
       },
       {
         path: '/other/intLength',
         name: 'mysql中int长度的意义',
         type: "other",
-        created: "2019-04-12",
+        created: "2019-04-15",
         component: resolve => require(['@/views/other/intLength'], resolve)
       },
       {
@@ -643,6 +650,13 @@ export const routes = [
         type: "other",
         created: "20120-1-15",
         component: resolve => require(['@/views/other/jwttoken'], resolve)
+      },
+      {
+        path: '/other/JSONObject',
+        name: 'JAVA  JSONObject项目中常见用法',
+        type: "other",
+        created: "20120-1-20",
+        component: resolve => require(['@/views/other/JSONObject'], resolve)
       },
       //工作笔记
       {
