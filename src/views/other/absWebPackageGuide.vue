@@ -8,6 +8,36 @@
         </p>
         <div class="art-content">
           <pre>
+打包之node_modules.tar
+
+docker pull node:13.0.1
+
+docker images|grep node
+
+docker run -itd --name gbss-node 10.34.28.4:5000/node:10.15.3  bash
+
+docker exec -it 35997f73a84a bash
+
+cd /GridWeb/
+
+rm node_modules.tar
+
+rm -rf node_modules
+
+npm install chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver
+
+npm install
+
+tar jcf  node_modules.tar  node_modules
+
+exit
+
+docker cp  35997f73a84a:/GridWeb/node_modules.tar  /opt
+
+---------------------------------------------------------------------
+
+打包之dist
+
 本地执行npm run build 将生成的dist文件上传到git
 
 通过xshell连接发布环境linux

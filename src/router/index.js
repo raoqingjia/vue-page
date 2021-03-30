@@ -632,7 +632,7 @@ export const routes = [
       },
       {
         path: '/other/absWebPackageGuide',
-        name: '新架构手动打包指南',
+        name: 'abs手动打包指南',
         type: "other",
         created: "2019-08-03",
         component: resolve => require(['@/views/other/absWebPackageGuide'], resolve)
@@ -648,15 +648,43 @@ export const routes = [
         path: '/other/jwttoken',
         name: 'JWT token 前端解码',
         type: "other",
-        created: "20120-1-15",
+        created: "2020-1-15",
         component: resolve => require(['@/views/other/jwttoken'], resolve)
       },
       {
         path: '/other/JSONObject',
         name: 'JAVA  JSONObject项目中常见用法',
         type: "other",
-        created: "20120-1-20",
+        created: "2020-1-20",
         component: resolve => require(['@/views/other/JSONObject'], resolve)
+      },
+      {
+        path: '/other/nodeModuleTar',
+        name: '生产linux版本的node_modules.tar',
+        type: "other",
+        created: "2020-2-12",
+        component: resolve => require(['@/views/other/nodeModulesTar'], resolve)
+      },
+      {
+        path: '/other/mavenCompilerPlugin',
+        name: 'Maven插件 maven-compiler-plugin 讲解',
+        type: "other",
+        created: "2020-2-18",
+        component: resolve => require(['@/views/other/mavenCompilerPlugin'], resolve)
+      },
+      {
+        path: '/other/mavenCompilerPluginError',
+        name: 'Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.2:compile',
+        type: "other",
+        created: "2020-2-18",
+        component: resolve => require(['@/views/other/mavenCompilerPluginError'], resolve)
+      },
+      {
+        path: '/other/reactIeError',
+        name: 'react 17.0.1 项目再ie下运行报错',
+        type: "other",
+        created: "2020-12-20",
+        component: resolve => require(['@/views/other/reactIeError'], resolve)
       },
       //工作笔记
       {

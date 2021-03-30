@@ -12,6 +12,7 @@
                 <li><a href="http://echarts.baidu.com/" target="_blank">Echarts官网</a></li>
                 <li><a href="http://echarts.baidu.com/echarts2/doc/example.html" target="_blank">Echarts中文网</a></li>
                 <li><a href="https://ng.ant.design/docs/introduce/zh" target="_blank">Ant Design of Angular</a></li>
+                <li><a href="https://datatables.net/download/" target="_blank">datatables</a></li>
                 <li><a href="https://012x.ant.design/docs/react/introduce" target="_blank">Ant Design of React</a></li>
                 <li><a href="http://element-cn.eleme.io/#/zh-CN" target="_blank">Element-UI中文网</a></li>
                 <li><a href="http://mint-ui.github.io/#!/zh-cn" target="_blank">Mint UI中文网</a></li>
