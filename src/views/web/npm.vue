@@ -41,6 +41,9 @@ npm install -g rimraf  先安装rimraf模块
 然后进入你的node_modules的上级目录，执行下面的命令
 rimraf node_modules
 
+npm模块所有的历史版本
+npm view jquery versions
+
 全局安装
 npm install package-name -g || npm install package-name  -global  参数 -g代表安装到全局环境中
 包安装在Node安装目录下的node_modules文件夹中，一般在 \Users\用户名\AppData\Roaming\ 目录下

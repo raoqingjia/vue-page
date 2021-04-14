@@ -11,7 +11,7 @@
       <ul class="clearfix template">
         <li>
           <a href="../../static/ecWebTest/src/app/index.html" target="_blank">
-            <img src="../../static/img/ecweb.png">
+            <img src="../../static/img/ecweb.jpg">
             <div class="text">
               <h3>基于angular-1.2.9搭建</h3>
               <p>
@@ -46,7 +46,7 @@
       return {
         onerror: 'this.src="' + require('@/img/404.jpg') + '"',
         imgsArr: [   //数组数量小于5个也就是小于一行的数量，会报Cannot read property 'style' of undefined错误
-          {src:'./static/img/ecweb.png',link:"http://www.raoqingjia.online/ecWebTest/src/app/index.html",title:"angular1.0项目",info:"基于angular-1.2.9搭建，兼容IE8、利用Bootstrap实现响应式、BootstrapDatepicker日期插件、Echart图表、DataTables表单排序、kkpager页面排序功能"},
+          {src:'./static/img/ecweb.jpg',link:"http://www.raoqingjia.online/ecWebTest/src/app/index.html",title:"angular1.0项目",info:"基于angular-1.2.9搭建，兼容IE8、利用Bootstrap实现响应式、BootstrapDatepicker日期插件、Echart图表、DataTables表单排序、kkpager页面排序功能"},
           {src:'./static/img/salss-app.jpg',link:"http://www.raoqingjia.online/salssVue/index.html",title:"H5移动端项目",info:"基于Vue2.0,利用vue全家桶,未使用UI框架，利用rem换算比例适应各移动平台,mobileSelect筛选插件,swiper3.0滑屏,Echart图表"},
           {src:'./static/img/bpm_web_new.jpg',link:"http://www.raoqingjia.online/bpm_web_new/flow.html",title:"流程图",info:"设计流程图（raphael）源码myflow.js，修改了删除方式，自定义了流程步骤，保存绘画流程图时进行相关验证。"},
           {src:'./static/img/examineAndPpprove.jpg',link:"http://www.raoqingjia.online/examineAndPpprove/index.html",title:"h5嵌套页面",info:"web-view嵌套h5页面"},

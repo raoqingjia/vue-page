@@ -63,9 +63,11 @@ ng serve  --host 127.0.0.1 --port 4200
 
 8、升级过程中遇到的报错
 控制台报 @angular/compiler-cli@6.1.10 requires typescript@'>=2.7.0 <2.8.0' but 2.9.2 was found instead.  Angular编译器需要TypeScript> = 2.7.2和< 2.8.0但2.8.3 被发现代替
-别直接粘贴控制台给的提示命令会报错的，npm install typescript@">=2.7.2 <2.8.0"  注意这里要用双引号，单引号报错
+别直接粘贴控制台给的提示命令会报错的，npm install typescript@">=2.7.2 <2.8.0"  注意这里要用双引号，单引号报错，或者直接去package.json里直接改成"typescript": "^2.7.2",
 
-rxjs 6升级所导致：
+下面是因为rxjs 6升级所导致的问题，网上说为了兼容 rxjs 5 的用法，必须引入 rxjs-compat。
+添加依赖：yarn add rxjs-compat 然后在项目入口文件 main.ts 中引入它：import 'rxjs-compat';后续的开发应有意识地以 rxjs6 的新写法去编码。
+当然，如决定改掉 rxjs5 的旧写法，可以移除对 rxjs-compat 的引入，参照浏览器错误提示去一一修改即可，我这里就是没添加rxjs-compat，直接一个个修改的
 Property 'subscribe' does not exist on type 'MonoTypeOperatorFunction<{}>'.
 Property 'filter' does not exist on type 'Observable< Event>'.
 Property 'fromEvent' does not exist on type 'typeof Observable'

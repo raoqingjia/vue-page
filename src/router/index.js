@@ -589,6 +589,13 @@ export const routes = [
         component: resolve => require(['@/views/other/npmBuildOutOfMemory'], resolve)
       },
       {
+        path: '/other/angular4to5',
+        name: 'Angular4升级到5版本',
+        type: "other",
+        created: "2019-04-05",
+        component: resolve => require(['@/views/other/angular4to5'], resolve)
+      },
+      {
         path: '/other/designMenuSql',
         name: '关于头部一级导航菜单sql表结构思路',
         type: "other",
@@ -615,6 +622,13 @@ export const routes = [
         type: "other",
         created: "2019-04-15",
         component: resolve => require(['@/views/other/intLength'], resolve)
+      },
+      {
+        path: '/other/angular5to6',
+        name: 'Angular5升级到6版本',
+        type: "other",
+        created: "2019-05-05",
+        component: resolve => require(['@/views/other/angular5to6'], resolve)
       },
       {
         path: '/other/http413',

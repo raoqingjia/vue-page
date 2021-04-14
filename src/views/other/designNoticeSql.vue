@@ -19,12 +19,12 @@ createBy   创建人
 updateTime 修改时间
 updateBy   修改人
 
-CREATE TABLE  abs_auth.web_notice (
+CREATE TABLE  omss_rds.web_notice (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `TITLE`  varchar(32)   COMMENT '标题',
   `CONTENT` varchar(255) NOT NULL COMMENT '显示内容',
   `REST_STYLE` varchar(255)  COMMENT '样式重置',
-  `CATEGRORY` int(1)     COMMENT '定义为类别或者级别或者集客、运维',
+  `CATEGORY` int(1)     COMMENT '定义为类别或者级别或者集客、运维',
   `LEVEL` varchar(32)    DEFAULT NULL COMMENT '按级别分配是否展示',
   `CREATE_TIME` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0)  COMMENT '创建时间',
   `CREATE_BY`  varchar(64)   DEFAULT NULL  COMMENT '创建人',

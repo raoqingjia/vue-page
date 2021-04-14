@@ -6,7 +6,7 @@
       <ul class="clearfix template">
         <li>
           <a href="../../static/ecWebTest/src/app/index.html" target="_blank">
-            <img src="../../static/img/ecweb.png">
+            <img src="../../static/img/ecweb.jpg">
             <div class="text">
               <h3>基于angular-1.2.9搭建</h3>
               <p>

@@ -909,9 +909,9 @@ components:
 return {
 //imgsArr中图片条数过少，也就是小于一行的数量，会报Cannot read property 'style' of undefined错误
   imgsArr: [
-    {src:'./static/img/ecweb.png',link:"",info:""},
+    {src:'./static/img/ecweb.jpg',link:"",info:""},
     {src:'./static/img/icon.jpg',link:"",info:""},
-    {src:'./static/img/ecweb.png',link:"",info:""}
+    {src:'./static/img/ecweb.jpg',link:"",info:""}
   ],
   fetchImgsData:[{src:'./static/img/1.png',link:"",info:""}]
   }
