@@ -44,6 +44,10 @@ rimraf node_modules
 npm模块所有的历史版本
 npm view jquery versions
 
+后缀 -alpha 内测版本，存在不稳定因素
+后缀 -beta  公测版本，比内侧完善一版，依旧是存在不稳定因素的
+后缀 -rc    发布正式版本前的预览版本
+
 全局安装
 npm install package-name -g || npm install package-name  -global  参数 -g代表安装到全局环境中
 包安装在Node安装目录下的node_modules文件夹中，一般在 \Users\用户名\AppData\Roaming\ 目录下

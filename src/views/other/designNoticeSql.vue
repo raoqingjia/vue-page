@@ -31,7 +31,39 @@ CREATE TABLE  omss_rds.web_notice (
   `UPDATE_TIME` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0)  COMMENT '修改时间',
   `UPDATE_BY`  varchar(64)  DEFAULT NULL  COMMENT '修改人',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='页面公告信息';</pre>
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='页面公告信息';
+
+下面是对应的mapper.xml里的sql
+< resultMap id="queryNoticeResultMap" type="com.bboss.omss.maintenance.bean.webPage.WebPageNotice">
+    < result property="id" jdbcType="INTEGER" column="ID"/>
+    < result property="title" jdbcType="VARCHAR" column="TITLE"/>
+    < result property="txt" jdbcType="VARCHAR" column="TXT"/>
+    < result property="restStyle" jdbcType="VARCHAR" column="RESET_STYLE"/>
+    < result property="category" jdbcType="VARCHAR" column="CATEGORY"/>
+    < result property="staff" jdbcType="VARCHAR" column="STAFF"/>
+    < result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
+    < result property="createBy" jdbcType="VARCHAR" column="CREATE_BY"/>
+    < result property="updateTime" jdbcType="TIMESTAMP" column="UPDATE_TIME"/>
+    < result property="updateBy" jdbcType="VARCHAR" column="UPDATE_BY"/>
+< /resultMap>
+< select id="queryNotice" resultMap="queryNoticeResultMap">
+    SELECT  ID , TITLE , TXT , RESET_STYLE , CATEGORY  ,STAFF , CREATE_TIME , CREATE_BY , UPDATE_TIME , UPDATE_BY
+    FROM   omss_rds.web_notice   ORDER BY  UPDATE_TIME  DESC limit  #{startIndex},#{pageSize}
+< /select>
+< insert id="insertNotice" parameterType="com.bboss.omss.maintenance.bean.webPage.WebPageNotice">
+  insert into omss_rds.web_notice (TITLE,TXT,RESET_STYLE,CATEGORY,STAFF ,CREATE_BY , UPDATE_BY )
+  values (#{param.title,jdbcType=VARCHAR}, #{param.txt,jdbcType=VARCHAR}, #{param.resetStyle,jdbcType=VARCHAR},
+  #{param.category,jdbcType=VARCHAR},#{param.staff,jdbcType=VARCHAR},#{param.createBy,jdbcType=VARCHAR},#{param.updateBy,jdbcType=VARCHAR})
+< /insert>
+< update id="updateNotice" parameterType="com.bboss.omss.maintenance.bean.webPage.WebPageNotice">
+   update omss_rds.web_notice
+    SET   TITLE =#{param.title} , TXT=#{param.txt}, RESET_STYLE=#{param.resetStyle} , CATEGORY=#{param.category},
+    STAFF=#{param.staff} , CREATE_BY = #{param.createBy} , UPDATE_BY =#{param.updateBy}
+    WHERE ID = #{param.id ,jdbcType=INTEGER}
+< /update>
+< delete id="deleteNotice" parameterType="INTEGER">
+  delete from omss_rds.web_notice  where id = #{id,jdbcType=INTEGER}
+< /delete></pre>
         </div>
       </div>
     </div>
