@@ -673,13 +673,6 @@ export const routes = [
         component: resolve => require(['@/views/other/JSONObject'], resolve)
       },
       {
-        path: '/other/nodeModuleTar',
-        name: '生产linux版本的node_modules.tar',
-        type: "other",
-        created: "2020-02-12",
-        component: resolve => require(['@/views/other/nodeModulesTar'], resolve)
-      },
-      {
         path: '/other/mavenCompilerPlugin',
         name: 'Maven插件 maven-compiler-plugin 讲解',
         type: "other",
