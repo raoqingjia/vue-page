@@ -700,6 +700,13 @@ export const routes = [
         created: "2020-12-20",
         component: resolve => require(['@/views/other/reactIeError'], resolve)
       },
+      {
+        path: '/other/reactVueAngularDiff',
+        name: 'React、Vue、Angular的理解',
+        type: "other",
+        created: "2021-01-28",
+        component: resolve => require(['@/views/other/reactVueAngularDiff'], resolve)
+      },
       //工作笔记
       {
         path: '/note/apache',
