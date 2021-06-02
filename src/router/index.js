@@ -568,6 +568,13 @@ export const routes = [
         component: resolve => require(['@/views/plugin/better-scroll'], resolve)
       },
       {
+        path: '/plugin/Lodash',
+        name: 'Lodash JavaScript 实用工具库',
+        type: "plugin",
+        created: "2018-09-01",
+        component: resolve => require(['@/views/plugin/Lodash'], resolve)
+      },
+      {
         path: '/other/xFrameOptions',
         name: 'iframe 内嵌报错：X-Frame-Options to sameorigin',
         type: "other",
@@ -629,6 +636,13 @@ export const routes = [
         type: "other",
         created: "2019-05-05",
         component: resolve => require(['@/views/other/angular5to6'], resolve)
+      },
+      {
+        path: '/other/httpReferer',
+        name: 'Http请求header之Referer讲解',
+        type: "other",
+        created: "2019-05-07",
+        component: resolve => require(['@/views/other/httpReferer'], resolve)
       },
       {
         path: '/other/http413',
@@ -694,6 +708,13 @@ export const routes = [
         component: resolve => require(['@/views/other/rxjs'], resolve)
       },
       {
+        path: '/other/webpack.env',
+        name: 'webpack（process.env.NODE_ENV）build打包自动区分环境',
+        type: "other",
+        created: "2020-09-21",
+        component: resolve => require(['@/views/other/webpackEnv'], resolve)
+      },
+      {
         path: '/other/reactIeError',
         name: 'react 17.0.1 项目再ie下运行报错',
         type: "other",
@@ -706,6 +727,13 @@ export const routes = [
         type: "other",
         created: "2021-01-28",
         component: resolve => require(['@/views/other/reactVueAngularDiff'], resolve)
+      },
+      {
+        path: '/other/cloneDeep',
+        name: '如何实现深拷贝',
+        type: "other",
+        created: "2021-02-2",
+        component: resolve => require(['@/views/other/cloneDeep'], resolve)
       },
       //工作笔记
       {
