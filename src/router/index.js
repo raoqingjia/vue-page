@@ -596,6 +596,13 @@ export const routes = [
         component: resolve => require(['@/views/other/npmBuildOutOfMemory'], resolve)
       },
       {
+        path: '/other/jsFetch',
+        name: 'JavaScript 之 Fetch',
+        type: "other",
+        created: "2019-03-07",
+        component: resolve => require(['@/views/other/jsFetch'], resolve)
+      },
+      {
         path: '/other/angular4to5',
         name: 'Angular4升级到5版本',
         type: "other",
@@ -659,6 +666,13 @@ export const routes = [
         component: resolve => require(['@/views/other/pcDifferentApp'], resolve)
       },
       {
+        path: '/other/proxyPassReverse',
+        name: 'apache中关于ProxyPass、ProxyPassReverse代理和反向代理的理解',
+        type: "other",
+        created: "2019-07-21",
+        component: resolve => require(['@/views/other/proxyPassReverse'], resolve)
+      },
+      {
         path: '/other/absWebPackageGuide',
         name: 'abs手动打包指南',
         type: "other",
@@ -711,8 +725,15 @@ export const routes = [
         path: '/other/webpack.env',
         name: 'webpack（process.env.NODE_ENV）build打包自动区分环境',
         type: "other",
-        created: "2020-09-21",
+        created: "2020-03-21",
         component: resolve => require(['@/views/other/webpackEnv'], resolve)
+      },
+      {
+        path: '/other/vue.config.js',
+        name: 'vue-cli3 之vue.config.js配置',
+        type: "other",
+        created: "2020-03-21",
+        component: resolve => require(['@/views/other/vueConfigJs'], resolve)
       },
       {
         path: '/other/reactIeError',
@@ -735,6 +756,7 @@ export const routes = [
         created: "2021-02-2",
         component: resolve => require(['@/views/other/cloneDeep'], resolve)
       },
+
       //工作笔记
       {
         path: '/note/apache',
@@ -764,13 +786,22 @@ export const routes = [
         component: resolve => require(['@/views/web/angular'], resolve)
       },
       {
-        path: '/note/vue',
+        path: '/note/vue2',
         name: "Vue 2.0",
         type: "web",
         img: require("../img/vue-icon.png"),
         description: "基于vue-cli搭建、参数配置...",
         created: "持续更新 最后版本 2018-03-26",
         component: resolve => require(['@/views/web/vue2.0'], resolve)
+      },
+      {
+        path: '/note/vue3',
+        name: "Vue 3.0",
+        type: "web",
+        img: require("../img/vue-icon.png"),
+        description: "Vue3与Vue2的差异对比，及新增功能...",
+        created: "持续更新 最后版本 2021-05-26",
+        component: resolve => require(['@/views/web/vue3.0'], resolve)
       },
       {
         path: '/note/ES6',

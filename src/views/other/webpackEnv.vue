@@ -9,7 +9,9 @@
         <div class="art-content">
           <pre>
 在node中，有全局变量process表示的是当前的node进程。因为是全局变量，它对于node应用程序是始终可用的，无需require()。
-process.env包含着关于系统环境的信息，但是process.env中并不存在NODE_ENV这个东西。NODE_ENV是一个用户自定义的变量，在webpack中它的用途是判断生产环境或开发环境。
+process.env包含着关于系统环境的信息，process.env中并不存在NODE_ENV，VUE_APP_URL这些东西。
+NODE_ENV是一个用户自定义的变量，在webpack中它的用途是判断生产环境或开发环境。
+VUE_APP_URL = "你的开发或测试接口地址"  配置测试和本地开发时的 接口地址
 
 在Webpack配置文件中，经常会看到如下类似的代码：
 // webpack.config.js

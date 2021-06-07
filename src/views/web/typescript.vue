@@ -211,6 +211,7 @@ sam.move();  //"Slithering..."   Sammy the Python moved 5 m.
 tom.move(34); //"Galloping..."   Tommy the Palomino moved 34 m.</p></pre>
           <h3>6、interface 接口</h3>
           <pre>
+在TypeScript里，接口扮演了一个定义数据结构的角色，它在TypeScript的类型检查中起到很重要的作用。
 class类主要的用法是利用实例，interface主要用法是构建参数类型和类型检测
 接口重要的意义是对值所具有的结构进行类型检查 (重点是结构，类型检测)
 接口只声明成员方法，不做实现，不涉及逻辑运算
