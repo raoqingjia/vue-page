@@ -16,7 +16,14 @@ var moment = require('moment');
 主要是的获取默认本地时间，进行格式化。默认是英文显示格式，可以加入其他国家语言解析。
 moment.locale("zh-cn"); 设置成中文显示
 moment.locale('en');    设置成英文显示  <!--可以根据这个网址的脚本地址设置文字显示方法  https://blog.csdn.net/weixin_41000111/article/details/78916987-->
-</pre>
+2020年Moment.js 在官方文档中发布了项目状态，文中写道：Momentjs 正式进入维护期，不会再提供大版本更新，推荐使用其他时间处理库代替或使用
+宣布 Moment 进入维护期，但并非消亡，只是完成了使命。
+事实上，这意味着：
+不再添加新功能。
+不会将 API 变为 immutable。
+不会解决 tree shaking 及包体积的问题。
+不会进行任何重大更改（不会有 v3）。
+可能选择不对 bug 进行修复，特别是长期存在的已知 bug。</pre>
           <h3>
             2.格式化
           </h3>

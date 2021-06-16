@@ -7,6 +7,9 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
+          <ul class="catalogue">
+            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
+          </ul>
           <h3>Git常用命令</h3>
           <pre>
 1. Git强制更新并覆盖本地修改
@@ -75,6 +78,12 @@ git pull   先更新本地代码，之后提交代码
 git add .  添加更新文件
 git commit -m 'description'    对本次版本更新进行描述
 git push origin master   提交到git仓库</pre>
+          <h3>Github的Full name和Username有什么区别</h3>
+          <pre>
+Full name就是昵称和账号名的区别，前者可以随便命名，后者必须唯一，不能与其他用户重名，并且有不能包含特殊字符的限制。
+git config user.name的配置，决定了在每次git提交之后，用什么用户名标识这次提交操作由谁进行的。这个user.name对应的就是Git远程操作界面的username。</pre>
+          <img src="../../img/gitUseName.png" height="250px" width="800px">
+          <img src="../../img/gitFullName.png" height="70px" width="350px" style="padding: 15px 0">
           <h3>Git中ssh与https究竟有何不同</h3>
           <pre>
 <span>① 区别</span>
@@ -162,12 +171,77 @@ git pull
     data () {
       return {
         created: this.$route.query.created,
-        title: this.$route.query.name
+        title: this.$route.query.name,
+        catalogue:[]
       }
     },
-    methods:{
-      toggle(){
+    created(){
 
+    },
+    mounted:function(){
+      this.$nextTick(function(){
+        this.createCatalogue();
+
+      })
+    },
+    computed:{},
+    methods: {
+      jump (index) {
+//        let jump = document.getElementsByTagName('h3');
+//       // 获取需要滚动的距离
+//        let total = jump[index].offsetTop;
+//        // Chrome
+//        document.body.scrollTop = total;
+//        // Firefox
+//        document.documentElement.scrollTop = total;
+//       // Safari
+//        window.pageYOffset = total
+//        https://www.cnblogs.com/wisewrong/p/6495726.html  参考网站
+        let jump = document.getElementsByTagName('h3');
+        let total = jump[index].offsetTop;  // 获取目标位置滚动的距离
+        let distance = document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
+        // 平滑滚动，时长500ms，每10ms一跳，共50跳
+        let step = total / 50;
+        if (total > distance) {
+          smoothDown()
+        } else {
+          let newTotal = distance - total;  //防止total，let step=total/50太小，移动缓慢
+          step = newTotal / 50;
+          smoothUp()
+        }
+
+        function smoothDown () {
+          if (total>distance ) {
+            distance += step;
+            document.body.scrollTop = distance;
+            document.documentElement.scrollTop = distance;
+            setTimeout(smoothDown, 10)
+          } else {
+            document.body.scrollTop = total;
+            document.documentElement.scrollTop = total
+          }
+        }
+        function smoothUp () {
+          if ( total<distance) {
+            distance -= step;
+            document.body.scrollTop = distance;
+            document.documentElement.scrollTop = distance;
+            setTimeout(smoothUp, 10)
+          } else {
+            document.body.scrollTop = total;
+            document.documentElement.scrollTop = total
+          }
+        }
+      },
+      //创建目录函数
+      createCatalogue(){
+        let object = document.getElementsByTagName('h3');
+        var flag=[];
+        for(var i=0;i<object.length;i++){
+          var o={name:object[i].innerHTML};
+          flag.push(o)
+        }
+        this.catalogue=flag;
       }
     }
   }

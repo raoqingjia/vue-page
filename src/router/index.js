@@ -575,6 +575,13 @@ export const routes = [
         component: resolve => require(['@/views/plugin/Lodash'], resolve)
       },
       {
+        path: '/plugin/fastmock',
+        name: 'fastmock',
+        type: "plugin",
+        created: "2019-05-21",
+        component: resolve => require(['@/views/plugin/fastmock'], resolve)
+      },
+      {
         path: '/other/xFrameOptions',
         name: 'iframe 内嵌报错：X-Frame-Options to sameorigin',
         type: "other",
@@ -856,6 +863,15 @@ export const routes = [
         description: "安装命令、引入模块、参数...",
         created: "持续更新 最后版本 2018-03-30",
         component: resolve => require(['@/views/web/grunt'], resolve)
+      },
+      {
+        path: '/note/webpack',
+        name: "webpack",
+        type: "web",
+        img: require("../img/webpack-icon.png"),
+        description: "安装命令、引入模块、参数...",
+        created: "持续更新 最后版本 2020-09-30",
+        component: resolve => require(['@/views/web/webpack'], resolve)
       },
       {
         path: '/note/git',

@@ -139,6 +139,47 @@ $.ajaxSetup({
       alert( '发送AJAX请求到"' + this.url + '"时出错[' + jqXHR.status + ']：' + errorMsg );
     }
 });
+
+$.ajaxSetup({
+    dataType : "json",
+    contentType : "application/json",
+    headers : {
+        'Content-Type' : 'application/x-www-form-urlencoded'
+    },
+    error : function(jqXHR, textStatus, errorThrown) {
+        switch (jqXHR.status) {
+        case (500):
+            layer.alert('服务器系统内部错误', {
+                icon : 2
+            });
+            break;
+        case (401):
+            layer.alert('未登录', {
+                icon : 2
+            });
+            break;
+        case (403):
+            layer.alert('无权限执行此操作', {
+                icon : 2
+            });
+            break;
+        case (408):
+            layer.alert('请求超时', {
+                icon : 2
+            });
+            break;
+        default:
+            layer.alert('未知错误,请联系管理员', {
+                icon : 2
+            });
+        }
+    },
+    cache : false
+});
+
+$(document).ajaxSend(function(event, jqxhr, settings) {
+  jqxhr.setRequestHeader('Authorization', ’token‘)
+})
 文档链接 http://www.runoob.com/jquery/ajax-ajaxsetup.html
 </pre>
           <h3>
