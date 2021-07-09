@@ -582,6 +582,13 @@ export const routes = [
         component: resolve => require(['@/views/plugin/fastmock'], resolve)
       },
       {
+        path: '/plugin/qrcanvas',
+        name: 'qrcanvas 生成二维码',
+        type: "plugin",
+        created: "2019-09-04",
+        component: resolve => require(['@/views/plugin/qrcanvas'], resolve)
+      },
+      {
         path: '/other/xFrameOptions',
         name: 'iframe 内嵌报错：X-Frame-Options to sameorigin',
         type: "other",
@@ -763,7 +770,13 @@ export const routes = [
         created: "2021-02-2",
         component: resolve => require(['@/views/other/cloneDeep'], resolve)
       },
-
+      {
+        path: '/other/CommonJs&ES6',
+        name: '深入 CommonJs 与 ES6 Module',
+        type: "other",
+        created: "2021-02-2",
+        component: resolve => require(['@/views/other/CommonJs&ES6'], resolve)
+      },
       //工作笔记
       {
         path: '/note/apache',

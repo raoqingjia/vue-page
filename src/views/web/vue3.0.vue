@@ -162,15 +162,17 @@ let state = ref(obj.name);     ref->复制
 let flag = toRef(obj,'name');   toRef-> 引用
 
 ref和toRef区别
-如果利用ref将某一个对象中的数据变成响应式的数据，我们修改当ref响应式数据变量不会影响到原数据，界面会更新
-利用toRef将某一个对象中的数据变成响应式的数据，我们修改当toRef响应式数据变量会影响到原数据，界面不会更新
+ref创建出来的数据和以前无关(复制关系)，我们修改当ref响应式数据变量不会影响到原数据，界面会更新
+toRef创建出来的数据和以前的有关(引用关系)，我们修改当toRef响应式数据变量会影响到原数据，界面不会更新，这里是有前提的toRefs引用的是普通对象，如果是reactive对象就是另一种效果了，;
+toRefs 用于将响应式对象转换为结果对象，其中结果对象的每个属性都是指向原始对象相应属性的ref，toRefs()函数可以将reactive()创建出来的响应式对象，转换为普通对象，只不过这个对象上的每个属性节点，都是ref()类型的响应式数据，当数据发生改变，界面会更新，解释一些这里有点绕，上面说了toRefs是引用，当数据改变会影响到原数据，但是原数据是reactive类型的，reactive类型的数据改变了，界面不也就更新了吗，
 toRefs
 为了将多个数据都设置监听，或者对整个对象的所有数据发起监听</pre>
-          <h3>8、数据传递</h3>
+          <h3>8、父组件与子组件之间的数据传递</h3>
           <pre>
+1、父组件向子组件传输数据方式一
 provide和inject可以实现嵌套组件共享数据.这两个函数只能在setup()函数中使用。父级组件中使用provide()函数向下传递数据；子级组件使用inject()获取上层传递的数据.这个是可以无限向下层组件传递.
 这个数据传递有个问题，如果有多个组件，传递的变量名字都叫一个名字，且结构体不一致就会出现问题
-• 父组件
+父组件
 import { provide } from 'vue';
 import Test from "./test2";
 export default {
@@ -183,24 +185,152 @@ export default {
     })
   }
 };
-• 子组件
+子组件用inject接收传输参数
 import { inject } from 'vue';
 export default {
   setup () {
     const info = inject('info'); //{name: "along", age: 18, sex: "男"}
   }
 };
-
-          </pre>
-          <h3>8、路由</h3>
+2、父组件向子组件传输数据方式二
+子组件Buttons定义props接收参数
+export default defineComponent({
+  name: "Buttons",
+  props: {
+      btnType: {
+          type: Number,
+          required: true,
+          default() {
+              return 1;
+          }
+      },
+      style: {
+          type: Object,
+          required: false,
+          default() {
+              return {};
+          }
+      }
+  },
+  setup(props, context) {}
+})
+父组件向子组件传值
+< template>
+  < Buttons :btn-type='btnItem.btnType'  :style='btnItem.style'>< /Buttons>
+< /template>
+export default defineComponent({
+    setup(props, context) {
+        const btnItem = {
+           btnType:...,
+           style :...
+        }
+        return{
+            btnItem
+        }
+    }
+})
+2、子组件向父组件传值
+< template>
+    < button @click="search">查询< /button>
+< /template>
+ export default defineComponent({
+    name: 'QueryConditions',
+    emits: {
+        "filterResult": null,
+    },
+    setup(props, {emit}) {
+      const search = ()=>{
+         emit("filterResult",{data:'传个父组件的值'});
+      }
+    },
+    return{
+      search
+    }
+   }
+})
+父组件内定义方法接收传值
+< template>
+ < QueryConditions @filterResult="setTableData">< /QueryConditions>
+< /template>
+export default defineComponent({
+  setup(props, context) {
+     const setTableData = (data: any) => {
+        console.log(data); //  接收子组件的传值
+     }
+      return{
+          btnItem
+      }
+  }
+})
+3、父组件触发子组件方法
+定义子组件
+< template>
+    < button @click="sonFun">查询< /button>
+< /template>
+ export default defineComponent({
+    name: 'QueryConditions',
+    setup(props, {emit}) {
+      const sonFun = ()=>{
+        alert('可以被父组件触发');
+      }
+    },
+    return{
+      sonFun
+    }
+   }
+})
+父组件利用ref触发子组件的方法
+< template>
+ < QueryConditions ref="RefQueryConditions">< /QueryConditions>
+ < button @click="clickFun">查询< /button>
+< /template>
+export default defineComponent({
+  setup(props, context) {
+     const RefQueryConditions = ref();
+     const clickFun = (data: any) => {
+        RefQueryConditions.value.sonFun('paginationSearch');  //  触发子组件方法
+     }
+      return{
+          btnItem,
+          clickFun
+      }
+  }
+})</pre>
+          <h3>9、过滤器</h3>
           <pre>
-vue3配置404页面
-vue2中的（*）不适用于vue3，改为如下
+在3.x中，过滤器被删除，不再受支持。建议用方法调用或计算属性替换它们。
+< template>
+ < h1>filter - {{myFilter(vals)}}< /h1>
+< /template>
+import {myFilter} from "@/utils/commonUtil";
+export default defineComponent({
+  setup(props, context) {
+     const vals = '100';
+      return{
+          vals,
+          myFilter
+      }
+  }
+})
+@/utils/commonUtil
+function myFilter (data: string){   // 提到一个js文件里，变成全局过滤方法
+   return  val + '元';
+}
+export {
+   myFilter
+}
+        </pre>
+          <h3>9、路由</h3>
+          <pre>
+vue2中的（*）不适用于vue3，vue3配置404页面改为如下
 {
     path: '/:catchAll(.*)',
     name: '/404',
     component: noFind
-},
+}
+//  页面跳转
+const router = useRouter();
+router.push('/newApplication?type=2');
         </pre>
         </div>
 
