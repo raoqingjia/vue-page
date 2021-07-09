@@ -767,15 +767,22 @@ export const routes = [
         path: '/other/cloneDeep',
         name: '如何实现深拷贝',
         type: "other",
-        created: "2021-02-2",
+        created: "2021-02-02",
         component: resolve => require(['@/views/other/cloneDeep'], resolve)
       },
       {
         path: '/other/CommonJs&ES6',
         name: '深入 CommonJs 与 ES6 Module',
         type: "other",
-        created: "2021-02-2",
+        created: "2021-02-15",
         component: resolve => require(['@/views/other/CommonJs&ES6'], resolve)
+      },
+      {
+        path: '/other/styleLoader',
+        name: 'webpack常用的sass-loader、node-sass、style-loader等区别作用',
+        type: "other",
+        created: "2021-02-26",
+        component: resolve => require(['@/views/other/styleLoader'], resolve)
       },
       //工作笔记
       {
