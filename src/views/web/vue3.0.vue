@@ -300,7 +300,7 @@ export default defineComponent({
           <pre>
 在3.x中，过滤器被删除，不再受支持。建议用方法调用或计算属性替换它们。
 < template>
- < h1>filter - {{myFilter(vals)}}< /h1>
+ < h1>filter - {{myFilter括号vals括号 }}< /h1>
 < /template>
 import {myFilter} from "@/utils/commonUtil";
 export default defineComponent({

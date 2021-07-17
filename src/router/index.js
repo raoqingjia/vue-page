@@ -340,6 +340,13 @@ export const routes = [
         created: "2019-04-26",
         component: resolve => require(['@/views/js/efficiencyOfFor'], resolve)
       },
+      {
+        path: '/js/forEachObject',
+        name: 'JavaScript遍历对象、数组总结',
+        type: "js",
+        created: "2019-05-30",
+        component: resolve => require(['@/views/js/forEachObject'], resolve)
+      },
       //jquery案例
       {
         path: '/jq/domMoreEvents',
@@ -775,7 +782,7 @@ export const routes = [
         name: '深入 CommonJs 与 ES6 Module',
         type: "other",
         created: "2021-02-15",
-        component: resolve => require(['@/views/other/CommonJs&ES6'], resolve)
+        component: resolve => require(['@/views/other/commonJs&ES6'], resolve)
       },
       {
         path: '/other/styleLoader',
@@ -783,6 +790,20 @@ export const routes = [
         type: "other",
         created: "2021-02-26",
         component: resolve => require(['@/views/other/styleLoader'], resolve)
+      },
+      {
+        path: '/other/cors',
+        name: '跨域问题',
+        type: "other",
+        created: "2021-03-05",
+        component: resolve => require(['@/views/other/cors'], resolve)
+      },
+      {
+        path: '/other/MapAndFilter',
+        name: 'ES6 Map遍历、filter()筛选对象',
+        type: "other",
+        created: "2021-03-05",
+        component: resolve => require(['@/views/other/mapAndFilter'], resolve)
       },
       //工作笔记
       {
