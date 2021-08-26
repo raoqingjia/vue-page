@@ -347,6 +347,20 @@ export const routes = [
         created: "2019-05-30",
         component: resolve => require(['@/views/js/forEachObject'], resolve)
       },
+      {
+        path: '/js/multipleAsyncWaiting',
+        name: 'JS中等待多个异步方法完成后再操作',
+        type: "js",
+        created: "2019-06-28",
+        component: resolve => require(['@/views/js/multipleAsyncWaiting'], resolve)
+      },
+      {
+        path: '/js/asyncWait',
+        name: 'async/await 使用介绍',
+        type: "js",
+        created: "2019-06-28",
+        component: resolve => require(['@/views/js/asyncWait'], resolve)
+      },
       //jquery案例
       {
         path: '/jq/domMoreEvents',
@@ -804,6 +818,20 @@ export const routes = [
         type: "other",
         created: "2021-03-05",
         component: resolve => require(['@/views/other/mapAndFilter'], resolve)
+      },
+      {
+        path: '/other/indexedDB',
+        name: '浏览器数据库 IndexedDB',
+        type: "other",
+        created: "2021-03-13",
+        component: resolve => require(['@/views/other/indexedDB'], resolve)
+      },
+      {
+        path: '/other/avrFramework',
+        name: 'angular、react、vue谁更适合大型项目应用？',
+        type: "other",
+        created: "2021-03-23",
+        component: resolve => require(['@/views/other/avrFramework'], resolve)
       },
       //工作笔记
       {

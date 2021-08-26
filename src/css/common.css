@@ -153,7 +153,7 @@ body {
 }
 
 .inner {
-  width: 1200px;
+  width: 80%;
   margin: 0 auto;
 }
 
@@ -415,7 +415,7 @@ footer ul li a {
   min-width: 100%;
   margin: 20px 0;
   text-align: left;
-  line-height: 28px;
+  line-height: 36px;
   padding: 10px 20px;
   font-size: 18px;
   color: #333;
@@ -486,8 +486,7 @@ footer ul li a {
 
 .list .warp-l ul li a {
   float: left;
-  font-size: 14px;
-  color: #000;
+  font-size: 16px;
   color: #000;
   max-width: 450px;
   white-space: nowrap;
@@ -523,8 +522,8 @@ footer ul li a {
 
 .list .warp-r ul li a {
   display: block;
-  font-size: 14px;
-  padding: 13px 20px;
+  font-size: 16px;
+  padding: 15px 20px;
   color: #da6426;
   background: rgba(30, 30, 30, .6);
   margin-bottom: 1px;
@@ -533,9 +532,9 @@ footer ul li a {
 .list .warp-r ul li a i {
   display: block;
   float: right;
-  width: 20px;
-  line-height: 20px;
-  border-radius: 10px;
+  width: 24px;
+  line-height: 24px;
+  border-radius: 12px;
   font-size: 12px;
   color: #FFFFFF;
   background-color: #000;

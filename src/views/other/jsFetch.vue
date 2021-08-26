@@ -38,7 +38,24 @@ fetch(req).then(function(response) {
  $(".text").val(json)
 }).catch(function(data) {
   console.log(data);
-});;
+});
+
+fetch(btnItem.url, {
+  method: "post",
+  headers: new Headers({
+      "Content-Type": "application/x-www-form-urlencoded",   //解决跨域
+  }),
+  body: new URLSearchParams({
+      staffNum: "",
+      location: "",
+  }).toString(),
+  }).then((res) =>{
+           res.text();
+   }).then((data) => {
+          console.log(data);
+  }).catch((error) => {
+          if (error) throw error;
+  });
           </pre>
         </div>
       </div>

@@ -66,57 +66,56 @@ function IEVersion() {
         return -1;//不是ie浏览器
     }
 }</p>
-通过调用 IEVersion()可以获得返回值，值如下
-<table  border="0" align="left">
-  <tbody>
-  <tr>
-    <td>值</td>
-    <td>值类型</td>
-    <td>值说明</td>
-  </tr>
-  <tr>
-    <td>-1</td>
-    <td>Number</td>
-    <td>&nbsp;不是ie浏览器</td>
-  </tr>
-  <tr>
-    <td>6</td>
-    <td>Number</td>
-    <td>ie版本&lt;=6</td>
-  </tr>
-  <tr>
-    <td>7</td>
-    <td>Number</td>
-    <td>ie7</td>
-  </tr>
-  <tr>
-    <td>8</td>
-    <td>Number</td>
-    <td>ie8</td>
-  </tr>
-  <tr>
-    <td>9</td>
-    <td>Number</td>
-    <td>ie9</td>
-  </tr>
-  <tr>
-    <td>10</td>
-    <td>Number</td>
-    <td>ie10</td>
-  </tr>
-  <tr>
-    <td>11</td>
-    <td>Number</td>
-    <td>ie11</td>
-  </tr>
-  <tr>
-    <td>'edge'</td>
-    <td>String</td>
-    <td>ie的edge浏览器</td>
-  </tr>
-  </tbody>
-</table>
-           </pre>
+通过调用 IEVersion()可以获得返回值，值如下</pre>
+          <table  border="0" align="left" class="ie-table">
+            <tbody>
+            <tr>
+              <td>值</td>
+              <td>值类型</td>
+              <td>值说明</td>
+            </tr>
+            <tr>
+              <td>-1</td>
+              <td>Number</td>
+              <td>&nbsp;不是ie浏览器</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Number</td>
+              <td>ie版本&lt;=6</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Number</td>
+              <td>ie7</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>Number</td>
+              <td>ie8</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>Number</td>
+              <td>ie9</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>Number</td>
+              <td>ie10</td>
+            </tr>
+            <tr>
+              <td>11</td>
+              <td>Number</td>
+              <td>ie11</td>
+            </tr>
+            <tr>
+              <td>'edge'</td>
+              <td>String</td>
+              <td>ie的edge浏览器</td>
+            </tr>
+            </tbody>
+          </table>
             <h3>
               2、关于火狐firefox
             </h3>
@@ -163,9 +162,15 @@ ctrl + shift + m</pre>
     text-align: center;
     border-collapse: collapse;
   }
+  .ie-table{
+    margin: 0 auto;
+    margin-top: -10px;
+    background-color: #ffffff;
+  }
   table th, table td, table th, table td {
     border: 1px solid silver;
     border-collapse: collapse;
     padding: 3px;
   }
+
 </style>
