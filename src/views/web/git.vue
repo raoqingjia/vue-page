@@ -43,6 +43,14 @@ git config --global --add user.name othername    添加一个user.name
 git config --global --unset user.name othername  删除user.name中的叫othername
 git config --global --replace-all user.email "输入你的邮箱"
 git config --global --replace-all user.name "输入你的用户名"</pre>
+          <h3> github把密码换成token</h3>
+          <pre>
+1)个人设置页面 -> Setting-> Developer setting ->Personal access tokens -> Generate new token -> New personal access token 页面输入Note标题，设置Expiration失效时间，Select scopes勾选repo(命令行访问仓库)、delete_repo(命令行删除仓库) ->Generate token
+2)用自己生成的token登录，把上面生成的token粘贴到输入密码的位置，然后成功push代码
+3)把token直接添加远程仓库链接中，
+git remote set-url origin https://your_token@github.com/USERNAME/REPO.git
+your_token：换成你自己得到的token   USERNAME：是你自己github的用户名   REPO：是你的仓库名称
+git remote set-url origin https://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@github.com/raoqingjia/vue-page.git/</pre>
           <h3>GIt设置代理</h3>
           <pre>
 GIt添加代理
