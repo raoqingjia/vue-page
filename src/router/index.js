@@ -361,6 +361,20 @@ export const routes = [
         created: "2019-06-28",
         component: resolve => require(['@/views/js/asyncWait'], resolve)
       },
+      {
+        path: '/js/JumpOutOfFor',
+        name: 'for循环跳出<多层>循环',
+        type: "js",
+        created: "2019-10-28",
+        component: resolve => require(['@/views/js/JumpOutOfFor'], resolve)
+      },
+      {
+        path: '/js/FileReader',
+        name: '利用FileReader在线预览文本文件',
+        type: "js",
+        created: "2020-12-02",
+        component: resolve => require(['@/views/js/FileReader'], resolve)
+      },
       //jquery案例
       {
         path: '/jq/domMoreEvents',
