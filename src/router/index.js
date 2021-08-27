@@ -372,8 +372,15 @@ export const routes = [
         path: '/js/FileReader',
         name: '利用FileReader在线预览文本文件',
         type: "js",
-        created: "2020-12-02",
+        created: "2019-12-02",
         component: resolve => require(['@/views/js/FileReader'], resolve)
+      },
+      {
+        path: '/js/FileReader',
+        name: 'js中call()和apply()方法',
+        type: "js",
+        created: "2020-01-15",
+        component: resolve => require(['@/views/js/callAndApply'], resolve)
       },
       //jquery案例
       {
