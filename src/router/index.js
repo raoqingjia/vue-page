@@ -376,6 +376,13 @@ export const routes = [
         component: resolve => require(['@/views/js/FileReader'], resolve)
       },
       {
+        path: '/js/JsBase64',
+        name: 'JS Base64编码解码',
+        type: "js",
+        created: "2019-12-02",
+        component: resolve => require(['@/views/js/JsBase64'], resolve)
+      },
+      {
         path: '/js/FileReader',
         name: 'js中call()和apply()方法',
         type: "js",
@@ -896,7 +903,7 @@ export const routes = [
         name: "Vue 3.0",
         type: "web",
         img: require("../img/vue-icon.png"),
-        description: "Vue3与Vue2的差异对比，及新增功能...",
+        description: "Vue3.0与Vue2.0的差异对比...",
         created: "持续更新 最后版本 2021-05-26",
         component: resolve => require(['@/views/web/vue3.0'], resolve)
       },

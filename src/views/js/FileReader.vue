@@ -45,17 +45,16 @@ reader.onloadstart = function(){
 </pre>
           <h3>3、ReadAsDataURL(file)直接展示图片</h3>
           <pre>
-ReadAsDataURL(file)：readAsDataURL会将文件内容进行base64编码后输出，读取文件并将内容的数据URL保存在result中。
+ReadAsDataURL(file)：readAsDataURL会将文件内容进行base64编码后输出，读取文件并将内容的数据URL保存在result中。base64的解密看下一篇文章
 读取到的结果可以直接用于img标签的src属性：
 < body>
     上传文件：< input type="file" id="file">
-    <!-- 用于预览的img标签 -->
     < img id="show-img" src="" alt="">
 < /body>
 < script>
     let file = document.getElementById("file")
     file.onchange = function (e) {
-      let reader = new FileReader();  //
+      let reader = new FileReader();
       reader.readAsDataURL(e.target.files[0])
       reader.onload = (res) => {
         console.log("文件读取内容", res);
