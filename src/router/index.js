@@ -36,19 +36,9 @@ export const routes = [
         component: resolve => require(['@/views/project'], resolve)
       },
       {
-        path: '/template',
-        name: 'template',
-        component: resolve => require(['@/views/template'], resolve)
-      },
-      {
         path: '/software',
-        name: 'template',
+        name: 'software',
         component: resolve => require(['@/views/software'], resolve)
-      },
-      {
-        path: '/emotion',
-        name: 'emotion',
-        component: resolve => require(['@/views/emotion'], resolve)
       },
       //H5 案例
       {
@@ -638,6 +628,13 @@ export const routes = [
         component: resolve => require(['@/views/plugin/qrcanvas'], resolve)
       },
       {
+        path: '/plugin/dayjs',
+        name: 'day.js一个轻量处理时间和日期的JavaScript 库',
+        type: "plugin",
+        created: "2020-04-05",
+        component: resolve => require(['@/views/plugin/dayjs'], resolve)
+      },
+      {
         path: '/other/xFrameOptions',
         name: 'iframe 内嵌报错：X-Frame-Options to sameorigin',
         type: "other",
@@ -1088,15 +1085,6 @@ export const routes = [
         component: resolve => require(['@/views/web/interview'], resolve)
       },
       {
-        path: '/note/bootstrap',
-        name: "Bootstrap",
-        type: "web",
-        img: require("../img/bootstrap-icon.png"),
-        description: "bootstrap相关文档介绍...",
-        created: "持续更新 最后版本 2018-03-29",
-        component: resolve => require(['@/views/web/bootstrap'], resolve)
-      },
-      {
         path: '/note/javaone',
         name: "JAVA第一阶段",
         type: "java",
@@ -1176,37 +1164,7 @@ export const routes = [
         description: "php基础知识...",
         created: "持续更新 最后版本 2020-06-28",
         component: resolve => require(['@/views/java/php'], resolve)
-      },
-      //生活情感记录
-      {
-        path: '/emotion/youdaliushu',
-        name: "再游大柳树",
-        type: "emotion",
-        created: "写于： 石榴庄彩虹城 2018-03-10 晚",
-        component: resolve => require(['@/views/emotion/youdaliushu'], resolve)
-      },
-      {
-        path: '/emotion/theMoreLearnTheMoreIgnorance',
-        name: "了解的越多越感到无知",
-        type: "emotion",
-        created: "写于： 石榴庄彩虹城 2018-03-19 晚",
-        component: resolve => require(['@/views/emotion/theMoreLearnTheMoreIgnorance'], resolve)
-      },
-      {
-        path: '/emotion/yourLearnDecideYourLevel',
-        name: "你所学习方向决定你的层次",
-        type: "emotion",
-        created: "写于： 石榴庄彩虹城 2018-06-06 晚",
-        component: resolve => require(['@/views/emotion/yourLearnDecideYourLevel'], resolve)
-      },
-      {
-        path: '/emotion/makeMoneySoHard',
-        name: "挣钱真TM难",
-        type: "emotion",
-        created: "写于： 石榴庄彩虹城 2018-06-14 晚",
-        component: resolve => require(['@/views/emotion/makeMoneySoHard'], resolve)
       }
-
     ]
   }
 ];

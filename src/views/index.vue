@@ -44,36 +44,6 @@
             </a>
           </li>
         </ul>
-          <h2>模板<span>更多 +</span></h2>
-          <ul class="clearfix template">
-            <li>
-              <a href="javascript:;">
-                <img src="../img/tempalte01.jpg">
-                <div class="text">
-                  <h3>基于angular框架搭建</h3>
-                  <p>具备dashboard、仪表盘，响应式等功能</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="javascript:;">
-                <img src="../img/bpm_login.png">
-                <div class="text">
-                  <h3>登录页面</h3>
-                  <p>登录和注册在同一面板上，可以实现登录和注册面板的切换</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="javascript:;">
-                <img src="../img/tempalte01.jpg">
-                <div class="text">
-                  <h3>登录页面</h3>
-                  <p>登录和注册在同一面板上，可以实现登录和注册面板的切换</p>
-                </div>
-              </a>
-            </li>
-          </ul>
         <h2>软件工具<span>更多 +</span></h2>
         <ul class="clearfix software">
           <li v-for="(items,index) in softwareNav" v-if="index<5">

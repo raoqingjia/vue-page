@@ -23,7 +23,7 @@
         </li>
         <li>
           <a href="javascript:;">
-            <img src="../img/tempalte01.jpg">
+            <img src="../img/activemq-icon.jpg">
             <div class="text">
               <h3>apache</h3>
               <p>apache安装、参数配置</p>
