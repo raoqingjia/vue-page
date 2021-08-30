@@ -26,5 +26,5 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 项目中的图片大小
 
-token  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
-git remote set-url origin https://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@github.com/raoqingjia/vue-page.git/
+token  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
+git remote set-url origin https://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@github.com/raoqingjia/vue-page.git/
