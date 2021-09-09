@@ -44,26 +44,6 @@
             </a>
           </li>
         </ul>
-        <h2>软件工具<span>更多 +</span></h2>
-        <ul class="clearfix software">
-          <li v-for="(items,index) in softwareNav" v-if="index<5">
-            <a :href="items.link" target="_blank">
-                <img :src="items.img">
-                <div class="text">
-                 <h3 v-html="items.text"></h3>
-                 <p v-html="items.description"></p>
-               </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;" @click="softWareUrlFun()">
-              <div class="text" style="margin-left:10px">
-                <h3>点击更多</h3>
-                <p>开发类及各日常软件下载</p>
-              </div>
-            </a>
-          </li>
-        </ul>
       </div>
   </div>
 </template>
@@ -77,8 +57,7 @@
       return {
         routes:routes,
         onerror:'this.src="' + require('@/img/404.jpg') + '"',
-        caseNav:this.$store.state.caseNav,
-        softwareNav:this.$store.state.softwareNav
+        caseNav:this.$store.state.caseNav
       }
     },
     mounted() {
@@ -135,9 +114,6 @@
       },
       noteUrlFun(items){
         this.$router.push({path:items.path,query:{name:items.name,created:items.created}});
-      },
-      softWareUrlFun(){
-        this.$router.push({path:"/software"});
       }
     }
   }
