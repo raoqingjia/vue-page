@@ -13,7 +13,7 @@ const store = new Vuex.Store({
     listTab: storage.getItem('listTab'),
     headerNav: [
       {name: '首页', path: '/index', active: true},
-      {name: '项目', path: '/project', active: false}
+      {name: '作品', path: '/project', active: false}
     ],
     caseNav: [
       {text: "Html/H5", code: 'h5', img: require('../img/html-icon.png'), description: "Html/H5的特性、相关案例"},
