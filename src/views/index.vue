@@ -100,7 +100,7 @@
         var routes=this.routes[0].children;
         var flag=[];
         for(var i=0;i<routes.length;i++){
-          if(routes[i].type=='java'){
+          if(routes[i].type=='crm'){
             flag.push(routes[i])
           }
         }
