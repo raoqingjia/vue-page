@@ -907,6 +907,15 @@ export const routes = [
         component: resolve => require(['@/views/web/vue3.0'], resolve)
       },
       {
+        path: '/note/git',
+        name: "Git",
+        type: "web",
+        img: require("../img/git-icon.png"),
+        description: "操作方法，命令行详解...",
+        created: "持续更新 最后版本 2021-02-24",
+        component: resolve => require(['@/views/web/git'], resolve)
+      },
+      {
         path: '/note/ES6',
         name: "ES6",
         type: "web",
@@ -943,15 +952,6 @@ export const routes = [
         component: resolve => require(['@/views/web/browser'], resolve)
       },
       {
-        path: '/note/gulp',
-        name: "Gulp",
-        type: "plugin",
-        img: require("../img/gulp-icon.png"),
-        description: "安装命令、引入模块、参数...",
-        created: "2018-03-29",
-        component: resolve => require(['@/views/web/gulp'], resolve)
-      },
-      {
         path: '/note/grunt',
         name: "Grunt",
         type: "web",
@@ -959,6 +959,15 @@ export const routes = [
         description: "安装命令、引入模块、参数...",
         created: "持续更新 最后版本 2018-03-30",
         component: resolve => require(['@/views/web/grunt'], resolve)
+      },
+      {
+        path: '/note/gulp',
+        name: "Gulp",
+        type: "web",
+        img: require("../img/gulp-icon.png"),
+        description: "安装命令、引入模块、参数...",
+        created: "2018-03-29",
+        component: resolve => require(['@/views/web/gulp'], resolve)
       },
       {
         path: '/note/webpack',
@@ -970,15 +979,6 @@ export const routes = [
         component: resolve => require(['@/views/web/webpack'], resolve)
       },
       {
-        path: '/note/git',
-        name: "Git",
-        type: "web",
-        img: require("../img/git-icon.png"),
-        description: "操作方法，命令行详解...",
-        created: "持续更新 最后版本 2021-02-24",
-        component: resolve => require(['@/views/web/git'], resolve)
-      },
-      {
         path: '/note/html',
         name: "Html",
         type: "web",
@@ -986,6 +986,15 @@ export const routes = [
         description: "html、html5常用标签...",
         created: "持续更新 最后版本 2018-03-20",
         component: resolve => require(['@/views/web/html'], resolve)
+      },
+      {
+        path: '/note/css',
+        name: "Css",
+        type: "web",
+        img: require("../img/css-icon.png"),
+        description: "css、css3样式...",
+        created: "持续更新 最后版本 2018-04-91",
+        component: resolve => require(['@/views/web/css'], resolve)
       },
       {
         path: '/note/js',
@@ -1013,15 +1022,6 @@ export const routes = [
         description: "json的格式，json的使用方式...",
         created: "持续更新 最后版本 2018-03-20",
         component: resolve => require(['@/views/web/json'], resolve)
-      },
-      {
-        path: '/note/css',
-        name: "Css",
-        type: "web",
-        img: require("../img/css-icon.png"),
-        description: "css、css3样式...",
-        created: "持续更新 最后版本 2018-04-91",
-        component: resolve => require(['@/views/web/css'], resolve)
       },
       {
         path: '/note/less',
@@ -1139,6 +1139,15 @@ export const routes = [
         description: "mysql相关的安装,命令行...",
         created: "持续更新 最后版本 2019-04-08",
         component: resolve => require(['@/views/java/mysql'], resolve)
+      },
+      {
+        path: '/note/sqlPractice',
+        name: "SQL练习积累",
+        type: "crm",
+        img: require("../img/mysql-icon.png"),
+        description: "sql日常练习记录...",
+        created: "持续更新 最后版本 2020-04-08",
+        component: resolve => require(['@/views/java/sqlPractice'], resolve)
       },
       {
         path: '/note/linux',
