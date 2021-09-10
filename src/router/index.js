@@ -369,6 +369,20 @@ export const routes = [
         component: resolve => require(['@/views/js/JumpOutOfFor'], resolve)
       },
       {
+        path: '/js/formDateUpload',
+        name: 'FormDate实现附件上传',
+        type: "js",
+        created: "2019-11-28",
+        component: resolve => require(['@/views/js/formDateUpload'], resolve)
+      },
+      {
+        path: '/js/inputFile',
+        name: 'input[type="file"]解析',
+        type: "js",
+        created: "2019-11-28",
+        component: resolve => require(['@/views/js/inputFile'], resolve)
+      },
+      {
         path: '/js/FileReader',
         name: '利用FileReader在线预览文本文件',
         type: "js",
