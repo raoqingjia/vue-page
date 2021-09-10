@@ -644,6 +644,15 @@ export const routes = [
         component: resolve => require(['@/views/plugin/dayjs'], resolve)
       },
       {
+        path: '/other/browser',
+        name: "关于IE浏览器",
+        type: "other",
+        img: require("../img/browser-icon.png"),
+        description: "IE、谷歌、火狐等浏览器解说...",
+        created: "2018-03-29",
+        component: resolve => require(['@/views/other/browser'], resolve)
+      },
+      {
         path: '/other/xFrameOptions',
         name: 'iframe 内嵌报错：X-Frame-Options to sameorigin',
         type: "other",
@@ -677,13 +686,6 @@ export const routes = [
         type: "other",
         created: "2019-04-05",
         component: resolve => require(['@/views/other/angular4to5'], resolve)
-      },
-      {
-        path: '/other/designMenuSql',
-        name: '关于头部一级导航菜单sql表结构思路',
-        type: "other",
-        created: "2019-04-12",
-        component: resolve => require(['@/views/other/designMenuSql'], resolve)
       },
       {
         path: '/other/angular5to6',
@@ -819,46 +821,53 @@ export const routes = [
         component: resolve => require(['@/views/other/avrFramework'], resolve)
       },
       {
-        path: '/other/designNoticeSql',
+        path: '/java/designMenuSql',
+        name: '关于头部一级导航菜单sql表结构思路',
+        type: "java",
+        created: "2019-04-12",
+        component: resolve => require(['@/views/java/designMenuSql'], resolve)
+      },
+      {
+        path: '/java/designNoticeSql',
         name: '关于公告信息sql表结构思路',
         type: "java",
         created: "2019-04-12",
-        component: resolve => require(['@/views/other/designNoticeSql'], resolve)
+        component: resolve => require(['@/views/java/designNoticeSql'], resolve)
       },
       {
-        path: '/other/intLength',
+        path: '/java/intLength',
         name: 'mysql中int长度的意义',
         type: "java",
         created: "2019-04-15",
-        component: resolve => require(['@/views/other/intLength'], resolve)
+        component: resolve => require(['@/views/java/intLength'], resolve)
       },
       {
-        path: '/other/serviceRequest',
+        path: '/java/serviceRequest',
         name: 'spring boot中服务直接调取的两种方式',
         type: "java",
         created: "2019-08-08",
-        component: resolve => require(['@/views/other/serviceRequest'], resolve)
+        component: resolve => require(['@/views/java/serviceRequest'], resolve)
       },
       {
-        path: '/other/JSONObject',
+        path: '/java/JSONObject',
         name: 'JAVA  JSONObject项目中常见用法',
         type: "java",
         created: "2020-01-20",
-        component: resolve => require(['@/views/other/JSONObject'], resolve)
+        component: resolve => require(['@/views/java/JSONObject'], resolve)
       },
       {
-        path: '/other/mavenCompilerPlugin',
+        path: '/java/mavenCompilerPlugin',
         name: 'Maven插件 maven-compiler-plugin 讲解',
         type: "java",
         created: "2020-02-18",
-        component: resolve => require(['@/views/other/mavenCompilerPlugin'], resolve)
+        component: resolve => require(['@/views/java/mavenCompilerPlugin'], resolve)
       },
       {
-        path: '/other/mavenCompilerPluginError',
+        path: '/java/mavenCompilerPluginError',
         name: 'Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.2:compile',
         type: "java",
         created: "2020-02-21",
-        component: resolve => require(['@/views/other/mavenCompilerPluginError'], resolve)
+        component: resolve => require(['@/views/java/mavenCompilerPluginError'], resolve)
       },
       //工作笔记
       {
@@ -941,15 +950,6 @@ export const routes = [
         description: "ajax教程及各个参数配置...",
         created: "持续更新 最后版本 2018-04-08",
         component: resolve => require(['@/views/web/ajax'], resolve)
-      },
-      {
-        path: '/note/browser',
-        name: "Browser",
-        type: "web",
-        img: require("../img/browser-icon.png"),
-        description: "IE、谷歌、火狐等浏览器解说...",
-        created: "持续更新 最后版本 2018-03-29",
-        component: resolve => require(['@/views/web/browser'], resolve)
       },
       {
         path: '/note/grunt',
@@ -1087,22 +1087,13 @@ export const routes = [
         component: resolve => require(['@/views/web/webInterview'], resolve)
       },
       {
-        path: '/note/javaInterview',
-        name: "Java面试题",
-        type: "web",
-        img: require("../img/web-icon.png"),
-        description: "Java常见面试题积累...",
-        created: "持续更新 最后版本 2018-04-08",
-        component: resolve => require(['@/views/java/javaInterview'], resolve)
-      },
-      {
         path: '/note/javaone',
         name: "JAVA入门简介",
         type: "crm",
         img: require("../img/java-icon.png"),
         description: "java初级入门笔记记录...",
         created: "持续更新 最后版本 2018-07-08",
-        component: resolve => require(['@/views/java/javaone'], resolve)
+        component: resolve => require(['@/views/crm/javaone'], resolve)
       },
       {
         path: '/note/java_oop',
@@ -1111,7 +1102,7 @@ export const routes = [
         img: require("../img/java-icon.png"),
         description: "java实例、接口、抽象类",
         created: "持续更新 最后版本 2018-08-08",
-        component: resolve => require(['@/views/java/java_oop'], resolve)
+        component: resolve => require(['@/views/crm/java_oop'], resolve)
       },
       {
         path: '/note/java_api',
@@ -1120,7 +1111,7 @@ export const routes = [
         img: require("../img/java-icon.png"),
         description: "java",
         created: "持续更新 最后版本 2018-09-08",
-        component: resolve => require(['@/views/java/java_api'], resolve)
+        component: resolve => require(['@/views/crm/java_api'], resolve)
       },
       {
         path: '/note/java_interview',
@@ -1129,7 +1120,7 @@ export const routes = [
         img: require("../img/mistake-icon.png"),
         description: "java常见面试题记录...",
         created: "持续更新 最后版本 2018-04-08",
-        component: resolve => require(['@/views/java/java_interview'], resolve)
+        component: resolve => require(['@/views/crm/java_interview'], resolve)
       },
       {
         path: '/note/mysql',
@@ -1138,7 +1129,7 @@ export const routes = [
         img: require("../img/mysql-icon.png"),
         description: "mysql相关的安装,命令行...",
         created: "持续更新 最后版本 2019-04-08",
-        component: resolve => require(['@/views/java/mysql'], resolve)
+        component: resolve => require(['@/views/crm/mysql'], resolve)
       },
       {
         path: '/note/sqlPractice',
@@ -1147,7 +1138,7 @@ export const routes = [
         img: require("../img/mysql-icon.png"),
         description: "sql日常练习记录...",
         created: "持续更新 最后版本 2020-04-08",
-        component: resolve => require(['@/views/java/sqlPractice'], resolve)
+        component: resolve => require(['@/views/crm/sqlPractice'], resolve)
       },
       {
         path: '/note/linux',
@@ -1156,7 +1147,7 @@ export const routes = [
         img: require("../img/linux-icon.png"),
         description: "linux相关的安装,命令行...",
         created: "持续更新 最后版本 2019-08-08",
-        component: resolve => require(['@/views/java/linux'], resolve)
+        component: resolve => require(['@/views/crm/linux'], resolve)
       },
       {
         path: '/note/activeMq',
@@ -1165,7 +1156,7 @@ export const routes = [
         img: require("../img/activemq-icon.jpg"),
         description: "activeMq相关的安装,命令行...",
         created: "持续更新 最后版本 2020-02-25",
-        component: resolve => require(['@/views/java/activeMq'], resolve)
+        component: resolve => require(['@/views/crm/activeMq'], resolve)
       },
       {
         path: '/note/docker',
@@ -1174,7 +1165,7 @@ export const routes = [
         img: require("../img/docker-icon.png"),
         description: "docker相关的安装,命令行...",
         created: "持续更新 最后版本 2020-03-28",
-        component: resolve => require(['@/views/java/docker'], resolve)
+        component: resolve => require(['@/views/crm/docker'], resolve)
       }
     ]
   }
