@@ -1,7 +1,7 @@
 <template>
   <div class="base inner">
       <div class="content">
-          <h2>前端案例</h2>
+          <h2>案例记录</h2>
           <ul class="clearfix">
             <li v-for="items in caseNav">
               <a href="javascript:;" @click="urlFun(items.code)" >
