@@ -14,7 +14,10 @@
 3.await后面接一个会return new promise的函数，或者其他表达式，等方法返回值之后在执行它
 4.await只能放在async函数里
 5.在async函数里，无论是Promise reject的数据还是逻辑报错，都会被默默吞掉,所以最好把await放入try{}catch{}中，catch能够捕捉到Promise对象rejected的数据或者抛出的异常
- 6.参考文档 https://www.jianshu.com/p/1e75bd387aa0    https://segmentfault.com/a/1190000007535316</pre>
+6.不要在 forEach 里执行异步任务，可能不起作用，达不到预期效果，还是用forof、for
+7.参考文档
+https://www.jianshu.com/p/1e75bd387aa0
+https://segmentfault.com/a/1190000007535316</pre>
           <h3>2、async/await案例</h3>
      <pre>
 案例1   单一http接口请求效果

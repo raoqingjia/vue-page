@@ -7,36 +7,43 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
+          <h3>Java面试题积累</h3>
           <pre>
-int：在设置字段类型为int类型时，字段的默认值是0。
-
-integer：在设置字段类型为integer类型时，字段的默认值是null。
-mysql的数据库中的int类型为0，但是int类型在java中不能赋值为null，所以要用integer，就像分数如果是缺考就给个null，你用int就会出问题
-
-
-          </pre>
+1）单例模式中，两个基本要点是：
+构造函数私有、唯一实例
+解析：
+   </pre>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
   export default {
-    name: 'colresizable',
-    data () {
+    name: '',
+    data() {
       return {
         created: this.$route.query.created,
-        title: this.$route.query.name
+        title: this.$route.query.name,
+        catalogue: []
       }
     },
     mounted() {
       this.$nextTick(function () {
+        this.createCatalogue();
       })
     },
+    computed: {},
     methods: {
-      toggle(){
-
+      //创建目录函数
+      createCatalogue() {
+        let object = document.getElementsByTagName('h3');
+        var flag = [];
+        for (var i = 0; i < object.length; i++) {
+          object[i].innerHTML = ((i + 1) + ". " + object[i].innerHTML);
+          flag.push({name: object[i].innerHTML})
+        }
+        this.catalogue = flag;
       }
     }
   }

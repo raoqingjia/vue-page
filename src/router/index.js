@@ -35,21 +35,6 @@ export const routes = [
         name: 'project',
         component: resolve => require(['@/views/project'], resolve)
       },
-      {
-        path: '/template',
-        name: 'template',
-        component: resolve => require(['@/views/template'], resolve)
-      },
-      {
-        path: '/software',
-        name: 'template',
-        component: resolve => require(['@/views/software'], resolve)
-      },
-      {
-        path: '/emotion',
-        name: 'emotion',
-        component: resolve => require(['@/views/emotion'], resolve)
-      },
       //H5 案例
       {
         path: '/h5/autocompleteNoWork',
@@ -652,6 +637,13 @@ export const routes = [
         component: resolve => require(['@/views/plugin/qrcanvas'], resolve)
       },
       {
+        path: '/plugin/dayjs',
+        name: 'day.js一个轻量处理时间和日期的JavaScript 库',
+        type: "plugin",
+        created: "2020-04-05",
+        component: resolve => require(['@/views/plugin/dayjs'], resolve)
+      },
+      {
         path: '/other/xFrameOptions',
         name: 'iframe 内嵌报错：X-Frame-Options to sameorigin',
         type: "other",
@@ -692,27 +684,6 @@ export const routes = [
         type: "other",
         created: "2019-04-12",
         component: resolve => require(['@/views/other/designMenuSql'], resolve)
-      },
-      {
-        path: '/other/designNoticeSql',
-        name: '关于公告信息sql表结构思路',
-        type: "other",
-        created: "2019-04-12",
-        component: resolve => require(['@/views/other/designNoticeSql'], resolve)
-      },
-      {
-        path: '/other/intTinyIntBigint',
-        name: 'mysql中int、bigint、smallint 和 tinyint的区别介绍',
-        type: "other",
-        created: "2019-04-15",
-        component: resolve => require(['@/views/other/intTinyIntBigint'], resolve)
-      },
-      {
-        path: '/other/intLength',
-        name: 'mysql中int长度的意义',
-        type: "other",
-        created: "2019-04-15",
-        component: resolve => require(['@/views/other/intLength'], resolve)
       },
       {
         path: '/other/angular5to6',
@@ -757,39 +728,11 @@ export const routes = [
         component: resolve => require(['@/views/other/absWebPackageGuide'], resolve)
       },
       {
-        path: '/other/serviceRequest',
-        name: 'spring boot中服务直接调取的两种方式',
-        type: "other",
-        created: "2019-08-08",
-        component: resolve => require(['@/views/other/serviceRequest'], resolve)
-      },
-      {
         path: '/other/jwttoken',
         name: 'JWT token 前端解码',
         type: "other",
         created: "2020-01-15",
         component: resolve => require(['@/views/other/jwttoken'], resolve)
-      },
-      {
-        path: '/other/JSONObject',
-        name: 'JAVA  JSONObject项目中常见用法',
-        type: "other",
-        created: "2020-01-20",
-        component: resolve => require(['@/views/other/JSONObject'], resolve)
-      },
-      {
-        path: '/other/mavenCompilerPlugin',
-        name: 'Maven插件 maven-compiler-plugin 讲解',
-        type: "other",
-        created: "2020-02-18",
-        component: resolve => require(['@/views/other/mavenCompilerPlugin'], resolve)
-      },
-      {
-        path: '/other/mavenCompilerPluginError',
-        name: 'Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.2:compile',
-        type: "other",
-        created: "2020-02-21",
-        component: resolve => require(['@/views/other/mavenCompilerPluginError'], resolve)
       },
       {
         path: '/other/rxjs',
@@ -874,6 +817,48 @@ export const routes = [
         type: "other",
         created: "2021-03-23",
         component: resolve => require(['@/views/other/avrFramework'], resolve)
+      },
+      {
+        path: '/other/designNoticeSql',
+        name: '关于公告信息sql表结构思路',
+        type: "java",
+        created: "2019-04-12",
+        component: resolve => require(['@/views/other/designNoticeSql'], resolve)
+      },
+      {
+        path: '/other/intLength',
+        name: 'mysql中int长度的意义',
+        type: "java",
+        created: "2019-04-15",
+        component: resolve => require(['@/views/other/intLength'], resolve)
+      },
+      {
+        path: '/other/serviceRequest',
+        name: 'spring boot中服务直接调取的两种方式',
+        type: "java",
+        created: "2019-08-08",
+        component: resolve => require(['@/views/other/serviceRequest'], resolve)
+      },
+      {
+        path: '/other/JSONObject',
+        name: 'JAVA  JSONObject项目中常见用法',
+        type: "java",
+        created: "2020-01-20",
+        component: resolve => require(['@/views/other/JSONObject'], resolve)
+      },
+      {
+        path: '/other/mavenCompilerPlugin',
+        name: 'Maven插件 maven-compiler-plugin 讲解',
+        type: "java",
+        created: "2020-02-18",
+        component: resolve => require(['@/views/other/mavenCompilerPlugin'], resolve)
+      },
+      {
+        path: '/other/mavenCompilerPluginError',
+        name: 'Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.2:compile',
+        type: "java",
+        created: "2020-02-21",
+        component: resolve => require(['@/views/other/mavenCompilerPluginError'], resolve)
       },
       //工作笔记
       {
@@ -960,10 +945,10 @@ export const routes = [
       {
         path: '/note/gulp',
         name: "Gulp",
-        type: "web",
+        type: "plugin",
         img: require("../img/gulp-icon.png"),
         description: "安装命令、引入模块、参数...",
-        created: "持续更新 最后版本 2018-03-29",
+        created: "2018-03-29",
         component: resolve => require(['@/views/web/gulp'], resolve)
       },
       {
@@ -1093,27 +1078,27 @@ export const routes = [
         component: resolve => require(['@/views/web/svn'], resolve)
       },
       {
-        path: '/note/interview',
+        path: '/note/webInterview',
         name: "Web面试题",
         type: "web",
         img: require("../img/web-icon.png"),
-        description: "web开发中常见面试题积累...",
+        description: "web开发中面试题积累...",
         created: "持续更新 最后版本 2018-04-08",
-        component: resolve => require(['@/views/web/interview'], resolve)
+        component: resolve => require(['@/views/web/webInterview'], resolve)
       },
       {
-        path: '/note/bootstrap',
-        name: "Bootstrap",
+        path: '/note/javaInterview',
+        name: "Java面试题",
         type: "web",
-        img: require("../img/bootstrap-icon.png"),
-        description: "bootstrap相关文档介绍...",
-        created: "持续更新 最后版本 2018-03-29",
-        component: resolve => require(['@/views/web/bootstrap'], resolve)
+        img: require("../img/web-icon.png"),
+        description: "Java常见面试题积累...",
+        created: "持续更新 最后版本 2018-04-08",
+        component: resolve => require(['@/views/java/javaInterview'], resolve)
       },
       {
         path: '/note/javaone',
-        name: "JAVA第一阶段",
-        type: "java",
+        name: "JAVA入门简介",
+        type: "crm",
         img: require("../img/java-icon.png"),
         description: "java初级入门笔记记录...",
         created: "持续更新 最后版本 2018-07-08",
@@ -1122,7 +1107,7 @@ export const routes = [
       {
         path: '/note/java_oop',
         name: "JAVA面向对象",
-        type: "java",
+        type: "crm",
         img: require("../img/java-icon.png"),
         description: "java实例、接口、抽象类",
         created: "持续更新 最后版本 2018-08-08",
@@ -1131,7 +1116,7 @@ export const routes = [
       {
         path: '/note/java_api',
         name: "JAVA API",
-        type: "java",
+        type: "crm",
         img: require("../img/java-icon.png"),
         description: "java",
         created: "持续更新 最后版本 2018-09-08",
@@ -1140,7 +1125,7 @@ export const routes = [
       {
         path: '/note/java_interview',
         name: "JAVA面试错题积累",
-        type: "java",
+        type: "crm",
         img: require("../img/mistake-icon.png"),
         description: "java常见面试题记录...",
         created: "持续更新 最后版本 2018-04-08",
@@ -1149,7 +1134,7 @@ export const routes = [
       {
         path: '/note/mysql',
         name: "MySQL",
-        type: "java",
+        type: "crm",
         img: require("../img/mysql-icon.png"),
         description: "mysql相关的安装,命令行...",
         created: "持续更新 最后版本 2019-04-08",
@@ -1158,7 +1143,7 @@ export const routes = [
       {
         path: '/note/linux',
         name: "Linux",
-        type: "java",
+        type: "crm",
         img: require("../img/linux-icon.png"),
         description: "linux相关的安装,命令行...",
         created: "持续更新 最后版本 2019-08-08",
@@ -1167,7 +1152,7 @@ export const routes = [
       {
         path: '/note/activeMq',
         name: "ActiveMQ",
-        type: "java",
+        type: "crm",
         img: require("../img/activemq-icon.jpg"),
         description: "activeMq相关的安装,命令行...",
         created: "持续更新 最后版本 2020-02-25",
@@ -1176,51 +1161,12 @@ export const routes = [
       {
         path: '/note/docker',
         name: "Docker",
-        type: "java",
+        type: "crm",
         img: require("../img/docker-icon.png"),
         description: "docker相关的安装,命令行...",
         created: "持续更新 最后版本 2020-03-28",
         component: resolve => require(['@/views/java/docker'], resolve)
-      },
-      {
-        path: '/note/php',
-        name: "php",
-        type: "java",
-        img: require("../img/php-icon.jpg"),
-        description: "php基础知识...",
-        created: "持续更新 最后版本 2020-06-28",
-        component: resolve => require(['@/views/java/php'], resolve)
-      },
-      //生活情感记录
-      {
-        path: '/emotion/youdaliushu',
-        name: "再游大柳树",
-        type: "emotion",
-        created: "写于： 石榴庄彩虹城 2018-03-10 晚",
-        component: resolve => require(['@/views/emotion/youdaliushu'], resolve)
-      },
-      {
-        path: '/emotion/theMoreLearnTheMoreIgnorance',
-        name: "了解的越多越感到无知",
-        type: "emotion",
-        created: "写于： 石榴庄彩虹城 2018-03-19 晚",
-        component: resolve => require(['@/views/emotion/theMoreLearnTheMoreIgnorance'], resolve)
-      },
-      {
-        path: '/emotion/yourLearnDecideYourLevel',
-        name: "你所学习方向决定你的层次",
-        type: "emotion",
-        created: "写于： 石榴庄彩虹城 2018-06-06 晚",
-        component: resolve => require(['@/views/emotion/yourLearnDecideYourLevel'], resolve)
-      },
-      {
-        path: '/emotion/makeMoneySoHard',
-        name: "挣钱真TM难",
-        type: "emotion",
-        created: "写于： 石榴庄彩虹城 2018-06-14 晚",
-        component: resolve => require(['@/views/emotion/makeMoneySoHard'], resolve)
       }
-
     ]
   }
 ];

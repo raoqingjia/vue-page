@@ -585,7 +585,7 @@ System.out.println(m);
   arr=new int[]{1，4，5，9} //正确，推荐写法
 <span> 数组的访问：</span>
 1) 通过(数组名.length)来获取数组的长度
-  int[] arr=new int(4);
+  int[] arr=new int[4];
   System.out.println(arr.length);
 2) 通过下标索引值修改元素
   int[] arr=new int[]{2,4,6,7};
@@ -611,7 +611,7 @@ System.out.println(m);
 for循环需要知道数组的长度；
 foreach不需要知道数组的长度，但需要知道数组的类型
 <span> 求数组元素的最大值：</span>
-<p class="pre-cmd">int[] ary=new int(10);
+<p class="pre-cmd">int[] ary=new int[10];
   for(int i=0;i< arr.length;i++){
     ary[i]=(int)(Math.random()*100); //注意这里的int，是给整型数组赋值
   }
