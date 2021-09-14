@@ -74,9 +74,27 @@ select emp_no, count(emp_no) t from salaries  group by emp_no having t > 15</pre
 select e.emp_no from employees e where e.emp_no  not in (SELECT DISTINCT(emp_no)  from dept_manager)
 方法2：LEFT JOIN左连接+IS NULL
 select e.emp_no from employees e left join dept_manager d on d.emp_no = e.emp_no where d.dept_no is null</pre>
-          <h3></h3>
-          <pre></pre>
+          <h3>两张表获取每个部门中当前员工薪水最高的相关信息</h3>
+          <pre>
+一个员工表dept_emp   emp_no 员工号  dept_no 部门编号
+一个薪水表salaries   emp_no 员工号  salaries为薪水字段
+关键字 max()、group by、join
+方法：select d.dept_no,  s.emp_no ,max(s.salary) salary
+from  dept_emp d join salaries s
+on d.emp_no=s.emp_no
+group by d.dept_no
+order by d.dept_no ASC</pre>
+          <h3>一张employees员工表查出所有emp_no为奇数，且last_name不为Mary的员工信息，并按照hire_date逆序排列</h3>
+          <pre>
+一张员工表 employees    last_name 名字  hire_date入职时间
+关键字  找奇数、%求余数
+方法：select * from employees where  emp_no % 2 = 1 and last_name != 'Mary' order by hire_date desc
+补充：不相等有三种表示方式：<>、!=、IS NOT
+求余数： emp_no&1   emp_no%2 = 1
+注意：last_name是varchar类型，所以对它的判断需要加上单引号</pre>
 
+<!--          <h3></h3>-->
+<!--          <pre></pre>-->
         </div>
       </div>
     </div>
