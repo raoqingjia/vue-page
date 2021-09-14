@@ -11,6 +11,58 @@
           <ul class="catalogue">
             <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
           </ul>
+          <h3>只能输入零和非零开头的数字，正确的正则表达式是</h3>
+          <pre>
+A)^(0|[1-9][0-9]*)$
+B)^(0|[1-9][1-9]*)$
+C)^(0|[1-9][0-9])$
+D)^\+[1-9][0-9]*$
+正确答案: A
+只能输入零／非零开头的数字
+^ 以。。。开头，$以。。。结尾。
+*任意多次
+|或的意思
+()组
+[]集合</pre>
+          <h3>通过div显示XMLHttpRequest的状态，哪个是正确的做法</h3><pre>
+A)var myDiv = document.getElementById ("statusCode"); myDiv.innerHTML = req.statusCode;
+B)var myDiv = document.getElementById ("statusCode"); myDiv.innerHTML = req.status;
+C)var myDiv = document.getElementById ("statusCode"); myDiv.setStatus (req.statusCode);
+D)var myDiv = document.getElementById ("statusCode"); myDiv.status = req.status;
+正确答案: B
+status属性返回状态码，为一个数字。
+statusText属性返回状态码以及描述，字符串。
+并没有statusCode....
+XMLHttpRequest对象的readyState与status的几种状态码表示的意思:
+readyState有五种状态：
+0 (未初始化)： (XMLHttpRequest)对象已经创建，但还没有调用open()方法；
+1 (载入)：已经调用open() 方法，但尚未发送请求；
+2 (载入完成)： 请求已经发送完成；
+3 (交互)：可以接收到部分响应数据；
+4 (完成)：已经接收到了全部数据，并且连接已经关闭。
+status实际是一种辅状态判断，只是status更多是服务器方的状态判断。
+关于status，由于它的状态有几十种，我只列出平时常用的几种：
+1xx——信息类，表示收到Web浏览器请求，正在进一步的处理中。如，100：客户必须继续发出请求；101：客户要求服务器根据请求转换HTTP协议版本
+2xx——成功，表示用户请求被正确接收，理解和处理。例如，200：OK；201：提示知道新文件的URL
+3xx——重定向，表示请求没有成功，客户必须采取进一步的动作。如，300：请求的资源可在多处得到；301：删除请求数据
+4xx——客户端错误，表示客户端提交的请求有错误。如，404：NOT Found，意味着请求中所引用的文档不存在。
+5xx——服务器错误，表示服务器不能完成对请求的处理。如，500，服务器产生内部错误</pre>
+          <h3>以下代码执行后，console 的输出是？</h3>
+          <pre>
+function Foo(){'use strict'
+console.log(this.location);
+}
+Foo()
+A)当前窗口的 Location 对象
+B)undefined
+C)null
+D)TypeError
+正确答案: D
+'use strict'是严格模式,严格模式下禁止this关键字指向全局对象。此时this为undefined         </pre>
+          <h3>JavaScript的基本数据类型？</h3>
+          <pre>
+解答:基本数据类型：String Number Boolean Number Undefined Symbol（es6引入） 引用数据类型：Object Array Function
+可以这样记 usnb u: undifined s: string symbol n: number null b: boolean</pre>
           <h3>代码的输出结果是</h3>
           <pre>
 var one;
