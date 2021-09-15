@@ -24,6 +24,55 @@ D)^\+[1-9][0-9]*$
 |或的意思
 ()组
 []集合</pre>
+          <h3>有如下代码,请问执行后弹出的值是：（）</h3>
+          <pre>
+var name = "World!";
+(function () {
+  var name;
+  if (typeof name === 'undefined') {
+      name = 'Jack';
+      console.log('Goodbye' + name);
+  } else {
+      console.log('hello' + name);
+  }
+})();
+正确答案: B
+A)Hello World!
+B)Goodbye Jack
+C)Hello Jack
+D)Goodbye World!
+解释1：js搜索变量是从内部顺原型链往外部找的，内部直接找到了name，就不去外部了，执行第一次if时还没初始化值，所以为undefined，然后赋值，执行console结束
+解释2：当函数内部变量与全局变量同名时 全局变量会被覆盖 因为js是单线程执行 var name当前没有赋值 所以类型为undefined</pre>
+          <h3>两个for控制台打印的结果是？</h3>
+          <pre>
+for(let i=0;i<2;i++){
+  setTimeout(function(){
+          console.log(i)
+      },100
+  );
+}
+for(var i=0;i<2;i++){
+  setTimeout(function(){
+          console.log(i)
+      },100
+  );
+}
+正确答案: A
+A)0 1 2 2
+B)0 1 0 1
+C)0 1 1 1
+D)1 1 0 0
+解题思路：①Js是单线程的，Settimeout是异步宏任务，所以代码执行遇到异步的，就放在事件队列中的，等线程中的任务执行完后才会执行事件队列中的任务。② let是es6中声明变量的方式，有自己的作用域块，可以放变量，所以let绑定for循环时，每个i都有自己的值. 在这个for循环中就是满足一次条件向事件队列中添加一个打印i的事件，且每个事件中的i有自己的值 ③Var没有作用域块，for循环的变量就会后一个覆盖前一个，当循环完毕时i就只有一个值，又因为for循环的判断条件是不满足跳出，所以i最后是2而不是1 ④这些完了后执行事件队列中的任务，就打印了0122          </pre>
+          <h3>angularjs1中的$apply()的作用是？</h3>
+          <pre>
+正确答案: C
+A)手动绑定外部数据
+B)格式化数据
+C)使方法生效
+D)发送消息给其它controller
+解题思路：在原生js或者第三方框架下，修改model，是有可能不会触发视图更新的，比如setTimeout、jquery插件。为什么？因为他们脱离了Angularjs的上下文，Angularjs并不能监听到数据的改变，$apply 是为了让angularJS内部没有在$digest状态当中的代码块进入到$digest当中，从而实现双向数据绑定。所谓$digest就是angularjs 检测数据更新的方式</pre>
+          <h3></h3>
+          <pre></pre>
           <h3>通过div显示XMLHttpRequest的状态，哪个是正确的做法</h3><pre>
 A)var myDiv = document.getElementById ("statusCode"); myDiv.innerHTML = req.statusCode;
 B)var myDiv = document.getElementById ("statusCode"); myDiv.innerHTML = req.status;
@@ -61,7 +110,7 @@ D)TypeError
 'use strict'是严格模式,严格模式下禁止this关键字指向全局对象。此时this为undefined         </pre>
           <h3>JavaScript的基本数据类型？</h3>
           <pre>
-解答:基本数据类型：String Number Boolean Number Undefined Symbol（es6引入） 引用数据类型：Object Array Function
+解答:基本数据类型：String  Boolean Number Undefined Null Symbol（es6引入） 引用数据类型：Object Array Function
 可以这样记 usnb u: undifined s: string symbol n: number null b: boolean</pre>
           <h3>代码的输出结果是</h3>
           <pre>
