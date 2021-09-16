@@ -703,7 +703,7 @@ export const routes = [
       },
       {
         path: '/other/http413',
-        name: '页面报错POST 413',
+        name: 'HTTP 413错误解决方法',
         type: "other",
         created: "2019-06-23",
         component: resolve => require(['@/views/other/http413'], resolve)
