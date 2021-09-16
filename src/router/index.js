@@ -869,6 +869,13 @@ export const routes = [
         created: "2020-02-21",
         component: resolve => require(['@/views/java/mavenCompilerPluginError'], resolve)
       },
+      {
+        path: '/java/getLocalIP',
+        name: 'Java 通过接口请求获取访问者本地ip',
+        type: "java",
+        created: "2020-05-08",
+        component: resolve => require(['@/views/java/getLocalIP'], resolve)
+      },
       //工作笔记
       {
         path: '/note/apache',
