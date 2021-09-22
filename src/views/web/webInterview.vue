@@ -11,6 +11,30 @@
           <ul class="catalogue">
             <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
           </ul>
+          <h3>代码var foo = "10"+3-"1";console.log(foo);执行后，foo的值为( )</h3>
+          <pre>
+正确答案: B
+A)"102"
+B)102
+C)12
+D)"12"
+对于“+”来说，有两个含义：第一个含义是做字符串拼接，第二个含义是加减法中的加法。
+1，如果操作数里有一个是字符串，其他的值将被转换成字符串；
+2，其他情况，操作数转换成数字执行加法运算。
+而对于“ - ”来说，只有一个含义，就是做减法，自然不会转化成字符串了。</pre>
+          <h3>在大数据量场景下，以下哪种js中字符串连接方式较为高效（）</h3>
+          <pre>
+正确答案: C  但是这题答案很片面
+a+=b
+a = a+b
+Array.join()
+Array.push()
++的处理机制是：新建一个临时字符串，将新字符串赋值为a+b，然后返回这个临新字符串并同时销毁原始字符串，所以字符串连接效率较低。所以用Array.join()不会新建临时字符串效率更高。（当然以上效率问题仅存在于低版本浏览器ie7-及以下，现在的新浏览器基本上都解决了这个问题，效率差不多）
+在旧浏览器（ie7-）下用 join 会更高效。
+在现代浏览器，尽量用"+",更高效。
+当然，在少数现代浏览器里 “+” 不一定会比 join 快（如，safari 5.0.5，opera 11.10)
+本身是字符串数组的，直接 join 会更好。
+在"+"与concat之间，当然是优选使用"+"，方便又直观又高效。</pre>
           <h3>只能输入零和非零开头的数字，正确的正则表达式是</h3>
           <pre>
 A)^(0|[1-9][0-9]*)$
@@ -71,8 +95,9 @@ B)格式化数据
 C)使方法生效
 D)发送消息给其它controller
 解题思路：在原生js或者第三方框架下，修改model，是有可能不会触发视图更新的，比如setTimeout、jquery插件。为什么？因为他们脱离了Angularjs的上下文，Angularjs并不能监听到数据的改变，$apply 是为了让angularJS内部没有在$digest状态当中的代码块进入到$digest当中，从而实现双向数据绑定。所谓$digest就是angularjs 检测数据更新的方式</pre>
-          <h3></h3>
-          <pre></pre>
+          <h3>Math类中提供了三个与取整有关的方法：ceil,floor,round，这三个用处功能</h3>
+          <pre>
+这些方法的作用于它们的英文名称的含义相对应，例如：ceil的英文意义是天花板，该方法就表示向上取整，Math.ceil（11.3）的结果为12，Math.ceil(-11.6)的结果为-11；floor的英文是地板，该方法就表示向下取整，Math.floor(11.6)的结果是11，Math.floor(-11.4)的结果-12；最难掌握的是round方法，他表示“四舍五入”，算法为Math.floor(x+0.5),即将原来的数字加上0.5后再向下取整，所以，Math.round(11.5)的结果是12，Math.round(-11.5)的结果为-11</pre>
           <h3>通过div显示XMLHttpRequest的状态，哪个是正确的做法</h3><pre>
 A)var myDiv = document.getElementById ("statusCode"); myDiv.innerHTML = req.statusCode;
 B)var myDiv = document.getElementById ("statusCode"); myDiv.innerHTML = req.status;
