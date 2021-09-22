@@ -703,7 +703,7 @@ export const routes = [
       },
       {
         path: '/other/http413',
-        name: '页面报错POST 413',
+        name: 'HTTP 413错误解决方法',
         type: "other",
         created: "2019-06-23",
         component: resolve => require(['@/views/other/http413'], resolve)
@@ -868,6 +868,13 @@ export const routes = [
         type: "java",
         created: "2020-02-21",
         component: resolve => require(['@/views/java/mavenCompilerPluginError'], resolve)
+      },
+      {
+        path: '/java/getLocalIP',
+        name: 'Java 通过接口请求获取访问者本地ip',
+        type: "java",
+        created: "2020-05-08",
+        component: resolve => require(['@/views/java/getLocalIP'], resolve)
       },
       //工作笔记
       {

@@ -45,6 +45,7 @@ http状态码
 403  服务器已经理解请求，但是拒绝执行它     找后台配置权限
 404  接口有误，没有找到相关的接口地址         自己的接口写错啦
 405  接口请求方式有误，post get请求方式有误   自己写的请求方式错啦
+413  上传文件过大引起的请求长度超过了nginx默认的缓存大小和最大客户端最大请求大小
 
 该类型状态码表示服务器或网关错误
 500  服务器错误。
@@ -111,11 +112,18 @@ Refresh</pre>
 很简单，看运维是否移除了 Entity Tag。移除了，就总是 200 OK (from cache)。没有移除，就两者交替出现。
 
 三、问题: 304 not modified 缓存问题解决
-解决方案
 解决方法很简单，只需在url后面拼接一个时间戳就行了。示例代码如下：
 this.$http.get('./api/ratings?t='+ (new Date()).getTime().toString())
 
-四、ajax调取接口后直接进入error函数中，报Failed to load resource: net::ERR_CONNECTION_REFUSED错误
+四、HTTP 413错误解决方法
+Failed to load resource: the server responded with a status of 413 (Request Entity Too Large
+出现http状态码413，说明上传的文件大小超出了服务器端的限制大小。首先，需要确定是服务器端的哪个环节限制了上传文件的大小
+nginx默认上传文件的大小是1M，可nginx的设置中修改。
+打开nginx配置文件 nginx.conf, 路径一般是：/etc/nginx/nginx.conf。
+在http{}段中加入 client_max_body_size 20m; 20m为允许最大上传的大小。
+保存后重启nginx，问题解决
+
+五、ajax调取接口后直接进入error函数中，报Failed to load resource: net::ERR_CONNECTION_REFUSED错误
 我调取的是http://10.248.50.221:8080/api...接口，如果报上面提示的错误，有两种情况：
 ① 我没有链接到http://10.248.50.221:8080/接口，可以ping一下验证电脑是否能连到接口，如果ping不同就是链接错误
 ② 如果ping通了就是后台可能将接口修改了，修改成http://10.248.50.220:8080或者将端口换了
