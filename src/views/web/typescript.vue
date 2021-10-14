@@ -7,7 +7,10 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <h3>1、先认识一下</h3>
+          <ul class="catalogue">
+            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
+          </ul>
+          <h3>先认识一下</h3>
           <pre>
 <span>① 什么是 TypeScript？</span>
 TypeScript 是一种由微软开发的自由和开源的编程语言，它是JavaScript的一个超集，扩展了JavaScript的语法。其次，2016年9月底发布的Angular2框架，这个框架本身是由TypeScript编写的。Angular框架，大家都知道，它是由谷歌公司开发的，非常流行的框架。也就是说，现在TS这门语言是由微软和谷歌这两大公司在背后支持。因此我们有理由相信，在未来一段时间内，TS有可能成为前端开发语言中的主流。
@@ -29,7 +32,7 @@ ES6规范是在2015年发布的，而目前所有主流的浏览器并没有完�
 首先、安装TS编译器，其实就是安装TS的一个过程；
 安装教程 https://www.jianshu.com/p/c5005fad4274
 http://www.typescriptlang.org/</pre>
-          <h3>2、TypeScript 常用类型</h3>
+          <h3>TypeScript 常用类型</h3>
           <pre>
 <span>① 基础类型</span>
 <p class="pre-cmd">1)boolean为布尔值类型  let isDone: Boolean = false
@@ -77,7 +80,7 @@ type Message = string | string[];
 let greet = (message: Message) => {
   // ...
 };</pre>
-          <h3>4、类型解构</h3>
+          <h3>类型解构</h3>
           <pre>
 <span>① 数组</span>
 1)数组解构
@@ -116,7 +119,7 @@ console.log({name, ...d});
 let {address, ...a} = person;   //key值address在前，...a是a是b无所谓
 console.log({address, ...a});
 //{address: "Xiamen", name: "Semlinker", gender: "male"}</pre>
-          <h3>4、function(函数)</h3>
+          <h3>function(函数)</h3>
           <pre>
 <span>① 参数和返回值可以限定类型，参数后面为返回值类型</span>
 //ES5
@@ -141,7 +144,7 @@ function test(a:string,b:string,c:string="test"){
 <span>③ 可选参数，参数后加?</span>
 function test(a: string, b?: string, c: string="test"){}
 test("xxx");   "xxx"代表的是形参a，b实现选填，c可以不传</pre>
-          <h3>5、class(类)</h3>
+          <h3>class(类)</h3>
           <pre>
 利用class类你可以扩展其他的class，实现多个接口，添加构造函数，公开属性和方法。
 export 关键字使类和接口在模块外部可见，实现接口使用implements关键字，继承类使用extends关键字，当你扩展一个类时，用super关键字调用基类的方法。用this关键字来调用当前类的属性和方法。
@@ -209,7 +212,7 @@ var sam = new Snake("Sammy the Python");
 var tom: Animal = new Horse("Tommy the Palomino");
 sam.move();  //"Slithering..."   Sammy the Python moved 5 m.
 tom.move(34); //"Galloping..."   Tommy the Palomino moved 34 m.</p></pre>
-          <h3>6、interface 接口</h3>
+          <h3>interface 接口</h3>
           <pre>
 在TypeScript里，接口扮演了一个定义数据结构的角色，它在TypeScript的类型检查中起到很重要的作用。
 class类主要的用法是利用实例，interface主要用法是构建参数类型和类型检测
@@ -279,7 +282,7 @@ p1.x = 5; // error!
   options: [],
   style: {},
 };</p> </pre>
-          <h3>7、关键字 implements</h3>
+          <h3>关键字 implements</h3>
           <pre>
 接口使用关键字 interface 来定义，并使用关键字 implements 来实现接口中的方法，且必须完全实现。
 相当在class类中用implement引入接口，使用接口中的相关函数
@@ -304,6 +307,87 @@ class VipUser implements User{
     ......
  }
           </pre>
+          <h3>d.ts介绍</h3>
+          <pre>
+https://blog.csdn.net/snsHL9db69ccu1aIKl9r/article/details/87870975
+https://ts.xcatliu.com/basics/declaration-files#declare-var
+
+d.ts大名叫TypeScript Declaration File
+当使用第三方库时，我们需要引用它的声明文件，才能获得对应的代码补全、接口提示等功能。
+例如使用 jQuery，一种常见的方式是在 html 中通过script标签引入 jQuery，然后就可以使用全局变量 $ 或 jQuery 了
+ts 中，编译器并不知道 $ 或 jQuery 是什么东西
+我们需要使用 declare var 来定义它的类型
+declare var jQuery: (selector: string) => any;  // 先声明
+jQuery('#foo');  //  后使用
+上例中，declare var 并没有真的定义一个变量，只是定义了全局变量 jQuery 的类型，仅仅会用于编译时的检查，在编译结果中会被删除。它编译结果是：jQuery('#foo');
+
+全局变量的声明文件主要有以下几种语法：
+
+declare var 声明全局变量
+declare const 声明全局变量
+declare function 声明全局方法
+declare class 声明全局类
+declare enum 声明全局枚举类型
+declare namespace 声明（含有子属性的）全局对象
+interface 和 type 声明全局类型
+declare var 是最简单的，如之前所学，它能够用来定义一个全局变量的类型。与其类似的，还有 declare let 和 declare const，使用 let 与使用 var 没有什么区别，const 定义时，表示此时的全局变量是一个常量，不允许再去修改它的值了
+declare var aaa:number|string //注意这里用的是一个竖线表示"或"的意思
+如果是常量的话用关键字const表示：declare const max:200
+
+在函数类型的声明语句中，函数重载也是支持的
+declare function get(id: string | number): string
+declare function get(name:string,age:number): string
+
+
+declare class§
+当全局变量是一个类的时候，我们用 declare class 来定义它的类型7：
+
+// src/Animal.d.ts
+declare class Animal {
+    name: string;
+    constructor(name: string);
+    sayHi(): string;
+}
+// src/index.ts
+let cat = new Animal('Tom');
+同样的，declare class 语句也只能用来定义类型，不能用来定义具体的实现，比如定义 sayHi 方法的具体实现则会报错：
+// src/Animal.d.ts
+declare class Animal {
+    name: string;
+    constructor(name: string);
+    sayHi() {
+        return `My name is ${this.name}`;
+    };
+    // ERROR: An implementation cannot be declared in ambient contexts.
+}
+
+
+declare namespace§
+namespace 是 ts 早期时为了解决模块化而创造的关键字，中文称为命名空间。
+由于历史遗留原因，在早期还没有 ES6 的时候，ts 提供了一种模块化方案，使用 module 关键字表示内部模块。但由于后来 ES6 也使用了 module 关键字，ts 为了兼容 ES6，使用 namespace 替代了自己的 module，更名为命名空间。
+随着 ES6 的广泛应用，现在已经不建议再使用 ts 中的 namespace，而推荐使用 ES6 的模块化方案了，故我们不再需要学习 namespace 的使用了。
+namespace 被淘汰了，但是在声明文件中，declare namespace 还是比较常用的，它用来表示全局变量是一个对象，包含很多子属性。
+
+interface 和 type§
+除了全局变量之外，可能有一些类型我们也希望能暴露出来。在类型声明文件中，我们可以直接使用 interface 或 type 来声明一个全局的接口或类型12：
+// src/jQuery.d.ts
+interface AjaxSettings {
+    method?: 'GET' | 'POST'
+    data?: any;
+}
+declare namespace jQuery {
+    function ajax(url: string, settings?: AjaxSettings): void;
+}
+这样的话，在其他文件中也可以使用这个接口或类型了：
+// src/index.ts
+let settings: AjaxSettings = {
+    method: 'POST',
+    data: {
+        name: 'foo'
+    }
+};
+jQuery.ajax('/api/post_something', settings);
+type 与 interface 类似          </pre>
         </div>
       </div>
     </div>
@@ -311,28 +395,82 @@ class VipUser implements User{
 </template>
 
 <script>
-  export default {
-    name: 'typescript',
-    data () {
-      return {
-        created: this.$route.query.created,
-        title: this.$route.query.name
-      }
-    },
-    mounted(){
-      this.$nextTick(function(){
+    export default {
+        name: 'typescript',
+        data() {
+            return {
+                created: this.$route.query.created,
+                title: this.$route.query.name,
+                catalogue: []
+            }
+        },
+        mounted() {
+            this.$nextTick(function () {
+                this.createCatalogue();
+            })
+        },
+        computed: {},
+        methods: {
+            jump(index) {
+//        let jump = document.getElementsByTagName('h3');
+//       // 获取需要滚动的距离
+//        let total = jump[index].offsetTop;
+//        // Chrome
+//        document.body.scrollTop = total;
+//        // Firefox
+//        document.documentElement.scrollTop = total;
+//       // Safari
+//        window.pageYOffset = total
+//        https://www.cnblogs.com/wisewrong/p/6495726.html  参考网站
+                let jump = document.getElementsByTagName('h3');
+                let total = jump[index].offsetTop;  // 获取目标位置滚动的距离
+                let distance = document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
+                // 平滑滚动，时长500ms，每10ms一跳，共50跳
+                let step = total / 50;
+                if (total > distance) {
+                    smoothDown()
+                } else {
+                    let newTotal = distance - total;  //防止total，let step=total/50太小，移动缓慢
+                    step = newTotal / 50;
+                    smoothUp()
+                }
 
-      })
-    },
-    computed:{
+                function smoothDown() {
+                    if (total > distance) {
+                        distance += step;
+                        document.body.scrollTop = distance;
+                        document.documentElement.scrollTop = distance;
+                        setTimeout(smoothDown, 10)
+                    } else {
+                        document.body.scrollTop = total;
+                        document.documentElement.scrollTop = total
+                    }
+                }
 
-    },
-    methods: {
-      toggle(){
-
-      }
+                function smoothUp() {
+                    if (total < distance) {
+                        distance -= step;
+                        document.body.scrollTop = distance;
+                        document.documentElement.scrollTop = distance;
+                        setTimeout(smoothUp, 10)
+                    } else {
+                        document.body.scrollTop = total;
+                        document.documentElement.scrollTop = total
+                    }
+                }
+            },
+            //创建目录函数
+            createCatalogue() {
+                let object = document.getElementsByTagName('h3');
+                var flag = [];
+                for (var i = 0; i < object.length; i++) {
+                    var o = {name: object[i].innerHTML};
+                    flag.push(o)
+                }
+                this.catalogue = flag;
+            }
+        }
     }
-  }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
