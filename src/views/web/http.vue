@@ -7,9 +7,10 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <h3>
-            1、http请求过程
-          </h3>
+          <ul class="catalogue">
+            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
+          </ul>
+          <h3>http请求过程</h3>
           <pre>
 在我们向服务器发送一个HTTP请求时，会经历tcp连接（三次握手），发送HTTP请求，服务器返回HTTP响应，浏览器对响应中的状态码进行分析判断，来确定请求是否成功，是否成功得到我们需要的信息。
 一个完整的HTTP请求过程，通常有下面7个步骤：
@@ -27,9 +28,7 @@
 3.请求头，包含一些客户端环境信息，身份证信息等
 4.请求体，也就是请求正文，请求正文可以包含提交的查询字符串信息，表单信息等
 </pre>
-          <h3>
-           2、http协议中常见响应状态码
-          </h3>
+          <h3>http协议中常见响应状态码</h3>
           <pre>
 http状态码
 分类	  分类描述
@@ -50,13 +49,27 @@ http状态码
 该类型状态码表示服务器或网关错误
 500  服务器错误。
 501  服务器不支持请求的功能。
-502  网关错误。503，无法获得服务。
+502  网关错误。
 503  因暂时超载或临时维护，服务器目前无法处理 HTTP 请求。这是个暂时情况，会有些延误，过后将会得到缓解。
 504  网关超时。
 505  不支持的http版本。</pre>
-          <h3>
-          3、http头部信息
-          </h3>
+          <h3>细说http的503错误</h3>
+          <pre>
+
+          </pre>
+          <h3>细说http的504错误</h3>
+          <pre>
+504错误代表网关超时 （Gateway timeout），是指服务器作为网关或代理，但是没有及时从上游服务器收到请求。这通常意味着上游服务器已关闭（不响应网关 / 代理），而不是上游服务器和网关/代理在交换数据的协议上不一致。
+首先，了解什么是网关。
+网络的基本概念：
+客户端:应用 C/S（客户端/服务器） B/S（浏览器/服务器）
+服务器：为客户端提供服务、数据、资源的机器
+请求：客户端向服务器索取数据
+响应：服务器对客户端请求作出反应，一般是返回给客户端数据
+在这之中，把nginx或Apache作为网关。一般服务的架构是：用PHP则是nginx+php的一系列进程，Apache+tomcat+JVM。
+网关超时就与nginx或Apache配置的超时时间，和与php线程、java线程的响应时间有关。以nginx与PHP为例：它的超时配置fastcgi_connect_timeout、fastcgi_send_timeout、fastcgi_read_timeout。nginx将请求丢给PHP来处理，某个PHP的线程响应时间假如是10s，在10s内没有响应给nginx就报超时。这时可以打开PHP慢日志记录，然后排查之。
+另外，数据库的慢查询也会导致504 。nginx只要进程没有死，一般不是nginx的问题。假如场景是：确定程序执行是正确的，比如向数据库插入大量数据，需要5分钟，nginx设置的超时时间是3分钟。这时候可以将超时时间临时设置为大于5分钟</pre>
+          <h3>http头部信息</h3>
           <pre>
 头部信息分三部分：
 1).  通用头部：包含请求和响应消息都支持的头域
@@ -99,9 +112,7 @@ Location
 Proxy-Authenticate
 Server
 Refresh</pre>
-          <h3>
-           4、http报错问题积累
-          </h3>
+          <h3>http报错问题积累</h3>
            <pre>
 一、问题:调取一个接口时而成功时而失败报404的错误
 解决方案
@@ -132,9 +143,7 @@ nginx默认上传文件的大小是1M，可nginx的设置中修改。
 {"timestamp":1523438392792,"status":500,"error":"Internal Server Error","exception":"com.netflix.zuul.exception.ZuulException","message":"GENERAL"}
 结论是网关报错
            </pre>
-          <h3>
-            5、扩展
-          </h3>
+          <h3>扩展</h3>
            <pre>
 相关文档网站
 http://www.cnblogs.com/testyao/p/6548261.html
@@ -158,19 +167,85 @@ Content Download 收到响应的第一个字节，到接受完最后一个字节
 
 <script>
   export default {
-    name: 'http_error',
+    name: 'http',
     data () {
       return {
         created: this.$route.query.created,
-        title: this.$route.query.name
+        title: this.$route.query.name,
+        catalogue:[]
       }
     },
-    methods: {
-      toggle(){
+    created(){
 
+    },
+    mounted:function(){
+      this.$nextTick(function(){
+        this.createCatalogue();
+
+      })
+    },
+    computed:{},
+    methods: {
+      jump (index) {
+//        let jump = document.getElementsByTagName('h3');
+//       // 获取需要滚动的距离
+//        let total = jump[index].offsetTop;
+//        // Chrome
+//        document.body.scrollTop = total;
+//        // Firefox
+//        document.documentElement.scrollTop = total;
+//       // Safari
+//        window.pageYOffset = total
+//        https://www.cnblogs.com/wisewrong/p/6495726.html  参考网站
+        let jump = document.getElementsByTagName('h3');
+        let total = jump[index].offsetTop;  // 获取目标位置滚动的距离
+        let distance = document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
+        // 平滑滚动，时长500ms，每10ms一跳，共50跳
+        let step = total / 50;
+        if (total > distance) {
+          smoothDown()
+        } else {
+          let newTotal = distance - total;  //防止total，let step=total/50太小，移动缓慢
+          step = newTotal / 50;
+          smoothUp()
+        }
+
+        function smoothDown () {
+          if (total>distance ) {
+            distance += step;
+            document.body.scrollTop = distance;
+            document.documentElement.scrollTop = distance;
+            setTimeout(smoothDown, 10)
+          } else {
+            document.body.scrollTop = total;
+            document.documentElement.scrollTop = total
+          }
+        }
+        function smoothUp () {
+          if ( total<distance) {
+            distance -= step;
+            document.body.scrollTop = distance;
+            document.documentElement.scrollTop = distance;
+            setTimeout(smoothUp, 10)
+          } else {
+            document.body.scrollTop = total;
+            document.documentElement.scrollTop = total
+          }
+        }
+      },
+      //创建目录函数
+      createCatalogue(){
+        let object = document.getElementsByTagName('h3');
+        var flag=[];
+        for(var i=0;i<object.length;i++){
+          var o={name:object[i].innerHTML};
+          flag.push(o)
+        }
+        this.catalogue=flag;
       }
     }
   }
+
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
