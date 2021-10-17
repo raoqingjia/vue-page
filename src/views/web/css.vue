@@ -372,6 +372,61 @@ id选择器    100
 关闭:close
 出错：error
 不可用:disabled</pre>
+          <h3>5、样式重置</h3>
+          <pre>
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del,
+dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label,
+legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header,
+hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, input {
+  margin: 0;
+  padding: 0;
+  outline: none !important;
+}
+a {
+  text-decoration: none !important;
+
+}
+li {
+  list-style: none;
+}
+img {
+  border: none;
+}
+input, textarea {
+  border: none;
+  resize: none;
+  outline: none;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+i {
+  font-style: normal;
+}
+body {
+  overflow-y: scroll !important;
+  background: #ebeef5;
+}
+.fl {
+  float: left !important;
+}
+.fr {
+  float: right !important;
+}
+.clearfix:after {
+  content: "";
+  height: 0;
+  display: block;
+  clear: both;
+  *zoom: 1
+}
+.hidden {
+  overflow: hidden;
+}
+.basep {
+  position: relative;
+}
+          </pre>
         </div>
       </div>
     </div>
