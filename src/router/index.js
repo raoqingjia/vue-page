@@ -177,6 +177,13 @@ export const routes = [
         created: "2018-06-15",
         component: resolve => require(['@/views/css/key-frames'], resolve)
       },
+      {
+        path: '/css/fontFace',
+        name: 'CSS3 @font-face 规则',
+        type: "css",
+        created: "2018-09-11",
+        component: resolve => require(['@/views/css/fontFace'], resolve)
+      },
       //js案例
       {
         path: '/js/queryAndById',

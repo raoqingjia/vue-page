@@ -7,9 +7,8 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <h3>先介绍以下关键帧动画</h3>
           <pre>
-            在@keyframes中，我们定义动画关键帧
+在@keyframes中，我们定义动画关键帧
 然后animation会按照keyframes关键帧里我们指定的帧状态进行过渡执行
 0% - 100% 就代表动画的时间过渡
 规则中的0%和100%，
@@ -77,7 +76,6 @@ css结构
   100% { left: 0;      top: 0;  }
 }</pre>
           <div class="run"></div>
-          <pre></pre>
         </div>
       </div>
     </div>
