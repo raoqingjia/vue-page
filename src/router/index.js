@@ -184,6 +184,13 @@ export const routes = [
         created: "2018-09-11",
         component: resolve => require(['@/views/css/fontFace'], resolve)
       },
+      {
+        path: '/css/rem',
+        name: '前端 rem算法',
+        type: "css",
+        created: "2018-09-19",
+        component: resolve => require(['@/views/css/rem'], resolve)
+      },
       //js案例
       {
         path: '/js/queryAndById',
