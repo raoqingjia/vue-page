@@ -389,10 +389,31 @@ export const routes = [
         component: resolve => require(['@/views/js/FileReader'], resolve)
       },
       {
-        path: '/js/JsBase64',
-        name: 'JS Base64编码解码',
+        path: '/js/createObjectURL',
+        name: '利用createObjectURL下载已上传文件',
         type: "js",
         created: "2019-12-02",
+        component: resolve => require(['@/views/js/createObjectURL'], resolve)
+      },
+      {
+        path: '/js/base64ToBlobToFile',
+        name: 'base64转化为blob,blob转化为file',
+        type: "js",
+        created: "2019-12-03",
+        component: resolve => require(['@/views/js/base64ToBlobToFile'], resolve)
+      },
+      {
+        path: '/js/blobAndFile',
+        name: 'blob类、file类型',
+        type: "js",
+        created: "2019-12-03",
+        component: resolve => require(['@/views/js/blobAndFile'], resolve)
+      },
+      {
+        path: '/js/JsBase64',
+        name: 'Base64编码解码',
+        type: "js",
+        created: "2019-12-03",
         component: resolve => require(['@/views/js/JsBase64'], resolve)
       },
       {
