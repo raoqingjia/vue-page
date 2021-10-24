@@ -403,11 +403,11 @@ export const routes = [
         component: resolve => require(['@/views/js/createObjectURL'], resolve)
       },
       {
-        path: '/js/base64ToBlobToFile',
+        path: '/js/blobTurnFileTurnBase64',
         name: 'blob 转 base64，base64 转 blob，blob转化为file，base64转为file，url 转 base64',
         type: "js",
         created: "2019-12-03",
-        component: resolve => require(['@/views/js/base64ToBlobToFile'], resolve)
+        component: resolve => require(['@/views/js/blobTurnFileTurnBase64'], resolve)
       },
       {
         path: '/js/blobType',

@@ -7,101 +7,15 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <h3>blob 转 base64</h3>
           <pre>
-// 原理：利用fileReader的readAsDataURL，将blob转为base64
-function blobToBase64(blob) {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.onload = (e) => {
-            resolve(e.target.result);
-        };
-        fileReader.onerror = () => {
-            reject(new Error('文件流异常'));
-        };
-    });
-}
-或者用下面的，不过原理是一样的
-function blobToDataURL(blob, callback) {
-    let a = new FileReader();
-    a.onload = function (e) { callback(e.target.result); }
-    a.readAsDataURL(blob);
-}</pre>
-          <h3>base64 转 blob</h3>
-          <pre>
-function dataURLtoBlob(dataurl) {
-    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new Blob([u8arr], { type: mime });
-}</pre>
-          <h3>blob转化为file</h3>
-          <pre>
-File() 构造器创建新的 File 对象实例
-var myFile = new File(bits, name[, options]);
-参数
-bits
-ArrayBuffer，ArrayBufferView，Blob，或者 DOMString 对象的 Array — 或者任何这些对象的组合。这是 UTF-8 编码的文件内容。
-name
-文件名称，或者文件路径
-options 可选
-选项对象，包含文件的可选属性。可用的选项如下：
-type: DOMString，表示将要放到文件中的内容的 MIME 类型。默认值为 “” 。
-lastModified: 数值，表示文件最后修改时间的 Unix 时间戳（毫秒）。默认值为 Date.now()。</pre>
-          <h3>base64转为file</h3>
-          <pre>
- function dataURLtoFile(dataurl, filename) {
-    var arr = dataurl.split(','),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-    while(n--){
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, {type:mime});
-}
-这种方式，低版本的浏览器是不支持,下面方式复杂点但是能支持低版本
-//将base64转换为blob对象 解决低版本浏览器兼容问题
-function dataURLtoBlob(dataurl) {
-	var arr = dataurl.split(',');
-	var bstr = atob(arr[1]);
-	var n = bstr.length;
-        var mime = arr[0].match(/:(.*?);/)[1],
-	var u8arr = new Uint8Array(n);
-	while(n--){
-		u8arr[n] = bstr.charCodeAt(n);
-	}
-	return new Blob([u8arr], {type: mime });
-}
-//将blob转换成file
-function blobToFile(theBlob, fileName){
-	theBlob.lastModifiedDate =new Date();
-	theBlob.name = fileName;
-	return theBlob;
-}
-// 调用 dataurl为base64字符串  filename为文件名字,自己自定义
-var file = blobToFile(dataURLtoBlob(dataurl), fileName)
-          </pre>
-          <h3>url 转 base64</h3>
-          <pre>
-canvas有一个非常常用的方法canvas.toDataURL()，它会将canvas转化为data URL的格式。
-通常情况下这个data URL的类型为image。
-< canvas id="canvas" height="2" width="2">
-var canvas = document.getElementById('canvas');
-var dataURL = canvas.toDataURL();
-console.log(dataURL);  // data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADklEQVQYV2NkgAJGGAMAAC0AA03DhRMAAAAASUVORK5CYII
-
-new FileReader()也可以转换
-let reader = new FileReader();
-reader.readAsDataURL(e.target.files[0])
-reader.onload = (res) => {
-  console.log("文件读取内容", res);
-  let img = document.getElementById("show-img")
-  img.src = res.target.result
-}</pre>
+blob显示的形式blob:域名/e61c67e3-df3a-453a-8f41-df740c1f5faf ，
+dataURL的显示形式data:image/jpeg;base64,/9j/4AAQ...
+Blob URL的长度一般比较短，但Data URL因为直接存储图片base64编码后的数据，往往很长，浏览器在显示Data URL时使用了省略号（…）。当显式大图片时，使用Blob URL能获取更好的可能性。
+Blob URL可以方便的使用XMLHttpRequest获取源数据（xhr.responseType = 'blob'）。
+Data URL，并不是所有浏览器都支持通过XMLHttpRequest获取源数据的
+Blob URL 只能在当前应用内部使用，把Blob URL复制到浏览器的地址栏中，是无法获取数据的。
+Data URL相比之下，就有很好的移植性，你可以在任意浏览器中使用。
+Blob URL除了可以用作图片资源的网络地址，Blob URL也可以用作其他资源的网络地址，例如html文件、json文件等，为了保证浏览器能正确的解析Blob URL返回的文件类型，需要在创建Blob对象时指定相应的type</pre>
         </div>
       </div>
     </div>
@@ -110,12 +24,16 @@ reader.onload = (res) => {
 
 <script>
   export default {
-    name: 'indexOf',
+    name: 'colresizable',
     data () {
       return {
         created: this.$route.query.created,
         title: this.$route.query.name
       }
+    },
+    mounted() {
+      this.$nextTick(function () {
+      })
     },
     methods: {
       toggle(){

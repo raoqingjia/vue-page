@@ -9,7 +9,13 @@
         <div class="art-content">
           <h3></h3>
           <pre>
+File继承Blob。
+File的来源：
+可以是来自用户在一个input元素上选择文件后返回的FileList对象
+可以是来自拖放操作生成的 DataTransfer对象
+可以是来自在一个HTMLCanvasElement上执行mozGetAsFile()方法后返回结果
 支持File API的浏览器有IE10+,Firefox3.5+，Opera10.6+，Safari5+,Chrome。
+
 1.在表单元素上< input type="fiel" name="file" id="file" />，可以选择一个或多个文件，通过获取文件元素对象的集合files，来操作每一个对象files[i]；
 用法：DOM操作
 var files=document.getElementById("file");
