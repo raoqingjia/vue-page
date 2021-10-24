@@ -382,6 +382,13 @@ export const routes = [
         component: resolve => require(['@/views/js/inputFile'], resolve)
       },
       {
+        path: '/js/fileType',
+        name: 'File类型',
+        type: "js",
+        created: "2019-12-02",
+        component: resolve => require(['@/views/js/fileType'], resolve)
+      },
+      {
         path: '/js/FileReader',
         name: '利用FileReader在线预览文本文件',
         type: "js",
@@ -397,17 +404,17 @@ export const routes = [
       },
       {
         path: '/js/base64ToBlobToFile',
-        name: 'base64转化为blob,blob转化为file',
+        name: 'blob 转 base64，base64 转 blob，blob转化为file，base64转为file，url 转 base64',
         type: "js",
         created: "2019-12-03",
         component: resolve => require(['@/views/js/base64ToBlobToFile'], resolve)
       },
       {
-        path: '/js/blobAndFile',
-        name: 'blob类、file类型',
+        path: '/js/blobType',
+        name: 'Blob类型',
         type: "js",
         created: "2019-12-03",
-        component: resolve => require(['@/views/js/blobAndFile'], resolve)
+        component: resolve => require(['@/views/js/blobType'], resolve)
       },
       {
         path: '/js/JsBase64',

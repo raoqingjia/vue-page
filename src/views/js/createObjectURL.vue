@@ -55,9 +55,11 @@ js为
 URL.createObjectURL() 静态方法会创建一个 DOMString，其中包含一个表示参数中给出的对象的URL。这个 URL 的生命周期和创建它的窗口中的 document 绑定。这个新的URL 对象表示指定的 File 对象或 Blob 对象。
 URL.createObjectURL() 静态方法会创建一个生成 BlobURL，即创建从 URL 到 Blob 对象的映射关系
 如：blob:http://eg.com/550e8400-e29b-41d4-a716-446655440000
-let blobURL = URL.createObjectURL(object)  // object 创建 URL 的 File 对象、Blob 对象或者 MediaSource 对象
-如下，revokeObjectURL 方法撤消 blobURL 与 Blob 的映射关系，有助于浏览器垃圾回收，提升性能。
-URL.revokeObjectURL(blobURL)
+语法:
+objectURL = window.URL.createObjectURL(blob || file);
+File对象，就是一个文件，比如我用input type="file"标签来上传文件，那么里面的每个文件都是一个File对象。
+Blob对象，就是二进制数据，比如通过new Blob()创建的对象就是Blob对象。
+又比如，在XMLHttpRequest里，如果指定responseType为blob，那么得到的返回值也是一个blob对象。
 *DOMString，BlobURL下两篇文章会详解*
 
 URL.createObjectURL(blob)和FileReader.readAsDataURL(file)很相似，下面是一些整理的区别
@@ -76,10 +78,12 @@ FileReader.readAsDataURL则返回包含很多字符的base64，并会比blob url
 
 优劣对比：
 使用createObjectURL可以节省性能并更快速，只不过需要在不使用的情况下手动释放内存
-如果不太在意设备性能问题，并想获取图片的base64，则推荐使用FileReader.readAsDataURL
-          </pre>
+如果不太在意设备性能问题，并想获取图片的base64，则推荐使用FileReader.readAsDataURL</pre>
           <h3>解析revokeObjectURL</h3>
-          <pre></pre>
+          <pre>
+每次调用createObjectURL时，即使你已经为同一个文件创建过一个URL，也会创建一个新的URL对象。
+如果你不再需要这个对象，需要使用URL.revokeObjectURL()方法释放它。
+虽然当页面被关闭，浏览器会自动释放它，但是为了最佳性能和内存使用，当确保不再用得到它时，就应该释放它。</pre>
         </div>
       </div>
     </div>

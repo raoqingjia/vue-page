@@ -7,7 +7,7 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <img src="../../img/createObjectURL.jpg" style="width: 500px">
+          <h3></h3>
           <pre>
 </pre>
         </div>

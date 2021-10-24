@@ -11,31 +11,31 @@
     /* 让元素做关键帧动画： */
     /* 第一步，创建动画 */
 
-    @keyframes move{
+    @keyframes move {
       /* 0%表示动画开始的关键帧 */
-      0%{
-        transform: translate(0,0);
+      0% {
+        transform: translate(0, 0);
         animation-timing-function: ease-out;
       }
 
-      25%{
-        transform: translate(300px,0);
+      25% {
+        transform: translate(300px, 0);
         animation-timing-function: ease-in;
       }
-      50%{
-        transform: translate(300px,300px);
+      50% {
+        transform: translate(300px, 300px);
       }
-      75%{
-        transform: translate(0px,300px);
+      75% {
+        transform: translate(0px, 300px);
       }
 
       /* 动画结束时的关键帧 */
-      0%{
-        transform: translate(0,0);
+      0% {
+        transform: translate(0, 0);
       }
     }
 
-    #box{
+    #box {
       width: 100px;
       height: 100px;
       background-color: red;
@@ -61,7 +61,8 @@
       /* 动画执行次数，默认为1，设置为infinite表示无限次 */
       animation-iteration-count: infinite;
     }
-    #d2{
+
+    #d2 {
       width: 100px;
       height: 100px;
       background-color: blue;
@@ -69,27 +70,31 @@
       text-align: center;
       line-height: 100px;
     }
-    @keyframes spin{
-      0%{
+
+    @keyframes spin {
+      0% {
         transform: rotate(0deg);
       }
 
-      100%{
+      100% {
         transform: rotate(360deg);
       }
     }
-    .spin{
+
+    .spin {
       animation-name: spin;
       animation-duration: 2s;
       animation-timing-function: linear;
       animation-iteration-count: infinite;
 
     }
-    #d2:hover{
+
+    #d2:hover {
       /* animation-play-state，设置动画执行状态，默认为running，设置为paused可以暂停动画 */
       animation-play-state: paused;
     }
-    #d2:active{
+
+    #d2:active {
       animation-play-state: running;
       animation-direction: reverse;
     }
@@ -97,7 +102,9 @@
 
 </head>
 <body>
-<div id="box"></div>
-<div id="d2" class="spin">旋转动画</div>
+<script>
+
+
+</script>
 </body>
 </html>
