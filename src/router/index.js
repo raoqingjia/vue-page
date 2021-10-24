@@ -889,6 +889,12 @@ export const routes = [
         type: "other",
         created: "2021-03-23",
         component: resolve => require(['@/views/other/avrFramework'], resolve)
+      },     {
+        path: '/other/initProject',
+        name: '对项目初期搭建的一些整理和注意点',
+        type: "other",
+        created: "2021-05-12",
+        component: resolve => require(['@/views/other/initProject'], resolve)
       },
       {
         path: '/java/designMenuSql',
