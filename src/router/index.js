@@ -35,6 +35,11 @@ export const routes = [
         name: 'project',
         component: resolve => require(['@/views/project'], resolve)
       },
+      {
+        path: '/plan',
+        name: 'plan',
+        component: resolve => require(['@/views/plan'], resolve)
+      },
       //H5 案例
       {
         path: '/h5/autocompleteNoWork',

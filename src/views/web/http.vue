@@ -64,7 +64,13 @@ get请求在url中传输的参数长度是有限制的，提交的数据大小�
 对于参数的数据类型，get请求只接受ASCII字符，而post没有限制
 get请求比post请求更不安全，因为参数直接暴露在url上，所以不能用来传递敏感信息
 get请求参数通过url传递，post请求参数只能放在request body中
-GET提交的数据会放在URL之后，以?分割URL和传输数据，参数之间以&相连。POST把提交的数据放在Body中。</pre>
+GET提交的数据会放在URL之后，以?分割URL和传输数据，参数之间以&相连。POST把提交的数据放在Body中。
+
+若要搞明白get与post区别还得从底层分析：
+无论是GET || POST 从底层上我们都要遵守HTTP协议，HTTP协议是什么呢？类似于我们的交通法规，无论你是挂着GET牌照还是POST牌照都要遵从HTTP的要求。
+真正要传输数据还是要看我们TCP传输控制协议（TCP，Transmission Control Protocol）是一种面向连接的、可靠的、基于字节流的传输层通信协议。这是请求和服务端建立连接的暗语。
+这就是TCP https://mp.weixin.qq.com/s/B8xRPxwjJfURyYzTQgIxUw
+          </pre>F
           <h3>细说http的504错误</h3>
           <pre>
 504错误代表网关超时 （Gateway timeout），是指服务器作为网关或代理，但是没有及时从上游服务器收到请求。这通常意味着上游服务器已关闭（不响应网关 / 代理），而不是上游服务器和网关/代理在交换数据的协议上不一致。
