@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h2>防抖与节流研究</h2>
+<h3>1、无任何措施</h3>
+<div>
+  <p>id->input01</p> <input type="text" placeholder="无任何措施" id="input01"/>
+</div>
+<h3>2、防抖(debounce)</h3>
+<p>持续触发的事件不立即执行,触发停止时，过一段时间在执行逻辑代码</p>
+<div>
+  <p>id->input02</p> <input type="text" placeholder="防抖效果" id="input02"/>
+</div>
+<h3>3、节流(throttle)</h3>
+<p>持续触发事件时，不会执行多次，每隔固定的时间执行一次、触发停止时，过一段时间在执行逻辑代码</p>
+<div>
+  <p>id->input03</p> <input type="text" placeholder="节流效果" id="input03"/>
+</div>
+<p>4、防抖节流也算是闭包，这种封装的思想特别好</p>
+<script>
+    // 未防抖效果
+    var input01 = document.getElementById("input01");
+    input01.onkeydown = function (event) {
+        console.log('input01输入一下就打印一下')
+    }
+
+    // 防抖效果
+    var input02 = document.getElementById("input02");
+
+    // 封装防抖方法,重点思想就是事件再次触发就清除上一次事件，以最后一次事件为准
+    function debounce(time, callback) {
+        let timerId = null;
+        return function () {
+            clearTimeout(timerId); // 清除上一个定时器
+            timerId = setTimeout(() => {
+                console.log(timerId);
+                callback()
+            }, time)
+        }
+    }
+
+    // debounce(time, callback) 这个封装的思想特别的好
+    input02.onkeydown = debounce(1000, () => {
+        console.log('input02只执行最后一次');
+    })
+
+    // 节流的效果实现
+    var input03 = document.getElementById("input03");
+
+    //  封装节流方法
+    function throttle(time, callback) {
+        // 定义一个开始事件戳
+        let startTime = Date.now();
+        // 定义一个定时器
+        let timerId = null;  // timerId 是声明在throttle这个方法里，外部调取不到而且和下面的clearTimeout成对
+        return function () {
+            clearTimeout(timerId); // 清除上一个定时器
+            // 每隔固定的时间执行一次
+            console.log(startTime);
+            if (Date.now() - startTime > time) {
+                callback();
+                // 开始时间重新赋值
+                startTime = Date.now()
+            } else {
+                // 触发停止时，过一段时间在执行逻辑代码
+                timerId = setTimeout(() => {
+                    callback()
+                }, time)
+            }
+        }
+    }
+
+    input03.onkeydown = throttle(1000, () => {
+        console.log('input03节流');
+    })
+    // 重点理解下面这句话 不然方法中startTime timerId 可能意识不到是干什么的
+    // throttle,debounce是声明的事件方法，最后每次触发使用的逻辑是return function ()返回方法中的逻辑
+</script>
+</body>
+</html>

@@ -14,6 +14,7 @@ const store = new Vuex.Store({
     headerNav: [
       {name: '首页', path: '/index', active: true},
       {name: '作品', path: '/project', active: false},
+      {name: '案例', path: '/demo', active: false},
       {name: '计划', path: '/plan', active: false}
     ],
     caseNav: [

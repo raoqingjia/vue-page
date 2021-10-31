@@ -11,8 +11,7 @@
       <ul class="clearfix plan-li">
         <li>前端异常信息监控</li>
         <li>JavaScript语言精粹阅读</li>
-        <li>flex解析</li>
-        <li>Vue全家桶+SSR+Koa2全栈开发美团网</li>
+        <li>flex笔记</li>
       </ul>
     </div>
   </div>

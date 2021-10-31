@@ -36,6 +36,11 @@ export const routes = [
         component: resolve => require(['@/views/project'], resolve)
       },
       {
+        path: '/demo',
+        name: 'plan',
+        component: resolve => require(['@/views/demo'], resolve)
+      },
+      {
         path: '/plan',
         name: 'plan',
         component: resolve => require(['@/views/plan'], resolve)
@@ -901,6 +906,20 @@ export const routes = [
         type: "other",
         created: "2021-05-12",
         component: resolve => require(['@/views/other/initProject'], resolve)
+      },
+      {
+        path: '/other/debounceAndThrottle',
+        name: '防抖和节流',
+        type: "other",
+        created: "2021-06-11",
+        component: resolve => require(['@/views/other/debounceAndThrottle'], resolve)
+      },
+      {
+        path: '/other/backflowRredraw',
+        name: '回流和重绘',
+        type: "other",
+        created: "2021-06-11",
+        component: resolve => require(['@/views/other/backflowRredraw'], resolve)
       },
       {
         path: '/java/designMenuSql',
