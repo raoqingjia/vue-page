@@ -455,7 +455,7 @@ export const routes = [
         component: resolve => require(['@/views/js/blobURLAndDataURL'], resolve)
       },
       {
-        path: '/js/FileReader',
+        path: '/js/callAndApply',
         name: 'js中call()和apply()方法',
         type: "js",
         created: "2020-02-15",
