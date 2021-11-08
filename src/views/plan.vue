@@ -13,6 +13,8 @@
         <li>JavaScript语言精粹阅读</li>
         <li>flex解析</li>
         <li>Vue全家桶+SSR+Koa2全栈开发美团网</li>
+        <li>Babel笔记记录</li>
+        <li>React笔记整理</li>
       </ul>
     </div>
   </div>
