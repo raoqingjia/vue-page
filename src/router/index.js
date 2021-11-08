@@ -922,6 +922,13 @@ export const routes = [
         component: resolve => require(['@/views/other/backflowRredraw'], resolve)
       },
       {
+        path: '/other/promiseErrorUndefined',
+        name: 'ERROR Error: Uncaught (in promise): TypeError: Cannot read property "name" of undefined',
+        type: "other",
+        created: "2021-06-28",
+        component: resolve => require(['@/views/other/promiseErrorUndefined'], resolve)
+      },
+      {
         path: '/java/designMenuSql',
         name: '关于头部一级导航菜单sql表结构思路',
         type: "java",
