@@ -929,6 +929,13 @@ export const routes = [
         component: resolve => require(['@/views/other/promiseErrorUndefined'], resolve)
       },
       {
+        path: '/other/vueIeSCRIPT',
+        name: 'vue项目在IE上显示空白 报错SCRIPT1006: 缺少 “)”',
+        type: "other",
+        created: "2021-06-28",
+        component: resolve => require(['@/views/other/vueIeSCRIPT'], resolve)
+      },
+      {
         path: '/java/designMenuSql',
         name: '关于头部一级导航菜单sql表结构思路',
         type: "java",
