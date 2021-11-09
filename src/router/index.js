@@ -457,10 +457,17 @@ export const routes = [
         component: resolve => require(['@/views/js/callAndApply'], resolve)
       },
       {
+        path: '/js/instancesAndObjects',
+        name: 'js中实例与对象的区别',
+        type: "js",
+        created: "2020-03-11",
+        component: resolve => require(['@/views/js/instancesAndObjects'], resolve)
+      },
+      {
         path: '/js/jsCopy',
         name: 'JS实现复制功能',
         type: "js",
-        created: "2020-02-28",
+        created: "2020-03-28",
         component: resolve => require(['@/views/js/jsCopy'], resolve)
       },
       //jquery案例
@@ -936,6 +943,13 @@ export const routes = [
         type: "other",
         created: "2021-07-28",
         component: resolve => require(['@/views/other/vueData'], resolve)
+      },
+      {
+        path: '/other/vueInterview',
+        name: 'Vue面试题整理',
+        type: "other",
+        created: "2021-07-28",
+        component: resolve => require(['@/views/other/vueInterview'], resolve)
       },
       {
         path: '/java/designMenuSql',

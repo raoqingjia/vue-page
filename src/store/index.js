@@ -10,7 +10,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   // 定义状态
   state: {
-    listTab: storage.getItem('listTab'),
+    listTab: storage.getItem('listTab')||'all',
     headerNav: [
       {name: '笔记', path: '/index', active: true},
       {name: '案例', path: '/list', active: false},
@@ -18,6 +18,7 @@ const store = new Vuex.Store({
       {name: '计划', path: '/plan', active: false}
     ],
     caseNav: [
+      {text: "All", code: 'all', img: require('../img/list-icon.png'), description: "全部案例，可通过关键字搜索"},
       {text: "Html/H5", code: 'h5', img: require('../img/html-icon.png'), description: "Html/H5的特性、相关案例"},
       {text: "css/css3", code: 'css', img: require('../img/css-icon.png'), description: "css原有样式、新增css3"},
       {text: "JavaScript", code: 'js', img: require('../img/js-icon.png'), description: "JS原生函数及各属性"},
@@ -26,7 +27,6 @@ const store = new Vuex.Store({
       {text: "插件", code: 'plugin', img: require('../img/plugin-icon.png'), description: "常用插件文档，Bug解决方案"},
       {text: "前端杂项", code: 'other', img: require('../img/plugin-icon.png'), description: "平常项目中遇到的各种问题"},
       {text: "Java", code: 'java', img: require('../img/java-icon.png'), description: "java问题解析"},
-      {text: "All", code: 'all', img: require('../img/list-icon.png'), description: "全部案例，可通过关键字搜索"}
     ],
     emotionPassword: storage.getItem('emotionPassword'),
     footerShow: storage.getItem('footerShow')
@@ -52,5 +52,5 @@ const store = new Vuex.Store({
     footerShow: state => state.footerShow
   }
 });
-
+console.log(store.state);
 export default store
