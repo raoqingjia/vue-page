@@ -1,21 +1,21 @@
 <template>
   <div class="base inner">
       <div class="content">
-          <h2>案例记录</h2>
-          <ul class="clearfix">
-            <li v-for="items in caseNav">
-              <a href="javascript:;" @click="urlFun(items.code)" >
-                <div class="img">
-                  <img :src="items.img">
-                </div>
-                <div class="text">
-                  <h3 v-html="items.text"></h3>
-                  <p v-html="items.description"></p>
-                  <p>共计<span>{{case_count(items.code)}}</span>个案例</p>
-                </div>
-              </a>
-            </li>
-          </ul>
+<!--          <h2>案例记录</h2>-->
+<!--          <ul class="clearfix">-->
+<!--            <li v-for="items in caseNav">-->
+<!--              <a href="javascript:;" @click="urlFun(items.code)" >-->
+<!--                <div class="img">-->
+<!--                  <img :src="items.img">-->
+<!--                </div>-->
+<!--                <div class="text">-->
+<!--                  <h3 v-html="items.text"></h3>-->
+<!--                  <p v-html="items.description"></p>-->
+<!--                  <p>共计<span>{{case_count(items.code)}}</span>个案例</p>-->
+<!--                </div>-->
+<!--              </a>-->
+<!--            </li>-->
+<!--          </ul>-->
         <h2>前端笔记</h2>
         <ul class="clearfix">
           <li v-for="items in webNav">

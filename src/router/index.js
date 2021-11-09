@@ -36,11 +36,6 @@ export const routes = [
         component: resolve => require(['@/views/project'], resolve)
       },
       {
-        path: '/demo',
-        name: 'plan',
-        component: resolve => require(['@/views/demo'], resolve)
-      },
-      {
         path: '/plan',
         name: 'plan',
         component: resolve => require(['@/views/plan'], resolve)
@@ -932,8 +927,15 @@ export const routes = [
         path: '/other/vueIeSCRIPT',
         name: 'vue项目在IE上显示空白 报错SCRIPT1006: 缺少 “)”',
         type: "other",
-        created: "2021-06-28",
+        created: "2021-07-12",
         component: resolve => require(['@/views/other/vueIeSCRIPT'], resolve)
+      },
+      {
+        path: '/other/vueData',
+        name: 'vue的data为什么是函数类型',
+        type: "other",
+        created: "2021-07-28",
+        component: resolve => require(['@/views/other/vueData'], resolve)
       },
       {
         path: '/java/designMenuSql',

@@ -12,9 +12,9 @@ const store = new Vuex.Store({
   state: {
     listTab: storage.getItem('listTab'),
     headerNav: [
-      {name: '首页', path: '/index', active: true},
+      {name: '笔记', path: '/index', active: true},
+      {name: '案例', path: '/list', active: false},
       {name: '作品', path: '/project', active: false},
-      {name: '案例', path: '/demo', active: false},
       {name: '计划', path: '/plan', active: false}
     ],
     caseNav: [
