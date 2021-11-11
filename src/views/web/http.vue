@@ -10,17 +10,16 @@
           <ul class="catalogue">
             <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
           </ul>
-          <h3>http请求过程</h3>
+
+          <h3>http的工作流程</h3>
           <pre>
-在我们向服务器发送一个HTTP请求时，会经历tcp连接（三次握手），发送HTTP请求，服务器返回HTTP响应，浏览器对响应中的状态码进行分析判断，来确定请求是否成功，是否成功得到我们需要的信息。
-一个完整的HTTP请求过程，通常有下面7个步骤：
-1.建立TCP连接
-2.Web浏览器向Web服务器发送请求命令
-3.Web浏览器发送请求头信息
-4.Web服务器应答
-5.Web服务器发送应答头信息
-6.Web服务器想浏览器发送数据
-7.Web服务器关闭TCP连接
+第一步：建立TCP/IP连接，客户端与服务器通过Socket三次握手进行连接
+第二步：客户端向服务端发起HTTP请求（例如：POST/login.html http/1.1）
+第三步：客户端发送请求头信息，请求内容，最后会发送一空白行，标示客户端请求完毕
+第四步：服务器做出应答，表示对于客户端请求的应答，例如：HTTP/1.1 200 OK
+第五步：服务器向客户端发送应答头信息
+第六步：服务器向客户端发送请求头信息后，也会发送一空白行，标示应答头信息发送完毕，接着就以Content-type要求的数据格式发送数据给客户端
+第七步：服务端关闭TCP连接，如果服务器或者客户端增Connection:keep-alive就表示客户端与服务器端继续保存连接，在下次请求时可以继续使用这次的连接
 
 一个HTTP请求一般由四部分组成：
 1.HTTP请求的方法或动作，比如是GET还是POST请求
@@ -28,6 +27,19 @@
 3.请求头，包含一些客户端环境信息，身份证信息等
 4.请求体，也就是请求正文，请求正文可以包含提交的查询字符串信息，表单信息等
 </pre>
+          <h3>tcp三次握手</h3>
+          <pre>
+客户端和服务端都需要直到各自可收发，因此需要三次握手。
+            https://blog.csdn.net/qq_27053493/article/details/102481042
+          </pre>
+          <h3>connection为keep-alive是什么意思</h3>
+        <pre>
+https://blog.csdn.net/leelxp/article/details/108096660
+        </pre>
+          <h3>http与https的区别</h3>
+          <pre>
+
+          </pre>
           <h3>http协议中常见响应状态码</h3>
           <pre>
 http状态码
