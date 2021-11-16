@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h2>Object.defineProperty()在vue中实现数据双向绑定案例</h2>
+<div id="app">init hello</div>
+<script>
+    // 模拟vue中的data选项
+    let dataSingle = {
+        msg: 'hello'
+    };
+    let vmSingle = {}; // 模拟vue实例
+    // 模拟数据劫持，当访问或者设置vmSingle中成员的成员时候，做一些干预操作
+    Object.defineProperty(vmSingle, 'dataSingle', {
+        enumerable: true,  // 枚举值，可便利
+        configurable: true, // 可配置，可使用delete删除，可通过defineProperty重新定义
+        get() {  // 当获取值是操作
+            console.log('get', dataSingle.msg);
+            return dataSingle.msg
+        },
+        set(newValue) {  // 设置值时执行
+            console.log('set', newValue);
+            if (newValue === dataSingle.msg) {
+                return
+            }
+            dataSingle.msg = newValue;
+            document.querySelector('#app').textContent = dataSingle.msg;
+        }
+    });
+    vmSingle.msg = 'hello world';
+    console.log(vmSingle.msg);
+    // 当console控制台中执行vmSingle.dataSingle='test hello world';html中的的#app内容也会变成test hello world
+
+    // -----------------模拟data中多个值的效果-----------------------
+    let dataMultiple = {
+        msg: 'dataMultiple',
+        count: 0
+    };
+    let vmMultiple = {}; // 模拟vue实例
+    proxyData(dataMultiple);
+
+    function proxyData(data) {
+        // 遍历data对象中所有属性，
+        // vue3.0之所以抛弃Object.defineProperty就是因为全部遍历性能太低，尤其是数据中出现多层对象加数组对象的情况
+        // 还有就是无法捕获数组下标的监听
+        Object.keys(data).forEach(key => {
+            Object.defineProperty(vmMultiple, key, {
+                enumerable: true,  // 枚举值，可便利
+                configurable: true, // 可配置，可使用delete删除，可通过defineProperty重新定义
+                get() {  // 当获取值是操作
+                    console.log('get', key, dataMultiple[key]);
+                    return dataMultiple[key]
+                },
+                set(newValue) {  // 设置值时执行
+                    console.log('set', key, newValue);
+                    if (newValue === dataMultiple[key]) {
+                        return
+                    }
+                    dataMultiple[key] = newValue;
+                    document.querySelector('#app').textContent = dataMultiple[key];
+                }
+            });
+        })
+    }
+
+    // 当console控制台中执行vmMultiple.msg='3333333333';html中的的#app内容也会变成3333333333
+
+</script>
+</body>
+</html>
