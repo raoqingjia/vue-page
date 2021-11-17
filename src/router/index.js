@@ -470,6 +470,13 @@ export const routes = [
         created: "2020-03-28",
         component: resolve => require(['@/views/js/jsCopy'], resolve)
       },
+      {
+        path: '/js/learnClosure',
+        name: '什么是闭包',
+        type: "js",
+        created: "2020-04-05",
+        component: resolve => require(['@/views/js/learnClosure'], resolve)
+      },
       //jquery案例
       {
         path: '/jq/domMoreEvents',

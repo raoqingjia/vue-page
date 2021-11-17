@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Title</title>
 </head>
 <body>
 <script>
-
-   console.log(Number(null))
+  var name = "The Window";
+  var object = {
+    name : "My Object",
+    getNameFunc : function(){
+      return this.name;
+    }
+  };
+  alert(object.getNameFunc());  //"The Window"
 </script>
 </body>
 </html>

@@ -33,128 +33,79 @@ DNS解析、TCP握手、HTTP缓存、重定向、服务器状态码、渲染引�
 渲染过程就是先将HTML转换成dom树，再将CSS样式转换成stylesheet，根据dom树和stylesheet创建布局树，对布局树进行分层，为每个图层生成绘制列表，再将图层分成图块，紧接着光栅化将图块转换成位图，最后合成绘制生成页面。
 加分回答
 整个流程中涉及到浏览器的浏览器进程、网路进程和渲染进程
-            【延伸阅读】
+【延伸阅读】
 浏览器查找域名的 IP 地址
-1.    浏览器会首先查看本地硬盘的 hosts 文件，看看其中有没有和这个域名对应的规则，如果有的话就直接使用 hosts 文件里面的 ip 地址。
-2.    如果在本地的 hosts 文件没有能够找到对应的 ip 地址，浏览器会发出一个 DNS请求到本地DNS服务器 。本地DNS服务器一般都是你的网络接入服务器商提供，比如中国电信，中国移动。
-3.    查询你输入的网址的DNS请求到达本地DNS服务器之后，本地DNS服务器会首先查询它的缓存记录，如果缓存中有此条记录，就可以直接返回结果，此过程是递归的方式进行查询。如果没有，本地DNS服务器还要向DNS根服务器进行查询。
-4.    根DNS服务器没有记录具体的域名和IP地址的对应关系，而是告诉本地DNS服务器，你可以到域服务器上去继续查询，并给出域服务器的地址。这种过程是迭代的过程。
-5.    本地DNS服务器继续向域服务器发出请求，在这个例子中，请求的对象是.com域服务器。.com域服务器收到请求之后，也不会直接返回域名和IP地址的对应关系，而是告诉本地DNS服务器，你的域名的解析服务器的地址。
-6.    本地DNS服务器向域名的解析服务器发出请求，这时就能收到一个域名和IP地址对应关系，本地DNS服务器不仅要把IP地址返回给用户电脑，还要把这个对应关系保存在缓存中，以备下次别的用户查询时，可以直接返回结果，加快网络访问。
+1.浏览器会首先查看本地硬盘的 hosts 文件，看看其中有没有和这个域名对应的规则，如果有的话就直接使用 hosts 文件里面的 ip 地址。
+2.如果在本地的 hosts 文件没有能够找到对应的 ip 地址，浏览器会发出一个 DNS请求到本地DNS服务器 。本地DNS服务器一般都是你的网络接入服务器商提供，比如中国电信，中国移动。
+3.查询你输入的网址的DNS请求到达本地DNS服务器之后，本地DNS服务器会首先查询它的缓存记录，如果缓存中有此条记录，就可以直接返回结果，此过程是递归的方式进行查询。如果没有，本地DNS服务器还要向DNS根服务器进行查询。
+4.根DNS服务器没有记录具体的域名和IP地址的对应关系，而是告诉本地DNS服务器，你可以到域服务器上去继续查询，并给出域服务器的地址。这种过程是迭代的过程。
+5.本地DNS服务器继续向域服务器发出请求，在这个例子中，请求的对象是.com域服务器。.com域服务器收到请求之后，也不会直接返回域名和IP地址的对应关系，而是告诉本地DNS服务器，你的域名的解析服务器的地址。
+6.本地DNS服务器向域名的解析服务器发出请求，这时就能收到一个域名和IP地址对应关系，本地DNS服务器不仅要把IP地址返回给用户电脑，还要把这个对应关系保存在缓存中，以备下次别的用户查询时，可以直接返回结果，加快网络访问。
           </pre>
           <h3>说一说你对闭包的理解？</h3>
-          <pre>
-【得分点】
-
+          <pre>【得分点】
 变量背包、作用域链、局部变量不销毁、函数体外访问函数的内部变量、内存泄漏、内存溢出、形成块级作用域、柯里化、构造函数中定义特权方法、Vue中数据响应式Observer
-
 【参考答案】
-
 标准回答
-
 闭包
-
 一个函数和词法环境的引用捆绑在一起，这样的组合就是闭包（closure）。一般就是一个函数A，return其内部的函数B，被return出去的B函数能够在外部访问A函数内部的变量，这时候就形成了一个B函数的变量背包，A函数执行结束后这个变量背包也不会被销毁，并且这个变量背包在A函数外部只能通过B函数访问。
-
 闭包形成的原理：作用域链，当前作用域可以访问上级作用域中的变量
-
 闭包解决的问题：能够让函数作用域中的变量在函数执行结束之后不被销毁，同时也能在函数外部可以访问函数内部的局部变量。
-
 闭包带来的问题：由于垃圾回收器不会将闭包中变量销毁，于是就造成了内存泄露，内存泄露积累多了就容易导致内存溢出。
-
 加分回答
-
 闭包的应用，能够模仿块级作用域，能够实现柯里化，在构造函数中定义特权方法、Vue中数据响应式Observer中使用闭包等。
-
 【延伸阅读】
-
 闭包形成块级作用域
 for(var i = 0; i < 5; i++) {
-
-    (function(j){
-
-        setTimeout(() => {
-
-            console.log(j);
-
-        }, j * 1000);
-
-    })(i)
-
+  (function(j){
+      setTimeout(() => {
+          console.log(j);
+      }, j * 1000);
+  })(i)
 }
+(function(){
+ //这里就是块级作用域
+})();
 
 实现柯里化
-
 // 非柯里化
-
 function check(reg, txt) {
-
-    return reg.test(txt)
-
+  return reg.test(txt)
 }
-
 check(/^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/, '15123422345')      //true
 
 // Currying后
-
 function curryingCheck(reg) {
-
-    return function (txt) {
-
-        return reg.test(txt)
-
-    }
-
+  return function (txt) {
+      return reg.test(txt)
+  }
 }
 
 构造函数中定义特权方法
-
 function MyObject() {
-
-    // 私有变量和私有函数
-
-    var privateVariable = 10;
-
-    function privateFunction() {
-
-        return false;
-
-    }
-
-    // 特权方法
-
-    this.publicMethod = function() {
-
-        privateVariable++;
-
-        return privateFunction;
-
-    }
-
+  // 私有变量和私有函数
+  var privateVariable = 10;
+  function privateFunction() {
+      return false;
+  }
+// 特权方法
+  this.publicMethod = function() {
+      privateVariable++;
+      return privateFunction;
+  }
 }
 
 Vue中数据响应式Observer(省略闭包之外的相关逻辑)，保证设置、获取操作的是同一个变量
-
 function defineReactive(obj, key, value) {
-
-    return Object.defineProperty(obj, key, {
-
-        get() {
-
-            return value;
-
-        },
-
-        set(newVal) {
-
-            value = newVal;
-
-        }
-
-    })
-
-}
-          </pre>
+  return Object.defineProperty(obj, key, {
+      get() {
+          return value;
+      },
+      set(newVal) {
+          value = newVal;
+      }
+  })
+}</pre>
           <h3>代码var foo = "10"+3-"1";console.log(foo);执行后，foo的值为( )</h3>
           <pre>
 正确答案: B
@@ -450,5 +401,7 @@ cmd 规范 https://github.com/seajs/seajs/issues/242
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+ul.catalogue li{
+  float: none!important;
+}
 </style>
