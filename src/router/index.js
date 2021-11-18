@@ -968,12 +968,20 @@ export const routes = [
         component: resolve => require(['@/views/framework/vueInterview'], resolve)
       },
       {
+        path: '/framework/mvvmAndMvm',
+        name: 'mvvm模式和mvc的区别',
+        type: "framework",
+        created: "2021-09-01",
+        component: resolve => require(['@/views/framework/mvvmAndMvm'], resolve)
+      },
+      {
         path: '/framework/vueTwoWayDataBinding',
         name: 'vue双向数据绑定原理',
         type: "framework",
         created: "2021-10-11",
         component: resolve => require(['@/views/framework/vueTwoWayDataBinding'], resolve)
       },
+      //JAVA 类
       {
         path: '/java/designMenuSql',
         name: '关于头部一级导航菜单sql表结构思路',
