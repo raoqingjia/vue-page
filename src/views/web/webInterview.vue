@@ -13,12 +13,50 @@
           </ul>
           <h3>TCP（传输控制协议）是什么？</h3>
           <pre>
-
-          </pre>
+标准回答
+TCP是传输控制协议，是TCP/IP体系中非常复杂的一个协议，属于运输层协议。与UDP协议一样用于处理应用层的数据。它和UDP一样具有复用和分用的功能以及可靠传输的功能。TCP的主要特点是：面向连接、单播、可靠交付、全双工通讯、面向字节流、头部开销大。
+加分回答
+TCP是传输控制协议，是TCP/IP体系中非常复杂的一个协议，属于运输层协议。与UDP协议一样用于处理应用层的数据。它和UDP一样具有复用和分用的功能以及差错检测的功能。UDP的主要特点是：
+面向连接。应用程序在使用TCP之前必须两端之间先建立TCP连接。当确认数据传输完成之后，必须要释放TCP连接。
+单播。TCP只能有两个端点，进行点对点的传输，不支持多播和广播传输。
+可靠交付。通过TCP连接传送的数据是没有差错、不会丢失、不重复并且按序到达的。
+全双工通信。TCP允许连接的双方可以在任何时候发送数据，双方都有发送缓存和接收缓存。应用程序把数据给发送缓存之后就可以做其他的事情了，TCP发送缓存会在合适的时候自己把缓存中的数据发送出去。在接受的时候TCP会把数据存进接收缓存，上层应用程序会在合适的时候读取数据。也正因为是全双工通信方式，建立连接时最少需要三次信息确认，也就是三次握手，断开连接时最少需要四次信息确认，也就是所谓的四次挥手。
+面向字节流。TC不像UDP每一个数据报独立传输，而是在不保留报文边界的情况下以字节流的方式进行传输，这也是长连接的由来。TCP中的“流”就是指流入到进程或从进程流出的字节序列。
+头部开销大。最小20字节，最大60字节。加上TCP的可靠传输机制功能的影响，数据传输效率比UDP慢很多。</pre>
           <h3>React事件绑定原理</h3>
           <pre>
+解释React事件绑定原理讲述之前先理解下面案例：
+demo1: < div onclick="handle()">ni< /div>
+demo2: render() { return < div onClick={this.handle}>ni< /div> }
+虽然两个例子都是通过标签内嵌的方式将click事件进行绑定，但其中的原理是不一样的，demo1是采用原生的事件处理，demo2是采用react的合成事件机制处理；
+原生事件与合成事件的区别：
+1.原生的事件绑定是采用小写字母onclick，而react则是采用驼峰命名方式写onClick；
+2.执行时机不同，合适事件全部委托到document上，而原生事件绑定到DOM元素本身
+3.原生事件绑定的是一个js的"handle()"字符串，而react采用的是this.handle一个函数的指针；
 
-          </pre>
+React事件绑定原理
+理解：react中的事件都是合成事件，不是把每一个dom的事件绑定在dom上，而是把事件统一绑定到document中，触发时通过事件冒泡到document进行触发合成事件，因为是合成事件，所以我们无法去使用e.stopPropagation去阻止，而是使用e.preventDefault去阻止。
+1.事件注册：组件更新或者装载时，在给dom增加合成事件时，需要将增加的target传入到document进行判断，给document注册原生事件回调为dispatchEvent(统一的事件分发机制)。
+2.事件存储：EventPluginHub负责管理React合成事件的callback,它将callback存储到listennerBank中，另外还存储了负责合成事件的Plugin，Event存储到listennerbank中，每一个元素在listennerBank中会有唯一的key。
+3.事件触发执行：点击时冒泡到docunment中，触发注册原生事件的回调dispatchEvent，获取到触发这个事件的最深层元素，事件执行利用react的批处理机制。
+案例
+< div onClick={this.parentClick} ref={ref => this.parent = ref}>
+< div onClick={this.childClick} ref={ref => this.child = ref}>test< /div>
+< /div>
+点击test后
+1）首先获取到this.child
+2）遍历此元素的所有父元素，依次对每一级元素进行处理
+3）构成合成事件
+4）将每一级的合成事件存储在eventQueen事件队列中
+5）遍历，是否组织冒泡，是则停止，否则继续
+6）释放已经完成的事件
+4.合成事件：循环所有类型的eventPlugin，对应每个事件类型，生成不同的事件池，如果是空，则生成新的，有则用之前的，根据唯一key获取到指定的回调函数，再返回带有参数的回调函数。
+5.总流程：组件装载/更新 -- 新增/删除事件 -- eventplugin添加到ListennerBank中监听事件 -- 触发事件 -- 生成合成事件 -- 通过唯一key获取到指定函数 -- 执行指定回调函数 -- 执行完毕后释放
+
+连接文章
+https://www.jb51.net/article/151921.htm
+https://zhuanlan.zhihu.com/p/49067231
+https://blog.csdn.net/weixin_34090562/article/details/88702472?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link</pre>
           <h3>说一下浏览器输入URL发生了什么？</h3>
           <pre>
 【得分点】
