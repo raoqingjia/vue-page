@@ -7,7 +7,7 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <h3>ie浏览器中调试出错位置</h3>
+          <pre>ie浏览器中调试出错位置</pre>
           <img src="../../img/vueIeSCRIPT.png" alt="报错信息" height="250px" width="800px">
           <pre>
 问题原因，我新增了引入了crypto-js用来做加密处理，但是引入完之后在ie11中宝报
@@ -32,8 +32,7 @@ module: {
         resolve("node_modules/_crypto-js@4.1.1@crypto-js"),   <-- 这个位置
         resolve("node_modules/webpack-dev-server/client")
       ]
-    },
-          </pre>
+    },</pre>
           <h3>项目中安装babel-polyfill，进行配置</h3>
           <pre>
 1、安装: npm instatll babel-polyfill --save

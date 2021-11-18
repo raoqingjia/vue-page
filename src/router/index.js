@@ -945,6 +945,13 @@ export const routes = [
         component: resolve => require(['@/views/other/vueIeSCRIPT'], resolve)
       },
       {
+        path: '/other/cryptoJsInIEError',
+        name: 'crypto-js在ie浏览器中因为兼容性问题报错',
+        type: "other",
+        created: "2021-07-12",
+        component: resolve => require(['@/views/other/cryptoJsInIEError'], resolve)
+      },
+      {
         path: '/other/vueData',
         name: 'vue的data为什么是函数类型',
         type: "other",
