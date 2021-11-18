@@ -7,7 +7,7 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <img src="../../img/cors.png" alt="跨域截图" height="250px" width="800px">
+          <img src="../img/cors.png" alt="跨域截图" height="250px" width="800px">
           <h3></h3>
           <pre></pre>
         </div>

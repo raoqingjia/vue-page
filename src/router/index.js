@@ -732,6 +732,7 @@ export const routes = [
         created: "2020-04-05",
         component: resolve => require(['@/views/plugin/dayjs'], resolve)
       },
+      // 前端杂项
       {
         path: '/other/browser',
         name: "关于IE浏览器",
@@ -749,13 +750,6 @@ export const routes = [
         component: resolve => require(['@/views/other/xFrameOptions'], resolve)
       },
       {
-        path: '/other/angularCliBuild',
-        name: 'Angular Cli打包的事',
-        type: "other",
-        created: "2019-03-02",
-        component: resolve => require(['@/views/other/angularCliBuild'], resolve)
-      },
-      {
         path: '/other/npmBuildOutOfMemory',
         name: 'npm run build时报错FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed -错误',
         type: "other",
@@ -768,20 +762,6 @@ export const routes = [
         type: "other",
         created: "2019-03-07",
         component: resolve => require(['@/views/other/jsFetch'], resolve)
-      },
-      {
-        path: '/other/angular4to5',
-        name: 'Angular4升级到5版本',
-        type: "other",
-        created: "2019-04-05",
-        component: resolve => require(['@/views/other/angular4to5'], resolve)
-      },
-      {
-        path: '/other/angular5to6',
-        name: 'Angular5升级到6版本',
-        type: "other",
-        created: "2019-05-05",
-        component: resolve => require(['@/views/other/angular5to6'], resolve)
       },
       {
         path: '/other/httpReferer',
@@ -840,27 +820,6 @@ export const routes = [
         component: resolve => require(['@/views/other/webpackEnv'], resolve)
       },
       {
-        path: '/other/vue.config.js',
-        name: 'vue-cli3 之vue.config.js配置',
-        type: "other",
-        created: "2020-03-21",
-        component: resolve => require(['@/views/other/vueConfigJs'], resolve)
-      },
-      {
-        path: '/other/reactIeError',
-        name: 'react 17.0.1 项目再ie下运行报错',
-        type: "other",
-        created: "2020-12-20",
-        component: resolve => require(['@/views/other/reactIeError'], resolve)
-      },
-      {
-        path: '/other/reactVueAngularDiff',
-        name: 'React、Vue、Angular的理解',
-        type: "other",
-        created: "2021-01-28",
-        component: resolve => require(['@/views/other/reactVueAngularDiff'], resolve)
-      },
-      {
         path: '/other/cloneDeep',
         name: '如何实现深拷贝',
         type: "other",
@@ -903,13 +862,6 @@ export const routes = [
         component: resolve => require(['@/views/other/indexedDB'], resolve)
       },
       {
-        path: '/other/avrFramework',
-        name: 'angular、react、vue谁更适合大型项目应用？',
-        type: "other",
-        created: "2021-03-23",
-        component: resolve => require(['@/views/other/avrFramework'], resolve)
-      },
-      {
         path: '/other/initProject',
         name: '对项目初期搭建的一些整理和注意点',
         type: "other",
@@ -938,32 +890,89 @@ export const routes = [
         component: resolve => require(['@/views/other/promiseErrorUndefined'], resolve)
       },
       {
-        path: '/other/vueIeSCRIPT',
-        name: 'vue项目在IE上显示空白 报错SCRIPT1006: 缺少 “)”',
-        type: "other",
-        created: "2021-07-12",
-        component: resolve => require(['@/views/other/vueIeSCRIPT'], resolve)
-      },
-      {
         path: '/other/cryptoJsInIEError',
         name: 'crypto-js在ie浏览器中因为兼容性问题报错',
         type: "other",
         created: "2021-07-12",
         component: resolve => require(['@/views/other/cryptoJsInIEError'], resolve)
       },
+      // 前端框架
       {
-        path: '/other/vueData',
-        name: 'vue的data为什么是函数类型',
-        type: "other",
-        created: "2021-07-28",
-        component: resolve => require(['@/views/other/vueData'], resolve)
+        path: '/framework/angularCliBuild',
+        name: 'Angular Cli打包的事',
+        type: "framework",
+        created: "2019-03-02",
+        component: resolve => require(['@/views/framework/angularCliBuild'], resolve)
       },
       {
-        path: '/other/vueInterview',
-        name: 'Vue面试题整理',
-        type: "other",
+        path: '/framework/angular4to5',
+        name: 'Angular4升级到5版本',
+        type: "framework",
+        created: "2019-04-05",
+        component: resolve => require(['@/views/framework/angular4to5'], resolve)
+      },
+      {
+        path: '/framework/angular5to6',
+        name: 'Angular5升级到6版本',
+        type: "framework",
+        created: "2019-05-05",
+        component: resolve => require(['@/views/framework/angular5to6'], resolve)
+      },
+      {
+        path: '/framework/vue.config.js',
+        name: 'vue-cli3 之vue.config.js配置',
+        type: "framework",
+        created: "2020-03-21",
+        component: resolve => require(['@/views/framework/vueConfigJs'], resolve)
+      },
+      {
+        path: '/framework/reactIeError',
+        name: 'react 17.0.1 项目再ie下运行报错',
+        type: "framework",
+        created: "2020-12-20",
+        component: resolve => require(['@/views/framework/reactIeError'], resolve)
+      },
+      {
+        path: '/framework/reactVueAngularDiff',
+        name: 'React、Vue、Angular的理解',
+        type: "framework",
+        created: "2021-01-28",
+        component: resolve => require(['@/views/framework/reactVueAngularDiff'], resolve)
+      },
+      {
+        path: '/framework/avrFramework',
+        name: 'angular、react、vue谁更适合大型项目应用？',
+        type: "framework",
+        created: "2021-03-23",
+        component: resolve => require(['@/views/framework/avrFramework'], resolve)
+      },
+      {
+        path: '/framework/vueIeSCRIPT',
+        name: 'vue项目在IE上显示空白 报错SCRIPT1006: 缺少 “)”',
+        type: "framework",
+        created: "2021-07-12",
+        component: resolve => require(['@/views/framework/vueIeSCRIPT'], resolve)
+      },
+      {
+        path: '/framework/vueData',
+        name: 'vue的data为什么是函数类型',
+        type: "framework",
         created: "2021-07-28",
-        component: resolve => require(['@/views/other/vueInterview'], resolve)
+        component: resolve => require(['@/views/framework/vueData'], resolve)
+      },
+      {
+        path: '/framework/vueInterview',
+        name: 'Vue面试题整理',
+        type: "framework",
+        created: "2021-07-28",
+        component: resolve => require(['@/views/framework/vueInterview'], resolve)
+      },
+      {
+        path: '/framework/vueTwoWayDataBinding',
+        name: 'vue双向数据绑定原理',
+        type: "framework",
+        created: "2021-10-11",
+        component: resolve => require(['@/views/framework/vueTwoWayDataBinding'], resolve)
       },
       {
         path: '/java/designMenuSql',

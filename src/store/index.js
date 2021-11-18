@@ -25,6 +25,7 @@ const store = new Vuex.Store({
       {text: "jQuery", code: 'jq', img: require('../img/jq-icon.png'), description: "各个属性及案例分析"},
       {text: "移动端", code: 'app', img: require('../img/app-icon.png'), description: "移动端bug分析记录"},
       {text: "插件", code: 'plugin', img: require('../img/plugin-icon.png'), description: "常用插件文档，Bug解决方案"},
+      {text: "框架", code: 'framework', img: require('../img/plugin-icon.png'), description: "平常项目中遇到的各种问题"},
       {text: "前端杂项", code: 'other', img: require('../img/plugin-icon.png'), description: "平常项目中遇到的各种问题"},
       {text: "Java", code: 'java', img: require('../img/java-icon.png'), description: "java问题解析"},
     ],
