@@ -61,6 +61,51 @@ Person.prototype.greet = function(){
     console.log(this.name+this.age);
 }
 new Person("Maria",19).greet();//Maria19</pre>
+          <h3>案例引申</h3>
+          <pre>
+(function () {     //  避免变量污染
+    var tree = function (id, name) {  // 构造函数
+        this.id = id;
+        this.name = name;
+    };
+    tree.prototype = {     //  原型链
+        setId: function (id) {
+            this.id = id;
+        },
+        setName: function (name) {
+            this.name = name;
+        }
+    };
+    window.tree = tree;  // 绑定为全局对象
+}());
+
+(function () {
+    var tree = function (id, name) {
+        this.id = id;
+        this.name = name;
+    };
+    tree.prototype = {
+        setId: function (id) {
+            this.id = id;
+        },
+        setName: function (name) {
+            this.name = name;
+        }
+    };
+    window.treeOne = tree;
+}());
+
+var flag = new tree(1, "liming");
+console.log(flag);
+flag.setName("nidaye");
+console.log(flag);
+var object = new Object();
+Object.prototype.nihao = '21321321321';
+Object.prototype.toNidaye = function () {
+};
+console.log(object.nihao);
+console.log(Object.getOwnPropertyNames(Object.prototype));
+console.log(Object.getOwnPropertyNames(Array.prototype));</pre>
         </div>
       </div>
     </div>
