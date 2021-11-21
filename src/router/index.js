@@ -477,6 +477,27 @@ export const routes = [
         created: "2020-04-05",
         component: resolve => require(['@/views/js/learnClosure'], resolve)
       },
+      {
+        path: '/other/newObject',
+        name: 'new Object() 和 Object.create()',
+        type: "js",
+        created: "2021-07-22",
+        component: resolve => require(['@/views/js/newObject'], resolve)
+      },
+      {
+        path: '/other/constructor',
+        name: 'JS：构造函数总结',
+        type: "js",
+        created: "2021-07-22",
+        component: resolve => require(['@/views/js/constructor'], resolve)
+      },
+      {
+        path: '/other/prototype',
+        name: 'JavaScript prototype原型对象',
+        type: "js",
+        created: "2021-07-24",
+        component: resolve => require(['@/views/js/prototype'], resolve)
+      },
       //jquery案例
       {
         path: '/jq/domMoreEvents',
@@ -895,6 +916,13 @@ export const routes = [
         type: "other",
         created: "2021-07-12",
         component: resolve => require(['@/views/other/cryptoJsInIEError'], resolve)
+      },
+      {
+        path: '/other/syntacticSugar',
+        name: '什么是：语法糖',
+        type: "other",
+        created: "2021-07-23",
+        component: resolve => require(['@/views/other/syntacticSugar'], resolve)
       },
       // 前端框架
       {

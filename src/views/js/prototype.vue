@@ -1,0 +1,93 @@
+<template>
+  <div class="article inner">
+    <div class="content">
+      <div class="wrap">
+        <h2 class="art-title" v-html="title"></h2>
+        <p class="art-time">
+          <span v-html="created"></span>
+        </p>
+        <div class="art-content">
+          <pre>JavaScript 是面向对象的语言，JavaScript 基于 prototype 原型，而不是基于类的。即使在ES6中有了类的概念，但也只是语法糖而已。所有JS对象都会从它的原型对象中继承属性和方法，从而实现面向对象编程。
+原型对象使用ObjectName.prototype.propertyName的语法访问和修改值、使用ObjectName.prototype.methodName语法调用和修改方法。原型对象的属性和方法被其原型链上的子对象继承。</pre>
+          <h3>构造器函数</h3>
+          <pre>通过构造函数的new方法实例化对象
+function Person(name,age){
+    this.name = name;
+    this.age = age;
+}
+var person = new Person("Jenny",18);//创建对象实例
+var person2 = new Person("Maria",19);//创建对象实例
+
+但是如果需要为构造函数添加属性，却无法直接通过类名添加。
+function Person(name,age){
+    this.name = name;
+    this.age = age;
+}
+Person.propertypeName = "city";//已存在构造器的对象中是不能添加新的属性
+
+要添加一个新的属性需要在在构造器函数中添加
+function Person(name,age){
+    this.name = name;
+    this.age = age;
+    this.city = "Shenzhen";
+}
+console.log(new Person().city);//Shenzhen</pre>
+          <h3>prototype 继承</h3>
+          <pre>
+所有的JavaScript对象都会从一个原型对象中继承属性和方法。Date对象从Date.prototype中继承、Array对象从Array.prototype继承、Person对象从Person.prototype中继承。所有 JavaScript 中的对象都是位于原型链顶端的 Object 的实例。
+function Person(name,age){
+    this.name = name;
+    this.age = age;
+}
+Person.prototype.city = "Guangzhou";
+console.log(new Person().city);//Guangzhou
+
+JavaScript 对象有一个指向一个原型对象的链。当试图访问一个对象的属性时，它不仅仅在该对象上搜寻，还会搜寻该对象的原型，以及该对象的原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的末尾。原型链的末尾则指向Object.prototype。
+如果原型对象的属性或方法在构造器或者实例对象中有了，则会讲原型对象的属性和方法覆盖。
+function Person(name,age){
+    this.name = name;
+    this.age = age;
+    this.city = "Shenzhen";
+}
+Person.prototype.city = "Guangzhou";
+console.log(new Person().city);//Shenzhen
+
+添加方法到原型对象的方式和添加属性也是如出一辙。
+function Person(name,age){
+    this.name = name;
+    this.age = age;
+}
+Person.prototype.greet = function(){
+    console.log(this.name+this.age);
+}
+new Person("Maria",19).greet();//Maria19</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: '',
+    data () {
+      return {
+        created: this.$route.query.created,
+        title: this.$route.query.name
+      }
+    },
+    mounted() {
+      this.$nextTick(function () {
+      })
+    },
+    methods: {
+      toggle(){
+
+      }
+    }
+  }
+</script>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+
+</style>
