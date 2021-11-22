@@ -478,25 +478,39 @@ export const routes = [
         component: resolve => require(['@/views/js/learnClosure'], resolve)
       },
       {
-        path: '/other/newObject',
+        path: '/js/newObject',
         name: 'new Object() 和 Object.create()',
         type: "js",
         created: "2021-07-22",
         component: resolve => require(['@/views/js/newObject'], resolve)
       },
       {
-        path: '/other/constructor',
+        path: '/js/constructor',
         name: 'JS：构造函数总结',
         type: "js",
         created: "2021-07-22",
         component: resolve => require(['@/views/js/constructor'], resolve)
       },
       {
-        path: '/other/prototype',
+        path: '/js/prototype',
         name: 'JavaScript prototype原型对象',
         type: "js",
         created: "2021-07-24",
         component: resolve => require(['@/views/js/prototype'], resolve)
+      },
+      {
+        path: '/js/prototypeConstructor',
+        name: 'JS中的prototype、__proto__与constructor',
+        type: "js",
+        created: "2021-07-24",
+        component: resolve => require(['@/views/js/prototypeConstructor'], resolve)
+      },
+      {
+        path: '/js/newObjectProcess',
+        name: 'Js中new 一个对象的过程',
+        type: "js",
+        created: "2021-07-27",
+        component: resolve => require(['@/views/js/newObjectProcess'], resolve)
       },
       //jquery案例
       {

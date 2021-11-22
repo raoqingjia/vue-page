@@ -7,8 +7,25 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <pre>JavaScript 是面向对象的语言，JavaScript 基于 prototype 原型，而不是基于类的。即使在ES6中有了类的概念，但也只是语法糖而已。所有JS对象都会从它的原型对象中继承属性和方法，从而实现面向对象编程。
-原型对象使用ObjectName.prototype.propertyName的语法访问和修改值、使用ObjectName.prototype.methodName语法调用和修改方法。原型对象的属性和方法被其原型链上的子对象继承。</pre>
+          <pre>javaScript 是面向对象的语言，JavaScript 基于 prototype 原型，而不是基于类的。即使在ES6中有了类的概念，但也只是语法糖而已。所有JS对象都会从它的原型对象中继承属性和方法，从而实现面向对象编程。
+原型对象使用ObjectName.prototype.propertyName的语法访问和修改值、使用ObjectName.prototype.methodName语法调用和修改方法。原型对象的属性和方法被其原型链上的子对象继承。
+
+prototype是原型对象，是所有实例的公共祖先，下面是举例说明（重点）
+function Foo(){
+  this.a = 1;
+}
+Foo.prototype.b = 10;
+var foo = new Foo(); //新建一个foo实例
+console.log(foo.b); // 打印10
+
+举例原型链（重点）
+例如城堡castle是通过那个桶创建的，castle.prototype === 桶
+如果桶的有个 height ，比如： 桶.height= 20，那么 castle.height === 20 ,这里是原型链的原理
+castle.prototype === 桶， 桶.prototype === 塑料。
+也有点类似 小岳岳演的 祖宗十九代 ，找自己的属性： {样貌：丑}， 就是去 prototype 里面找，一代一代向前找。。
+虽然 castle 自身没有定义 height, 但是依然可以用 height，就是因为原型链。
+
+一句话总结：prototype 指向上一级,原型的重点是Object.prototype          </pre>
           <h3>构造器函数</h3>
           <pre>通过构造函数的new方法实例化对象
 function Person(name,age){
