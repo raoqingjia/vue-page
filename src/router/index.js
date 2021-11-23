@@ -1030,6 +1030,13 @@ export const routes = [
         created: "2021-10-11",
         component: resolve => require(['@/views/framework/vueTwoWayDataBinding'], resolve)
       },
+      {
+        path: '/framework/simulateReactiveFun',
+        name: 'Object.defineProperty实现一个响应式函数',
+        type: "framework",
+        created: "2021-11-02",
+        component: resolve => require(['@/views/framework/simulateReactiveFun'], resolve)
+      },
       //JAVA 类
       {
         path: '/java/designMenuSql',

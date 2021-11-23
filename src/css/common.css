@@ -644,6 +644,11 @@ footer ul li a {
   cursor: pointer;
   padding: 5px 5px 0 5px;
 }
+a.demo-link{
+  display: block;
+  text-align: right;
+  padding: 10px 0;
+}
 
 @media screen and (max-width: 1459px) {
 
