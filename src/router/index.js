@@ -938,6 +938,13 @@ export const routes = [
         created: "2021-07-23",
         component: resolve => require(['@/views/other/syntacticSugar'], resolve)
       },
+      {
+        path: '/other/osWebReflection',
+        name: 'os-web上线2个月后回归仍发现一堆问题反思',
+        type: "other",
+        created: "2021-11-23",
+        component: resolve => require(['@/views/other/osWebReflection'], resolve)
+      },
       // 前端框架
       {
         path: '/framework/angularCliBuild',
