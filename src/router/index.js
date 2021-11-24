@@ -478,6 +478,13 @@ export const routes = [
         component: resolve => require(['@/views/js/learnClosure'], resolve)
       },
       {
+        path: '/js/macroTaskMicroTask',
+        name: '宏任务和微任务',
+        type: "js",
+        created: "2020-04-14",
+        component: resolve => require(['@/views/js/macroTaskMicroTask'], resolve)
+      },
+      {
         path: '/js/newObject',
         name: 'new Object() 和 Object.create()',
         type: "js",
