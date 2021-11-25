@@ -362,8 +362,15 @@ export const routes = [
         path: '/js/asyncWait',
         name: 'async/await 使用介绍',
         type: "js",
-        created: "2019-06-28",
+        created: "2019-07-12",
         component: resolve => require(['@/views/js/asyncWait'], resolve)
+      },
+      {
+        path: '/js/learnPromise',
+        name: '理解Promise',
+        type: "js",
+        created: "2019-07-12",
+        component: resolve => require(['@/views/js/learnPromise'], resolve)
       },
       {
         path: '/js/JumpOutOfFor',
