@@ -7,7 +7,7 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <h3>1、概况Promise</h3>
+          <h3>概况Promise</h3>
           <pre>
 Promise用于解决异步中的流程控制问题。
 比如只有完成1和2的调用后，才能做3，1和2都是异步调用，不知道1和2谁先谁后返回，那么Promise就能很好的解决这个问题
@@ -18,7 +18,16 @@ Promise 的优点在于，让回调函数变成了规范的链式写法，程序
 
 Promise 的缺点是，编写的难度比传统写法高，而且阅读代码也不是一眼可以看懂。你只会看到一堆then，必须自己在then的回调函数里面理清逻辑。
 </pre>
-          <h3>2、Promise 对象的状态</h3>
+          <h3>Promise运行基本顺序</h3>
+          <pre>
+1. 首先Promise构造函数会立即执行，而Promise.then()内部的代码在当次事件循环的结尾立即执行(微任务)。
+2. promise的状态一旦由等待pending变为成功fulfilled或者失败rejected。那么当前promise被标记为完成，后面则不会再次改变该状态。
+3. resolve函数和reject函数都将当前Promise状态改为完成，并将异步结果，或者错误结果当做参数返回。
+4. Promise.resolve(value)返回一个状态由给定 value 决定的 Promise 对象。如果该值是 thenable(即，带有 then 方法的对象)，返回的 Promise 对象的最终状态由 then 方法执行决定；否则的话(该 value 为空，基本类型或者不带 then 方法的对象),返回的 Promise 对象状态为 fulfilled，并且将该 value 传递给对应的 then 方法。通常而言，如果你不知道一个值是否是 Promise 对象，使用 Promise.resolve(value) 来返回一个 Promise 对象,这样就能将该 value 以 Promise 对象形式使用。
+5. Promise.all(iterable)/Promise.race(iterable)简单理解，这2个函数，是将接收到的promise列表的结果返回，区别是，all是等待所有的promise都触发成功了，才会返回，而arce有一个成功了就会返回结果。其中任何一个promise执行失败了，都会直接返回失败的结果。
+6. promise对象的构造函数只会调用一次，then方法和catch方法都能多次调用，但一旦有了确定的结果，再次调用就会直接返回结果。
+文章链接  https://www.cnblogs.com/zhujieblog/articles/13161364.html</pre>
+          <h3>Promise 对象的状态</h3>
           <pre>
 Promise 对象通过自身的状态，来控制异步操作。Promise 实例具有三种状态。
 异步操作未完成(pending)
@@ -43,7 +52,7 @@ new Promise().then(function(fulfilled){
 	},function(progress){
 		//当返回进度信息时，调用此函数
 	});</pre>
-          <h3>3、Promise 构造函数</h3>
+          <h3>Promise 构造函数</h3>
           <pre>JavaScript 提供原生的Promise构造函数，用来生成 Promise 实例
  var promise = new Promise(function (resolve, reject) {
                 if (){    /* 异步操作成功 */

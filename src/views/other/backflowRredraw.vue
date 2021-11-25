@@ -7,10 +7,35 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
+          <h3>浏览器显示HTML</h3>
           <pre>
-html 加载时发生了什么
-在页面加载时，浏览器把获取到的HTML代码解析成1个DOM树，DOM树里包含了所有HTML标签，包括display:none隐藏，还有用JS动态添加的元素等。
-浏览器把所有样式(用户定义的CSS和用户代理)解析成样式结构体；DOM Tree 和样式结构体组合后构建render tree, render tree类似于DOM tree，但区别很大，因为render tree能识别样式，render tree中每个NODE都有自己的style，而且render tree不包含隐藏的节点(比如display:none的节点，还有head节点)，因为这些节点不会用于呈现，而且不会影响呈现的，所以就不会包含到 render tree中。我自己简单的理解就是DOM Tree和我们写的CSS结合在一起之后，渲染出了render tree。
+不同的浏览器对HTML的解析过程不太相同，这里介绍一下webkit的渲染过程：
+构建DOM树、构建Render树，布局Render树，绘制Render树。</pre>
+          <img src="../../img/backflowRredraw.jpg">
+          <pre>
+浏览器在解析HTML文件的时候，“自上而下”加在，加载的过程中进行解析渲染。在解析过程中，如果遇到请求外部资源，如图片、CSS、iconfot等，这些请求过程是异步的，不会影响HTML文档的继续加载和解析。
+
+解析过程中，浏览器首先会解析HTML文件构造DOM树，然后解析CSS文件构建渲染树，渲染树构建完成后，浏览器开始布局渲染树并将其绘制到屏幕。这个过程非常复杂，涉及到两个概念：reflow 和 repaint。
+
+DOM节点中各个元素都是盒模型，要求浏览器去计算位置大小等，这个过程是reflow，当盒子模型位置、大小、其他属性如颜色，字体确定之后，浏览器便开始绘制内容，这个过程叫做repaint。
+
+页面首次加载的时候，两个过程都会发生，这两个过程都很消耗性能，尤其是reflow，如果优化的不好，会造成很坏的用户体验。所以，我们要尽量减少reflow和repaint。尽量合并一些过程，比如要改变某个元素的多个属性。有三个方法：
+方法一
+ele.style.width = '100px';
+ele.style.height = '200px';
+ele.style.color = 'red';
+方法二
+ele.style.cssText = ';width:'+100+'px;height:'+200+'px;color:red';
+方法三
+.cls {
+    width:100px;
+    height:200px;
+    color:red;
+}
+ele.addClass('cls');
+这三种方法，明显我们不要采用第一种，因为每一句都会造成浏览器重绘，很消耗性能。第二种第三种就很好，合并之后，一次性渲染。</pre>
+          <h3>回流和重绘</h3>
+          <pre>
 回流：当我们对 DOM 的修改引发了 DOM 几何尺寸的变化（比如修改元素的宽、高或隐藏元素等）时，浏览器需要重新计算元素的几何属性（其他元素的几何属性和位置也会因此受到影响），然后再将计算的结果绘制出来。这个过程就是回流（也叫重排）。
 重绘：当我们对 DOM 的修改导致了样式的变化、却并未影响其几何属性（比如修改了颜色或背景色）时，浏览器不需重新计算元素的几何属性、直接为该元素绘制新的样式（跳过了上图所示的回流环节）。这个过程叫做重绘。
 

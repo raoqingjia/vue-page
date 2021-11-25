@@ -1223,10 +1223,10 @@ export const routes = [
       },
       {
         path: '/note/js',
-        name: "Js",
+        name: "JavaScript",
         type: "web",
         img: require("../img/js-icon.png"),
-        description: "js相关属性，功能介绍...",
+        description: "JavaScript相关属性，功能介绍...",
         created: "持续更新 最后版本 2018-03-20",
         component: resolve => require(['@/views/web/js'], resolve)
       },
