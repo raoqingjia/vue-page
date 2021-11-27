@@ -753,6 +753,14 @@ export const routes = [
         created: "2018-09-01",
         component: resolve => require(['@/views/plugin/Lodash'], resolve)
       },
+
+      {
+        path: '/plugin/mockjs',
+        name: 'mockjs',
+        type: "plugin",
+        created: "2019-03-11",
+        component: resolve => require(['@/views/plugin/mockjs'], resolve)
+      },
       {
         path: '/plugin/fastmock',
         name: 'fastmock',
