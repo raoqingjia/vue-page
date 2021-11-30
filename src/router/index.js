@@ -362,8 +362,15 @@ export const routes = [
         path: '/js/asyncWait',
         name: 'async/await 使用介绍',
         type: "js",
-        created: "2019-06-28",
+        created: "2019-07-12",
         component: resolve => require(['@/views/js/asyncWait'], resolve)
+      },
+      {
+        path: '/js/learnPromise',
+        name: '理解Promise',
+        type: "js",
+        created: "2019-07-12",
+        component: resolve => require(['@/views/js/learnPromise'], resolve)
       },
       {
         path: '/js/JumpOutOfFor',
@@ -759,6 +766,14 @@ export const routes = [
         type: "plugin",
         created: "2018-09-01",
         component: resolve => require(['@/views/plugin/Lodash'], resolve)
+      },
+
+      {
+        path: '/plugin/mockjs',
+        name: 'mockjs',
+        type: "plugin",
+        created: "2019-03-11",
+        component: resolve => require(['@/views/plugin/mockjs'], resolve)
       },
       {
         path: '/plugin/fastmock',
@@ -1237,10 +1252,10 @@ export const routes = [
       },
       {
         path: '/note/js',
-        name: "Js",
+        name: "JavaScript",
         type: "web",
         img: require("../img/js-icon.png"),
-        description: "js相关属性，功能介绍...",
+        description: "JavaScript相关属性，功能介绍...",
         created: "持续更新 最后版本 2018-03-20",
         component: resolve => require(['@/views/web/js'], resolve)
       },
