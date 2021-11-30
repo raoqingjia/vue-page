@@ -485,6 +485,13 @@ export const routes = [
         component: resolve => require(['@/views/js/macroTaskMicroTask'], resolve)
       },
       {
+        path: '/js/eventLoop',
+        name: '什么是 Event Loop',
+        type: "js",
+        created: "2020-04-16",
+        component: resolve => require(['@/views/js/eventLoop'], resolve)
+      },
+      {
         path: '/js/newObject',
         name: 'new Object() 和 Object.create()',
         type: "js",
