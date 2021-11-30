@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>微任务执行时机比宏任务早，微任务和宏任务隔了一层Dom渲染案例</title>
+</head>
+<body>
+<div id="box"></div>
+<script type="text/javascript">
+
+var box = document.getElementById('box');
+var h1 = document.createElement("h1");
+ h1.innerText='hello world';
+ box.appendChild(h1);    // 页面没有先渲染，而是先打印的console.log(1)
+
+ console.log(1);
+
+ Promise.resolve().then(()=>{
+    console.log('2 Promise');
+    alert('Promise then');
+ });
+
+ setTimeout(()=>{
+     console.log('3 setTimeout');  // 先执行appendChild之后才执行setTimeout
+     alert('setTimeout');
+ },0);
+
+ console.log(4);
+</script>
+</body>
+</html>
