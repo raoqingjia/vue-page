@@ -10,10 +10,11 @@
           <ul class="catalogue">
             <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
           </ul>
-
+          <h3>文档连接</h3>
+          <pre>http://c.biancheng.net/tcp_ip/  TCP/IP协议入门教程</pre>
           <h3>http的工作流程</h3>
           <pre>
-第一步：建立TCP/IP连接，客户端与服务器通过Socket三次握手进行连接
+第一步：建立TCP/IP连接，客户端与服务器通过TCP三次握手进行连接
 第二步：客户端向服务端发起HTTP请求（例如：POST/login.html http/1.1）
 第三步：客户端发送请求头信息，请求内容，最后会发送一空白行，标示客户端请求完毕
 第四步：服务器做出应答，表示对于客户端请求的应答，例如：HTTP/1.1 200 OK
@@ -32,7 +33,7 @@
 http协议是超文本传输协议，是应用层协议，http协议是建立在tcp协议之上的。http协议的特点是客户端发送请求都需要服务端回应，在请求结束后，会主动释放链接。从建立连接到关闭连接的过程称为‘一次连接’。
 HTTP是基于TCP/IP协议的，创建一个TCP连接是需要经过三次握手的,有一定的开销，如果每次通讯都要重新建立连接的话，对性能有影响。因此最好能维持一个长连接，可以用个长连接来发多个请求
 
-            http1.0：
+http1.0：
 每次请求都需要重新建立tcp连接，请求完后立即断开与服务器连接，这很大程度造成了性能上的缺陷，http1.0被抱怨最多的就是连接无法复用。
 http1.1：
 引入了长连接（keep-alive），相较于1.0减少了连接和关闭的延迟，提高了效率，但是若干个请求还是需要串行排队处理，如果一旦某个请求超时，后面的就会被阻塞，也就是常说的线头阻塞。
@@ -54,6 +55,17 @@ HTTP2.0
 多路复用（或连接共享）
 头部压缩
 服务器推送</pre>
+          <h3>UDP协议简介</h3>
+          <pre>
+用户数据报协议（User Datagram Protocol，UDP）是一种传输层协议。在 TCP/IP 网络中，它与 TCP 协议一样用于处理数据包，是一种无连接的协议。
+
+TCP 协议在进行数据传输时，需要建立连接，并且每次传输的数据都需要进行确认。当不再进行传输数据时，还需要断开连接。这样做虽然安全，但是效率较低。而 UDP 协议正好避免了这些过程，它是一种没有复杂控制，提供面向无连接的通信服务协议。
+UPD协议并不提供超时重传，出错重传等功能也就是说其是不可靠协议
+
+UDP 协议具备以下特点：
+没有各种连接：在传输数据前不需要建立连接，也避免了后续的断开连接。
+不重新排序：对到达顺序混乱的数据包不进行重新排序。
+没有确认：发送数据包无须等待对方确认。因此，使用 UDP 协议可以随时发送数据，但无法保证数据能否成功被目标主机接收。</pre>
           <h3>TCP是什么意思</h3>
           <pre>
 TCP服务含义
@@ -64,7 +76,7 @@ TCP指的是传输控制协议。它是一种面向连接导向的、可靠地�
 4、TCP连接包括连接建立和连接终止，建立连接需要三次握手，而终止连接只需要四次握手，如图所示：
 </pre>
           <img src="../../img/tcpImg02.jpeg">
-<pre>
+          <pre>
 TCP服务特点：
 1、面向连接的传输;
 2、端到端的通信;
@@ -90,8 +102,22 @@ ACK：确认标志  大多数情况下该标志位是置位的。TCP报头内的
 其实第三次握手的时候，是可以携带数据的。但是，第一次、第二次握手不可以携带数据.
 假如第一次握手可以携带数据的话，如果有人要恶意攻击服务器，那他每次都在第一次握手中的 SYN 报文中放入大量的数据。因为攻击者根本就不理服务器的接收、发送能力是否正常，然后疯狂着重复发 SYN 报文的话，这会让服务器花费很多时间、内存空间来接收这些报文。
 也就是说，第一次握手不可以放数据，其中一个简单的原因就是会让服务器更加容易受到攻击了。而对于第三次的话，此时客户端已经处于 ESTABLISHED 状态。对于客户端来说，他已经建立起连接了，并且也已经知道服务器的接收、发送能力是正常的了，所以能携带数据也没啥毛病。</pre>
+          <h3>tcp四次挥手</h3>
+          <pre>
+第 1 次挥手:
+客户端向服务器端发送断开 TCP 连接请求的
+第 2 次挥手:
+当服务器端收到客户端发来的断开 TCP 连接的请求后，回复发送 ACK 报文，表示已经收到断开请求。回复时，随机生成一个序列号
+第 3 次挥手
+服务器端在回复完客户端的 TCP 断开请求后，不会马上进行 TCP 连接的断开。服务器端会先确认断开前，所有传输到客户端的数据是否已经传输完毕。确认数据传输完毕后才进行断开，向客户端发送报文
+第 4 次挥手
+客户端收到服务器发来的 TCP 断开连接数据包后将进行回复，表示收到断开 TCP 连接数据包。向服务器发送 ACK 报文
+
+四次挥手主要是别三次握手特殊在第三步，服务器端要确认传输到客户端的数据是否已经传输完毕，再发给客户端一次报文
+简单的示意如下图 </pre>
+          <img src="../../img/tcpImg03.png" width="400px" height="500px">
           <h3>connection为keep-alive是什么意思</h3>
-        <pre>
+          <pre>
           https://blog.csdn.net/qq_27053493/article/details/102481042
 https://blog.csdn.net/leelxp/article/details/108096660
         </pre>
@@ -154,7 +180,8 @@ GET提交的数据会放在URL之后，以?分割URL和传输数据，参数之�
 无论是GET || POST 从底层上我们都要遵守HTTP协议，HTTP协议是什么呢？类似于我们的交通法规，无论你是挂着GET牌照还是POST牌照都要遵从HTTP的要求。
 真正要传输数据还是要看我们TCP传输控制协议（TCP，Transmission Control Protocol）是一种面向连接的、可靠的、基于字节流的传输层通信协议。这是请求和服务端建立连接的暗语。
 这就是TCP https://mp.weixin.qq.com/s/B8xRPxwjJfURyYzTQgIxUw
-          </pre>F
+          </pre>
+          F
           <h3>细说http的504错误</h3>
           <pre>
 504错误代表网关超时 （Gateway timeout），是指服务器作为网关或代理，但是没有及时从上游服务器收到请求。这通常意味着上游服务器已关闭（不响应网关 / 代理），而不是上游服务器和网关/代理在交换数据的协议上不一致。
@@ -211,7 +238,7 @@ Proxy-Authenticate
 Server
 Refresh</pre>
           <h3>http报错问题积累</h3>
-           <pre>
+          <pre>
 一、问题:调取一个接口时而成功时而失败报404的错误
 解决方案
 可能是后台对应该接口的集群太多，但是只有一个集群是真正对应你的请求接口的，后台没有做负载均衡，接口请求时找到其他集群时就报错了，其他集群并没有真正接受你的请求，造成你的请求报404
@@ -242,7 +269,7 @@ nginx默认上传文件的大小是1M，可nginx的设置中修改。
 结论是网关报错
            </pre>
           <h3>扩展</h3>
-           <pre>
+          <pre>
 相关文档网站
 http://www.cnblogs.com/testyao/p/6548261.html
 
@@ -262,25 +289,25 @@ Content Download 收到响应的第一个字节，到接受完最后一个字节
 <script>
   export default {
     name: 'http',
-    data () {
+    data() {
       return {
         created: this.$route.query.created,
         title: this.$route.query.name,
-        catalogue:[]
+        catalogue: []
       }
     },
-    created(){
+    created() {
 
     },
-    mounted:function(){
-      this.$nextTick(function(){
+    mounted: function () {
+      this.$nextTick(function () {
         this.createCatalogue();
 
       })
     },
-    computed:{},
+    computed: {},
     methods: {
-      jump (index) {
+      jump(index) {
 //        let jump = document.getElementsByTagName('h3');
 //       // 获取需要滚动的距离
 //        let total = jump[index].offsetTop;
@@ -304,8 +331,8 @@ Content Download 收到响应的第一个字节，到接受完最后一个字节
           smoothUp()
         }
 
-        function smoothDown () {
-          if (total>distance ) {
+        function smoothDown() {
+          if (total > distance) {
             distance += step;
             document.body.scrollTop = distance;
             document.documentElement.scrollTop = distance;
@@ -315,8 +342,9 @@ Content Download 收到响应的第一个字节，到接受完最后一个字节
             document.documentElement.scrollTop = total
           }
         }
-        function smoothUp () {
-          if ( total<distance) {
+
+        function smoothUp() {
+          if (total < distance) {
             distance -= step;
             document.body.scrollTop = distance;
             document.documentElement.scrollTop = distance;
@@ -328,14 +356,14 @@ Content Download 收到响应的第一个字节，到接受完最后一个字节
         }
       },
       //创建目录函数
-      createCatalogue(){
+      createCatalogue() {
         let object = document.getElementsByTagName('h3');
-        var flag=[];
-        for(var i=0;i<object.length;i++){
-          var o={name:object[i].innerHTML};
+        var flag = [];
+        for (var i = 0; i < object.length; i++) {
+          var o = {name: object[i].innerHTML};
           flag.push(o)
         }
-        this.catalogue=flag;
+        this.catalogue = flag;
       }
     }
   }
