@@ -90,17 +90,126 @@ req.on('error', error => {
 })
 req.end();
 
-</pre>
+简单的post请求
+
+const http = require('http')
+const data = JSON.stringify({
+  name: 'flydean'
+})
+const options = {
+  hostname: 'www.flydean.com',
+  port: 80,
+  path: '/',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Content-Length': data.length
+  }
+}
+const req = http.request(options, res => {
+  console.log(`status code: ${res.statusCode}`);
+  res.on('data', d => {
+    console.log(d);
+  })
+})
+req.on('error', error => {
+  console.error(error)
+})
+req.write(data);
+req.end();
+post和get相似，不同的是options中的method不一样，同时put可以有多种请求类型，所以我们需要在headers中指定。同样的，PUT 和 DELETE 也可以使用同样的方式来调用
+
+第三方lib请求post
+axios可以让post请求变得更加简单
+const axios = require('axios')
+axios.post('http://www.flydean.com', {
+    name: 'flydean'
+  })
+  .then(res => {
+    console.log(`status code: ${res.statusCode}`)
+    console.log(res)
+  })
+  .catch(error => {
+    console.error(error)
+  })
+直接使用axios的post请求，并将请求结果封存成了promise，然后通过then和catch来进行相应数据的处理。非常的方便。
+
+获取http请求的正文
+在上面的例子中，我们通过监听req的data事件来输出http请求的正文：
+  res.on('data', d => {
+    console.log(d);
+  })
+})
+这样做其实是有问题的，并不一定能够获得完整的http请求的正文。
+因为res的on data事件是在服务器获得http请求头的时候触发的，这个时候请求的正文可能还没有传输完成，换句话说，请求回调中的request是一个流对象。
+我们需要这样处理：
+const server = http.createServer((req, res) => {
+  let data = []
+  req.on('data', chunk => {
+    data.push(chunk)
+  })
+  req.on('end', () => {
+    console.log(JSON.parse(data));
+  })
+})；
+当每次触发data事件的时候，我们将接受到的值push到一个数组里面，等所有的值都接收完毕，触发end事件的时候，再统一进行输出。
+这样处理显然有点麻烦。我们介绍一个在express框架中的简单方法，使用 body-parser 模块：
+const bodyParser = require('body-parser')
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+)
+app.use(bodyParser.json())
+app.post('/', (req, res) => {
+  console.log(req.body)
+})
+上面的例子中，body-parser对req进行了封装，我们只用关注与最后的结果即可。</pre>
           <h3>express模块</h3>
-          <pre>//应用启动入口
-var express=require('express')
-//创建app应用 =》NodeJS Http.createServer();
-var app=express();
-//监听http请求
-app.listen(8081);
-app.get('/',function (req,res,next) {
-    res.send("欢迎光临！</h1>")
-})</pre>
+          <pre>使用Express来搭建一个helloworld：
+var express = require('express');
+var app = express();
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+var server = app.listen(3000, function () {
+  var host = server.address().address;
+  var port = server.address().port;
+  console.log('Example app listening at http://%s:%s', host, port);
+});
+对不同的请求路径和请求方式进行不同的处理，使用到了express路由功能
+// 对网站首页的访问返回 "Hello World!" 字样
+app.get('/', function (req, res) {
+  res.send('Hello World!');});
+// 网站首页接受 POST 请求
+app.post('/', function (req, res) {
+  res.send('Got a POST request');});
+// /user 节点接受 PUT 请求
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');});
+// /user 节点接受 DELETE 请求
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');});
+
+Express 路由句柄中间件
+有时候，一个请求可能有多个处理器，express提供了路由句柄（中间件）的功能，我们可自由组合处理程序。
+注意，在路由句柄中，我们需要调用next方法，来触发下一个路由方法。
+var cb0 = function (req, res, next) {
+  console.log('CB0');
+  next();}
+var cb1 = function (req, res, next) {
+  console.log('CB1');
+  next();}
+app.get('/example/d', [cb0, cb1], function (req, res, next) {
+  console.log('response will be sent by the next function ...');
+  next();
+}, function (req, res) {
+  res.send('Hello from D!');
+});
+上面的请求会经过cb0，cb1和自定义的两个function，最终结束
+
+Express 使用模板引擎
+          </pre>
         </div>
       </div>
     </div>
@@ -118,8 +227,6 @@ app.get('/',function (req,res,next) {
     },
     mounted(){
       this.$nextTick(function(){
-        console.log("open");
-        open("http://www.baidu.com", "chrome");
       })
     },
     computed:{

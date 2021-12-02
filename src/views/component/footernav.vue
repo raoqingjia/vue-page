@@ -35,13 +35,17 @@
               </ul>
               <ul >
                 <li><a href="javascript:;">文档链接</a></li>
-                <li><a href="http://www.qdfuns.com/" target="_blank">前端网</a></li>
                 <li><a href="https://www.w3cschool.cn/tutorial" target="_blank">W3Cschool</a></li>
+                <li><a href="https://leetcode.com/" target="_blank">leetcode</a></li>
+                <li><a href="http://bigerfe.com/" target="_blank">大前端面试题库</a></li>
+                <li><a href="https://www.nowcoder.com/" target="_blank">牛客网</a></li>
+                <li><a href="https://www.acmcoder.com/index" target="_blank">赛码网</a></li>
+                <li><a href="https://edu.51cto.com/t/exam/" target="_blank"></a>51cto题库</li>
+                <li><a href="https://juejin.cn/" target="_blank">掘金</a></li>
+                <li><a href="https://github.com/" target="_blank">github.com</a></li>
+                <li><a href="https://webpack.docschina.org/guides/getting-started/" target="_blank">webpack</a></li>
                 <li><a href="http://es6.ruanyifeng.com/" target="_blank">ECMAScript 6 入门</a></li>
-                <li><a href="http://www.uploadify.com/documentation/" target="_blank">uploadify文件上传API</a></li>
-                <li><a href="https://www.jianshu.com/p/e37f4dde49a2" target="_blank">Vue开源项目库汇总</a></li>
                 <li><a href="http://www.css88.com/jqapi-1.9/category/version/1.0/" target="_blank">jQuery API中文文档</a></li>
-                <li><a href="https://www.cnblogs.com/fml1com/p/5149269.html" target="_blank">HTML CSS JS特殊字符表</a></li>
                 <li><a href="http://tool.lanrentuku.com/guifan/ui.html" target="_blank">移动端UI尺寸规范</a></li>
               </ul>
             </div>

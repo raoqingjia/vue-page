@@ -16,6 +16,9 @@
         <li>Babel笔记记录</li>
         <li>React笔记整理</li>
         <li>abs-web测试笔记整理</li>
+        <li>CSS Grid 布局设置跨行、跨列和堆叠顺序</li>
+        <li>在osdemo中使用nodejs搭建HTTP web服务</li>
+
       </ul>
     </div>
   </div>
