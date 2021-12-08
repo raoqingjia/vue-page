@@ -42,7 +42,7 @@ stream.subscribe(function(data){
   console.dir(data); // 打印的是 {name: 'huangbiao',age: 30}
 });
 
-RxJS 和 Promise的基本用法非常类似，除了一些关键词不同。Promise里面用的是 then()和resolve()，而 RxJS里面用的是next()和subscribe();Rxjs相比Promise 要强大很多。比如 Rxjs 中可以中途撤回、Rxjs 可以发射多个值、Rxjs 提供了多种工具函数等等。Rxjs中observer就是信息发布，subscribe是消息订阅
+RxJS 和 Promise的基本用法非常类似，除了一些关键词不同。Promise里面用的是resolve()和then()，而 RxJS里面用的是next()和subscribe();Rxjs相比Promise 要强大很多。比如 Rxjs 中可以中途撤回、Rxjs 可以发射多个值、Rxjs 提供了多种工具函数等等。Rxjs中observer就是信息发布，subscribe是消息订阅
 
 三、Rxjs unsubscribe 取消订阅
 

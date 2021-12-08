@@ -49,6 +49,7 @@
 </template>
 <script>
   import {routes} from "@/router"
+  import {getCookieByString} from '@/js/common.js'
   import Swiper from 'swiper';
   import 'swiper/dist/css/swiper.min.css';
   export default {
@@ -62,6 +63,12 @@
     },
     mounted() {
       this.$nextTick(function () {
+          // document.cookie = 'key=value';
+          // document.cookie = 'user='+encodeURIComponent('郭钱;');
+          console.log(getCookieByString('user'));
+          if(getCookieByString('user')){
+              alert(decodeURIComponent(getCookieByString('user')));
+          }
       })
     },
     computed: {
