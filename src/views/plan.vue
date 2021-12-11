@@ -1,11 +1,5 @@
 <template>
   <div class="base inner">
-    <vue-waterfall-easy  :imgsArr="imgsArr" @scrollLoadImg="fetchImgsData">
-      <template slot-scope="props">
-        <h3>{{props.value.title}}</h3>
-        <p>{{props.value.info}}</p>
-      </template>
-    </vue-waterfall-easy>
     <div class="content">
       <h2>2021年</h2>
       <ul class="clearfix plan-li">
