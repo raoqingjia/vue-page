@@ -84,10 +84,23 @@ const frameworkRouter = [ // 前端框架
     component: resolve => require(['@/views/framework/vueTwoWayDataBinding'], resolve)
   },
   {
+    path: '/framework/vueLifeCycle',
+    name: 'vue生命周期详解',
+    type: "framework",
+    created: "2021-10-11",
+    component: resolve => require(['@/views/framework/vueLifeCycle'], resolve)
+  },
+  {
     path: '/framework/simulateReactiveFun',
     name: 'Object.defineProperty实现一个响应式函数',
     type: "framework",
     created: "2021-11-02",
     component: resolve => require(['@/views/framework/simulateReactiveFun'], resolve)
+  },{
+    path: '/framework/vuex',
+    name: 'vuex用例',
+    type: "framework",
+    created: "2021-12-11",
+    component: resolve => require(['@/views/framework/vuex'], resolve)
   }];
 export default frameworkRouter;
