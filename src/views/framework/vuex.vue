@@ -80,11 +80,73 @@ new Vue({
       }
   }
 < /script></pre>
+          <h3>vue3.0里用vuex的写法</h3>
+          <pre>
+vue3.0的写法确实是比2.0写法简便，尤其是挂载store和声明store的时候，直接用createStore，useStore就搞定了
+
+store.ts文件
+import { createStore } from 'vuex'
+import { getStorage } from '../api/storage'
+export default createStore({
+  state: {
+     userInfo:getStorage('loginInfo'),
+     roleId:getStorage('loginInfo')?getStorage('loginInfo').roleInfo[0].roleId:null,
+     roleName:getStorage('loginInfo')?getStorage('loginInfo').roleInfo[0].roleName:null,
+     projectName : 'os-demo',
+     msgNum : 2
+  },
+  mutations: {
+     setRoleInfo(state,data){
+       state.roleId = data.roleId;
+       state.roleName = data.roleName;
+       state.msgNum ++;
+     },
+      setUserInfo(state,data){
+          state.userInfo = data;
+      }
+  },
+  actions: {
+  },
+  getters:{
+    setMsgNum(state){
+        return state.msgNum * state.msgNum;
+    }
+  },
+  modules: {
+  }
+})
+
+main.ts文件
+import App from './App.vue'
+import router from './router'
+import store from './store'
+const app = createApp(App);
+app.use(store).use(router).use(Antd).mount('#app')
+
+组件
+< template>
+< span class="msgNum">{ {store.getters.setMsgNum}}< /span>
+< /template>
+< script>
+  import { useStore } from "vuex";
+  import { reactive,, computed } from "vue";
+  const state = reactive({
+        name: ''
+      })
+  const store = useStore();
+  state.name = store.state.Name;
+  const userName = computed(():any=>{ return store.state.userInfo.userName });
+  function initMenu(loginInfo) {
+      store.commit('setRoleInfo',loginInfo.roleInfo[index]);
+  }< /script>
+</pre>
           <img src="../../img/vuex01.png" width="500px" height="350px">
           <h3>看上图，理解下面的话</h3>
           <pre>
 官方文档
 https://vuex.vuejs.org/zh/#%E4%BB%80%E4%B9%88%E6%98%AF-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E6%A8%A1%E5%BC%8F
+比较不错的链接
+https://blog.csdn.net/saber04/article/details/99292734 （先看一遍这个，理解的更清楚，比我写的详细）
 
 vuex中有默认的五个核心概念：
 state：存储状态（变量）
@@ -169,6 +231,45 @@ export default store
       methods: mapActions('money',['add','reduce'])  //  区别点 money 表示那个模块的
   }
 < /script></pre>
+          <h3>刷新网页后vuex的state数据丢失的解决方案</h3>
+          <pre>1. 产生原因
+其实很简单，因为store里的数据是保存在运行内存中的,当页面刷新时，页面会重新加载vue实例，store里面的数据就会被重新赋值。
+
+2. 解决思路
+一种是state里的数据全部是通过请求来触发action或mutation来改变
+一种是将state里的数据保存一份到本地存储(localStorage、sessionStorage、cookie）中
+很显然，第一种方案基本不可行，除非项目很小或者vuex存储的数据很少。而第二种可以保证刷新页面数据不丢失且易于读取。
+
+3. 解决过程
+首先得选择合适的客户端存储
+localStorage是永久存储在本地，除非你主动去删除;
+sessionStorage是存储到当前页面关闭为止;
+cookie则根据你设置的有效时间来存储，但缺点是不能储存大数据且不易读取。
+我选择的是sessionStorage,选择的原因vue是单页面应用，操作都是在一个页面跳转路由，另一个原因是sessionStorage可以保证打开页面时sessionStorage的数据为空，而如果是localStorage则会读取上一次打开页面的数据。
+然后是怎么用sessionStorage来保存state里的数据。
+
+第一种方案
+由于state里的数据是响应式，所以sessionStorage存储也要跟随变化。又由于vuex规定所有state里数据必须通过mutation方法来修改，所以第一种方案就是mutation修改state的同时修改sessionStorage对应存储的属性
+
+第二种方案
+第一种方案确实可以解决问题，但这种方法很明显让人觉得怪异，都这样了，那不如直接用sessionStorage来做状态管理。
+那怎么才能不用每次修改state时同时也要修改sessionStorage呢？这时我们可以换一个思路，因为我们是只有在刷新页面时才会丢失state里的数据，那有没有办法在点击页面刷新时先将state数据保存到sessionStorage,然后才真正刷新页面?
+当然有，beforeunload这个事件在页面刷新时先触发的。那这个事件应该在哪里触发呢？我们总不能每个页面都监听这个事件，所以我选择放在app.vue这个入口组件中，这样就可以保证每次刷新页面都可以触发。
+
+具体的代码如下：
+export default {
+  name: 'App',
+  created () {
+    //在页面加载时读取sessionStorage里的状态信息
+    if (sessionStorage.getItem("store") ) {
+        this.$store.replaceState(Object.assign({}, this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
+    }
+    //在页面刷新时将vuex里的信息保存到sessionStorage里
+    window.addEventListener("beforeunload",()=>{
+        sessionStorage.setItem("store",JSON.stringify(this.$store.state))
+    })
+  }
+}</pre>
         </div>
       </div>
     </div>

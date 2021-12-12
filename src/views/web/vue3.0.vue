@@ -8,9 +8,9 @@
         </p>
         <div class="art-content">
           <ul class="catalogue">
-            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
+            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
           </ul>
-          <h3>1、相关资料及链接</h3>
+          <h3>相关资料及链接</h3>
           <pre>
 响应式编程（Reactive Programming），顾名思义，指通过声明式的设计指定数据依赖关系，并且仅以最小成本应对外界依赖的变化进行相应的数据处理。一个不是十分恰当的简单版本是，非响应式编程是基于拉取（Pull），而响应式编程是基于推送（Push）。
 3.0 新加入了 TypeScript 以及 PWA 的支持
@@ -28,7 +28,7 @@
 https://vue-next-template-explorer.netlify.app/   VUE3 代码底层代码展示
 https://www.yuque.com/along-n3gko/ezt5z9  雀云前端技术栈
 https://dxmo.gitee.io/  李南江vue3笔记讲解</pre>
-          <h3>2、Vue3是如何变快的</h3>
+          <h3>Vue3是如何变快的</h3>
           <pre>
 1）静态标记
 vue2.0 diff 算法是全量比对，vue3.0 的diff算法是会再创建虚拟DOM的时候回根据DOM中的内容会不会变化，添加静态标记(PatchFlag)，类似写死的文本和样式就不会添加静态标记，动态变化的东西反而叫静态标记，通过新增静态标记（PatchFlag），只比对带有 PF 的节点并且通过 Flag 的信息得知当前节点要比对的具体内容
@@ -39,7 +39,7 @@ vue2无论原始是否参与更新，每次都会重新创建，然后再渲染�
 3）事件侦听器缓存
 默认情况下onClick会被视为动态绑定，所以每次都会去追踪它的变化，但是因为是同一个函数，所以没必要去追踪它的变化，想办法将它直接缓存起来复用就会提升性能，vue3中的 cacheHandler 会将方法标记，在使用中如果能在缓存中找到这个方法，那么它将直接被使用。如果找不到，那么将这个方法注入缓存。总之，就是把方法给缓存了
 </pre>
-          <h3>3、Composition API</h3>
+          <h3>Composition API</h3>
           <pre>
 因为原有vue2的Vue OptionsAPI 分了data ， method ，watch  ， computed 实际开发中还要滚动条反复上下移动，业务数据逻辑分散，不利于管理和维护,在新版vue3的生命周期函数，可以按需导入到组件中，且只能在setup()函数中使用
 
@@ -74,14 +74,14 @@ export default {
   	console.log(props);
   }
 }</pre>
-          <h3>4、什么是reactive</h3>
+          <h3>什么是reactive</h3>
           <pre>
 reactive是vue3中提供的实现响应式数据（“响应式”，是指当数据改变后，Vue 会通知到使用该数据的代码。例如，视图渲染中使用了数据，数据改变后，视图也会自动更新。）的方法
 vue2中的响应式数据是通过defineProperty来实现的,而vue3中响应式数据是通过ES6的Proxy来实现的（本质就是将传入的数据包装成一个Proxy对象）
 
 reactive的注意点
 reactive参数必须是对象（object.array）,如果给reactive传递了其他对象（例如new Date()日期对象）默认情况下修改对象界面不会自动更新，如果想更新可以通过重新赋值的方式,（即不允许直接操作数据，需要放个新的数据来替代原数据）</pre>
-          <h3>5、什么是ref </h3>
+          <h3>什么是ref </h3>
           <pre>
 由于 reactive 必须传递一个对象，如果我们只想让某个变量实现响应式的时候会非常麻烦，而ref就能实现对简单值的监听,也就是说ref函数只能监听简单类型的变化，不能监听复杂类型的变化（对象和数组），reactive可以监听数组和对象的
 
@@ -94,7 +94,7 @@ ref和reactive的区别
 再template中使用ref类型数据Vue会自动添加.value，但是reactive数据类型Vue不会自动添加.value
 Vue是通过当前数据是否存在__V_ref节点来判断的，如果有这个私有属性并且取值为true那么就代表是一个ref类型
 Vue3中提供了import {isRef，isReactive} from 'vue' 的方式来判断当前类型是是否为ref和reactive</pre>
-          <h3>6、shallowRef、shallowReactive 递归监听</h3>
+          <h3>shallowRef、shallowReactive 递归监听</h3>
           <pre>
 默认情况下，Vue3 中的 ref 和 reactive 都是递归监听的，即能实时监听对象的底层变化。只要我们对 ref 和 reactive 中的内容进行更改，在默认情况下，只要更改的对象不是类似 new Date() 的类型，都是能察觉到并且进行双向数据绑定的。在默认情况下，递归监听肯定是好的，它让数据的变化能被实时监测到。然而它也带来了性能消耗的问题。
 
@@ -103,7 +103,7 @@ Vue3 提供了 import  {shallowRef ,shallowReactive}  from 'vue' 方案，以防
 shallowRef 中的最外层是 value ，所以我们只能改变整个 value 值来提醒变化，shallowRef的本质是监听.value的值
 shallowReactive 是监听第一层数据是否发生变化，如果发生变化则从新渲染整个界面，如果是第二层数据发生变化则不渲染界面
 我们还可以通过triggerRef()手动去触发 ref 的变化监听事件来实现界面的改变，但是确没有triggerReactive这种方法，当ref的底层数据发生变化，可通过triggerRef()令整个界面变化</pre>
-          <h3>7、toRaw、markRaw 是否更新UI界面</h3>
+          <h3>toRaw、markRaw 是否更新UI界面</h3>
           <pre>
 ref/reactiv数据类型的特点
 每次修改都会被追踪，都会更新UI界面，但是这样其实是非常消耗性能的，所以如果我们有一些操作
@@ -117,7 +117,7 @@ markRaw：有的时候，我们希望某些数据是无法被改变的。markRaw
 const foo = markRaw({})
 console.log(isReactive(reactive(foo))) // false
 如果被 markRaw 标记了，即使在响应式对象中作属性，也依然不是响应式的</pre>
-          <h3>8、customRef 用于自定义 ref</h3>
+          <h3>customRef 用于自定义 ref</h3>
           <pre>
 有的 ref 可以与视图层实现双向数据绑定，而有的则不能。假如我们需要自定义一个 ref ，当这个 ref 监听的数据变化时，执行我们自己定义的方法，就像是 watchfEffect 一样去检测一个数据，则可以使用 customRef
 
@@ -155,7 +155,7 @@ export default {
   }
 }
           </pre>
-          <h3>8、toRef 、toRefs 地址指向问题</h3>
+          <h3>toRef 、toRefs 地址指向问题</h3>
           <pre>
 let obj = { name：'liming' , age:'12'};
 let state = ref(obj.name);     ref->复制
@@ -167,7 +167,7 @@ toRef创建出来的数据和以前的有关(引用关系)，我们修改当toRe
 toRefs 用于将响应式对象转换为结果对象，其中结果对象的每个属性都是指向原始对象相应属性的ref，toRefs()函数可以将reactive()创建出来的响应式对象，转换为普通对象，只不过这个对象上的每个属性节点，都是ref()类型的响应式数据，当数据发生改变，界面会更新，解释一些这里有点绕，上面说了toRefs是引用，当数据改变会影响到原数据，但是原数据是reactive类型的，reactive类型的数据改变了，界面不也就更新了吗，
 toRefs
 为了将多个数据都设置监听，或者对整个对象的所有数据发起监听</pre>
-          <h3>8、父组件与子组件之间的数据传递</h3>
+          <h3>父组件与子组件之间的数据传递</h3>
           <pre>
 1、父组件向子组件传输数据方式一
 provide和inject可以实现嵌套组件共享数据.这两个函数只能在setup()函数中使用。父级组件中使用provide()函数向下传递数据；子级组件使用inject()获取上层传递的数据.这个是可以无限向下层组件传递.
@@ -296,7 +296,7 @@ export default defineComponent({
       }
   }
 })</pre>
-          <h3>9、过滤器</h3>
+          <h3>过滤器</h3>
           <pre>
 在3.x中，过滤器被删除，不再受支持。建议用方法调用或计算属性替换它们。
 < template>
@@ -320,7 +320,7 @@ export {
    myFilter
 }
         </pre>
-          <h3>9、路由</h3>
+          <h3>路由</h3>
           <pre>
 vue2中的（*）不适用于vue3，vue3配置404页面改为如下
 {
@@ -332,6 +332,66 @@ vue2中的（*）不适用于vue3，vue3配置404页面改为如下
 const router = useRouter();
 router.push('/newApplication?type=2');
         </pre>
+          <h3>vuex的写法</h3>
+          <pre>
+vue3.0的写法确实是比2.0写法简便，尤其是挂载store和声明store的时候，直接用createStore，useStore就搞定了
+
+store.ts文件
+import { createStore } from 'vuex'
+import { getStorage } from '../api/storage'
+export default createStore({
+  state: {
+     userInfo:getStorage('loginInfo'),
+     roleId:getStorage('loginInfo')?getStorage('loginInfo').roleInfo[0].roleId:null,
+     roleName:getStorage('loginInfo')?getStorage('loginInfo').roleInfo[0].roleName:null,
+     projectName : 'os-demo',
+     msgNum : 2
+  },
+  mutations: {
+     setRoleInfo(state,data){
+       state.roleId = data.roleId;
+       state.roleName = data.roleName;
+       state.msgNum ++;
+     },
+      setUserInfo(state,data){
+          state.userInfo = data;
+      }
+  },
+  actions: {
+  },
+  getters:{
+    setMsgNum(state){
+        return state.msgNum * state.msgNum;
+    }
+  },
+  modules: {
+  }
+})
+
+main.ts文件
+import App from './App.vue'
+import router from './router'
+import store from './store'
+const app = createApp(App);
+app.use(store).use(router).use(Antd).mount('#app')
+
+组件
+< template>
+< span class="msgNum">{ {store.getters.setMsgNum}}< /span>
+< /template>
+< script>
+  import { useStore } from "vuex";
+  import { reactive,, computed } from "vue";
+  const state = reactive({
+        name: ''
+      })
+  const store = useStore();
+  state.name = store.state.Name;
+  const userName = computed(():any=>{ return store.state.userInfo.userName });
+  function initMenu(loginInfo) {
+      store.commit('setRoleInfo',loginInfo.roleInfo[index]);
+  }< /script>
+</pre>
         </div>
 
       </div>
