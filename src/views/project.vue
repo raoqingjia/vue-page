@@ -51,6 +51,7 @@
           {src:'./static/img/bpm_web_new.jpg',link:"http://www.raoqingjia.online/bpm_web_new/flow.html",title:"流程图",info:"设计流程图（raphael）源码myflow.js，修改了删除方式，自定义了流程步骤，保存绘画流程图时进行相关验证。"},
           {src:'./static/img/examineAndPpprove.jpg',link:"http://www.raoqingjia.online/examineAndPpprove/index.html",title:"h5嵌套页面",info:"web-view嵌套h5页面"},
           {src:'./static/img/osh5.jpg',link:"https://www.raoqingjia.online/osh5/index.html",title:"h5宣传页面",info:"利用rem换算比例适应各移动平台，使用annimate.css实现动画"},
+          {src:'./static/img/osweb.png',link:"https://www.raoqingjia.online/osDemo/index.html",title:"vue3.0项目",info:"vue3.0项目搭建，使用ant design vue的UI框架，利用mockjs创建临时数据调取，使用了dayjs、lodash、qrcanvas等三方库，利用封装了axios请求方式，将数据请求模块化，实现了前后台数据整体加密"},
         ],
         fetchImgsData:[]
       }

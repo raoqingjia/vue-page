@@ -11,6 +11,8 @@ import Axios from 'axios'
 import elementEnLocale from 'element-ui/lib/locale/lang/en'
 import elementZhLocale from 'element-ui/lib/locale/lang/zh-CN'
 
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 
 Vue.prototype.$http = Axios;
 Vue.config.productionTip = false;
