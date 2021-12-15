@@ -301,6 +301,13 @@ const jsRouter = [//js案例
     component: resolve => require(['@/views/js/eventLoop'], resolve)
   },
   {
+    path: '/js/newObjectWay',
+    name: 'JavaScript创建对象的多种方式',
+    type: "js",
+    created: "2021-05-12",
+    component: resolve => require(['@/views/js/newObjectWay'], resolve)
+  },
+  {
     path: '/js/newObject',
     name: 'new Object() 和 Object.create()',
     type: "js",

@@ -23,16 +23,21 @@ console.log(b.rep)  // banana
 console.log(a.rep)  // banana   源对象跟着改变
 
 // Object.create() 方式创建
-var a = { rep: 'apple' }
+var a = { rep: 'apple',color:['red','yellow']}
 var b = Object.create(a)
 console.log(b)  // {}
-console.log(b.__proto__) // {rep: "apple"}
+console.log(b.__proto__) // {rep: "apple"}  原型继承字a对象
+console.log(b.__proto__ ===a) // true
 console.log(b.rep) // {rep: "apple"}
 b.rep = 'banana';
+b.color.push('green');
 console.log(b.rep);  // banana
 console.log(a.rep);  // apple  源对象不改变
+console.log(b.color);  // [ 'red', 'yellow', 'green' ]
+console.log(a.color);  // [ 'red', 'yellow', 'green' ]  源对象也跟着改变了
 
-Object.create()方法创建的对象时，属性是在原型下面的，也可以直接访问 b.rep // {rep: "apple"} ,此时这个值不是吧b自身的，是它通过原型链proto来访问到b的值。</pre>
+Object.create()方法创建的对象时，属性是在原型下面的，也可以直接访问 b.rep // {rep: "apple"} ,此时这个值不是吧b自身的，是它通过原型链proto来访问到b的值。
+          https://www.pianshen.com/article/8070708018/</pre>
         </div>
       </div>
     </div>
