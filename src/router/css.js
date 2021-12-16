@@ -124,5 +124,13 @@ const cssRouter = [ //css案例
     type: "css",
     created: "2018-09-19",
     component: resolve => require(['@/views/css/rem'], resolve)
-  }];
+  },
+  {
+    path: '/css/lineHeight',
+    name: '行高line-height属',
+    type: "css",
+    created: "2018-11-01",
+    component: resolve => require(['@/views/css/lineHeight'], resolve)
+  }
+  ];
 export default cssRouter;

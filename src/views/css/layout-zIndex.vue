@@ -9,8 +9,8 @@
         <div class="art-content">
           <h3>先看图说问题</h3>
           <pre>
-<img src="../../img/z-index02.jpg">
-<img src="../../img/z-index01.jpg">
+<img src="../../img/css/z-index02.jpg">
+<img src="../../img/css/z-index01.jpg">
 ① 第一张图是问题alert区的遮罩层没有覆盖header，主要是应为z-index的设置问题
 ② 先说一下位置区域
 红色是header区    绿色是page-content (我在图上没有标出)    蓝色是siderbar

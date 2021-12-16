@@ -39,7 +39,7 @@
           <h3>2、利用css样式添加loading动画效果（兼容性差点）</h3>
           <pre>
 效果展示：
-<img src="../../img/css-loading02.jpg" style="width: 150px">
+<img src="../../img/css/css-loading02.jpg" style="width: 150px">
 /*loading遮罩层的效果*/
 .loading-box .discover {
   z-index:2000;
