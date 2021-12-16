@@ -12,6 +12,8 @@ import elementEnLocale from 'element-ui/lib/locale/lang/en'
 import elementZhLocale from 'element-ui/lib/locale/lang/zh-CN'
 
 
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.prototype.$http = Axios;
 Vue.config.productionTip = false;
@@ -27,6 +29,7 @@ require('../static/nicescroll/jquery.nicescroll.min.js');
 import VueI18n from 'vue-i18n'
 
 Vue.use(VueI18n);// 通过插件的形式挂载
+Vue.use(ElementUI);
 //https://blog.csdn.net/DOCALLEN/article/details/78408137?locationNum=2&fps=1
 const i18n = new VueI18n({
   locale: 'zh-CN',    // 通过切换locale的值来实现语言切换   zh-CN 可以写成 this.$i18n.locale来动态切换

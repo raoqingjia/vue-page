@@ -1,133 +1,277 @@
 <template>
-  <div class="list inner" style = "border:1px solid red;height: 100%">
-
+  <div class="dh-wrap">
+    <h1 class="dh-title clearfix">
+    OneSupport 运营数据统计
+      <section class="dh-date clearfix">
+        <label>数据月份：</label>
+        <div class="choose-date">
+          <el-date-picker
+            v-model="datePicker"
+            :size="'mini'"
+            :style="{width:'150px',backgroud:'#08203d'}"
+            type="month"
+            placeholder="选择月">
+          </el-date-picker>
+        </div>
+        <span class="sure-btn">确认</span>
+      </section>
+    </h1>
+    <div id="myChart" :style="{width: '300px', height: '300px'}"></div>
+    <div id="LiquidRing" :style="{width: '300px', height: '300px'}"></div>
   </div>
 </template>
 
 <script>
   import {routes} from '@/router'
-  import { mapGetters } from 'vuex'
+  import {mapGetters} from 'vuex'
+  import * as echarts from 'echarts'
   import pagination from '@/views/component/pagination'
+
   export default {
     name: 'osDashboard',
-    created(){
+    created() {
 
     },
-    components: {
-      'pagination': pagination
-    },
-    data () {
+    components: {},
+    data() {
       return {
-        paginationShow:this.$store.getters.listTab=="all"?false:true,
-        routes:routes,
-        total: 0,     // 记录总条数
-        display: 15,   // 每页显示条数
-        current: 1   // 当前的页数
+        routes: routes,
+        datePicker: ''
       }
     },
     mounted() {
 
-      this.$nextTick(function() {
-
+      this.$nextTick(function () {
+        let scaleX = document.body.clientWidth / 1920;
+        let scaleY = document.body.clientHeight / 1080;
+        let scale = scaleX < scaleY ? scaleX : scaleY;
+        let screenWidthStyle = `width: 1920px;height: 1080px;transform: scale(${scale},${scale});!important;margin:0 ${(document.body.clientWidth - 1920 * scale) / 2}px;`;
+        console.log(screenWidthStyle);
+        this.drawLine();
       })
     },
     filters: {
-      filterFun (value) {
-         return value;
+      filterFun(value) {
+        return value;
       }
     },
-    methods:{
-      pagechange(currentPage){  // 点击分页组件的设置
-         this.current=currentPage;
+    methods: {
+      LiquidRing() {
+        var value = 0.54;
+        let LiquidRing = echarts.init(document.getElementById('LiquidRing'));
+        LiquidRing.setOption({
+          backgroundColor: '#181b22',
+          title: [
+            {
+              text: (value * 100).toFixed(0) + '%',
+              left: '50%',
+              top: '40%',
+              textAlign: 'center',
+              textStyle: {
+                fontSize: '30',
+                fontWeight: '400',
+                color: '#8b8d90',
+                textAlign: 'center',
+                textBorderColor: 'rgba(0, 0, 0, 0)',
+                textShadowColor: '#000',
+                textShadowBlur: '0',
+                textShadowOffsetX: 0,
+                textShadowOffsetY: 1,
+              },
+            },
+          ],
+          polar: {
+            radius: ['43%', '40%'],
+            center: ['50%', '50%'],
+          },
+          angleAxis: {
+            max: 100,
+            clockwise: false,
+            axisLine: {
+              show: false,
+            },
+            axisTick: {
+              show: false,
+            },
+            axisLabel: {
+              show: false,
+            },
+            splitLine: {
+              show: false,
+            },
+          },
+          radiusAxis: {
+            type: 'category',
+            show: true,
+            axisLabel: {
+              show: false,
+            },
+            axisLine: {
+              show: false,
+            },
+            axisTick: {
+              show: false,
+            },
+          },
+          series: [
+            {
+              type: 'liquidFill',
+              radius: '40%',
+              z: 1,
+              center: ['50%', '50%'],
+              amplitude: 20,
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 1,
+                y2: 1,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: '#324791',
+                  },
+                  {
+                    offset: 1,
+                    color: '#449090',
+                  },
+                ],
+                globalCoord: false,
+              },
+              data: [
+                0.4,
+                {
+                  value: 0.4,
+                  direction: 'left',
+                },
+              ],
+              backgroundStyle: {
+                borderWidth: 1,
+                color: 'transparent',
+              },
+              label: {
+                normal: {
+                  formatter: '',
+                },
+              },
+              outline: {
+                show: true,
+                itemStyle: {
+                  borderWidth: 0,
+                },
+                borderDistance: 0,
+              },
+            },
+            {
+              name: '',
+              type: 'bar',
+              roundCap: true,
+              z: 2,
+              showBackground: true,
+              backgroundStyle: {
+                color: '#15181e',
+              },
+              data: [75],
+              coordinateSystem: 'polar',
+              itemStyle: {
+                normal: {
+                  color: new echarts.graphic.LinearGradient(0, 0, .5, 1, [
+                    {
+                      offset: 0,
+                      color: '#5acef2',
+                    },
+                    {
+                      offset: .7,
+                      color: '#5073fb',
+                    },
+                    {
+                      offset: 1,
+                      color: '#6ae8d8',
+                    },
+                  ]),
+                },
+              },
+            },
+          ],
+        });
       },
-      pageFilter (value) {
-        let numMin=(this.current-1)*this.display;
-        let numMax=this.current*this.display-1;
-        let ary=[];
-        if(this.$store.getters.listTab=="all"){
-          ary=value;
-        }else{
-          for(let i= 0;i<value.length;i++){
-            if(numMin<=i&&i<=numMax){
-              ary.push(value[i])
-            }
-          }
-        }
-        return ary
-      },
-      //右侧导航栏 选择切换
-      list_nav(code,it){
-        this.paginationShow=(code=="all")?false:true;
-        this.current=1;
-        this.$store.commit('listTabFun_m',code);
-      },
-      //右侧导航栏案例计数
-      list_count(type){
-        var list=this.routes[0].children;
-        var flag=[];
-        if(type=="all"){
-          for(var i=0;i<list.length;i++){
-            if(["h5","css","js","jq","app","other","plugin","java","framework"].indexOf(list[i].type)!==-1){
-              flag.push(list[i])
-            }
-          }
-        }else{
-          for(var i=0;i<list.length;i++){
-            if(list[i].type==type){
-              flag.push(list[i])
-            }
-          }
-        }
-        return flag.length
-
-      },
-
-      urlFun(items){
-        this.$router.push({path:items.path,query:{name:items.name,created:items.created}});
+      drawLine() {
+        console.log(echarts);
+        // 基于准备好的dom，初始化echarts实例
+        let myChart = echarts.init(document.getElementById('myChart'));
+        // 绘制图表
+        myChart.setOption({
+          title: {text: '在Vue中使用echarts'},
+          tooltip: {},
+          xAxis: {
+            data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+          },
+          yAxis: {},
+          series: [{
+            name: '销量',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+          }]
+        });
       }
     },
 
-    computed:{
-      ...mapGetters([    //右侧导航栏的内容类型
-        'listTab',
-      ]),
-    caseNav () {
-      return  this.$store.state.caseNav
-    },
-     list_ary(){
-       var list=this.routes[0].children;
-       var flag=[];
-       if(this.$store.getters.listTab=="all"){
-         for(var i=0;i<list.length;i++){
-           console.log(list[i].type);
-           if(['other','h5','css','js','jq','app','plugin','java',"framework"].indexOf(list[i].type)!==-1){
-             flag.push(list[i]);
-           }
-         }
-       }else{
-         for(var i=0;i<list.length;i++){
-           if(list[i].type==this.$store.getters.listTab){
-             flag.push(list[i])
-           }
-         }
-       }
-       this.total=flag.length;
-       return flag.reverse();
-     }
-
-  }
+    computed: {
+      caseNav() {
+        return this.$store.state.caseNav
+      },
+    }
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  .list .warp-r li a.active{
-      background-color: #f5f5f5;
+<style scoped  lang="less">
+  .dh-wrap {
+    margin:-8px 0 0 0;
+    /*background-color:rgba(55,60,107,0.8);*/
+     background-color: #253562;
   }
-  .list .warp-r ul li a.active i{
+
+  .dh-title {
+    line-height: 60px;
+    height: 60px;
+    text-align: center;
     color: #fff;
-    background-color: #da6426;
+    font-size: 24px;
+    font-weight: bold;
+    position: relative;
+    .dh-date {
+      position: absolute;
+      top: 0;
+      right: 50px;
+      font-size: 14px;
+      font-weight: normal;
+      color: #acb1bf;
+      label {
+        float: left;
+      }
+      div.choose-date {
+        float: left;
+        margin: 0 10px 0 10px;
+        input[type='text'] {
+          height: 30px;
+          line-height: 30px;
+          width: 150px;
+          background: #192b4f!important;
+          border: 1px solid #192b4f!important;
+          color: #acb1bf!important;
+        }
+      }
+      span.sure-btn {
+        float: left;
+        height: 30px;
+        line-height: 30px;
+        margin: 15px 0 0 0;
+        padding: 0 10px;
+        border-radius:4px ;
+        background-color: #08203d;
+      }
+    }
   }
-  .warp-l{
-    margin-bottom: 20px;
-  }
+
+
 </style>

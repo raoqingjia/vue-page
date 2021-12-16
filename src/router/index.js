@@ -46,6 +46,11 @@ let basicRouter = [
     name: 'plan',
     component: resolve => require(['@/views/plan'], resolve)
   },
+  {
+    path: '/osDashboard',
+    name: 'osDashboard',
+    component: resolve => require(['@/views/osDashboard'], resolve)
+  },
 ];
 
 export const routes = [

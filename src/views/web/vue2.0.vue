@@ -353,6 +353,7 @@ npm install echarts --save
 import echarts from "echarts
 我在需要添加图表的组件中创建依赖的实例
 var echarts = require('echarts') or import echarts from 'echarts'（推荐）
+5.0之后的echart版本 导入语法变了  import * as echarts from 'echarts'
 下是我写的一个图标组件案例，如果需要直接引用组件就行
 环形图组件
 &#60template>
