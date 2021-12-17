@@ -20,11 +20,13 @@
       <aside class="fl-chart">
         <div id="mzptBar" class="chart-item" :style="{height: '260px'}"></div>
         <div class="chart-item">
-          <sortBar :list="applicationList" :display="0" :title="'今日提供方请求量排行榜'" :restStyle="sortBarStyle"></sortBar>
+          <sortBar :list="applicationList" :displayType="0" :baseDate="1500" :title="'今日提供方请求量排行榜'" :restStyle="applicationBarStyle"></sortBar>
         </div>
       </aside>
       <section class="middle-chart">
-
+        <div class="chart-item">
+          <sortBar :list="serviceList" :displayType="1" :baseDate="2000"  :title="'本月服务量请求排行榜'" :restStyle="serviceBarStyle"></sortBar>
+        </div>
       </section>
       <aside class="fr-chart">
         <div id="tgfcgydzb" class="chart-item" :style="{height: '330px'}"></div>
@@ -49,11 +51,21 @@
       return {
         routes: routes,
         datePicker: '',
-        sortBarStyle:{},
+        applicationBarStyle:{
+          dataBg:['#eed180','#e95d58'],
+          baseBg:'#fef7f1',
+          fontColor:'#c6ccd8'
+        },
         chartFontColor: '#c6ccd8',
-        chartBackgroundColor: 'rgba(31,36,64,0)',
         applicationList:[{name:"应用数量1", data:1200},{name:"应用数量1", data:1100},{name:"应用数量1", data:1000},{name:"应用数量1", data:990},{name:"应用数量1", data:800},
-          {name:"应用数量1", data:780},{name:"应用数量1", data:720},{name:"应用数量1", data:690},{name:"应用数量1", data:680},{name:"应用数量1", data:550}]
+          {name:"应用数量1", data:780},{name:"应用数量1", data:720},{name:"应用数量1", data:690},{name:"应用数量1", data:680},{name:"应用数量1", data:550}],
+        serviceList:[{name:"调用量名称", data:1200},{name:"调用量服务名称", data:1100},{name:"用量服务名称", data:1000},{name:"调用量", data:990},{name:"调用量服务名称", data:800}],
+        serviceBarStyle:{
+          dataBg:['#314ef1','#64b5f7'],
+          baseBg:'#fef7f1',
+          fontColor:'#c6ccd8'
+        },
+
       }
     },
     mounted() {
@@ -345,7 +357,6 @@
       tgfcgydzb(currentDate){
         let myChart = echarts.init(document.getElementById('tgfcgydzb'));
         myChart.setOption({
-          backgroundColor: this.chartBackgroundColor,
           title: [ {
             text: currentDate+'%',
             x: 'center',
@@ -481,13 +492,13 @@
 
   .fl-chart {
     float: left;
-    width: 30%;
+    width: 28%;
   }
 
   .middle-chart {
     float: left;
     width: 40%;
-    padding: 0 20px;
+    padding: 0 15px;
   }
 
   .fr-chart {
