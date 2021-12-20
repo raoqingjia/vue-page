@@ -153,7 +153,7 @@
       }
       .bar {
         float: left;
-        width: 65%;
+        width: 63%;
         height: 12px;
         margin: 12px 15px 0;
         overflow: hidden;

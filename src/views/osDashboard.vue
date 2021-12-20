@@ -27,6 +27,7 @@
         <div class="chart-item">
           <sortBar :list="serviceList" :displayType="1" :baseDate="2000"  :title="'本月服务量请求排行榜'" :restStyle="serviceBarStyle"></sortBar>
         </div>
+        <div id="byxz" class="chart-item" :style="{height: '330px'}"></div>
       </section>
       <aside class="fr-chart">
         <div id="tgfcgydzb" class="chart-item" :style="{height: '330px'}"></div>
@@ -78,6 +79,7 @@
         this.mzptBar();
         this.zqstnl(56.8);
         this.tgfcgydzb(89);
+        this.byxz();
       })
     },
     methods: {
@@ -423,6 +425,159 @@
             }
           ]
         });
+      },
+      // 本月新增情况
+      byxz(){
+        let xLabel = ['第一周', '第二周', '第三周', '第四周', '第五周'];
+        let yLabel = ["40", "60", "22", "85", "50", "40"];
+        var option = {
+          title: {
+            text: '  本月新增情况',
+            textStyle: {
+              color: this.chartFontColor,
+              fontSize: 16,
+              lineHeight: 44,
+            }
+          },
+          tooltip: {
+            trigger: 'axis',
+            formatter: "{b} : {c}",
+            axisPointer: {
+              lineStyle: {
+                color: {
+                  type: 'linear',
+                  x: 0,
+                  y: 0,
+                  x2: 0,
+                  y2: 1,
+                  colorStops: [{
+                    offset: 0,
+                    color: 'rgba(126,199,255,0)' // 0% 处的颜色
+                  }, {
+                    offset: 0.5,
+                    color: 'rgba(126,199,255,1)' // 100% 处的颜色
+                  }, {
+                    offset: 1,
+                    color: 'rgba(126,199,255,0)' // 100% 处的颜色
+                  }],
+                  global: false // 缺省为 false
+                }
+              },
+            }
+          },
+          grid: {
+            top: '17%',
+            left: '11%',
+            right: '7%',
+            bottom: '16%',
+            // containLabel: true
+          },
+          xAxis: [{
+            type: 'category',
+            boundaryGap: false,
+            axisLine: { //坐标轴轴线相关设置。数学上的x轴
+              show: true,
+              lineStyle: {
+                color: '#233653'
+              },
+            },
+            axisLabel: { //坐标轴刻度标签的相关设置
+              textStyle: {
+                color:'#c6ccd8',
+                padding: 16,
+                fontSize: 14
+              },
+              formatter: function(data) {
+                return data
+              }
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: '#192a44'
+              },
+            },
+            axisTick: {
+              show: false,
+            },
+            data: xLabel
+          }],
+          yAxis: [{
+            min: 0,
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: '#192a44'
+              },
+            },
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: "#233653"
+              }
+            },
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color:'#c6ccd8',
+                padding: 16
+              },
+              formatter: function(value) {
+                if (value === 0) {
+                  return value
+                }
+                return value
+              }
+            },
+            axisTick: {
+              show: false,
+            },
+          }],
+          series: [{
+            name: '本月新增服务',
+            type: 'line',
+            symbol: 'circle', // 默认是空心圆（中间是白色的），改成实心圆
+            showAllSymbol: true,
+            symbolSize: 10,
+            smooth: true, // 折线是否平滑
+            label:{
+              show:true,
+              color:'#c6ccd8'
+            },
+            lineStyle: {
+              normal: {
+                width: 2,
+                color: "rgba(25,163,223,1)", // 线条颜色
+              },
+              borderColor: 'rgba(0,0,0,.4)',
+            },
+            itemStyle: {
+              color: "#59a2f8",  //  折线点
+            },
+            tooltip: {
+              show: true
+            },
+            areaStyle: { //区域填充样式
+              normal: {
+                //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                  offset: 0,
+                  color: "rgba(25,163,223,.3)"
+                },
+                  {
+                    offset: 1,
+                    color: "rgba(25,163,223, 0)"
+                  }
+                ], false),
+                shadowColor: 'rgba(25,163,223, 0.5)', //阴影颜色
+                shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+              }
+            },
+            data: yLabel
+          }]
+        }
+        let myChart = echarts.init(document.getElementById('byxz'));
+        myChart.setOption(option);
       }
     },
     computed: {}
