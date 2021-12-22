@@ -131,6 +131,13 @@ const cssRouter = [ //css案例
     type: "css",
     created: "2018-11-01",
     component: resolve => require(['@/views/css/lineHeight'], resolve)
+  },
+  {
+    path: '/css/flexDirection',
+    name: 'Flex布局的属性解析',
+    type: "css",
+    created: "2019-01-08",
+    component: resolve => require(['@/views/css/flexDirection'], resolve)
   }
   ];
 export default cssRouter;
