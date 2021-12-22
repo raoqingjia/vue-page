@@ -51,6 +51,11 @@ let basicRouter = [
     name: 'osDashboard',
     component: resolve => require(['@/views/osDashboard'], resolve)
   },
+  {
+    path: '/dashboardTest',
+    name: 'dashboardTest',
+    component: resolve => require(['@/views/dashboardTest'], resolve)
+  },
 ];
 
 export const routes = [

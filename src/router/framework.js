@@ -49,6 +49,13 @@ const frameworkRouter = [ // 前端框架
     component: resolve => require(['@/views/framework/avrFramework'], resolve)
   },
   {
+    path: '/framework/vueStyleDeep',
+    name: 'vue中使用样式穿透 >>>  /deep/',
+    type: "framework",
+    created: "2021-04-23",
+    component: resolve => require(['@/views/framework/vueStyleDeep'], resolve)
+  },
+  {
     path: '/framework/vueIeSCRIPT',
     name: 'vue项目在IE上显示空白 报错SCRIPT1006: 缺少 “)”',
     type: "framework",

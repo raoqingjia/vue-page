@@ -18,19 +18,11 @@
     </h1>
     <div class="dh-content clearfix">
       <aside class="fl-chart">
+         <!-- 每周平台请求量排行情况-->
         <div id="mzptBar" class="chart-item" :style="{height: '260px'}"></div>
-        <div class="chart-item">
-          <sortBar :list="applicationList" :displayType="0" :baseDate="1500" :title="'今日提供方请求量排行榜'"
-                   :restStyle="applicationBarStyle"></sortBar>
-        </div>
       </aside>
       <section class="middle-chart">
-        <div class="chart-item">
-          <sortBar :list="serviceList" :displayType="1" :baseDate="2000" :title="'本月服务量请求排行榜'"
-                   :restStyle="serviceBarStyle"></sortBar>
-        </div>
         <div id="byxz" class="chart-item" :style="{height: '330px'}"></div>
-        <div id="jrtgfqq" class="chart-item" :style="{height: '330px'}"></div>
       </section>
       <aside class="fr-chart">
         <div id="tgfcgydzb" class="chart-item" :style="{height: '330px'}"></div>
@@ -43,10 +35,10 @@
 <script>
   import {routes} from '@/router';
   import * as echarts from 'echarts';
-  import sortBar from '@/views/component/sortBar';
+  import sortBar  from '@/views/component/sortBar';
 
   export default {
-    name: 'osDashboard',
+    name: 'dashboardTest',
     created() {
 
     },
@@ -55,28 +47,19 @@
       return {
         routes: routes,
         datePicker: '',
-        applicationBarStyle: {
-          dataBg: ['#eed180', '#e95d58'],
-          baseBg: '#fef7f1',
-          fontColor: '#c6ccd8'
+        applicationBarStyle:{
+          dataBg:['#eed180','#e95d58'],
+          baseBg:'#fef7f1',
+          fontColor:'#c6ccd8'
         },
         chartFontColor: '#c6ccd8',
-        applicationList: [{name: "应用数量1", data: 1200}, {name: "应用数量1", data: 1100}, {
-          name: "应用数量1",
-          data: 1000
-        }, {name: "应用数量1", data: 990}, {name: "应用数量1", data: 800},
-          {name: "应用数量1", data: 780}, {name: "应用数量1", data: 720}, {name: "应用数量1", data: 690}, {
-            name: "应用数量1",
-            data: 680
-          }, {name: "应用数量1", data: 550}],
-        serviceList: [{name: "调用量名称", data: 1200}, {name: "调用量服务名称", data: 1100}, {
-          name: "用量服务名称",
-          data: 1000
-        }, {name: "调用量", data: 990}, {name: "调用量服务名称", data: 800}],
-        serviceBarStyle: {
-          dataBg: ['#314ef1', '#64b5f7'],
-          baseBg: '#fef7f1',
-          fontColor: '#c6ccd8'
+        applicationList:[{name:"应用数量1", data:1200},{name:"应用数量1", data:1100},{name:"应用数量1", data:1000},{name:"应用数量1", data:990},{name:"应用数量1", data:800},
+          {name:"应用数量1", data:780},{name:"应用数量1", data:720},{name:"应用数量1", data:690},{name:"应用数量1", data:680},{name:"应用数量1", data:550}],
+        serviceList:[{name:"调用量名称", data:1200},{name:"调用量服务名称", data:1100},{name:"用量服务名称", data:1000},{name:"调用量", data:990},{name:"调用量服务名称", data:800}],
+        serviceBarStyle:{
+          dataBg:['#314ef1','#64b5f7'],
+          baseBg:'#fef7f1',
+          fontColor:'#c6ccd8'
         },
 
       }
@@ -87,19 +70,47 @@
         let scaleX = document.body.clientWidth / 1920;
         let scaleY = document.body.clientHeight / 1080;
         let scale = scaleX < scaleY ? scaleX : scaleY;
+        console.log(scale);
         let screenWidthStyle = `width: 1920px;height: 1080px;transform: scale(${scale},${scale});!important;margin:0 ${(document.body.clientWidth - 1920 * scale) / 2}px;`;
+        console.log(screenWidthStyle);
+         // 每周平台请求量排行情况
         this.mzptBar();
         this.zqstnl(56.8);
         this.tgfcgydzb(89);
         this.byxz();
-        this.jrtgfqq();
       })
     },
     methods: {
-      // 每周平台请求情况
+      // 每周平台请求量排行情况
       mzptBar() {
         let yList = [32, 58, 64, 64, 64];
         let xData = ['第一周', '第二周', '第三周', '第四周', '第五周'];
+        let dom = 340;
+        let barWidth = dom / 20;  // 柱状图的宽度
+        let colors = []
+        for (let i = 0; i < xData.length; i++) {
+          colors.push({
+            type: 'linear',
+            x: 0,
+            x2: 1,
+            y: 0,
+            y2: 0,
+            colorStops: [
+              {
+                offset: 0,
+                color: '#73fcff' // 最左边
+              }, {
+                offset: 0.5,
+                color: '#86eef1' // 左边的右边 颜色
+              }, {
+                offset: 0.5,
+                color: '#5ad6d9' // 右边的左边 颜色
+              }, {
+                offset: 1,
+                color: '#3dc8ca'
+              }]
+          })
+        }
         let option = {
           title: {
             text: '  每周平台请求量情况',
@@ -171,41 +182,69 @@
           series: [
             {
               type: 'bar',
-              barWidth: 15,
+              barWidth: barWidth,
               itemStyle: {
                 normal: {
-                  color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                    offset: 0,
-                    color: '#84d1e9'
-                  }, {
-                    offset: 1,
-                    color: '#3579b4'
-                  }]),
-                  borderRadius: [10, 10, 0, 0]
+                  color: function (params) {
+                    return colors[params.dataIndex % 7];
+                  }
                 }
               },
               label: {
                 show: true,
-                position:'top',
+                position: [barWidth / 2, -(barWidth + 20)],
                 color: this.chartFontColor,  //  字体颜色
                 fontSize: 14,
                 align: 'center',
               },
               data: yList
-            }
-          ]
+            },
+            {
+              z: 2,
+              type: 'pictorialBar',
+              data: yList,
+              symbol: 'diamond',
+              symbolOffset: [0, '50%'],
+              symbolSize: [barWidth, barWidth * 0.5],
+              itemStyle: {
+                normal: {
+                  color: function (params) {
+                    return colors[params.dataIndex % 7];
+                  },
+                }
+              },
+            },
+            {
+              z: 3,
+              type: 'pictorialBar',
+              symbolPosition: 'end',
+              data: yList,
+              symbol: 'diamond',
+              symbolOffset: [0, '-50%'],
+              symbolSize: [barWidth, barWidth * 0.5],
+              itemStyle: {
+                normal: {
+                  borderWidth: 0,
+                  color: function (params) {
+                    return colors[params.dataIndex % 7].colorStops[0].color;
+                  },
+
+                }
+              },
+            },
+          ],
         }
 
         let myChart = echarts.init(document.getElementById('mzptBar'));
         myChart.setOption(option);
 
       },
-      zqstnl(currentDate) {
+      zqstnl(currentDate){
         let myChart = echarts.init(document.getElementById('zqstnl'));
         let num = 0;
         let option = {
-          title: [{
-            text: currentDate + '%',
+          title: [ {
+            text: currentDate+'%',
             x: 'center',
             top: '46%',
             textStyle: {
@@ -284,15 +323,15 @@
               name: "",
               type: 'custom',
               coordinateSystem: "none",
-              renderItem: function (params, api) {
+              renderItem: function(params, api) {
                 return {
                   type: 'arc',
                   shape: {
                     cx: api.getWidth() / 2,
                     cy: api.getHeight() / 2,
                     r: Math.min(api.getWidth(), api.getHeight()) / 2 * 0.55, //  运动小卫星的半径
-                    startAngle: (0 + num) * Math.PI / 180,
-                    endAngle: (1 + num) * Math.PI / 180
+                    startAngle: (0+num) * Math.PI / 180,
+                    endAngle: (1+num) * Math.PI / 180
                   },
                   style: {
                     stroke: "#fdf914",
@@ -306,22 +345,20 @@
             },
           ]
         };
-
-        function numb() {
-          num = num + 5
+        function numb(){
+          num = num+5
           myChart.setOption(option, true)
         }
-
-        setInterval(function () {
+        setInterval(function() {
           numb()
         }, 100);
         myChart.setOption(option);
       },
-      tgfcgydzb(currentDate) {
+      tgfcgydzb(currentDate){
         let myChart = echarts.init(document.getElementById('tgfcgydzb'));
         myChart.setOption({
-          title: [{
-            text: currentDate + '%',
+          title: [ {
+            text: currentDate+'%',
             x: 'center',
             top: '46%',
             textStyle: {
@@ -360,22 +397,22 @@
               roundCap: true,
               barWidth: 80,
               showBackground: true,
-              backgroundStyle: {
+              backgroundStyle:{
                 color: 'rgba(231, 216, 236, 0.3)'   //  真实数据圆圈的底色
               },
               data: [currentDate],
               coordinateSystem: 'polar',
               itemStyle: {
                 normal: {
-                  color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [
-                    {
-                      offset: 0,
-                      color: '#8a34e3'
-                    },
-                    {
-                      offset: 0.5,
-                      color: '#d571f9'
-                    },
+                  color: new echarts.graphic.LinearGradient(1,0, 0,  0, [
+                  {
+                    offset: 0,
+                    color: '#8a34e3'
+                  },
+                  {
+                    offset: 0.5,
+                    color: '#d571f9'
+                  },
                     {
                       offset: 1,
                       color: '#c53ff5'
@@ -388,7 +425,7 @@
         });
       },
       // 本月新增情况
-      byxz() {
+      byxz(){
         let xLabel = ['第一周', '第二周', '第三周', '第四周', '第五周'];
         let yLabel = ["40", "60", "22", "85", "50", "40"];
         var option = {
@@ -402,7 +439,9 @@
           },
           tooltip: {
             trigger: 'axis',
+            backgroundColor:'transparent',
             formatter: "{b} : {c}",
+            position: ['50%', '50%'],
             axisPointer: {
               lineStyle: {
                 color: {
@@ -444,11 +483,11 @@
             },
             axisLabel: { //坐标轴刻度标签的相关设置
               textStyle: {
-                color: '#c6ccd8',
+                color:'#c6ccd8',
                 padding: 16,
                 fontSize: 14
               },
-              formatter: function (data) {
+              formatter: function(data) {
                 return data
               }
             },
@@ -480,10 +519,10 @@
             axisLabel: {
               show: true,
               textStyle: {
-                color: '#c6ccd8',
+                color:'#c6ccd8',
                 padding: 16
               },
-              formatter: function (value) {
+              formatter: function(value) {
                 if (value === 0) {
                   return value
                 }
@@ -499,21 +538,23 @@
             type: 'line',
             symbol: 'circle', // 默认是空心圆（中间是白色的），改成实心圆
             showAllSymbol: true,
-            symbolSize: 10,
+            symbolSize: 12,
             smooth: true, // 折线是否平滑
-            label: {
-              show: true,
-              color: '#c6ccd8'
+            label:{
+              show:true,
+              color:'#c6ccd8'
             },
             lineStyle: {
               normal: {
                 width: 2,
                 color: "rgba(25,163,223,1)", // 线条颜色
-              },
-              borderColor: 'rgba(0,0,0,.4)',
+              }
             },
-            itemStyle: {
-              color: "#59a2f8",  //  折线点
+            itemStyle: {     //  折线拐点
+              color: "#fff",
+              borderColor:"#59a2f8",
+              borderWidth :2,
+              borderType: 'solid'
             },
             tooltip: {
               show: true
@@ -539,166 +580,6 @@
         }
         let myChart = echarts.init(document.getElementById('byxz'));
         myChart.setOption(option);
-      },
-      // 今日提供方请求量排行
-      jrtgfqq() {
-        let manNumber = [32, 58, 64, 64, 64, 25];
-        let womanNumber = [32, 58, 64, 64, 64, 25];
-        let sumNumber = [64, 58 * 2, 64 * 2, 64 * 2, 64 * 2, 25 * 2];
-        let xData = ['周一', '周二', '周三', '周四', '周五', '周六'];
-
-        let option = {
-          //提示框
-          tooltip: {
-            trigger: 'axis',
-            // formatter: function (p) {
-            //   console.log(p, p[0].marker);
-            //   let div = ` ${p[0].name}<br/> ${p[0].seriesName}:${p[0].value}<br/>${p[3].seriesName}:${p[3].value}<br/>${p[6].seriesName}:${p[6].value} `;
-            //   return div;
-            // },
-            axisPointer: {
-              // 坐标轴指示器，坐标轴触发有效
-              type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
-            },
-          },
-          legend: {
-            itemGap: 20,
-            top: 20,
-            right: '10%',
-            itemWidth: 20,
-            itemHeight: 14,
-            data: [
-              {
-                name: '男',
-                icon: 'roundRect',
-              },
-              {
-                name: '女',
-                icon: 'roundRect',
-              },
-              {
-                name: '总人数',
-                // icon: 'triangle',
-              }
-            ],
-            textStyle: {
-              color: "#fff",
-            }
-          },
-          /**区域位置*/
-          grid: {
-            left: '15%',
-            right: '10%',
-            top: '13%',
-            bottom: '15%',
-          },
-          //X轴
-          xAxis: {
-            data: xData,
-            type: 'category',
-            axisLine: {
-              show: false,
-              lineStyle: {
-                color: 'rgba(255,255,255,1)',
-                shadowColor: 'rgba(255,255,255,1)',
-                shadowOffsetX: '20',
-              },
-              symbol: ['none', 'arrow'],
-              symbolOffset: [0, 25],
-            },
-            splitLine: {
-              show: false,
-            },
-            axisTick: {
-              show: false,
-            },
-            axisLabel: {
-              margin: 30,
-              fontSize: 15,
-            },
-          },
-          yAxis: {
-            show: true,
-            splitNumber: 4,
-            axisLine: {
-              show: false,
-            },
-            splitLine: {
-              show: true,
-              lineStyle: {
-                type: 'dashed',
-                color: '#075858',
-              },
-            },
-            axisLabel: {
-              color: '#FFFFFF',
-              margin: 30,
-              fontSize: 15,
-            },
-          },
-          series: [
-            {
-              name: '男',
-              type: 'bar',
-              barWidth: 15,
-              itemStyle: {
-                normal: {
-                  color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                    offset: 0,
-                    color: '#de3a4c'
-                  }, {
-                    offset: 1,
-                    color: '#f5d686'
-                  }]),
-                  borderRadius: [10, 10, 0, 0]
-                 }
-              },
-              data: manNumber
-            },
-            // ---------------------分割线---------------------
-            {
-              name: '女',
-              type: 'bar',
-              barWidth: 15,
-              itemStyle: {
-                normal: {
-                  color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                    offset: 0,
-                    color: '#84d1e9'
-                  }, {
-                    offset: 1,
-                    color: '#3579b4'
-                  }]),
-                  borderRadius: [10, 10, 0, 0]
-                },
-              },
-              data: womanNumber,
-            },
-            // 总人数
-            {
-              name: '总人数',
-              type: 'line',
-              showAllSymbol: true,
-              symbol: 'circle',
-              symbolSize: 10,
-              itemStyle: {
-                color: '#6fc7e1',
-                shadowColor: '#6fc7e1',
-                shadowBlur: 20,
-              },
-              lineStyle: {
-                width: 4,
-                color: '#6fc7e1',
-                shadowColor: '#6fc7e1',
-                shadowBlur: 20,
-              },
-              data: sumNumber,
-            },
-          ],
-        };
-
-        let myChart = echarts.init(document.getElementById('jrtgfqq'));
-        myChart.setOption(option);
       }
     },
     computed: {}
@@ -713,15 +594,6 @@
     margin: -8px 0 0 0;
     padding: 0 20px;
     background-color: #253562;
-  }
-
-  .dh-wrap /deep/ .el-input__inner {
-    height: 30px;
-    line-height: 30px;
-    width: 150px;
-    background: #192b4f !important;
-    border: 1px solid #192b4f !important;
-    color: @fontColor !important;
   }
 
   .dh-title {
@@ -749,14 +621,14 @@
         float: left;
         margin: 0 10px 0 10px;
 
-        /* input[type='text'] {
-           height: 30px;
-           line-height: 30px;
-           width: 150px;
-           background: #192b4f !important;
-           border: 1px solid #192b4f !important;
-           color: @fontColor !important;
-         }*/
+        input[type='text'] {
+          height: 30px;
+          line-height: 30px;
+          width: 150px;
+          background: #192b4f !important;
+          border: 1px solid #192b4f !important;
+          color: @fontColor !important;
+        }
       }
 
       span.sure-btn {
@@ -796,8 +668,9 @@
     float: left;
     margin: 0 0 10px 0;
     border-radius: 4px;
-    background-color: rgba(31, 36, 64, 0.5);
+    background-color: rgba(31,36,64,0.5);
     border: 2px solid #141e36;
   }
+
 
 </style>
