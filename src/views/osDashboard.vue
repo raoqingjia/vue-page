@@ -20,12 +20,14 @@
       <aside class="fl-chart">
         <div id="mzptBar" class="chart-item" :style="{height: '260px'}"></div>
         <div class="chart-item">
-          <sortBar :list="applicationList" :displayType="0" :baseDate="1500" :title="'今日提供方请求量排行榜'" :restStyle="applicationBarStyle"></sortBar>
+          <sortBar :list="applicationList" :displayType="0" :baseDate="1500" :title="'今日提供方请求量排行榜'"
+                   :restStyle="applicationBarStyle"></sortBar>
         </div>
       </aside>
       <section class="middle-chart">
         <div class="chart-item">
-          <sortBar :list="serviceList" :displayType="1" :baseDate="2000"  :title="'本月服务量请求排行榜'" :restStyle="serviceBarStyle"></sortBar>
+          <sortBar :list="serviceList" :displayType="1" :baseDate="2000" :title="'本月服务量请求排行榜'"
+                   :restStyle="serviceBarStyle"></sortBar>
         </div>
         <div id="byxz" class="chart-item" :style="{height: '330px'}"></div>
         <div id="jrtgfqq" class="chart-item" :style="{height: '330px'}"></div>
@@ -41,7 +43,7 @@
 <script>
   import {routes} from '@/router';
   import * as echarts from 'echarts';
-  import sortBar  from '@/views/component/sortBar';
+  import sortBar from '@/views/component/sortBar';
 
   export default {
     name: 'osDashboard',
@@ -53,19 +55,28 @@
       return {
         routes: routes,
         datePicker: '',
-        applicationBarStyle:{
-          dataBg:['#eed180','#e95d58'],
-          baseBg:'#fef7f1',
-          fontColor:'#c6ccd8'
+        applicationBarStyle: {
+          dataBg: ['#eed180', '#e95d58'],
+          baseBg: '#fef7f1',
+          fontColor: '#c6ccd8'
         },
         chartFontColor: '#c6ccd8',
-        applicationList:[{name:"应用数量1", data:1200},{name:"应用数量1", data:1100},{name:"应用数量1", data:1000},{name:"应用数量1", data:990},{name:"应用数量1", data:800},
-          {name:"应用数量1", data:780},{name:"应用数量1", data:720},{name:"应用数量1", data:690},{name:"应用数量1", data:680},{name:"应用数量1", data:550}],
-        serviceList:[{name:"调用量名称", data:1200},{name:"调用量服务名称", data:1100},{name:"用量服务名称", data:1000},{name:"调用量", data:990},{name:"调用量服务名称", data:800}],
-        serviceBarStyle:{
-          dataBg:['#314ef1','#64b5f7'],
-          baseBg:'#fef7f1',
-          fontColor:'#c6ccd8'
+        applicationList: [{name: "应用数量1", data: 1200}, {name: "应用数量1", data: 1100}, {
+          name: "应用数量1",
+          data: 1000
+        }, {name: "应用数量1", data: 990}, {name: "应用数量1", data: 800},
+          {name: "应用数量1", data: 780}, {name: "应用数量1", data: 720}, {name: "应用数量1", data: 690}, {
+            name: "应用数量1",
+            data: 680
+          }, {name: "应用数量1", data: 550}],
+        serviceList: [{name: "调用量名称", data: 1200}, {name: "调用量服务名称", data: 1100}, {
+          name: "用量服务名称",
+          data: 1000
+        }, {name: "调用量", data: 990}, {name: "调用量服务名称", data: 800}],
+        serviceBarStyle: {
+          dataBg: ['#314ef1', '#64b5f7'],
+          baseBg: '#fef7f1',
+          fontColor: '#c6ccd8'
         },
 
       }
@@ -89,32 +100,6 @@
       mzptBar() {
         let yList = [32, 58, 64, 64, 64];
         let xData = ['第一周', '第二周', '第三周', '第四周', '第五周'];
-        let dom = 340;
-        let barWidth = dom / 20;  // 柱状图的宽度
-        let colors = []
-        for (let i = 0; i < xData.length; i++) {
-          colors.push({
-            type: 'linear',
-            x: 0,
-            x2: 1,
-            y: 0,
-            y2: 0,
-            colorStops: [
-              {
-                offset: 0,
-                color: '#73fcff' // 最左边
-              }, {
-                offset: 0.5,
-                color: '#86eef1' // 左边的右边 颜色
-              }, {
-                offset: 0.5,
-                color: '#5ad6d9' // 右边的左边 颜色
-              }, {
-                offset: 1,
-                color: '#3dc8ca'
-              }]
-          })
-        }
         let option = {
           title: {
             text: '  每周平台请求量情况',
@@ -186,69 +171,41 @@
           series: [
             {
               type: 'bar',
-              barWidth: barWidth,
+              barWidth: 15,
               itemStyle: {
                 normal: {
-                  color: function (params) {
-                    return colors[params.dataIndex % 7];
-                  }
+                  color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                    offset: 0,
+                    color: '#84d1e9'
+                  }, {
+                    offset: 1,
+                    color: '#3579b4'
+                  }]),
+                  borderRadius: [10, 10, 0, 0]
                 }
               },
               label: {
                 show: true,
-                position: [barWidth / 2, -(barWidth + 20)],
+                position:'top',
                 color: this.chartFontColor,  //  字体颜色
                 fontSize: 14,
                 align: 'center',
               },
               data: yList
-            },
-            {
-              z: 2,
-              type: 'pictorialBar',
-              data: yList,
-              symbol: 'diamond',
-              symbolOffset: [0, '50%'],
-              symbolSize: [barWidth, barWidth * 0.5],
-              itemStyle: {
-                normal: {
-                  color: function (params) {
-                    return colors[params.dataIndex % 7];
-                  },
-                }
-              },
-            },
-            {
-              z: 3,
-              type: 'pictorialBar',
-              symbolPosition: 'end',
-              data: yList,
-              symbol: 'diamond',
-              symbolOffset: [0, '-50%'],
-              symbolSize: [barWidth, barWidth * 0.5],
-              itemStyle: {
-                normal: {
-                  borderWidth: 0,
-                  color: function (params) {
-                    return colors[params.dataIndex % 7].colorStops[0].color;
-                  },
-
-                }
-              },
-            },
-          ],
+            }
+          ]
         }
 
         let myChart = echarts.init(document.getElementById('mzptBar'));
         myChart.setOption(option);
 
       },
-      zqstnl(currentDate){
+      zqstnl(currentDate) {
         let myChart = echarts.init(document.getElementById('zqstnl'));
         let num = 0;
         let option = {
-          title: [ {
-            text: currentDate+'%',
+          title: [{
+            text: currentDate + '%',
             x: 'center',
             top: '46%',
             textStyle: {
@@ -327,15 +284,15 @@
               name: "",
               type: 'custom',
               coordinateSystem: "none",
-              renderItem: function(params, api) {
+              renderItem: function (params, api) {
                 return {
                   type: 'arc',
                   shape: {
                     cx: api.getWidth() / 2,
                     cy: api.getHeight() / 2,
                     r: Math.min(api.getWidth(), api.getHeight()) / 2 * 0.55, //  运动小卫星的半径
-                    startAngle: (0+num) * Math.PI / 180,
-                    endAngle: (1+num) * Math.PI / 180
+                    startAngle: (0 + num) * Math.PI / 180,
+                    endAngle: (1 + num) * Math.PI / 180
                   },
                   style: {
                     stroke: "#fdf914",
@@ -349,20 +306,22 @@
             },
           ]
         };
-        function numb(){
-          num = num+5
+
+        function numb() {
+          num = num + 5
           myChart.setOption(option, true)
         }
-        setInterval(function() {
+
+        setInterval(function () {
           numb()
         }, 100);
         myChart.setOption(option);
       },
-      tgfcgydzb(currentDate){
+      tgfcgydzb(currentDate) {
         let myChart = echarts.init(document.getElementById('tgfcgydzb'));
         myChart.setOption({
-          title: [ {
-            text: currentDate+'%',
+          title: [{
+            text: currentDate + '%',
             x: 'center',
             top: '46%',
             textStyle: {
@@ -401,22 +360,22 @@
               roundCap: true,
               barWidth: 80,
               showBackground: true,
-              backgroundStyle:{
+              backgroundStyle: {
                 color: 'rgba(231, 216, 236, 0.3)'   //  真实数据圆圈的底色
               },
               data: [currentDate],
               coordinateSystem: 'polar',
               itemStyle: {
                 normal: {
-                  color: new echarts.graphic.LinearGradient(1,0, 0,  0, [
-                  {
-                    offset: 0,
-                    color: '#8a34e3'
-                  },
-                  {
-                    offset: 0.5,
-                    color: '#d571f9'
-                  },
+                  color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [
+                    {
+                      offset: 0,
+                      color: '#8a34e3'
+                    },
+                    {
+                      offset: 0.5,
+                      color: '#d571f9'
+                    },
                     {
                       offset: 1,
                       color: '#c53ff5'
@@ -429,7 +388,7 @@
         });
       },
       // 本月新增情况
-      byxz(){
+      byxz() {
         let xLabel = ['第一周', '第二周', '第三周', '第四周', '第五周'];
         let yLabel = ["40", "60", "22", "85", "50", "40"];
         var option = {
@@ -485,11 +444,11 @@
             },
             axisLabel: { //坐标轴刻度标签的相关设置
               textStyle: {
-                color:'#c6ccd8',
+                color: '#c6ccd8',
                 padding: 16,
                 fontSize: 14
               },
-              formatter: function(data) {
+              formatter: function (data) {
                 return data
               }
             },
@@ -521,10 +480,10 @@
             axisLabel: {
               show: true,
               textStyle: {
-                color:'#c6ccd8',
+                color: '#c6ccd8',
                 padding: 16
               },
-              formatter: function(value) {
+              formatter: function (value) {
                 if (value === 0) {
                   return value
                 }
@@ -542,9 +501,9 @@
             showAllSymbol: true,
             symbolSize: 10,
             smooth: true, // 折线是否平滑
-            label:{
-              show:true,
-              color:'#c6ccd8'
+            label: {
+              show: true,
+              color: '#c6ccd8'
             },
             lineStyle: {
               normal: {
@@ -582,120 +541,56 @@
         myChart.setOption(option);
       },
       // 今日提供方请求量排行
-      jrtgfqq(){
-        /**
-         *
-         * 作者: GhostCat
-         * 博客: https://gcat.cc
-         * 描述: 双立体折线辉光图
-         *
-         */
-
+      jrtgfqq() {
         let manNumber = [32, 58, 64, 64, 64, 25];
         let womanNumber = [32, 58, 64, 64, 64, 25];
         let sumNumber = [64, 58 * 2, 64 * 2, 64 * 2, 64 * 2, 25 * 2];
         let xData = ['周一', '周二', '周三', '周四', '周五', '周六'];
 
-        let dom = 800;
-        let barWidth = dom / 20;
-        let manColors = [];
-        let womanColors = [];
-        for (let i = 0; i < 10; i++) {
-          manColors.push({
-            type: 'linear',
-            x: 0,
-            x2: 1,
-            y: 0,
-            y2: 0,
-            colorStops: [
-              {
-                offset: 0,
-                color: '#73fcff', // 最左边
-              },
-              {
-                offset: 0.5,
-                color: '#86eef1', // 左边的右边 颜色
-              },
-              {
-                offset: 0.5,
-                color: '#5ad6d9', // 右边的左边 颜色
-              },
-              {
-                offset: 1,
-                color: '#3dc8ca',
-              },
-            ],
-          });
-          womanColors.push({
-            type: 'linear',
-            x: 0,
-            x2: 1,
-            y: 0,
-            y2: 0,
-            colorStops: [
-              {
-                offset: 0,
-                color: '#ffd680', // 最左边
-              },
-              {
-                offset: 0.5,
-                color: '#ffd882', // 左边的右边 颜色
-              },
-              {
-                offset: 0.5,
-                color: '#f2c258', // 右边的左边 颜色
-              },
-              {
-                offset: 1,
-                color: '#f1bf52',
-              },
-            ],
-          });
-        }
         let option = {
           //提示框
           tooltip: {
             trigger: 'axis',
-            formatter: function (p) {
-              console.log(p, p[0].marker);
-              let div = ` ${p[0].name}<br/> ${p[0].seriesName}:${p[0].value}<br/>${p[3].seriesName}:${p[3].value}<br/>${p[6].seriesName}:${p[6].value} `;
-              return div;
-            },
+            // formatter: function (p) {
+            //   console.log(p, p[0].marker);
+            //   let div = ` ${p[0].name}<br/> ${p[0].seriesName}:${p[0].value}<br/>${p[3].seriesName}:${p[3].value}<br/>${p[6].seriesName}:${p[6].value} `;
+            //   return div;
+            // },
             axisPointer: {
               // 坐标轴指示器，坐标轴触发有效
               type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
             },
           },
           legend: {
-              itemGap: 20,
-              top: 20,
-              left: '10%',
-              // itemWidth: 14,
-              itemHeight: 14,
-              data: [
-                  {
-                      name: '男',
-                      icon: 'roundRect',
-                  },
-                  {
-                      name: '女',
-                      icon: 'roundRect',
-                  },
-                  {
-                      name: '总人数',
-                      // icon: 'triangle',
-                  }
-              ],
-              textStyle: {
-                  color: "#fff",
+            itemGap: 20,
+            top: 20,
+            right: '10%',
+            itemWidth: 20,
+            itemHeight: 14,
+            data: [
+              {
+                name: '男',
+                icon: 'roundRect',
+              },
+              {
+                name: '女',
+                icon: 'roundRect',
+              },
+              {
+                name: '总人数',
+                // icon: 'triangle',
               }
+            ],
+            textStyle: {
+              color: "#fff",
+            }
           },
           /**区域位置*/
           grid: {
-            left: '10%',
+            left: '15%',
             right: '10%',
-            top: '10%',
-            bottom: '10%',
+            top: '13%',
+            bottom: '15%',
           },
           //X轴
           xAxis: {
@@ -745,95 +640,40 @@
             {
               name: '男',
               type: 'bar',
-              barWidth: barWidth,
+              barWidth: 15,
               itemStyle: {
                 normal: {
-                  color: function (params) {
-                    return manColors[params.dataIndex % 7];
-                  },
-                },
+                  color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                    offset: 0,
+                    color: '#de3a4c'
+                  }, {
+                    offset: 1,
+                    color: '#f5d686'
+                  }]),
+                  borderRadius: [10, 10, 0, 0]
+                 }
               },
-              data: manNumber,
-            },
-            {
-              z: 2,
-              type: 'pictorialBar',
-              data: manNumber,
-              symbol: 'diamond',
-              symbolOffset: ['-63%', '50%'],
-              symbolSize: [barWidth, barWidth * 0.5],
-              itemStyle: {
-                normal: {
-                  color: function (params) {
-                    return manColors[params.dataIndex % 7];
-                  },
-                },
-              },
-            },
-            {
-              z: 3,
-              type: 'pictorialBar',
-              symbolPosition: 'end',
-              data: manNumber,
-              symbol: 'diamond',
-              symbolOffset: ['-63%', '-50%'],
-              symbolSize: [barWidth, barWidth * 0.5],
-              itemStyle: {
-                normal: {
-                  borderWidth: 0,
-                  color: function (params) {
-                    return manColors[params.dataIndex % 7].colorStops[0].color;
-                  },
-                },
-              },
+              data: manNumber
             },
             // ---------------------分割线---------------------
             {
               name: '女',
               type: 'bar',
-              barWidth: barWidth,
+              barWidth: 15,
               itemStyle: {
                 normal: {
-                  color: function (params) {
-                    return womanColors[params.dataIndex % 7];
-                  },
+                  color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                    offset: 0,
+                    color: '#84d1e9'
+                  }, {
+                    offset: 1,
+                    color: '#3579b4'
+                  }]),
+                  borderRadius: [10, 10, 0, 0]
                 },
               },
               data: womanNumber,
             },
-            {
-              z: 2,
-              type: 'pictorialBar',
-              data: womanNumber,
-              symbol: 'diamond',
-              symbolOffset: ['63%', '50%'],
-              symbolSize: [barWidth, barWidth * 0.5],
-              itemStyle: {
-                normal: {
-                  color: function (params) {
-                    return womanColors[params.dataIndex % 7];
-                  },
-                },
-              },
-            },
-            {
-              z: 3,
-              type: 'pictorialBar',
-              symbolPosition: 'end',
-              data: womanNumber,
-              symbol: 'diamond',
-              symbolOffset: ['63%', '-50%'],
-              symbolSize: [barWidth, barWidth * 0.5],
-              itemStyle: {
-                normal: {
-                  borderWidth: 0,
-                  color: function (params) {
-                    return womanColors[params.dataIndex % 7].colorStops[0].color;
-                  },
-                },
-              },
-            },
-
             // 总人数
             {
               name: '总人数',
@@ -842,16 +682,14 @@
               symbol: 'circle',
               symbolSize: 10,
               itemStyle: {
-                color: '#fff',
-                shadowColor: '#5ce0e2',
+                color: '#6fc7e1',
+                shadowColor: '#6fc7e1',
                 shadowBlur: 20,
-                borderColor: '#5ce0e2',
-                borderWidth: 5,
               },
               lineStyle: {
                 width: 4,
-                color: '#5ce0e2',
-                shadowColor: '#5ce0e2',
+                color: '#6fc7e1',
+                shadowColor: '#6fc7e1',
                 shadowBlur: 20,
               },
               data: sumNumber,
@@ -876,7 +714,8 @@
     padding: 0 20px;
     background-color: #253562;
   }
-  .dh-wrap /deep/ .el-input__inner{
+
+  .dh-wrap /deep/ .el-input__inner {
     height: 30px;
     line-height: 30px;
     width: 150px;
@@ -884,6 +723,7 @@
     border: 1px solid #192b4f !important;
     color: @fontColor !important;
   }
+
   .dh-title {
     line-height: 60px;
     height: 60px;
@@ -909,14 +749,14 @@
         float: left;
         margin: 0 10px 0 10px;
 
-       /* input[type='text'] {
-          height: 30px;
-          line-height: 30px;
-          width: 150px;
-          background: #192b4f !important;
-          border: 1px solid #192b4f !important;
-          color: @fontColor !important;
-        }*/
+        /* input[type='text'] {
+           height: 30px;
+           line-height: 30px;
+           width: 150px;
+           background: #192b4f !important;
+           border: 1px solid #192b4f !important;
+           color: @fontColor !important;
+         }*/
       }
 
       span.sure-btn {
@@ -956,7 +796,7 @@
     float: left;
     margin: 0 0 10px 0;
     border-radius: 4px;
-    background-color: rgba(31,36,64,0.5);
+    background-color: rgba(31, 36, 64, 0.5);
     border: 2px solid #141e36;
   }
 
