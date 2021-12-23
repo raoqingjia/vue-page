@@ -22,7 +22,7 @@
               通常text-indent缩进属性将对段落首行开头文本文字进行缩进显示。如果使用html br换行标签，第二个换行开始也不会出现缩进效果。
               如果使用了html P段落标签段落换行，将会出现每个p段落换行开头都将缩进，这里我们给大家通过案例演示给大家，
               希望通过DIVCSS5案例掌握CSS text-indent缩进样式。
-              <img src="../../img/text-indent.jpg"/>
+              <img src="../../img/css/text-indent.jpg"/>
             </p>
           </article>
           <h3>
