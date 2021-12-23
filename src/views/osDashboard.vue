@@ -18,23 +18,29 @@
     </h1>
     <div class="dh-content clearfix">
       <aside class="fl-chart">
-        <div id="mzptBar" class="chart-item" :style="{height: '260px'}"></div>
-        <div class="chart-item">
-          <sortBar :list="applicationList" :displayType="0" :baseDate="1500" :title="'今日提供方请求量排行榜'"
-                   :restStyle="applicationBarStyle"></sortBar>
+        <div class="chart-container">
+          <div id="mzptBar" class="chart-item" :style="{height: '260px'}"></div>
+          <div class="chart-item">
+            <sortBar :list="applicationList" :displayType="0" :baseDate="1500" :title="'今日提供方请求量排行榜'"
+                     :restStyle="applicationBarStyle"></sortBar>
+          </div>
         </div>
       </aside>
       <section class="middle-chart">
-        <div class="chart-item">
-          <sortBar :list="serviceList" :displayType="1" :baseDate="2000" :title="'本月服务量请求排行榜'"
-                   :restStyle="serviceBarStyle"></sortBar>
+        <div class="chart-container">
+          <div id="jrtgfqq" class="chart-item" :style="{height: '330px'}"></div>
+          <div class="chart-item">
+            <sortBar :list="serviceList" :displayType="1" :baseDate="2000" :title="'本月服务量请求排行榜'"
+                     :restStyle="serviceBarStyle"></sortBar>
+          </div>
+          <div id="byxz" class="chart-item" :style="{height: '330px'}"></div>
         </div>
-        <div id="byxz" class="chart-item" :style="{height: '330px'}"></div>
-        <div id="jrtgfqq" class="chart-item" :style="{height: '330px'}"></div>
       </section>
       <aside class="fr-chart">
-        <div id="tgfcgydzb" class="chart-item" :style="{height: '330px'}"></div>
-        <div id="zqstnl" class="chart-item" :style="{height: '330px'}"></div>
+        <div class="chart-container">
+          <div id="tgfcgydzb" class="chart-item" :style="{height: '330px'}"></div>
+          <div id="zqstnl" class="chart-item" :style="{height: '330px'}"></div>
+        </div>
       </aside>
     </div>
   </div>
@@ -186,7 +192,7 @@
               },
               label: {
                 show: true,
-                position:'top',
+                position: 'top',
                 color: this.chartFontColor,  //  字体颜色
                 fontSize: 14,
                 align: 'center',
@@ -542,54 +548,59 @@
       },
       // 今日提供方请求量排行
       jrtgfqq() {
-        let manNumber = [32, 58, 64, 64, 64, 25];
-        let womanNumber = [32, 58, 64, 64, 64, 25];
-        let sumNumber = [64, 58 * 2, 64 * 2, 64 * 2, 64 * 2, 25 * 2];
+        let manNumber = [132, 158, 264, 184,304, 235];
+        let womanNumber = [112, 138, 214, 164, 264, 225];
+        let sumNumber = [64, 78 , 69 , 88 , 92, 95];
         let xData = ['周一', '周二', '周三', '周四', '周五', '周六'];
 
         let option = {
+          title: {
+            text: '  政企中台能力每周调用情况',
+            textStyle: {
+              color: this.chartFontColor,
+              fontSize: 16,
+              lineHeight: 44,
+            }
+          },
           //提示框
           tooltip: {
             trigger: 'axis',
-            // formatter: function (p) {
-            //   console.log(p, p[0].marker);
-            //   let div = ` ${p[0].name}<br/> ${p[0].seriesName}:${p[0].value}<br/>${p[3].seriesName}:${p[3].value}<br/>${p[6].seriesName}:${p[6].value} `;
-            //   return div;
-            // },
             axisPointer: {
               // 坐标轴指示器，坐标轴触发有效
               type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
             },
           },
           legend: {
-            itemGap: 20,
-            top: 20,
-            right: '10%',
-            itemWidth: 20,
-            itemHeight: 14,
+            itemGap: 10,
+            top: 5,
+            right: 10,
+            itemWidth: 15,
+            itemHeight: 15,
+            orient:'vertical',
             data: [
               {
-                name: '男',
+                name: '请求总量',
                 icon: 'roundRect',
               },
               {
-                name: '女',
+                name: '成功的请求量',
                 icon: 'roundRect',
               },
               {
-                name: '总人数',
-                // icon: 'triangle',
+                name: '百分比',
+                icon: 'circle',
               }
             ],
             textStyle: {
-              color: "#fff",
+              color: "#c6ccd8",
+              fontSize:12
             }
           },
           /**区域位置*/
           grid: {
-            left: '15%',
-            right: '10%',
-            top: '13%',
+            left: '9%',
+            right: '11%',
+            top: '27%',
             bottom: '15%',
           },
           //X轴
@@ -598,13 +609,6 @@
             type: 'category',
             axisLine: {
               show: false,
-              lineStyle: {
-                color: 'rgba(255,255,255,1)',
-                shadowColor: 'rgba(255,255,255,1)',
-                shadowOffsetX: '20',
-              },
-              symbol: ['none', 'arrow'],
-              symbolOffset: [0, 25],
             },
             splitLine: {
               show: false,
@@ -613,32 +617,47 @@
               show: false,
             },
             axisLabel: {
-              margin: 30,
-              fontSize: 15,
+              margin: 15,
+              color:'#c6ccd8',
+              fontSize: 14
             },
           },
-          yAxis: {
-            show: true,
-            splitNumber: 4,
-            axisLine: {
-              show: false,
-            },
-            splitLine: {
+          yAxis: [
+            {
+              type:"value",
               show: true,
-              lineStyle: {
-                type: 'dashed',
-                color: '#075858',
+              splitNumber: 4,
+              axisLine: {
+                show: false,
+              },
+              splitLine: {
+                show: false,
+              },
+              axisLabel: {
+                color: '#c6ccd8',
+                fontSize: 14,
               },
             },
-            axisLabel: {
-              color: '#FFFFFF',
-              margin: 30,
-              fontSize: 15,
-            },
-          },
+            {
+              type:"value",
+              show: true,
+              splitNumber: 4,
+              axisLine: {
+                show: false,
+              },
+              splitLine: {
+                show: false,
+              },
+              axisLabel: {
+                color: '#c6ccd8',
+                formatter: '{value} %',
+                fontSize: 14,
+              },
+            }
+          ],
           series: [
             {
-              name: '男',
+              name: '请求总量',
               type: 'bar',
               barWidth: 15,
               itemStyle: {
@@ -651,13 +670,12 @@
                     color: '#f5d686'
                   }]),
                   borderRadius: [10, 10, 0, 0]
-                 }
+                }
               },
               data: manNumber
             },
-            // ---------------------分割线---------------------
             {
-              name: '女',
+              name: '成功的请求量',
               type: 'bar',
               barWidth: 15,
               itemStyle: {
@@ -674,23 +692,23 @@
               },
               data: womanNumber,
             },
-            // 总人数
             {
-              name: '总人数',
+              name: '百分比',
               type: 'line',
+              yAxisIndex: 1,
               showAllSymbol: true,
               symbol: 'circle',
-              symbolSize: 10,
+              symbolSize: 12,
               itemStyle: {
                 color: '#6fc7e1',
                 shadowColor: '#6fc7e1',
-                shadowBlur: 20,
+                shadowBlur: 10,
               },
               lineStyle: {
-                width: 4,
+                width: 3,
                 color: '#6fc7e1',
                 shadowColor: '#6fc7e1',
-                shadowBlur: 20,
+                shadowBlur: 20
               },
               data: sumNumber,
             },
@@ -711,7 +729,7 @@
 
   .dh-wrap {
     margin: -8px 0 0 0;
-    padding: 0 20px;
+    padding: 0 5px;
     background-color: #253562;
   }
 
@@ -773,27 +791,20 @@
 
   .dh-content {
     margin: 20px 0 0 0;
+    display: flex;
+    flex-direction: row;
   }
 
-  .fl-chart {
-    float: left;
-    width: 28%;
+  .fl-chart, .fr-chart {
+    flex: 3;
   }
-
   .middle-chart {
-    float: left;
-    width: 40%;
-    padding: 0 15px;
+    flex:5;
   }
-
-  .fr-chart {
-    float: right;
-    width: 30%;
-  }
-
+   .chart-container{
+     padding: 0 5px;
+   }
   .chart-item {
-    width: 100%;
-    float: left;
     margin: 0 0 10px 0;
     border-radius: 4px;
     background-color: rgba(31, 36, 64, 0.5);
