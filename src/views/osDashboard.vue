@@ -28,6 +28,7 @@
       </aside>
       <section class="middle-chart">
         <div class="chart-container">
+          <div id="gyjxtztnl" class="chart-item" :style="{height: '330px'}"></div>
           <div id="jrtgfqq" class="chart-item" :style="{height: '330px'}"></div>
           <div class="chart-item">
             <sortBar :list="serviceList" :displayType="1" :baseDate="2000" :title="'本月服务量请求排行榜'"
@@ -99,6 +100,7 @@
         this.tgfcgydzb(89);
         this.byxz();
         this.jrtgfqq();
+        this.gyjxtztnl();
       })
     },
     methods: {
@@ -548,9 +550,9 @@
       },
       // 今日提供方请求量排行
       jrtgfqq() {
-        let manNumber = [132, 158, 264, 184,304, 235];
+        let manNumber = [132, 158, 264, 184, 304, 235];
         let womanNumber = [112, 138, 214, 164, 264, 225];
-        let sumNumber = [64, 78 , 69 , 88 , 92, 95];
+        let sumNumber = [64, 78, 69, 88, 92, 95];
         let xData = ['周一', '周二', '周三', '周四', '周五', '周六'];
 
         let option = {
@@ -576,7 +578,7 @@
             right: 10,
             itemWidth: 15,
             itemHeight: 15,
-            orient:'vertical',
+            orient: 'vertical',
             data: [
               {
                 name: '请求总量',
@@ -593,7 +595,7 @@
             ],
             textStyle: {
               color: "#c6ccd8",
-              fontSize:12
+              fontSize: 12
             }
           },
           /**区域位置*/
@@ -618,13 +620,13 @@
             },
             axisLabel: {
               margin: 15,
-              color:'#c6ccd8',
+              color: '#c6ccd8',
               fontSize: 14
             },
           },
           yAxis: [
             {
-              type:"value",
+              type: "value",
               show: true,
               splitNumber: 4,
               axisLine: {
@@ -639,7 +641,7 @@
               },
             },
             {
-              type:"value",
+              type: "value",
               show: true,
               splitNumber: 4,
               axisLine: {
@@ -716,6 +718,69 @@
         };
 
         let myChart = echarts.init(document.getElementById('jrtgfqq'));
+        myChart.setOption(option);
+      },
+      // 各一级系统中台能力调用情况
+      gyjxtztnl() {
+        let option = {
+          title: {
+            text: '  本月新增情况',
+            textStyle: {
+              color: this.chartFontColor,
+              fontSize: 16,
+              lineHeight: 44,
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b} : {c} ({d}%)'
+          },
+          legend: {
+            top: '10%',
+            right: '8%',
+            itemGap: 6,
+            itemWidth: 18,
+            itemHeight: 18,
+            selectedMode: false,
+            orient: 'vertical',
+            padding: 0,
+            data: ['BBOSS', 'EBOSS', 'PBOSS', 'CMIOT', '铁通', '网格'],
+            textStyle: {
+              color: '#c6ccd8',
+              fontSize: 14,
+              lineHeight:24
+            }
+          },
+          series: [
+            {
+              type: 'pie',
+              radius: '65%',
+              center: ['43%', '50%'],
+              color: ['#d52d57', '#f6c543', '#6816b0', '#4e13a6', '#3375b1', '#50b1d4'],
+              data: [
+                {value: 1548, name: 'BBOSS'},
+                {value: 735, name: 'EBOSS'},
+                {value: 510, name: 'PBOSS'},
+                {value: 434, name: 'CMIOT'},
+                {value: 335, name: '铁通'},
+                {value: 225, name: '网格'}
+              ],
+              label:{
+                show:false
+              },
+              selectedMode: false,
+              emphasis: {
+                scale : false,
+                scaleSize : 150,
+                itemStyle: {
+                  shadowBlur: 5,
+                  shadowColor: '#fff'
+                }
+              }
+            }
+          ]
+        };
+        let myChart = echarts.init(document.getElementById('gyjxtztnl'));
         myChart.setOption(option);
       }
     },
@@ -798,12 +863,15 @@
   .fl-chart, .fr-chart {
     flex: 3;
   }
+
   .middle-chart {
-    flex:5;
+    flex: 5;
   }
-   .chart-container{
-     padding: 0 5px;
-   }
+
+  .chart-container {
+    padding: 0 5px;
+  }
+
   .chart-item {
     margin: 0 0 10px 0;
     border-radius: 4px;
