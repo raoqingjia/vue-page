@@ -28,7 +28,7 @@
       </aside>
       <section class="middle-chart">
         <div class="chart-container">
-          <div id="gyjxtztnl" class="chart-item" :style="{height: '330px'}"></div>
+          <div id="fwjrqq" class="chart-item" :style="{height: '330px'}"></div>
           <div id="jrtgfqq" class="chart-item" :style="{height: '330px'}"></div>
           <div class="chart-item">
             <sortBar :list="serviceList" :displayType="1" :baseDate="2000" :title="'本月服务量请求排行榜'"
@@ -39,6 +39,7 @@
       </section>
       <aside class="fr-chart">
         <div class="chart-container">
+          <div id="gyjxtztnl" class="chart-item" :style="{height: '330px'}"></div>
           <div id="tgfcgydzb" class="chart-item" :style="{height: '330px'}"></div>
           <div id="zqstnl" class="chart-item" :style="{height: '330px'}"></div>
         </div>
@@ -101,6 +102,7 @@
         this.byxz();
         this.jrtgfqq();
         this.gyjxtztnl();
+        this.fwjrqq();
       })
     },
     methods: {
@@ -781,6 +783,97 @@
           ]
         };
         let myChart = echarts.init(document.getElementById('gyjxtztnl'));
+        myChart.setOption(option);
+      },
+      fwjrqq(){
+        let option = {
+          series: [
+            {
+              type: 'treemap',
+              data: [
+                {
+                  name: 'nodeA',
+                  value: 36,
+                  children: [
+                    {
+                      name: 'nodeA1',
+                      value: 1
+                    },
+                    {
+                      name: 'nodeA2',
+                      value: 5
+                    },
+                    {
+                      name: 'nodeA3',
+                      value: 8
+                    },
+                    {
+                      name: 'nodeA4',
+                      value: 2
+                    },
+                    {
+                      name: 'nodeA5',
+                      value: 15
+                    }
+                  ]
+                },
+                {
+                  name: 'nodeB',
+                  value: 20,
+                  children: [
+                    {
+                      name: 'nodeBa',
+                      value: 20,
+                      children: [
+                        {
+                          name: 'nodeBa1',
+                          value: 4
+                        },
+                        {
+                          name: 'nodeBa2',
+                          value: 10
+                        },
+                        {
+                          name: 'nodeBa3',
+                          value: 2
+                        },
+                        {
+                          name: 'nodeBa4',
+                          value: 5
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  name: 'nodeC',
+                  value: 32,
+                  children: [
+                    {
+                      name: 'nodeBa',
+                      value: 30,
+                      children: [
+                        {
+                          name: 'nodeC1',
+                          value: 4
+                        },
+                        {
+                          name: 'nodeC2',
+                          value: 10
+                        },
+                        {
+                          name: 'nodeC3',
+                          value: 16
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        };
+        let myChart = echarts.init(document.getElementById('fwjrqq'));
         myChart.setOption(option);
       }
     },
