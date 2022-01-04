@@ -30,6 +30,12 @@ git push -f origin master     -f表示将目前自己本机的代码库推送到
 git update-index --assume-unchanged  include/db.php   忽略文件，include/db.php是文件名，忽略的文件不能在.gitignore
 git update-index --no-assume-unchanged  include/db.php    恢复跟踪
 
+5.Git只merge一个commit的方法
+一个分支的所有代码变动，那么就采用合并（git merge）。另一种情况是，你只需要部分代码变动（某几个提交），这时可以采用git cherry-pick
+git cherry-pick < commitHash>       将指定的提交commitHash合并到当前分支
+git cherry-pick sit                 将sit分支的最近一次提交，转移到当前分支
+git cherry-pick < HashA> < HashB>   支持一次转移多个提交，提交 A 必须早于提交 B，否则命令将失败，但不会报错。
+
 git push -f  origin master    加了参数-u后，以后即可直接用git push 代替git push origin master  -u 不经常用，但是网上好多博客都有这玩意
 在git分支-M main中-M是什么意思？
 -M是git branch上的docs页上--move --force的标志（快捷方式）。因此，它移动/重命名名为main的分支（因为使用命令行创建的存储库的默认分支名称是master，而在GitHub中创建的那些（从2020年10月开始）具有默认名称main）并强制它（即使新的分支名称已经存在，也允许重命名分支）

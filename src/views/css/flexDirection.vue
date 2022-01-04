@@ -12,7 +12,7 @@
 flex-direction、flex-wrap、flex-flow、justify-content、align-items、align-content
 项目属性有：
 order、flex-grow、flex-shrink、flex-basis、flex、align-self</pre>
-          <img src="../../img/css/flex-container.png" width="800px" height="350px">
+<!--          <img src="../../img/css/flex-container.png" width="800px" height="350px">-->
           <h3>flex-direction 属性 </h3>
           <pre>flex-direction属性控制主轴的方向，即项目的排列方向，类似是x轴
 格式：.container {

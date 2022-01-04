@@ -20,6 +20,7 @@
       <aside class="fl-chart">
         <div class="chart-container">
           <div id="mzptBar" class="chart-item" :style="{height: '260px'}"></div>
+          <div id="qingqiul" class="chart-item" :style="{height: '330px'}"></div>
           <div class="chart-item">
             <sortBar :list="applicationList" :displayType="0" :baseDate="1500" :title="'今日提供方请求量排行榜'"
                      :restStyle="applicationBarStyle"></sortBar>
@@ -30,9 +31,9 @@
         <div class="chart-container">
           <div id="fwjrqq" class="chart-item" :style="{height: '330px'}"></div>
           <div id="jrtgfqq" class="chart-item" :style="{height: '330px'}"></div>
+          <div id="byfwqq" class="chart-item" :style="{height: '330px'}"></div>
           <div class="chart-item">
-            <sortBar :list="serviceList" :displayType="1" :baseDate="2000" :title="'本月服务量请求排行榜'"
-                     :restStyle="serviceBarStyle"></sortBar>
+            <sortBar :list="serviceList" :displayType="1" :baseDate="2000" :title="'本月服务量请求排行榜'" :restStyle="serviceBarStyle"></sortBar>
           </div>
           <div id="byxz" class="chart-item" :style="{height: '330px'}"></div>
         </div>
@@ -101,8 +102,10 @@
         this.tgfcgydzb(89);
         this.byxz();
         this.jrtgfqq();
+        this.byfwqq();
         this.gyjxtztnl();
         this.fwjrqq();
+        this.qingqiul();
       })
     },
     methods: {
@@ -209,6 +212,291 @@
         let myChart = echarts.init(document.getElementById('mzptBar'));
         myChart.setOption(option);
 
+      },
+      qingqiul(){
+        let yLabel = ['调用量名称', '调用量服务名称', '用量服务名称','调用量','调用量服务名称']
+        let yData = [653, 755,705,655,675]
+        let bgData = []
+        for(let i in yData){
+          bgData.push(800)
+        }
+        let  option = {
+          title: {
+            text: '  本月服务请求量排行榜',
+            textStyle: {
+              color: this.chartFontColor,
+              fontSize: 16,
+              lineHeight: 44,
+            }
+          },
+          grid: {
+            left: '6%',
+            right: '6%',
+            bottom: '5%',
+            top: '18%',
+            containLabel: true
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'none'
+            },
+            formatter: function(params) {
+              return params[0].name + '<br/>' +
+                "<span style='display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:rgba(36,207,233,0.9)'></span>" +
+                params[0].seriesName + ' : ' + params[0].value + ' <br/>'
+            }
+          },
+          xAxis: {
+            show: false,
+            type: 'value'
+          },
+          yAxis: [{
+            type: 'category',
+            inverse: false,
+            axisLabel: {
+              show: true,
+              margin:15,
+              rotate:25,
+              textStyle: {
+                color: this.chartFontColor,
+              },
+            },
+            splitLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLine: {
+              show: false
+            },
+            data: yLabel
+          }, {
+            type: 'category',
+            inverse: true,
+            axisTick: 'none',
+            axisLine: 'none',
+            show: true,
+            axisLabel: {
+              textStyle: {
+                color: this.chartFontColor,
+                fontSize: '12',
+                rotate:125,
+              },
+            },
+            data: yData
+          }],
+          series: [{
+            name: '人数',
+            type: 'bar',
+            zlevel: 1,
+            itemStyle: {
+              normal: {
+                barBorderRadius: 15,
+                color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                  offset: 0,
+                  color: '#2674b9'
+                }, {
+                  offset: 1,
+                  color: '#88d4eb'
+                }]),
+                shadowBlur:0,
+                shadowColor:'rgba(87,220,222,0.7)'
+              },
+            },
+            barWidth: 15,
+            data: yData
+          },
+            {
+              name: '背景',
+              type: 'bar',
+              barWidth: 15,
+              barGap: '-100%',
+              data: bgData,
+              itemStyle: {
+                normal: {
+                  color: '#464b62',
+                  barBorderRadius: 15,
+                }
+              },
+            },
+          ]
+        };
+        let myChart = echarts.init(document.getElementById('qingqiul'));
+        myChart.setOption(option);
+      },
+      // 今日提供方请求量排行
+      jrtgfqq() {
+        let manNumber = [132, 158, 264, 184, 304, 235];
+        let womanNumber = [112, 138, 214, 164, 264, 225];
+        let sumNumber = [64, 78, 69, 88, 92, 95];
+        let xData = ['周一', '周二', '周三', '周四', '周五', '周六'];
+
+        let option = {
+          title: {
+            text: '  政企中台能力每周调用情况',
+            textStyle: {
+              color: this.chartFontColor,
+              fontSize: 16,
+              lineHeight: 44,
+            }
+          },
+          //提示框
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+            },
+          },
+          legend: {
+            itemGap: 10,
+            top: 5,
+            right: 10,
+            itemWidth: 15,
+            itemHeight: 15,
+            orient: 'vertical',
+            data: [
+              {
+                name: '请求总量',
+                icon: 'roundRect',
+              },
+              {
+                name: '成功的请求量',
+                icon: 'roundRect',
+              },
+              {
+                name: '百分比',
+                icon: 'circle',
+              }
+            ],
+            textStyle: {
+              color: "#c6ccd8",
+              fontSize: 12
+            }
+          },
+          /**区域位置*/
+          grid: {
+            left: '9%',
+            right: '11%',
+            top: '27%',
+            bottom: '15%',
+          },
+          //X轴
+          xAxis: {
+            data: xData,
+            type: 'category',
+            axisLine: {
+              show: false,
+            },
+            splitLine: {
+              show: false,
+            },
+            axisTick: {
+              show: false,
+            },
+            axisLabel: {
+              margin: 15,
+              color: '#c6ccd8',
+              fontSize: 14
+            },
+          },
+          yAxis: [
+            {
+              type: "value",
+              show: true,
+              splitNumber: 4,
+              axisLine: {
+                show: false,
+              },
+              splitLine: {
+                show: false,
+              },
+              axisLabel: {
+                color: '#c6ccd8',
+                fontSize: 14,
+              },
+            },
+            {
+              type: "value",
+              show: true,
+              splitNumber: 4,
+              axisLine: {
+                show: false,
+              },
+              splitLine: {
+                show: false,
+              },
+              axisLabel: {
+                color: '#c6ccd8',
+                formatter: '{value} %',
+                fontSize: 14,
+              },
+            }
+          ],
+          series: [
+            {
+              name: '请求总量',
+              type: 'bar',
+              barWidth: 15,
+              itemStyle: {
+                normal: {
+                  color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                    offset: 0,
+                    color: '#de3a4c'
+                  }, {
+                    offset: 1,
+                    color: '#f5d686'
+                  }]),
+                  borderRadius: [10, 10, 0, 0]
+                }
+              },
+              data: manNumber
+            },
+            {
+              name: '成功的请求量',
+              type: 'bar',
+              barWidth: 15,
+              itemStyle: {
+                normal: {
+                  color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                    offset: 0,
+                    color: '#84d1e9'
+                  }, {
+                    offset: 1,
+                    color: '#3579b4'
+                  }]),
+                  borderRadius: [10, 10, 0, 0]
+                },
+              },
+              data: womanNumber,
+            },
+            {
+              name: '百分比',
+              type: 'line',
+              yAxisIndex: 1,
+              showAllSymbol: true,
+              symbol: 'circle',
+              symbolSize: 12,
+              itemStyle: {
+                color: '#6fc7e1',
+                shadowColor: '#6fc7e1',
+                shadowBlur: 10,
+              },
+              lineStyle: {
+                width: 3,
+                color: '#6fc7e1',
+                shadowColor: '#6fc7e1',
+                shadowBlur: 20
+              },
+              data: sumNumber,
+            },
+          ],
+        };
+
+        let myChart = echarts.init(document.getElementById('jrtgfqq'));
+        myChart.setOption(option);
       },
       zqstnl(currentDate) {
         let myChart = echarts.init(document.getElementById('zqstnl'));
@@ -550,176 +838,116 @@
         let myChart = echarts.init(document.getElementById('byxz'));
         myChart.setOption(option);
       },
-      // 今日提供方请求量排行
-      jrtgfqq() {
-        let manNumber = [132, 158, 264, 184, 304, 235];
-        let womanNumber = [112, 138, 214, 164, 264, 225];
-        let sumNumber = [64, 78, 69, 88, 92, 95];
-        let xData = ['周一', '周二', '周三', '周四', '周五', '周六'];
-
-        let option = {
+      // 本月服务请求量排行榜
+      byfwqq(){
+        let yLabel = ['调用量名称', '调用量服务名称', '用量服务名称','调用量','调用量服务名称']
+        let yData = [653, 755,705,655,675]
+        let bgData = []
+        for(let i in yData){
+          bgData.push(800)
+        }
+        let  option = {
           title: {
-            text: '  政企中台能力每周调用情况',
+            text: '  本月服务请求量排行榜',
             textStyle: {
               color: this.chartFontColor,
               fontSize: 16,
               lineHeight: 44,
             }
           },
-          //提示框
+          grid: {
+            left: '6%',
+            right: '6%',
+            bottom: '5%',
+            top: '18%',
+            containLabel: true
+          },
           tooltip: {
             trigger: 'axis',
             axisPointer: {
-              // 坐标轴指示器，坐标轴触发有效
-              type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+              type: 'none'
             },
-          },
-          legend: {
-            itemGap: 10,
-            top: 5,
-            right: 10,
-            itemWidth: 15,
-            itemHeight: 15,
-            orient: 'vertical',
-            data: [
-              {
-                name: '请求总量',
-                icon: 'roundRect',
-              },
-              {
-                name: '成功的请求量',
-                icon: 'roundRect',
-              },
-              {
-                name: '百分比',
-                icon: 'circle',
-              }
-            ],
-            textStyle: {
-              color: "#c6ccd8",
-              fontSize: 12
+            formatter: function(params) {
+              return params[0].name + '<br/>' +
+                "<span style='display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:rgba(36,207,233,0.9)'></span>" +
+                params[0].seriesName + ' : ' + params[0].value + ' <br/>'
             }
           },
-          /**区域位置*/
-          grid: {
-            left: '9%',
-            right: '11%',
-            top: '27%',
-            bottom: '15%',
-          },
-          //X轴
           xAxis: {
-            data: xData,
+            show: false,
+            type: 'value'
+          },
+          yAxis: [{
             type: 'category',
-            axisLine: {
-              show: false,
+            inverse: false,
+            axisLabel: {
+              show: true,
+              margin:15,
+              textStyle: {
+                color: this.chartFontColor,
+              },
             },
             splitLine: {
-              show: false,
+              show: false
             },
             axisTick: {
-              show: false,
+              show: false
             },
+            axisLine: {
+              show: false
+            },
+            data: yLabel
+          }, {
+            type: 'category',
+            inverse: true,
+            axisTick: 'none',
+            axisLine: 'none',
+            show: true,
             axisLabel: {
-              margin: 15,
-              color: '#c6ccd8',
-              fontSize: 14
+              textStyle: {
+                color: this.chartFontColor,
+                fontSize: '12'
+              },
             },
+            data: yData
+          }],
+          series: [{
+            name: '人数',
+            type: 'bar',
+            zlevel: 1,
+            itemStyle: {
+              normal: {
+                barBorderRadius: 15,
+                color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                  offset: 0,
+                  color: '#2674b9'
+                }, {
+                  offset: 1,
+                  color: '#88d4eb'
+                }]),
+                shadowBlur:0,
+                shadowColor:'rgba(87,220,222,0.7)'
+              },
+            },
+            barWidth: 15,
+            data: yData
           },
-          yAxis: [
             {
-              type: "value",
-              show: true,
-              splitNumber: 4,
-              axisLine: {
-                show: false,
-              },
-              splitLine: {
-                show: false,
-              },
-              axisLabel: {
-                color: '#c6ccd8',
-                fontSize: 14,
-              },
-            },
-            {
-              type: "value",
-              show: true,
-              splitNumber: 4,
-              axisLine: {
-                show: false,
-              },
-              splitLine: {
-                show: false,
-              },
-              axisLabel: {
-                color: '#c6ccd8',
-                formatter: '{value} %',
-                fontSize: 14,
-              },
-            }
-          ],
-          series: [
-            {
-              name: '请求总量',
+              name: '背景',
               type: 'bar',
               barWidth: 15,
+              barGap: '-100%',
+              data: bgData,
               itemStyle: {
                 normal: {
-                  color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                    offset: 0,
-                    color: '#de3a4c'
-                  }, {
-                    offset: 1,
-                    color: '#f5d686'
-                  }]),
-                  borderRadius: [10, 10, 0, 0]
+                  color: '#464b62',
+                  barBorderRadius: 15,
                 }
               },
-              data: manNumber
             },
-            {
-              name: '成功的请求量',
-              type: 'bar',
-              barWidth: 15,
-              itemStyle: {
-                normal: {
-                  color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                    offset: 0,
-                    color: '#84d1e9'
-                  }, {
-                    offset: 1,
-                    color: '#3579b4'
-                  }]),
-                  borderRadius: [10, 10, 0, 0]
-                },
-              },
-              data: womanNumber,
-            },
-            {
-              name: '百分比',
-              type: 'line',
-              yAxisIndex: 1,
-              showAllSymbol: true,
-              symbol: 'circle',
-              symbolSize: 12,
-              itemStyle: {
-                color: '#6fc7e1',
-                shadowColor: '#6fc7e1',
-                shadowBlur: 10,
-              },
-              lineStyle: {
-                width: 3,
-                color: '#6fc7e1',
-                shadowColor: '#6fc7e1',
-                shadowBlur: 20
-              },
-              data: sumNumber,
-            },
-          ],
+          ]
         };
-
-        let myChart = echarts.init(document.getElementById('jrtgfqq'));
+        let myChart = echarts.init(document.getElementById('byfwqq'));
         myChart.setOption(option);
       },
       // 各一级系统中台能力调用情况
@@ -790,85 +1018,73 @@
           series: [
             {
               type: 'treemap',
-              data: [
-                {
-                  name: 'nodeA',
+              breadcrumb:{ //  底层显示层级关系的面包屑,默认开启
+                show:false
+              },
+              color: ['transparent'],
+              itemStyle: {
+                borderColor:'transparent',
+                gapWidth : 10
+              },
+              roam :false,
+              nodeClick:false,
+                data: [
+                  {
+                  name: 'node-1',
                   value: 36,
-                  children: [
-                    {
-                      name: 'nodeA1',
-                      value: 1
+                  itemStyle: {
+                    color:'#183d85',
+                   }
+                  },
+                  {
+                    name: 'node-2',
+                    value: 25,
+                    itemStyle: {
+                      color:'#2b3883'
                     },
-                    {
-                      name: 'nodeA2',
-                      value: 5
+                  },
+                  {
+                    name: 'node-3',
+                    value: 21,
+                    itemStyle: {
+                      color:'#204ba1'
                     },
-                    {
-                      name: 'nodeA3',
-                      value: 8
+                  },
+                  {
+                    name: 'node-4',
+                    value: 15,
+                    itemStyle: {
+                      color:'#2b3883'
                     },
-                    {
-                      name: 'nodeA4',
-                      value: 2
+                  },
+                  {
+                    name: 'node-5',
+                    value: 11,
+                    itemStyle: {
+                      color:'#3375b1'
                     },
-                    {
-                      name: 'nodeA5',
-                      value: 15
-                    }
-                  ]
-                },
-                {
-                  name: 'nodeB',
-                  value: 20,
-                  children: [
-                    {
-                      name: 'nodeBa',
-                      value: 20,
-                      children: [
-                        {
-                          name: 'nodeBa1',
-                          value: 4
-                        },
-                        {
-                          name: 'nodeBa2',
-                          value: 10
-                        },
-                        {
-                          name: 'nodeBa3',
-                          value: 2
-                        },
-                        {
-                          name: 'nodeBa4',
-                          value: 5
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  name: 'nodeC',
-                  value: 32,
-                  children: [
-                    {
-                      name: 'nodeBa',
-                      value: 30,
-                      children: [
-                        {
-                          name: 'nodeC1',
-                          value: 4
-                        },
-                        {
-                          name: 'nodeC2',
-                          value: 10
-                        },
-                        {
-                          name: 'nodeC3',
-                          value: 16
-                        }
-                      ]
-                    }
-                  ]
-                }
+                  },
+                  {
+                    name: 'node-6',
+                    value: 8,
+                    itemStyle: {
+                      color:'#4294c2'
+                    },
+                  },
+                  {
+                    name: 'node-7',
+                    value: 6,
+                    itemStyle: {
+                      color:'#6fc7e1'
+                    },
+                  },
+                  {
+                    name: 'node-8',
+                    value: 3,
+                    itemStyle: {
+                      color:'#a2deed'
+                    },
+                  },
               ]
             }
           ]
