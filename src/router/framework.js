@@ -109,5 +109,11 @@ const frameworkRouter = [ // 前端框架
     type: "framework",
     created: "2021-12-11",
     component: resolve => require(['@/views/framework/vuex'], resolve)
+  },{
+    path: '/framework/vuekeepalive',
+    name: 'keep-alive组件的使用',
+    type: "framework",
+    created: "2021-12-23",
+    component: resolve => require(['@/views/framework/vuekeepalive'], resolve)
   }];
 export default frameworkRouter;
