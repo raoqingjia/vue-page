@@ -63,6 +63,8 @@ Unix 时间戳 (秒)
 dayjs().unix()
 返回月份的天数
 dayjs().daysInMonth()
+返回原生的 Date 对象
+dayjs().toDate()
 </pre>
         </div>
       </div>
