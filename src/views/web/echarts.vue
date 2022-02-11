@@ -64,6 +64,7 @@ itemStyle: {
 . axisPointer              坐标轴指示器配置项
             https://echarts.apache.org/zh/option.html#tooltip.axisPointer
           </pre>
+          <img src="../../img/echarts/legend.png" width="700" height="380">
           <h3>legend  图例组件</h3>
           <pre>
 . show                   boolean 是否展示
@@ -91,6 +92,7 @@ itemStyle: {
                               color: 'red'  // 设置文本为红色
                             }
                         }]</pre>
+          <img src="../../img/echarts/grid.png" width="700" height="400">
           <h3>grid 组件在容器中的位置</h3>
           <pre>
 . left: '5%',
@@ -100,7 +102,7 @@ itemStyle: {
 . show: true,
 . borderColor:'#fff'
 
-坐标轴位置布局
+坐标轴位置布局,也就是上图，一个区域展示两个坐标轴的效果配置
 grid:[
     {x: '7%', y: '20%', width: '38%', height: '60%'},
     {x2: '7%', y: '20%', width: '38%', height: '60%'}
@@ -128,6 +130,114 @@ series: [
       type: 'bar',
       name:'柱状图'
   }]        </pre>
+          <img src="../../img/echarts/y-splitLine.png" width="700" height="350">
+          <h3>yAxis同于xAxis</h3>
+          <pre>
+.splitLine                     坐标轴在 grid 区域中的分隔线
+   . show                      是否显示分隔线
+   . lineStyle.color           分隔线颜色，可以设置成单个颜色
+   . lineStyle.width           分隔线线宽
+   . lineStyle.type            线的类型。可选：solid dashed dotted
+
+.axisLine                      坐标轴轴线
+
+.axisLabel                     坐标轴刻度相关设置
+   . show                      是否显示刻度标签
+   . name                      坐标轴名称
+   . inverse                   是否是反向坐标轴, 这个再类似进度条的横向bar的时候用的到，配成type值为category 类目轴
+   . type                      坐标轴类型 value 数值轴  category 类目轴  time 时间轴
+   . nameLocation              坐标轴名称显示位置 start  center   end
+   . interval                  坐标轴刻度标签的显示间隔，在类目轴中有效
+   . inside                    boolean，刻度标签是否朝内，默认朝外
+   . rotate                    number，刻度标签旋转的角度，旋转的角度从 -90 度到 90
+   . margin                    number，刻度标签与轴线之间的距离
+   . formatter                 string，Function刻度标签的展示内容，例如formatter: '{value} kg'
+   . fontStyle                 string，文字字体的风格。可选：normal，italic，oblique
+   . fontWeight                string，number文字字体的粗细 bold bolder lighter ，100 | 200 | 300
+   . fontFamily                文字的字体系列
+   . fontSize                  number，文字的字体大小</pre>
+          <img src="../../img/echarts/series-lineStyle.png" width="700" height="350">
+          <h3>series 图标展示风格，line bar pie ... 系列</h3>
+          <pre>
+series-bar
+. itemStyle               图形样式
+      . color             柱条的颜色
+      . borderColor       柱条的描边颜色
+      . borderWidth       number 柱条的描边宽度，默认不描边
+      . borderRadius      number Array  bar圆角半径，单位px，支持传入数组分别指定 4 个圆角半径。 如:5,  [5, 5, 0, 0]
+
+. label                   图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等
+      . offset            Array是否对文字进行偏移。默认不偏移。例如：[30, 40]
+      . position          标签的位置top/left/right/bottom绝对的像素值position:[10,10]相对的百分比position:['50%','50%']
+      . align             文字水平对齐方式，默认自动  可选：left center right
+
+series-line
+  . symbol                标记的图形(折线上的拐点)circle,rect,roundRect,triangle,diamond,pin,arrow,none
+  . symbolSize            标记的大小
+  . symbolRotate          标记的旋转角度
+  . symbolOffset          [0, 0] Array,标记相对于原本位置的偏移
+  . smooth                是否平滑曲线显示,boolean是否开启平滑处理,number类型（取值范围 0 到 1）越小表示越接近折线段
+
+  . itemStyle             折线拐点标志的样式
+       . color 			      拐点的颜色
+       . borderColor      拐点的边框
+       . shadowBlur       图形阴影的模糊大小。该属性配合 shadowColor,shadowOffsetX, shadowOffsetY 一起设置图形的阴影效果
+       . shadowColor      阴影颜色
+       . shadowOffsetX    阴影水平方向上的偏移距离
+       . shadowOffsetY    阴影垂直方向上的偏移距离
+
+  . label                 折线上的文本标签，可用于说明图形的一些数据信息，比如值，名称等
+       . show             是否显示标签
+       . offset           [30, 40] 是否对文字进行偏移
+       . formatter        标签内容格式器
+       . color            文字的颜色
+       . fontWeight       文字字体的粗细
+       . fontSize         number文字的字体大小
+       . borderColor      文字块边框颜色
+       . borderWidth      描边的线宽，为 0 时无描边
+       . borderType       描边线类型 solid dashed dotted
+
+  . lineStyle             折线的样式
+       . color            线的颜色
+       . width            线宽
+       . type             string number Array  线的类型 solid dashed dotted
+       . shadowBlur       图形阴影的模糊大小。该属性配合 shadowColor,shadowOffsetX, shadowOffsetY 一起设置图形的阴影效果
+       . shadowColor      阴影颜色
+       . shadowOffsetX    阴影水平方向上的偏移距离
+       . shadowOffsetY    阴影垂直方向上的偏移距离
+
+  . areaStyle 	          区域填充样式。设置后显示成区域面积图
+       . color            填充的颜色
+       . origin           图形区域的起始位置
+       . shadowBlur       图形阴影的模糊大小
+
+
+series-pie
+  . selectedMode          boolean、string选中模式的配置，表示是否支持多个选中，字符串可选single,multiple分别表示单选/多选
+  . color:                设置饼图颜色 ['#d52d57', '#f6c543', '#50b1d4'],
+  . label                 饼图图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称
+  . show                  是否展示
+  . position              标签文字的位置  outside 饼图扇区外侧 inside inside
+  . formatter             标签内容格式器
+  . itemStyle: {
+       normal: {
+         color: "#386db3", //折线点的颜色
+         lineStyle: {
+         color: "#386db3"  //折线的颜色
+        }
+    }
+
+series-treemap
+  . leafDepth:1     设置展示第几层级,默认不开启,层次更深的节点则被隐藏起来,点击则可下钻看到层次更深的节点
+  . roam            是否开启拖拽漫游(移动和缩放)false：关闭 scale、zoom只能够缩放 move、pan只能够平 true 缩放和平移均可
+  . nodeClick       点击节点后的行为，false节点点击无反应 zoomToNode点击节点后缩放到节点 link 点击节点后会进行超链接跳转
+  . drillDownIcon   当节点可以下钻时的提示符,只能是字符。
+  . emphasis        高亮状态配置
+  . top :'5%',
+  . height: '72%',
+  . width: '90%',
+  . color: ['transparent'],
+          </pre>
         </div>
       </div>
     </div>
