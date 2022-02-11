@@ -31,7 +31,25 @@ value    	可选。备用值，在属性不存在的时候使用。
   padding: var(--main-padding);
 }
 类似less中的 @ 定义变量 ， scss中的$定义变量方式
-css的var还得注意ie兼容性问题，其实现在都用框架搭建的项目不是用less就是用scss，感觉也都用不到var()了</pre>
+
+css的var还得注意ie兼容性问题，其实现在都用框架搭建的项目不是用less就是用scss，感觉也都用不到var()了
+但是也是有些需要注的地方，例如
+// 错误写法
+.test{
+    --size: 20;
+    font-size: var(--size)px;      // 这里的写法是错误，这样会读取成font-size:20 px,值的中间会多了一个空格，导致读取失败
+}
+// 正确写法
+.test2{
+    --size: 20px;
+    --size2: 20;
+    font-size: var(--size);
+    font-size: calc(var(--size2) * 1px);
+}
+通过在:root定义的字段，就相当于css中的全局变量，可以在css中任意的样式中进行使用
+:root{
+    --size:20px;
+}</pre>
         </div>
       </div>
     </div>
