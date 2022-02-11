@@ -114,7 +114,6 @@
        var flag=[];
        if(this.$store.getters.listTab=="all"){
          for(var i=0;i<list.length;i++){
-           console.log(list[i].type);
            if(['other','h5','css','js','jq','app','plugin','java',"framework"].indexOf(list[i].type)!==-1){
              flag.push(list[i]);
            }

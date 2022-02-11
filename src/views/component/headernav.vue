@@ -8,6 +8,7 @@
             <li v-for="items in headerNav">
               <a href="javascript:;" @click="urlFun(items)" v-bind:class="{active: items.active}">{{items.name}}</a>
             </li>
+            <li><a href="javascript:;" class="skin" @click="setSkinFun()">{{setSkin.value}}</a></li>
           </ul>
           <div class="btn" @click="toggle()">
             <i class="fa"  v-bind:class="[titleShow ? 'fa-remove': 'fa-align-justify']"></i>
@@ -31,12 +32,17 @@
          }else{
            this.titleShow=true;
          }
+        this.setSkinFun();
       })
     },
     data () {
       return {
         titleShow:false,
-        headerNav:this.$store.state.headerNav
+        headerNav:this.$store.state.headerNav,
+        setSkin :{
+          value:'',
+          code:''
+        }
       }
     },
     methods:{
@@ -47,18 +53,33 @@
           this.titleShow=true
         }
       },
+      setSkinFun(){
+        if(this.setSkin.code === 'light'){
+          this.setSkin.code = 'dark';
+          this.setSkin.value = '暗夜';
+        }else{
+          this.setSkin.code = 'light';
+          this.setSkin.value = '高亮';
+        }
+        document.body.setAttribute('user-color-scheme', this.setSkin.code);
+      },
       urlFun(item){
         this.headerNav.forEach(function (item) {
            Vue.set(item,'active',false);
         });
          Vue.set(item,'active',true);
-
         this.$router.push({path:item.path});
       }
     }
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+<style scoped lang="less">
+  .skin{
+    padding: 0 10px;
+    margin: 10px 0 0 15px;
+    line-height: 30px;
+    border: 1px solid #c3c3c3;
+    border-radius: 20px;
+  }
 </style>

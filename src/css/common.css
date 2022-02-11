@@ -1,8 +1,8 @@
+@import './theme.less';
 body, div, ul, li, ol, p, h1, h2, h3, h4, h5, h6, span, table, textarea, input, a, dt, dd, dl, img {
   margin: 0;
   padding: 0;
 }
-
 /**{*/
 /*-webkit-touch-callout:none;  !*系统默认菜单被禁用*!*/
 /*-webkit-user-select:none; !*webkit浏览器*!*/
@@ -195,7 +195,6 @@ header ul li a {
   font-weight: 600;
   cursor: pointer;
   text-align: left;
-  border-bottom: 2px #222 solid;
 }
 
 header ul li a.active {
@@ -402,12 +401,12 @@ footer ul li a {
   padding: 10px 20px;
   font-size: 16px;
   color: #333;
+  background-color: #fff;
   word-break: break-all;
   word-wrap: break-word;
   white-space: pre-wrap;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #ffffff;
   box-sizing: border-box;
 }
 

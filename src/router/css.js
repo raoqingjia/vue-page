@@ -145,6 +145,13 @@ const cssRouter = [ //css案例
     type: "css",
     created: "2019-01-17",
     component: resolve => require(['@/views/css/cssVar'], resolve)
+  },
+  {
+    path: '/css/aKeyChangeSkin',
+    name: 'CSS var() 函数',
+    type: "css",
+    created: "2019-02-23",
+    component: resolve => require(['@/views/css/aKeyChangeSkin'], resolve)
   }
   ];
 export default cssRouter;
