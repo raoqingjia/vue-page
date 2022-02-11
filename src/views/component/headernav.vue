@@ -2,7 +2,7 @@
       <header class="clearfix">
         <div class="inner clearfix">
           <div class="fl logo">
-            <a href="javascript:;"><span>DO</span> MY SELF</a>
+            <a href="javascript:;"><span>Always On The Road</span></a>
           </div>
           <ul class="fr clearfix nav" v-if="titleShow">
             <li v-for="items in headerNav">
@@ -56,12 +56,14 @@
       setSkinFun(){
         if(this.setSkin.code === 'light'){
           this.setSkin.code = 'dark';
-          this.setSkin.value = '暗夜';
+          this.setSkin.value = '暗夜版';
+          document.body.setAttribute('user-color-scheme', 'light');
         }else{
           this.setSkin.code = 'light';
-          this.setSkin.value = '高亮';
+          this.setSkin.value = '高亮版';
+          document.body.setAttribute('user-color-scheme', 'dark');
         }
-        document.body.setAttribute('user-color-scheme', this.setSkin.code);
+
       },
       urlFun(item){
         this.headerNav.forEach(function (item) {
@@ -76,9 +78,10 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
   .skin{
-    padding: 0 10px;
+    font-size: 12px;
+    padding: 0 8px;
     margin: 10px 0 0 15px;
-    line-height: 30px;
+    line-height: 28px;
     border: 1px solid #c3c3c3;
     border-radius: 20px;
   }

@@ -348,5 +348,13 @@ const jsRouter = [//js案例
     type: "js",
     created: "2021-08-12",
     component: resolve => require(['@/views/js/cookiejs'], resolve)
-  }];
+  },
+  {
+    path: '/js/leftPlusRightPlus',
+    name: 'JS 中 ++i 和i++的区别',
+    type: "js",
+    created: "2021-08-12",
+    component: resolve => require(['@/views/js/cookiejs'], resolve)
+  }
+  ];
 export default jsRouter;
