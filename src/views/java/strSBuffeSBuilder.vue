@@ -27,7 +27,9 @@ String最慢的原因：String为字符串常量，而StringBuilder和StringBuff
 总结　
 String：适用于少量的字符串操作的情况
 StringBuilder：适用于单线程下在字符缓冲区进行大量操作的情况
-StringBuffer：适用多线程下在字符缓冲区进行大量操作的情况</pre>
+StringBuffer：适用多线程下在字符缓冲区进行大量操作的情况
+String 的长度是不可变的；StringBuffer 的长度是可变的，如果你对字符串中的内容经常进行操作，特别是内容要修改时，那么使用StringBuffer，如果最后需要String，那么使用StringBuffer 的toString()方法；线程安全；StringBuilder 是从JDK 5 开始，为StringBuffer 该类补充了一个单个线程使用的等价类；通常应该优先使用StringBuilder 类，因为它支持所有相同的操作，但由于它不执行同步，所以速度更快
+        </pre>
         </div>
       </div>
     </div>
