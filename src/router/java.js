@@ -54,5 +54,20 @@ const javaRouter = [    //JAVA 类
     type: "java",
     created: "2020-05-08",
     component: resolve => require(['@/views/java/getLocalIP'], resolve)
-  }];
+  },
+  {
+    path: '/java/javaEquals',
+    name: 'java中equals以及==的用法',
+    type: "java",
+    created: "2020-06-18",
+    component: resolve => require(['@/views/java/javaEquals'], resolve)
+  },
+  {
+    path: '/java/strSBuffeSBuilder',
+    name: 'java中String、StringBuffer和StringBuilder的区别',
+    type: "java",
+    created: "2020-06-18",
+    component: resolve => require(['@/views/java/strSBuffeSBuilder'], resolve)
+  }
+  ];
 export default javaRouter;

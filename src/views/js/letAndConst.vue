@@ -14,7 +14,8 @@
 ①　在ECMAScript6（以下简称ES6）之前，ECMAScript的作用域只有两种：
 1.全局作用域；
 2.函数作用域。
-正是因为有这两种作用域，所以在JavaScript中出现一术语--“变量提升（hoisting）”。
+正是因为有这两种作用域，所以在
+            JavaScript中出现一术语--“变量提升（hoisting）”。
 如下：
 function func(){
   console.log(test);
