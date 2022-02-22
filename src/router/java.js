@@ -68,6 +68,13 @@ const javaRouter = [    //JAVA 类
     type: "java",
     created: "2020-06-18",
     component: resolve => require(['@/views/java/strSBuffeSBuilder'], resolve)
+  },
+  {
+    path: '/java/mapReducce',
+    name: 'MapReduce介绍',
+    type: "java",
+    created: "2021-01-08",
+    component: resolve => require(['@/views/java/mapReducce'], resolve)
   }
-  ];
+];
 export default javaRouter;
