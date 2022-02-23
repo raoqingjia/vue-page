@@ -49,6 +49,13 @@ const javaRouter = [    //JAVA 类
     component: resolve => require(['@/views/java/mavenCompilerPluginError'], resolve)
   },
   {
+    path: '/java/entityVoDto',
+    name: ' 实体类（ENTITY，VO，DTO）理解',
+    type: "java",
+    created: "2020-03-01",
+    component: resolve => require(['@/views/java/entityVoDto'], resolve)
+  },
+  {
     path: '/java/getLocalIP',
     name: 'Java 通过接口请求获取访问者本地ip',
     type: "java",
