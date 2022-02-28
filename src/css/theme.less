@@ -1,0 +1,23 @@
+
+/*默认高亮*/
+:root {
+  --color: #222;
+  --background-color: #fff;
+}
+
+/*判断文档根对象上是否存在 user-color-scheme 属性，其是否有值为 dark ，若有则执行 .dark-variable 里定义的样式*/
+[user-color-scheme='dark'] {
+  --color: #fff;
+  --background-color: #000;
+}
+
+header{
+  background-color: var(--background-color) !important;
+}
+header ul li a{
+  color:var(--color)!important;
+}
+.art-content pre {
+  color:var(--color) !important;
+  background-color: var(--background-color) !important;
+}

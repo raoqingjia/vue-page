@@ -47,14 +47,9 @@ let basicRouter = [
     component: resolve => require(['@/views/plan'], resolve)
   },
   {
-    path: '/osDashboard',
-    name: 'osDashboard',
-    component: resolve => require(['@/views/osDashboard'], resolve)
-  },
-  {
-    path: '/dashboardTest',
-    name: 'dashboardTest',
-    component: resolve => require(['@/views/dashboardTest'], resolve)
+    path: '/dashboard',
+    name: 'dashboard',
+    component: resolve => require(['@/views/dashboard'], resolve)
   },
 ];
 
@@ -64,7 +59,12 @@ export const routes = [
     name: 'layout',
     component: resolve => require(['@/views/layout'], resolve),
     children: basicRouter.concat(pluginRouter,h5Router,cssRouter,jsRouter,queryRouter,appRouter,otherRouter,javaRouter,frameworkRouter,webNoteRouter,crmNoteRouter)
-  }
+  },
+  {
+    path: '/osDashboard',
+    name: 'osDashboard',
+    component: resolve => require(['@/views/osDashboard'], resolve)
+  },
 ];
 
 

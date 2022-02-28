@@ -144,6 +144,15 @@ const webNoteRouter = [  //工作笔记
     component: resolve => require(['@/views/web/http'], resolve)
   },
   {
+    path: '/note/echarts',
+    name: "echarts",
+    type: "web",
+    img: require("../img/echarts-icon.png"),
+    description: "可视化图表配置说明...",
+    created: "持续更新 最后版本 2022-01-20",
+    component: resolve => require(['@/views/web/echarts'], resolve)
+  },
+  {
     path: '/note/json',
     name: "Json",
     type: "web",

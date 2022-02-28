@@ -49,10 +49,39 @@ const javaRouter = [    //JAVA 类
     component: resolve => require(['@/views/java/mavenCompilerPluginError'], resolve)
   },
   {
+    path: '/java/entityVoDto',
+    name: ' 实体类（ENTITY，VO，DTO）理解',
+    type: "java",
+    created: "2020-03-01",
+    component: resolve => require(['@/views/java/entityVoDto'], resolve)
+  },
+  {
     path: '/java/getLocalIP',
     name: 'Java 通过接口请求获取访问者本地ip',
     type: "java",
     created: "2020-05-08",
     component: resolve => require(['@/views/java/getLocalIP'], resolve)
-  }];
+  },
+  {
+    path: '/java/javaEquals',
+    name: 'java中equals以及==的用法',
+    type: "java",
+    created: "2020-06-18",
+    component: resolve => require(['@/views/java/javaEquals'], resolve)
+  },
+  {
+    path: '/java/strSBuffeSBuilder',
+    name: 'java中String、StringBuffer和StringBuilder的区别',
+    type: "java",
+    created: "2020-06-18",
+    component: resolve => require(['@/views/java/strSBuffeSBuilder'], resolve)
+  },
+  {
+    path: '/java/mapReducce',
+    name: 'MapReduce介绍',
+    type: "java",
+    created: "2021-01-08",
+    component: resolve => require(['@/views/java/mapReducce'], resolve)
+  }
+];
 export default javaRouter;

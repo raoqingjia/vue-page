@@ -141,9 +141,6 @@ p{
 •引入其他less文件
 @import "other.less";          </pre>
         </div>
-        <div class="hello" >
-          <p>less测试</p>
-        </div>
       </div>
     </div>
   </div>
@@ -175,10 +172,5 @@ p{
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
-  @p-blue:blue;
-  .hello{
-    p{
-      color:@p-blue;
-    }
-  }
+
 </style>
