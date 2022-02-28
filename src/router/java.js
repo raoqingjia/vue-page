@@ -82,6 +82,13 @@ const javaRouter = [    //JAVA 类
     type: "java",
     created: "2021-01-08",
     component: resolve => require(['@/views/java/mapReducce'], resolve)
+  },
+  {
+    path: '/java/learnJDBC',
+    name: '理解JDBC',
+    type: "java",
+    created: "2021-01-16",
+    component: resolve => require(['@/views/java/learnJDBC'], resolve)
   }
 ];
 export default javaRouter;

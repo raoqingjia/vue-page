@@ -174,5 +174,13 @@ const otherRouter = [{
     type: "other",
     created: "2021-11-23",
     component: resolve => require(['@/views/other/osWebReflection'], resolve)
-  },];
+  },
+  {
+    path: '/other/enotfound',
+    name: 'npm run dev运行报错getaddrinfo ENOTFOUND localhost',
+    type: "other",
+    created: "2021-12-23",
+    component: resolve => require(['@/views/other/enotfound'], resolve)
+  },
+];
 export default otherRouter;
