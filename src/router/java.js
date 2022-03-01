@@ -85,7 +85,7 @@ const javaRouter = [    //JAVA 类
   },
   {
     path: '/java/learnJDBC',
-    name: '理解JDBC',
+    name: 'JDBC与Druid简单介绍',
     type: "java",
     created: "2021-01-16",
     component: resolve => require(['@/views/java/learnJDBC'], resolve)

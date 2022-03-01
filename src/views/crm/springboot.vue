@@ -45,6 +45,36 @@ springboot 只是为了提高开发效率，是为了提升生产力的：
 @ComponentScan： 扫描被@Component (@Service,@Controller)注解的 bean，注解默认会扫描该类所在的包下所有的类
 方式二
 启动类上添加@SpringBootApplication注解，它等同于 @EnableAutoConfiguration 和 @ComponentScan 的组合，它会自动扫描同一目录下面所有的包中的内容</pre>
+          <h3>Spring Boot项目启动方式</h3>
+          <pre>
+spring-boot-starter-parent父依赖启动器的主要作用是进行版本统一管理
+< parent>
+    < groupId>org.springframework.boot< /groupId>
+    < artifactId>spring-boot-starter-parent< /artifactId>
+    < version>2.0.1.RELEASE< /version>
+    < relativePath/>
+< /parent>
+spring-boot-starter-web 实现Web场景开发，而不需要额外导入Tomcat服务器以及其他Web依赖文件等
+< dependency>
+   < groupId>org.springframework.boot< /groupId>
+   < artifactId>spring-boot-starter-web< /artifactId>
+< /dependency>
+集成spring-boot-starter-test
+< dependency>
+	< groupId>org.springframework.boot< /groupId>
+	< artifactId>spring-boot-starter-test< /artifactId>
+	< scope>test< /scope>
+< /dependency>
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Slf4j
+public class MyTests {
+    @Test
+    public void test2() {
+        log.info("test hello 2");
+        TestCase.assertEquals(1, 1);
+    }
+}</pre>
           <h3>@RestController注解</h3>
           <pre>
 @RestController和@Controller之间区别
@@ -97,10 +127,151 @@ ${}: 标准变量表达式
 #{}: 消息(i18n)表达式
 @{}: 链接(URL)表达式
 ~{}: 片段表达式</pre>
-          <h3>SpringBoot集成Thymeleaf环境配置</h3>
+          <h3>SpringBoot整合Mysql、Mybatis和JDBC的配置</h3>
           <pre>
+首先注入依赖
+MySQL和JBDC依赖
+< dependency>
+    // 整合jdbc模板框架
+    < groupId>org.springframework.boot< /groupId>
+    < artifactId>spring-boot-starter-jdbc< /artifactId>
+< /dependency>
+< dependency>
+    // 整合mysql驱动类
+    < groupId>mysql< /groupId>
+    < artifactId>mysql-connector-java< /artifactId>
+< /dependency>
+< dependency>
+    < groupId>org.mybatis.spring.boot< /groupId>
+    < artifactId>mybatis-spring-boot-starter< /artifactId>
+    < version>1.3.2< /version>
+< /dependency>
 
+然后配置application文件
+spring:
+ datasource:
+   username: root
+   password: 123456
+   url: jdbc:mysql://localhost:3306/pestore?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+   driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml   #告诉mybatis去哪里扫描mapper
+
+注意：配置文件和数据库连接的相对内容（url，username,password,classname)要相对应，而且要注意MySQL的版本与驱动之间的对应
+关于mybatis配置扫描
+1、java目录下的xml资源在项目打包时会被忽略掉，所以，如果xml放在包下，需要在pom.xml文件中再添加如下配置，避免打包时java目录下的XML文件被自动忽略掉：
+< build>
+    < resources>
+        < resource>
+            < directory>src/main/java< /directory>
+            < includes>
+                < include>**/*.xml< /include>
+            < /includes>
+        < /resource>
+        < resource>
+            < directory>src/main/resources< /directory>
+        < /resource>
+    < /resources>
+< /build>
+2、xml也可以直接放在resources目录下，这样就不用担心打包时被忽略了，但是放在resources目录下，又不能自动被扫描到，需要添加额外配置。例如我在resources目录下创建mapper目录用来放mapper文件
+此时在application.properties中告诉mybatis去哪里扫描mapper：
+mybatis.mapper-locations=classpath:mapper/*.xml
+如此配置之后，mapper就可以正常使用了。注意第二种方式不需要在pom.xml文件中配置文件过滤
+3、在application启动类中添加@MapperScan注解
+@Mapper注解：
+作用：在接口类上添加了@Mapper，在编译之后会生成相应的接口实现类
+添加位置：接口类上面
+@Mapper
+public interface UserDAO {
+   //代码
+}
+在在Springboot启动类中添加@MapperScan注解
+@MapperScan
+作用：指定要变成实现类的接口所在的包，然后包下面的所有接口在编译之后都会生成相应的实现类
+@MapperScan("com.demo.mapper")：扫描指定包中的接口
+@MapperScan("com.demo.*.mapper")：一个*代表任意字符串，但只代表一级包,比如可以扫到com.demo.aaa.mapper,不能扫到com.demo.aaa.bbb.mapper
+@MapperScan("com.demo.**.mapper")：两个*代表任意个包,比如可以扫到com.demo.aaa.mapper,也可以扫到com.demo.aaa.bbb.mapper
+@MapperScan({"com.kfit.demo","com.kfit.user"}使用@MapperScan注解多个包</pre>
+          <h3>druid数据库连接池</h3>
+          <pre>
+Java程序很大一部分要操作数据库，为了提高性能操作数据库的时候，又不得不使用数据库连接池。
+Druid 是阿里巴巴开源平台上一个数据库连接池实现，结合了 C3P0、DBCP 等 DB 池的优点，同时加入了日志监控。
+Druid 可以很好的监控 DB 池连接和 SQL 的执行情况，天生就是针对监控而生的 DB 连接池。
+
+// alibaba的druid数据库连接池
+< dependency>
+    < groupId>com.alibaba< /groupId>
+    < artifactId>druid-spring-boot-starter< /artifactId>
+    < version>1.1.9< /version>
+< /dependency>
+spring:
+    datasource:
+        name: mysql_test
+        type: com.alibaba.druid.pool.DruidDataSource
+        #druid相关配置
+        druid:
+          #监控统计拦截的filters
+          filters: stat
+          driver-class-name: com.mysql.jdbc.Driver
+          #基本属性
+          url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+          username: root
+          password: root
+          #配置初始化大小/最小/最大
+          initial-size: 1
+          min-idle: 1
+          max-active: 20
+          #获取连接等待超时时间
+          max-wait: 60000
+          #间隔多久进行一次检测，检测需要关闭的空闲连接
+          time-between-eviction-runs-millis: 60000
+          #一个连接在池中最小生存的时间
+          min-evictable-idle-time-millis: 300000
+          validation-query: SELECT 'x'
+          test-while-idle: true
+          test-on-borrow: false
+          test-on-return: false
+          #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+          pool-prepared-statements: false
+          max-pool-prepared-statement-per-connection-size: 20</pre>
+          <h3>SpringBoot热部署</h3>
+          <pre>
+devtools热部署
+< dependency>
+    < groupId>org.springframework.boot< /groupId>
+    < artifactId>spring-boot-devtools< /artifactId>
+    < optional>true< /optional>
+    < scope>true< /scope>
+< /dependency>
+在application.yml中配置一下devtools
+spring:
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+      additional-paths: src/main/java #重启目录
+      exclude: WEB-INF/**
+  freemarker:
+    cache: false    #页面不加载缓存，修改即时生效
+
+下面是在idea中的配置 </pre>
+          <img src="../../img/java/springboot01.png" height="250px" width="650px">
+          <img src="../../img/java/springboot02.png" height="280px" width="650px">
+          <pre>
+注意
+1、devtools可以实现页面热部署（即页面修改后会立即生效，这个可以直接在application.properties文件中配置spring.thymeleaf.cache=false来实现），
+实现类文件热部署（类文件修改后不会立即生效），实现对属性文件的热部署。
+即devtools会监听classpath下的文件变动，并且会立即重启应用（发生在保存时机），注意：因为其采用的虚拟机机制，该项重启是很快的
+2、配置了true后在修改java文件后也就支持了热启动，不过这种方式是属于项目重启（速度比较快的项目重启），会清空session中的值，也就是如果有用户登陆的话，项目重启后需要重新登陆。
+默认情况下，/META-INF/maven，/META-INF/resources，/resources，/static，/templates，/public这些文件夹下的文件修改不会使应用重启，但是会重新加载（devtools内嵌了一个LiveReload server，当资源发生改变时，浏览器刷新
           </pre>
+          <h3>在项目中配置多套环境的配置方法</h3>
+          <pre>
+因为现在一个项目有好多环境，开发环境，测试环境，准生产环境，生产环境，每个环境的参数不同，所以我们就可以把每个环境的参数配置到yml文件中，这样在想用哪个环境的时候只需要在主配置文件中将用的配置文件写上就行如application.yml
+在Spring Boot中多环境配置文件名需要满足application-{profile}.yml的格式，其中{profile}对应你的环境标识，比如：
+application-dev.yml：开发环境
+application-test.yml：测试环境
+application-prod.yml：生产环境
+至于哪个具体的配置文件会被加载，需要在application.yml文件中通过spring.profiles.active属性来设置，其值对应{profile}值</pre>
         </div>
       </div>
     </div>
