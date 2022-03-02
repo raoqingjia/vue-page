@@ -75,13 +75,6 @@ public class MyTests {
         TestCase.assertEquals(1, 1);
     }
 }</pre>
-          <h3>@RestController注解</h3>
-          <pre>
-@RestController和@Controller之间区别
-如果在类上加上@RestController，该类中所有的SpringMVCUrl接口映射都是返回json格式，类似加上@ResponseBody注解
-@RestController是SpringMVC提供，而不思SpringBoot提供
-Rest微服务接口开发中Rest风格，数据传输格式json格式，http协议
-@Controller控制层注解SpringMVC接口映射，默认情况下返回页面跳转，如果要返回json格式加上@ResponseBody注解</pre>
           <h3>SpringBoot静态资源目录</h3>
           <pre>
 SpringBoot可以JAR/WAR的形式启动运行，有时候静态资源的访问是必不可少的，比如：image、js、css 等资源的访问
@@ -264,6 +257,41 @@ spring:
 2、配置了true后在修改java文件后也就支持了热启动，不过这种方式是属于项目重启（速度比较快的项目重启），会清空session中的值，也就是如果有用户登陆的话，项目重启后需要重新登陆。
 默认情况下，/META-INF/maven，/META-INF/resources，/resources，/static，/templates，/public这些文件夹下的文件修改不会使应用重启，但是会重新加载（devtools内嵌了一个LiveReload server，当资源发生改变时，浏览器刷新
           </pre>
+          <h3>application.yml和 bootstrap.yml区别</h3>
+          <pre>
+bootstrap.yml（bootstrap.properties）用来程序引导时执行，应用于更加早期配置信息读取，如可以使用来配置application.yml中使用到参数等
+application.yml（application.properties) 应用程序特有配置信息，可以用来配置后续各个模块中需使用的公共参数等。
+加载顺序
+bootstrap.yml > application.yml > application-dev(prod).yml
+
+原理：bootstrap.yml 用于应用程序上下文的引导阶段。
+bootstrap.yml 由父Spring ApplicationContext加载。
+bootstrap.yml 可以理解成系统级别的一些参数配置，这些参数一般是不会变动的。
+application.yml 可以用来定义应用级别的，如果搭配 spring-cloud-config 使用 application.yml 里面定义的文件可以实现动态替换。
+使用Spring Cloud Config Server时，应在 bootstrap.yml 中指定
+spring.application.name
+spring.cloud.config.server.git.uri
+
+例如
+端口、访问路径、注册中心这种千年不动的东西都放到 bootStrap.yml
+数据源、redis、kafka之类的都放到  application.yml
+
+在springcloud工程中，资源文件夹中有 application.yml 、 application-dev(prod、test).yml时，,工程启动时会启动一个端口为8080的tomcat，即使在application.yml、application-dev.yml中指定了端口，工程也不会加载，推测资源文件加载失败
+当资源文件中有bootstrap.yml、application.yml 、 application-dev(prod、test).yml文件时，并且三个文件都设置三个不同的tomcat的端口，此时application-dev会覆盖掉bootstrap.yml中的端口
+当只有bootstrap.yml application.yml时，application.yml中的端口则不会覆盖掉bootstrap.yml中的端口</pre>
+          <h3>修改Servlet相关配置</h3>
+          <pre>
+server:
+  port: 8081
+  servlet:
+    context-path: /springboot
+  tomcat:
+    uri-encoding: utf-8
+spring:
+  mvc:
+    servlet:
+      path: /*    #SpringBoot自动为我们配置DispatcherServlet，默认拦截"/"(所有请求，包括静态资源，但不拦截jsp请求，若要拦截Jsp请求，修改配置为“/*”即可)
+          </pre>
           <h3>在项目中配置多套环境的配置方法</h3>
           <pre>
 因为现在一个项目有好多环境，开发环境，测试环境，准生产环境，生产环境，每个环境的参数不同，所以我们就可以把每个环境的参数配置到yml文件中，这样在想用哪个环境的时候只需要在主配置文件中将用的配置文件写上就行如application.yml
@@ -271,7 +299,175 @@ spring:
 application-dev.yml：开发环境
 application-test.yml：测试环境
 application-prod.yml：生产环境
-至于哪个具体的配置文件会被加载，需要在application.yml文件中通过spring.profiles.active属性来设置，其值对应{profile}值</pre>
+至于哪个具体的配置文件会被加载，需要在application.yml文件中通过spring.profiles.active属性来设置，其值对应{profile}值
+spring:
+  profiles:
+    active: dev
+#日志
+logging:
+   config: classpath:logback-${spring.profiles.active}.xml
+
+使用方法：
+通过指定启动参数使用不同的profile
+测试环境: java -jar my-spring-boot.jar --spring.profiles.active=test--server.port=8060
+生产环境: java -jar my-spring-boot.jar --spring.profiles.active=prod</pre>
+          <h3>SpringBoot整合日志</h3>
+          <pre>
+springboot本身就内置了日志功能,详细的搜整合SpringBoot整合logback，网上有好多教程
+1. 配置输出格式 为 时间 - 消息 换行
+logging:
+ pattern:
+   console: "%d - %msg%n"
+2. 配置日志输出位置
+logging:
+ path: /Users/gujiachun/Downloads
+运行后，我们可以看到Downloads下生成了一个文件spring.log这文件是spring生成
+
+3. 配置日志输出文件 ，这样可以指定日志输出到哪个文件
+logging:
+ file: /Users/gujiachun/Downloads/test.log
+我们可以看到在Downloads生成了test文件,path和file不能同时用
+
+4. 配置日志 输出级别
+日志一般主要看重的有5个级别，优先级如 DEBUG< INFO< WARN< ERROR< FATAL等，而springboot默认配置是INFO级别，所以我们测试代码中写了三行，在结果中我们只看到了info 和 error，因为debug优先级比info低，所以我们看不到。
+那么我们配置一下格式 logging.level.包名或类名: 级别 即可， 举例如下logging:
+pattern:
+  console:"%d - %msg%n"
+file: /Users/gujiachun/Downloads/test.log
+  level:
+   com.rainbow.goods.test: debug  #这里可以是包名也可以是类名
+
+5.lobback-spring.xml 配置
+logging:
+   config: classpath:log/logback-spring.xml
+我们先把application.yml的关于日志的注释掉，新建一个文件logback-spring.xml，为什么要取这个名字呢，Spring Boot官方推荐优先使用带有-spring的文件名作为你的日志配置（如使用logback-spring.xml，而不是logback.xml），如果我们想自定义名字，可以在 application.yml中通过logging.config=classpath:/xxx.xml等方式配置。</pre>
+          <h3>@RestController注解</h3>
+          <pre>
+@RestController和@Controller之间区别
+如果在类上加上@RestController，该类中所有的SpringMVCUrl接口映射都是返回json格式，类似加上@ResponseBody注解
+@RestController是SpringMVC提供，而不思SpringBoot提供
+Rest微服务接口开发中Rest风格，数据传输格式json格式，http协议
+@Controller控制层注解SpringMVC接口映射，默认情况下返回页面跳转，如果要返回json格式加上@ResponseBody注解</pre>
+          <h3>@ConfigurationProperties 配置模块</h3>
+          <pre>
+在编写项目代码时，我们要求更灵活的配置，更好的模块化整合。在 Spring Boot 项目中，为满足以上要求，我们将大量的参数配置在 application.properties 或 application.yml 文件中，通过 @ConfigurationProperties 注解，我们可以方便的获取这些参数值
+@ConfigurationProperties和@Value 2个注解。
+@ConfigurationProperties注解支持属性文件和javabean的映射，而@Value支持spel表达式。
+如果是多个属性映射，而且常常被复用，推荐使用@ConfigurationProperties，如果只读取单个属性则使用@Value要方便许多
+@ConfigurationProperties的用法
+1.可以搭配@bean使用，绑定三方属性
+@ConfigurationProperties(prefix = "spring.datasource.druid")
+@Bean(name = "writeDruidDataSource")
+@Primary
+public DataSource writeDruidDataSource() {
+    return new DruidDataSource();
+}
+2.可以将属性转换成bean对象，这里如果不用@component修饰。则在容器无法获取，如果只使用@ConfigurationProperties需要结合@EnableConfigurationProperties(PropertisInject.class)将其注册到spring容器中
+看下面的案例
+假设我们正在搭建一个发送邮件的模块,在本地测试，我们不想该模块真的发送邮件，所以我们需要一个参数来「开关」 disable 这个功能。另外，我们希望为这些邮件配置一个默认的主题，当我们查看邮件收件箱，通过邮件主题可以快速判断出这是测试邮件
+在 application.properties 文件中创建这些参数
+myapp.mail.enabled=true
+myapp.mail.default-subject=this is a test mail
+我们可以使用 @Value 注解或着使用 Spring Environment bean 访问这些属性，是这种注入配置方式有时显得很笨重。我们将使用更安全的方式(@ConfigurationProperties )来获取这些属性
+@Data
+@component
+@ConfigurationProperties(prefix="myapp.mail")
+public class MailModuleProperties(){
+     private Boolean enabled = Boolean.TRUE;
+     private String defaultSubject;
+}
+
+@ConfigurationProperties 的基本用法非常简单:我们为每个要捕获的外部属性提供一个带有字段的类。请注意以下几点:
+前缀定义了哪些外部属性将绑定到类的字段上
+根据 Spring Boot 宽松的绑定规则，类的属性名称必须与外部属性的名称匹配
+我们可以简单地用一个值初始化一个字段来定义一个默认值
+类本身可以是包私有的
+类的字段必须有公共 setter 方法
+@ConfigurationProperties 和 @value 有着相同的功能,但是 @ConfigurationProperties的写法更为方便
+@ConfigurationProperties 的 POJO类的命名比较严格,因为它必须和prefix的后缀名要一致, 不然值会绑定不上, 特殊的后缀名是“driver-class-name”这种带横杠的情况,在POJO里面的命名规则是 下划线转驼峰 就可以绑定成功，所以就是 “driverClassName”
+
+关与 @EnableConfigurationProperties 注解
+如果一个配置类只配置@ConfigurationProperties注解，而没有使用@Component，那么在IOC容器中是获取不到properties 配置文件转化的bean。说白了 @EnableConfigurationProperties 相当于把使用 @ConfigurationProperties 的类进行了一次注入</pre>
+          <h3>@Bean 和 @Component的区别</h3>
+          <pre>
+注解作用
+@Component注解表明一个类会作为组件类，并告知Spring要为这个类创建bean。
+@Bean注解告诉Spring这个方法将会返回一个对象，这个对象要注册为Spring应用上下文中的bean。通常方法体中包含了最终产生bean实例的逻辑。@Bean 需要在配置类中使用，即类上需要加上@Configuration注解
+理解
+@Component （@Controller @Service @Respository）作用于类上，只有在我们的SpringBoot应用程序启用了组件扫描并且包含了被注解的类时才有效。通过组件扫描，Spring将扫描整个类路径，并将所有@Component注释类添加到Spring Context，这里有的不足就是会把整个类当成bean注册到spring 容器上，如果这个类中并不是所有方法都需要注册为bean的话，会出现不需要的方法都注册成为bean，这时候必须确保这些不需要的方法也能注册为bean或者在扫描中加filter 过滤这些不需要的bean,否者spring将无法成功启动。
+@Bean相对来说就更加灵活了，它可以独立加在方法上，按需注册到spring容器，而且如果你要用到第三方类库里面某个方法的时候，你就只能用@Bean把这个方法注册到spring容器，因为用@Component你需要配置组件扫描到这个第三方类路径而且还要在别人源代码加上这个注解，很明显是不现实的。
+
+@Component
+public class Student {
+    private String name = "lkm";
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+@Bean 需要在配置类中使用，即类上需要加上@Configuration注解，@Configuration把一个类作为一个IOC容器，它的某个方法头上如果注册了@Bean，就会作为这个Spring容器中的Bean。
+@Configuration
+public class WebSocketConfig {
+    @Bean
+    public Student student(){
+        return new Student();
+    }
+}
+都可以使用@Autowired或者@Resource注解注入
+@Autowired
+Student student;
+那为什么有了@Compent,还需要@Bean呢？
+如果你想要将第三方库中的组件装配到你的应用中，在这种情况下，是没有办法在它的类上添加@Component注解的，因此就不能使用自动化装配的方案了，但是我们可以使用@Bean</pre>
+          <h3>其他注解</h3>
+          <pre>
+@Configuration把一个类作为一个IoC容器，它的某个方法头上如果注册了@Bean，就会作为这个Spring容器中的Bean。
+@Scope注解 作用域
+@Lazy(true) 表示延迟初始化
+@Service用于标注业务层组件、
+@Controller用于标注控制层组件（如struts中的action）
+@Repository用于标注数据访问组件，即DAO组件。
+@Component泛指组件，当组件不好归类的时候，我们可以使用这个注解进行标注。
+@Scope用于指定scope作用域的（用在类上）
+@PostConstruct用于指定初始化方法（用在方法上）
+@PreDestory用于指定销毁方法（用在方法上）
+@Resource 默认按名称装配，当找不到与名称匹配的bean才会按类型装配。
+@DependsOn：定义Bean初始化及销毁时的顺序
+@Primary：自动装配时当出现多个Bean候选者时，被注解为@Primary的Bean将作为首选者，否则将抛出异常
+@Autowired 默认按类型装配，如果我们想使用按名称装配，可以结合@Qualifier注解一起使用
+@Autowired @Qualifier(“personDaoBean”) 存在多个实例配合使用
+@Entity(name="xxx")  name属性指定数据库中的表名，如没有name则默认表名与实体类同名，默认为 SnakeCaseStrategy(命名策略 )为表名</pre>
+          <h3>配置文件占位符使用</h3>
+          <pre>
+SpringBoot占位符支持的有随机数和配置的值等等
+${random.value}、${random.int}、${random.long}、${random.uuid}
+${random.int(10)}、${random.int(1024,65536)}
+写个例子实践一下
+user.properties
+user.userName= root(${user.address.tel})
+user.isAdmin= true
+user.regTime= 2019/11/01
+user.isOnline= 1
+user.maps.k1=${random.int}
+user.maps.k2=v2
+user.lists=${random.uuid},${random.value}
+user.address.tel= 15899988899
+user.address.name=上海浦东区
+
+@Component//将组件添加到Spring容器
+@Data
+@PropertySource(value = "classpath:user.properties",encoding = "utf-8")
+@ConfigurationProperties(prefix = "user")//属性进行映射
+public class User {
+    private String userName;
+    private boolean isAdmin;
+    private Date regTime;
+    private Long isOnline;
+    private Map< String,Object> maps;
+    private List< Object> lists;
+    private Address address;
+}</pre>
         </div>
       </div>
     </div>
