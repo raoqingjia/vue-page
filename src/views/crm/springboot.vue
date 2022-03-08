@@ -44,7 +44,8 @@ springboot 只是为了提高开发效率，是为了提升生产力的：
 @EnableAutoConfiguration：启用 SpringBoot 的自动配置机制
 @ComponentScan： 扫描被@Component (@Service,@Controller)注解的 bean，注解默认会扫描该类所在的包下所有的类
 方式二
-启动类上添加@SpringBootApplication注解，它等同于 @EnableAutoConfiguration 和 @ComponentScan 的组合，它会自动扫描同一目录下面所有的包中的内容</pre>
+启动类上添加@SpringBootApplication注解，它等同于 @EnableAutoConfiguration 和 @ComponentScan 的组合，它会自动扫描同一目录下面所有的包中的内容
+所在包不是Spring Boot启动类所在的包或者子包下就需要指定@ComponentScan，因为Spring Boot默认只扫描和启动类同一级或者下一级包。</pre>
           <h3>Spring Boot项目启动方式</h3>
           <pre>
 spring-boot-starter-parent父依赖启动器的主要作用是进行版本统一管理
@@ -341,6 +342,172 @@ file: /Users/gujiachun/Downloads/test.log
 logging:
    config: classpath:log/logback-spring.xml
 我们先把application.yml的关于日志的注释掉，新建一个文件logback-spring.xml，为什么要取这个名字呢，Spring Boot官方推荐优先使用带有-spring的文件名作为你的日志配置（如使用logback-spring.xml，而不是logback.xml），如果我们想自定义名字，可以在 application.yml中通过logging.config=classpath:/xxx.xml等方式配置。</pre>
+          <h3>Spring AOP @Aspect用法</h3>
+          <pre>
+AOP为Aspect Oriented Programming的缩写，意为：面向切面编程，通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP是Spring框架中的一个重要内容，它通过对既有程序定义一个切入点，然后在其前后切入不同的执行内容，比如常见的有：打开数据库连接/关闭数据库连接、打开事务/关闭事务、记录日志等。基于AOP不会破坏原来程序逻辑，因此它可以很好的对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率
+
+添加MAVEN依赖:
+< dependency>
+    < groupId>org.springframework.boot< /groupId>
+    < artifactId>spring-boot-starter-aop< /artifactId>
+< /dependency>
+
+AOP核心概念
+1、横切关注点
+对哪些方法进行拦截，拦截后怎么处理，这些关注点称之为横切关注点
+2、切面（aspect）
+类是对物体特征的抽象，切面就是对横切关注点的抽象
+3、连接点（joinpoint）
+被拦截到的点，因为Spring只支持方法类型的连接点，所以在Spring中连接点指的就是被拦截到的方法，实际上连接点还可以是字段或者构造器
+4、切入点（pointcut）
+对连接点进行拦截的定义
+5、通知（advice）
+所谓通知指的就是指拦截到连接点之后要执行的代码，通知分为前置、后置、异常、最终、环绕通知五类
+6、目标对象
+代理的目标对象
+7、织入（weave）
+将切面应用到目标对象并导致代理对象创建的过程
+8、引入（introduction）
+在不修改代码的前提下，引入可以在运行期为类动态地添加一些方法或字段
+
+1、@Component：因为作为切面类需要 Spring 管理起来，所以在初始化时就需要将这个类初始化加入 Spring 的管理；@Aspect放在类头上，把这个类作为一个切面。
+2、 @Pointcut放在方法头上，定义一个可被别的方法引用的切入点表达式。
+3、5种通知。
+@Before，前置通知，放在方法头上。
+@After，后置【finally】通知，放在方法头上。
+@AfterReturning，后置【try】通知，放在方法头上，使用returning来引用方法返回值。
+@AfterThrowing，后置【catch】通知，放在方法头上，使用throwing来引用抛出的异常。
+@Around，环绕通知，放在方法头上，这个方法要决定真实的方法是否执行，而且必须有返回值。
+注意：
+@Aspect：意思是这个类为切面类
+@Componet：因为作为切面类需要 Spring 管理起来，所以在初始化时就需要将这个类初始化加入 Spring 的管理；
+@Befoe：切入点的逻辑(Advice)execution…:切入点语法
+          </pre>
+          <h3>AOP统一日志打印处理</h3>
+          <pre>
+Springboot + AOP 统一处理日志。然后系统日志持久化到文件保存起来，当程序方便发生问题的时候，能够快速、准确的定位到问题的所在。
+AOP框架AspectJ，AspectJ是基于java开发的aop框架，自spring2.0以后，springaop引入对他支持
+添加MAVEN依赖:
+< dependency>
+    < groupId>org.springframework.boot< /groupId>
+    < artifactId>spring-boot-starter-aop< /artifactId>
+< /dependency>
+编写切面:
+为什么要使用AOP打印日志,因为在方法中打印日志会大大增加方法的冗余,增加开发时间
+采用切面统一打印的比较多,因为日志一般会记录在文件,有的还会记录在数据库,不是打印在控制台上就完事了
+那我们做的项目来说吧,一般日志会分为三种,用户的登录日志,用户的操作日志,用户的浏览日志,都是分开存储的
+项目代码
+@Aspect
+@Component
+public class LogAspect {
+    private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
+
+    // 定义切点表达式：*，第一个返回值，第二个类名，第三个方法名
+    @Pointcut("execution(public * com.springboot.demo.service.*.*(..))")
+    public void webLog() {} // 使用一个返回值为void，方法体为空的方法来命名切入点
+
+    // 在方法执行之前执行
+    @Before("webLog()")
+    public void doBefore(JoinPoint joinPoint) throws Throwable {
+        // 接收到请求，记录请求内容
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        // 记录下请求内容
+        logger.info("URL : " + request.getRequestURL().toString());
+        logger.info("HTTP_METHOD : " + request.getMethod());
+        logger.info("IP : " + request.getRemoteAddr());
+        Enumeration< String> enu = request.getParameterNames();
+        while (enu.hasMoreElements()) {
+            String name = (String) enu.nextElement();
+            logger.info("name:{},value:{}", name, request.getParameter(name));
+        }
+    }
+
+    // 后置通知
+    @AfterReturning(returning = "objects", pointcut = "webLog()")
+    public void myAfterReturning(Object objects) {
+      logger.info("-----------@AfterReturning 后置通知-----------");
+      logger.info("后置通知：模拟记录日志...");
+      logger.info("返回值 response={}", objects);
+    }
+
+    //异常通知
+	@AfterThrowing(value="myPointCut()", throwing="e")
+	public void myAfterThrowing(JoinPoint joinPoint,Throwable e) {
+		logger.info("-----------@AfterThrowing 异常通知-----------");
+		logger.info("异常通知：出错了"+ e);
+		logger.info("异常通知：出错了getStackTrace={}", e.getStackTrace());
+		logger.info("异常通知：出错了Throwable...具体如下", e);
+	}
+
+	//最终通知
+	@After("myPointCut()")
+	public void myAfter() {
+		logger.info("-----------@After 最终通知-----------");
+		logger.info("最终通知：模拟方法结束后的释放资源...");
+	}
+}
+          </pre>
+          <h3>全局异常监听</h3>
+          <pre>
+SpringBoot中有一个ControllerAdvice的注解，使用该注解表示开启了全局异常的捕获，我们只需在自定义一个方法使用ExceptionHandler注解然后定义捕获异常的类型即可对这些捕获的异常进行统一的处理
+在abs这种分布式的项目组，单独的服务直接没开启这种全局异常捕获，毕竟是前后台联调，有些错误是要单独加上错误信息的
+常用的状态码
+SUCCESS("200", "成功!")
+BODY_NOT_MATCH("400","请求的数据格式不符!")
+SIGNATURE_NOT_MATCH("401","请求的数字签名不匹配!")
+NOT_FOUND("404", "未找到该资源!")
+INTERNAL_SERVER_ERROR("500", "服务器内部错误!")
+SERVER_BUSY("503","服务器正忙，请稍后再试!")
+
+例如
+@controllerAdvice
+public class GlobalExceptionHandler{
+     @ExceptionHandler(RuntimeException.class)
+     @ResponseBody
+     public Map< String,Object> resultError(){
+         Map< String,Object> result = new HashMap< String,Object>();
+         result.put("errorCode":"500");
+         result.put("errorMsg":"系统错误。。。");
+         return result；
+     }
+}
+返回结构就是{errorCode:"500",errorMsg:"系统错误。。。"}
+下面是升级版，了解就行了
+RestControllerAdvice
+public class MyExceptionHandler {
+    public static final String ERROR_VIEW = "error";
+    @ExceptionHandler(value = Exception.class)
+    public Object errorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) throws Exception {
+        e.printStackTrace();
+        if (isAjax(request)) {
+            return JsonResult.errorException(e.getMessage());
+        } else {
+            ModelAndView mav = new ModelAndView();
+            mav.addObject("exception", e);
+            mav.addObject("url", request.getRequestURL());
+            mav.setViewName(ERROR_VIEW);
+            return mav;
+        }
+    }
+
+    // 判断是否是ajax请求
+    public static boolean isAjax(HttpServletRequest httpRequest) {
+        String xRequestedWith = httpRequest.getHeader("X-Requested-With");
+        return (xRequestedWith != null && "XMLHttpRequest".equals(xRequestedWith));
+    }
+}
+
+自义定全局异常处理除了可以处理数据格式之外，也可以处理页面的跳转，只需在新增的异常方法的返回处理上填写该跳转的路径并不使用ResponseBody 注解即可。如果是用的RestControllerAdvice注解，它会将数据自动转换成JSON格式，这种于Controller和RestController类似，所以我们在使用全局异常处理的之后可以进行灵活的选择处理
+# 注意区分
+1、在类上的注解
+@ControllerAdvice
+@RestControllerAdvice
+2、在方法上的注解
+@ExceptionHandler(value = Exception.class)
+3、在统一返回异常的形式配置中
+类上的注解为@RestControllerAdvice
+方法中返回ModelAndView对象就是返回页面，返回一个其他对象就会转换为json串，这样就实现了对页面请求和ajax请求中的错误的统一处理。</pre>
           <h3>@RestController注解</h3>
           <pre>
 @RestController和@Controller之间区别
@@ -388,6 +555,83 @@ public class MailModuleProperties(){
 
 关与 @EnableConfigurationProperties 注解
 如果一个配置类只配置@ConfigurationProperties注解，而没有使用@Component，那么在IOC容器中是获取不到properties 配置文件转化的bean。说白了 @EnableConfigurationProperties 相当于把使用 @ConfigurationProperties 的类进行了一次注入</pre>
+          <h3>springboot之异步调用@Async</h3>
+          <pre>
+在Java应用中，绝大多数情况下都是通过同步的方式来实现交互处理的；但是在处理与第三方系统交互的时候，容易造成响应迟缓的情况，之前大部分都是使用多线程来完成此类任务，其实，在spring 3.x之后，就已经内置了@Async来完美解决这个问题,在现在的分布式中好多都用中间件的方式处理异步问题。
+启动类上要添加 @EnableAsync 开启异步调用
+
+@ComponentScan(basePackages = { "com.xwj.controller", "com.xwj.service" })
+@EnableAsync //开启异步调用
+@EnableAutoConfiguration
+public class App {
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
+}
+@RestController
+public class IndexController {
+    @Autowired
+    private UserService userService;
+    @RequestMapping("/async")
+    public String async(){
+        System.out.println("####IndexController####   1");
+        userService.sendSms();
+        System.out.println("####IndexController####   4");
+        return "success";
+    }
+}
+@Service
+public class UserService {
+    @Async
+    public void sendSms(){
+        System.out.println("####sendSms####   2");
+        IntStream.range(0, 5).forEach(d -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        System.out.println("####sendSms####   3");
+    }
+}
+先注掉@EnableAsync和@Async两个注解，看下同步调用执行的效果。执行结果如下：
+
+####IndexController####   1
+####sendSms####   2
+####sendSms####   3
+####IndexController####   4
+对于sendSms方法，我们并不关注它什么时候执行完，所以可以采用异步的方式去执行。放开@EnableAsync和@Async两个注解，执行结果如下：
+
+####IndexController####   1
+####IndexController####   4
+####sendSms####   2
+####sendSms####   3
+
+使用了@Async的方法，会被当成是一个子线程，所有整个sendSms方法，会在主线程执行完了之后执行
+同一个类中，一个方法调用另外一个有@Async的方法，注解是不会生效的</pre>
+          <h3>基于@Scheduled注解 实现定时任务</h3>
+          <pre>
+使用SpringBoot创建定时任务非常简单，目前主要有以下三种创建方式：
+一、基于注解(@Scheduled)
+二、基于接口（SchedulingConfigurer） 前者相信大家都很熟悉，但是实际使用中我们往往想从数据库中读取指定时间来动态执行定时任务，这时候基于接口的定时任务就派上用场了。
+三、基于注解设定多线程定时任务
+不过分布式的一般多用xxl-job框架
+
+使用SpringBoot基于注解来创建定时任务非常简单，只需几行代码便可完成。 代码如下：
+复制代码
+@Component
+@Configuration       //1.主要用于标记配置类，兼备Component的效果。
+@EnableScheduling   // 2.开启定时任务
+public class SaticScheduleTask {
+    //3.添加定时任务
+    @Scheduled(cron = "0/5 * * * * ?")
+    //或直接指定时间间隔，例如：5秒
+    //@Scheduled(fixedRate=5000)
+    private void configureTasks() {
+        System.err.println("执行静态定时任务时间: " + LocalDateTime.now());
+    }
+}</pre>
           <h3>@Bean 和 @Component的区别</h3>
           <pre>
 注解作用

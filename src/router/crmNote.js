@@ -88,5 +88,14 @@ const crmNoteRouter = [ {
     created: "持续更新 最后版本 2020-03-28",
     component: resolve => require(['@/views/crm/springboot'], resolve)
   },
+  {
+    path: '/note/MongoDB',
+    name: "MongoDB",
+    type: "crm",
+    img: require("../img/mongodb-icon.png"),
+    description: "MongoDB笔记记录...",
+    created: "持续更新 最后版本 2021-10-02",
+    component: resolve => require(['@/views/crm/mongodb'], resolve)
+  },
   ];
 export default crmNoteRouter;
