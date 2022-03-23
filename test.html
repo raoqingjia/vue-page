@@ -7,103 +7,50 @@
   <title>css关键帧动画</title>
 
   <style>
-
-    /* 让元素做关键帧动画： */
-    /* 第一步，创建动画 */
-
-    @keyframes move {
-      /* 0%表示动画开始的关键帧 */
-      0% {
-        transform: translate(0, 0);
-        animation-timing-function: ease-out;
-      }
-
-      25% {
-        transform: translate(300px, 0);
-        animation-timing-function: ease-in;
-      }
-      50% {
-        transform: translate(300px, 300px);
-      }
-      75% {
-        transform: translate(0px, 300px);
-      }
-
-      /* 动画结束时的关键帧 */
-      0% {
-        transform: translate(0, 0);
-      }
+    html{
+      font-size: 20px;
+    }
+    h1{
+      font-size: 1.8rem;
+    }
+    h2{
+      font-size: 1rem;
+    }
+    h3{
+      font-size: .9rem;
+    }
+    p{
+      font-size: 14px
     }
 
-    #box {
-      width: 100px;
-      height: 100px;
-      background-color: red;
-
-      /* 第二步，把动画添加到元素上 */
-
-      /* animation-name:动画名字，设置本元素要执行哪个动画 */
-      animation-name: move;
-
-      /* 设置单次动画的执行时间 */
-      animation-duration: 2s;
-      /* 动画状态是否保留，设置为both可以保留动画结束时元素的样式 */
-      animation-fill-mode: both;
-      /* 设置动画执行速率，默认为ease-in-out，匀速使用linear */
-      animation-timing-function: linear;
-
-      /* 动画延时时间 */
-      animation-delay: 0s;
-
-      /* 设置动画方向 */
-      /* animation-direction: reverse; */
-
-      /* 动画执行次数，默认为1，设置为infinite表示无限次 */
-      animation-iteration-count: infinite;
-    }
-
-    #d2 {
-      width: 100px;
-      height: 100px;
-      background-color: blue;
-      margin: 50px auto;
-      text-align: center;
-      line-height: 100px;
-    }
-
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    .spin {
-      animation-name: spin;
-      animation-duration: 2s;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-
-    }
-
-    #d2:hover {
-      /* animation-play-state，设置动画执行状态，默认为running，设置为paused可以暂停动画 */
-      animation-play-state: paused;
-    }
-
-    #d2:active {
-      animation-play-state: running;
-      animation-direction: reverse;
-    }
   </style>
-
 </head>
 <body>
+<h1>我是h1</h1>
+<h2>我是h2</h2>
+<h3>我是h3</h3>
+<p>我是p标签，我是p标签我是p标签我是p标签我是p标签我是p标签我是p标签我是p标签</p>
 <script>
 
+    (function (doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                if(clientWidth>=640){
+                    docEl.style.fontSize = '100px';
+                }else{
+                    docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+                }
+            };
+        console.log( docEl.style);
+        console.log(  docEl.style.fontSize );
+
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
 
 </script>
 </body>

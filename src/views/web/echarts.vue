@@ -8,10 +8,10 @@
         </p>
         <div class="art-content">
           <h3>常用链接</h3>
-          <pre>https://www.makeapie.com/explore.html#sort=rank~timeframe=all~author=follow
-https://www.makeapie.com/explore.html
+          <pre>https://www.makeapie.cn/
+https://pie.antcode.net/
 https://echarts.apache.org/zh/option.html</pre>
-          <h3>Option的配置的通用配置</h3>
+          <h3MapReduce介绍>Option的配置的通用配置</h3MapReduce介绍>
           <pre>
 backgroundColor                                     背景色
 

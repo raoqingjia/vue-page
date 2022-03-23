@@ -148,10 +148,17 @@ const cssRouter = [ //css案例
   },
   {
     path: '/css/aKeyChangeSkin',
-    name: 'CSS var() 函数',
+    name: 'CSS实现皮肤切换',
     type: "css",
     created: "2019-02-23",
     component: resolve => require(['@/views/css/aKeyChangeSkin'], resolve)
+  },
+  {
+    path: '/css/transformScale',
+    name: '用transform:scale()缩放',
+    type: "css",
+    created: "2019-02-23",
+    component: resolve => require(['@/views/css/transformScale'], resolve)
   }
   ];
 export default cssRouter;

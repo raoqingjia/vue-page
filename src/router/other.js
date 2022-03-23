@@ -182,5 +182,12 @@ const otherRouter = [{
     created: "2021-12-23",
     component: resolve => require(['@/views/other/enotfound'], resolve)
   },
+  {
+    path: '/other/adviceForDashboard',
+    name: '关于Dashboard数据可视化全屏写法的一些构思',
+    type: "other",
+    created: "2022-02-23",
+    component: resolve => require(['@/views/other/adviceForDashboard'], resolve)
+  },
 ];
 export default otherRouter;

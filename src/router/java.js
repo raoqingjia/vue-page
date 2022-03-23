@@ -89,6 +89,13 @@ const javaRouter = [    //JAVA 类
     type: "java",
     created: "2021-01-16",
     component: resolve => require(['@/views/java/learnJDBC'], resolve)
+  },
+  {
+    path: '/java/macLocalHost',
+    name: 'mac电脑连接oracle报错ora-24454，客户主机名未设置',
+    type: "java",
+    created: "2022-03-21",
+    component: resolve => require(['@/views/java/macLocalHost'], resolve)
   }
 ];
 export default javaRouter;
