@@ -148,15 +148,200 @@ spring.data.mongodb.uri=mongodb://localhost:27017/mydb
 spring.data.mongodb.uri=mongodb://zzq:123456@localhost:27017/mydb
 如果多个节点集群配置
 spring.data.mongodb.uri=mongodb://user:pwd@ip1:port1,ip2:port2/database
+spring:
+  data:
+    mongodb:
+      database: app
+      uri: mongodb://abs:1qaz!QAZ@paasdemo-mongodb-bboss-1-primary.bboss-middleware-lt.svc.cluster.local:27017/app
+mongodb使用了集群只用用uri来实现集群配置
+username和password中含有“:”或“@”需要进行URLEncoder编码
           </pre>
-          <h3></h3>
+          <h3>Repository和Template的选择</h3>
           <pre>
-
-          </pre>
-          <h3></h3>
+SpringData为我们提供了两种方式对数据库进行操作，第一种是继承Repository接口，第二种是直接使用Template的方式对数据进行操作。
+第一种方式，直接继承xxxRepository接口，其最终将会继承Repository标记接口，我们可以不必自己写实现类，轻松实现增删改查、分页、排序操作，但是对于比较复杂的查询，使用起来就比较费力。
+第二种方式，直接使用xxxTemplate，这需要自己写实现类，但是这样增删改查可以自己控制，对于复杂查询，用起来得心应手</pre>
+          <h3>继承MongoRepository接口</h3>
           <pre>
+编写实体类User
+@Document(collection="user") //通过collection参数指定当前实体类对应的文档
+public class User {
+	@Id //用来标识主键
+	private String id;
+	private String username;
+	@Field("pwd") //给字段起别名
+	private String password;
+    //@Indexed 用于声明字段需要索引
+}
+编写Dao接口，继承MongoRepository
+// 定义Dao接口继承MongoRepository< 实体类型,主键类型>
+public interface UserDao extends MongoRepository< User , String> {}
 
-          </pre>
+在test文件夹下创建测试类
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class UserDaoTest {
+	@Autowired
+	private UserDao userDao;
+	@Test //保存
+	public void testsave() {
+		User user = new User("1","张三","123");
+		userDao.save(user);
+	}
+	@Test //更新
+	public void testUpdate() {
+    User user = new User("1","张三","12345");
+		userDao.save(user);
+	}
+	@Test //删除
+	public void testDelete() {
+		userDao.deleteById("1");
+	}
+}
+
+保存和更新使用同一套接口
+save（entity）方法
+User user = new User("1","张三","123");  // 更新保证id相同
+userDao.save(user);
+saveAll（iterable）方法
+< S extends T> List< S> saveAll(Iterable< S> entities);
+saveAll需要传入实现Iterable接口的对象
+List< User> users = new ArrayList< User>() {
+	{
+		add(new User("n1", "李四", "12345"));
+		add(new User("n2", "王五", "12345"));
+	}
+};
+userDao.saveAll(users);
+
+删除操作
+deleteById（id）方法
+userDao.deleteById("9");
+delete（entity）方法
+传入一个实体，将会根据id删除数据库中的文档。
+User user = new User("8", "", "");
+userDao.delete(user);
+deleteAll（）方法
+删除所有数据
+deleteAll（iterable）方法
+传入user集合，根据传入的id删除指定数据
+
+查询操作：父接口方法查询
+使用父接口中已经声明好的方法进行查询
+主键查询
+findById（id）
+根据id查询
+Optional< User> opt = userDao.findById("1");
+System.out.println(opt.get());
+
+findAllById（iterable）
+传入一个可遍历的集合
+List< String> list = new ArrayList< String>() {
+    {
+    	add("2");
+    	add("3");
+    }
+};
+userDao.findAllById(list).forEach(user -> {
+	System.out.println(user);
+});
+
+查询所有
+findAll（）
+List< User> users = userDao.findAll();
+findAll（sort）
+查询所有，并排序
+
+// 按照id倒序排列
+Sort sort = Sort.by(Order.desc("id"));
+List< User> users = userDao.findAll(sort);
+findAll（pageable）
+
+Pageable pageable = PageRequest.of(0, 3);
+Page< User> page = userDao.findAll(pageable);
+List< User> users = page.getContent();
+
+排序分页组合查询
+// 设置排序条件
+Sort sort = Sort.by(Sort.Order.desc("id"));
+// 设置分页条件 (第几页，每页大小，排序)
+Pageable pageable = PageRequest.of(0, 3, sort);
+Page< User> page = userDao.findAll(pageable);
+for (User user : page.getContent()) {
+	System.out.println(user);
+}
+
+查询操作：方法命名规则查询
+在UserDao中使用方法命名规则自定义方法，即可进行查询操作。
+根据用户名查询
+List< User> findByUsername(String username);
+根据用户名进行模糊查询
+List< User> findByUsernameLike(String username);
+根据用户名和密码查询
+List< User> findByUsernameAndPassword(String username, String password);</pre>
+          <h3>使用MongoTemplate</h3>
+          <pre>
+我们可以在类中加入MongoTemplate，并使用Spring提供的@Autowired注解进行注入。
+@Autowired
+private MongoTemplate mongoTemplate;
+
+新增操作
+mongoTemplate.insert（objectToSave）
+mongoTemplate.save（objectToSave）
+User user = new User(null, "赵六", "123456");
+mongoTemplate.insert(user);
+mongoTemplate.save(user);
+insert和save方法均能用于新增操作，其区别在于，在使用insert时，如果主键存在，那么就会报异常，而对于save方法，如果主键存在，就会更新已经存在的数据。
+
+更新操作
+mongoTemplate.updateFirst（query, update, entityClass）
+Query query = Query.query(Criteria.where("id").is("5").and("username").is("张三丰"));
+Update update = Update.update("username", "张三丰丰");
+mongoTemplate.updateFirst(query, update, User.class);
+
+删除操作
+mongoTemplate.remove（query, entityClass）
+Query query = Query.query(Criteria.where("id").is("6"));  //  Criteria.where("id").in(ids)  in删多个
+mongoTemplate.remove(query, User.class);
+
+查询操作
+mongoTemplate.findAll（entityClass）
+查找所有数据，默认情况下查找entityClass类所指定文档的全部数据。
+List< User> users = this.mongoTemplate.findAll(User.class);
+mongoTemplate.findById（id, entityClass）
+传入id，查询id所对应的数据。
+User user = mongoTemplate.findById("1", User.class);
+mongoTemplate.find（query, entityClass）
+Criteria criteria = Criteria.where("username").is("李四");
+Query query = new Query(criteria);
+//查询条件  指定返回数据类型
+List< User> users = mongoTemplate.find(query, User.class);
+
+
+Query和Criteria
+上面的方法操作中，常设计到Query和Criteria两个类，Criteria用于构造查询条件并作为参数传递给Query。
+下面对Criteria进行构建
+Criteria criteria = new Criteria(); //直接构建
+Criteria criteria = Criteria.where("username").is("张三"); //使用静态方法构建
+其中Criteria使用静态方法构建，其实现代码如下：
+public static Criteria where(String key) {
+	return new Criteria(key);
+}
+下面对Query进行构建
+Query query = new Query();
+Query query = new Query(criteria);
+Query query = Query.query(criteria);
+query.addCriteria(Criteria.where("id").in(ids));
+使用Criteria构建查询条件
+criteria.and("username").is("7")
+当然，如果是Criteria类，也可以直接调用静态方法where（）
+Criteria.where("username").is("7")
+
+使用Query类
+构造排序
+Query query = new Query().with(Sort.by(Sort.Order.desc("id")));
+构造分页，其中limit指查询出每页的数量，skip指跳过前几条数据。
+Query query = new Query().limit(3).skip(3);</pre>
         </div>
       </div>
     </div>
