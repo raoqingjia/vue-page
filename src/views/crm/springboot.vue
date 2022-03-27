@@ -555,6 +555,72 @@ public class MailModuleProperties(){
 
 关与 @EnableConfigurationProperties 注解
 如果一个配置类只配置@ConfigurationProperties注解，而没有使用@Component，那么在IOC容器中是获取不到properties 配置文件转化的bean。说白了 @EnableConfigurationProperties 相当于把使用 @ConfigurationProperties 的类进行了一次注入</pre>
+          <h3>@Value注解读取配置文件给静态变量赋值</h3>
+          <pre>
+在SpringBoot中，使用@Value()是不能直接给静态变量赋值的，虽然没有编译和运行上的报错，但调试时你会发现值都是空的，而要给静态变量赋值，都是新建一个类进行的，其中需要在类上加入@Component注解，可以使用set()方法
+
+方法1
+@Component
+public class ParamConfig {
+    @Value("${rocketmq.tag.name}")
+    public String name;
+    public static String pre;   // @Value()是不能直接给静态变量赋值的
+
+    //":"是赋予默认值，当从配置文件中找不到“rocketmq.tag.prefix”时，会传赋予“xxx”
+    @Value("${rocketmq.tag.prefix: xxx}")
+    public void setPre(String pre) {
+        ParamConfig.pre = pre;
+    }
+}
+使用
+ @Service
+public class FaceViewDomianServiceImpl implements FaceViewDomianService {
+	......
+    private static String prefix = ParamConfig.pre;
+	......
+ }
+
+方法2
+@Service
+public class FaceViewDomianServiceImpl implements FaceViewDomianService {
+   ......
+   private static String prefix = "";
+    @Value("${rocketmq.tag.prefix}")
+   public void setPrefix(String prefix) {
+       FaceViewDomianServiceImpl.prefix = "FILE_" + prefix + "_";
+   }
+   ......
+}</pre>
+          <h3>配置文件占位符使用</h3>
+          <pre>
+SpringBoot占位符支持的有随机数和配置的值等等
+${random.value}、${random.int}、${random.long}、${random.uuid}
+${random.int(10)}、${random.int(1024,65536)}
+写个例子实践一下
+user.properties
+user.userName= root(${user.address.tel})
+user.isAdmin= true
+user.regTime= 2019/11/01
+user.isOnline= 1
+user.maps.k1=${random.int}
+user.maps.k2=v2
+user.lists=${random.uuid},${random.value}
+user.address.tel= 15899988899
+user.address.name=上海浦东区
+
+@Component//将组件添加到Spring容器
+@Data
+@PropertySource(value = "classpath:user.properties",encoding = "utf-8")
+@ConfigurationProperties(prefix = "user")//属性进行映射
+public class User {
+    private String userName;
+    private boolean isAdmin;
+    private Date regTime;
+    private Long isOnline;
+    private Map< String,Object> maps;
+    private List< Object> lists;
+    private Address address;
+}</pre>
           <h3>springboot之异步调用@Async</h3>
           <pre>
 在Java应用中，绝大多数情况下都是通过同步的方式来实现交互处理的；但是在处理与第三方系统交互的时候，容易造成响应迟缓的情况，之前大部分都是使用多线程来完成此类任务，其实，在spring 3.x之后，就已经内置了@Async来完美解决这个问题,在现在的分布式中好多都用中间件的方式处理异步问题。
@@ -664,6 +730,71 @@ public class WebSocketConfig {
 Student student;
 那为什么有了@Compent,还需要@Bean呢？
 如果你想要将第三方库中的组件装配到你的应用中，在这种情况下，是没有办法在它的类上添加@Component注解的，因此就不能使用自动化装配的方案了，但是我们可以使用@Bean</pre>
+          <h3>Controller获取Get请求问号后的参数</h3>
+          <pre>
+通过HttpServletRequest接收，post方式和get方式都可以
+@RequestMapping("/addUser2")
+public String addUser2(HttpServletRequest request) {
+    String username=request.getParameter("username");
+    String password=request.getParameter("password");
+    System.out.println("username is:"+username);
+    System.out.println("password is:"+password);
+    return "demo/index";
+}
+
+用注解@RequestParam绑定请求参数到方法入参
+@RequestParam定义的入参有一个好处是，如果前端没传，接口报400
+当请求参数username不存在时会有异常发生,可以通过设置属性required=false解决,例如: @RequestParam(value="username", required=false)
+但是参数多了很明显，这样的话，将会导致这个方法太难看
+在一个查询接口中，需要的参数比较多，如果还是使用GET方式进行请求的话，那么，Controller 中的方法的参数列表将会非常多，如：
+public List< String> getName(@RequestParam String query1,
+                            @RequestParam String query2,
+                            @RequestParam String query3,......) {
+          return new ArrayList<>();
+}
+
+换成POST请求，将所有参数封装成一个类，然后使用 @RequestBody注解将参数自动解析成该类的一个实例，如：
+public List< String> getName(@RequestBody QueryDto queryDto) {
+        return new ArrayList<>();
+}
+QueryDto 类
+public class QueryDto {
+    private String query1;
+    private String query2;
+    private String query3;
+    // getter, setter ...
+}
+
+
+参数多了使用GET请求，可以将所有请求参数通过JSON格式来传递，controller拿到参数后，使用 JSON 相关的库（如 gson），将该JSON转化为相应的对象，如：
+public List< String> getName(@RequestParam String queryDtoStr) {
+        QueryDto queryDto = new Gson().fromJson(queryDtoStr, QueryDto.class);
+        return new ArrayList<>();
+}
+public class QueryDto {
+    private String query1;
+    private String query2;
+    private String query3;
+    // getter, setter ...
+}
+URL应该是类似于下面这样的：
+http://localhost:8080/app/names?queryDtoStr={"query1":12,"query2":2,"query3":2}
+当然，为了避免参数中出现 #、？、&等特殊字符，最好是采用 encodeURIComponent对参数进行转义
+类似第二种方式还不如直接改成post请求</pre>
+          <h3>打印HttpServletRequest的所有参数</h3>
+          <pre>
+@RequestMapping("/addUser")
+public String addUser(HttpServletRequest request) {
+    Map< String, String[]> map = request.getParameterMap();
+    Set< Map.Entry< String, String[]>> keys = map.entrySet();
+    Iterator< Map.Entry< String, String[]>> it = keys.iterator();
+    while (it.hasNext()){
+       Map.Entry< String, String[]> itMap = it.next();
+       logger.info("参数--"+itMap.getKey()+":"+Arrays.toString(itMap.getValue()));
+    }
+}
+
+          </pre>
           <h3>其他注解</h3>
           <pre>
 @Configuration把一个类作为一个IoC容器，它的某个方法头上如果注册了@Bean，就会作为这个Spring容器中的Bean。
@@ -682,36 +813,7 @@ Student student;
 @Autowired 默认按类型装配，如果我们想使用按名称装配，可以结合@Qualifier注解一起使用
 @Autowired @Qualifier(“personDaoBean”) 存在多个实例配合使用
 @Entity(name="xxx")  name属性指定数据库中的表名，如没有name则默认表名与实体类同名，默认为 SnakeCaseStrategy(命名策略 )为表名</pre>
-          <h3>配置文件占位符使用</h3>
-          <pre>
-SpringBoot占位符支持的有随机数和配置的值等等
-${random.value}、${random.int}、${random.long}、${random.uuid}
-${random.int(10)}、${random.int(1024,65536)}
-写个例子实践一下
-user.properties
-user.userName= root(${user.address.tel})
-user.isAdmin= true
-user.regTime= 2019/11/01
-user.isOnline= 1
-user.maps.k1=${random.int}
-user.maps.k2=v2
-user.lists=${random.uuid},${random.value}
-user.address.tel= 15899988899
-user.address.name=上海浦东区
 
-@Component//将组件添加到Spring容器
-@Data
-@PropertySource(value = "classpath:user.properties",encoding = "utf-8")
-@ConfigurationProperties(prefix = "user")//属性进行映射
-public class User {
-    private String userName;
-    private boolean isAdmin;
-    private Date regTime;
-    private Long isOnline;
-    private Map< String,Object> maps;
-    private List< Object> lists;
-    private Address address;
-}</pre>
         </div>
       </div>
     </div>

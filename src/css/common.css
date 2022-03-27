@@ -649,6 +649,7 @@ a.demo-link{
   padding: 10px 0;
 }
 
+
 @media screen and (max-width: 1459px) {
 
   .catalogue {
@@ -665,6 +666,14 @@ a.demo-link{
 
   .catalogue li a {
     padding: 5px;
+  }
+}
+
+
+/*1100分辨率（大于960px，小于1199px）*/
+@media screen and (min-width: 960px) and (max-width: 1600px) {
+  .inner {
+    width: 70% !important;
   }
 }
 
