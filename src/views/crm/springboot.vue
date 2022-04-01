@@ -8,6 +8,7 @@
         </p>
         <div class="art-content">
           <ul class="catalogue">
+            <li class="catalog">目录</li>
             <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
           </ul>
           <h3>简述一下spring boot 和 spring cloud</h3>
@@ -293,6 +294,59 @@ spring:
     servlet:
       path: /*    #SpringBoot自动为我们配置DispatcherServlet，默认拦截"/"(所有请求，包括静态资源，但不拦截jsp请求，若要拦截Jsp请求，修改配置为“/*”即可)
           </pre>
+          <h3>springboot 集成eureka</h3>
+          <pre>
+Eureka是Netflix开源的一个RESTful服务，主要用于服务的注册发现。
+Eureka由两个组件组成：Eureka服务器和Eureka客户端。Eureka服务器用作服务注册服务器。
+Eureka客户端是一个java客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。
+Netflix在其生产环境中使用的是另外的客户端，它提供基于流量、资源利用率以及出错状态的加权负载均衡。
+
+先创建一个Eureka-Server服务注册中心
+            <!-- 引入的Eureka-server -->
+< dependency>
+  < groupId>org.springframework.cloud< /groupId>
+  < artifactId>spring-cloud-starter-netflix-eureka-server< /artifactId>
+< /dependency>
+启动它Eureka项目只需要在启动类上加@EnableEurekaServer
+还需要配置application.yml
+Eureka是一个高可用的组件，每一个实例注册之后需要向注册中心发送心跳包，在默认情况下erureka server也是一个eureka client ,必须要指定一个 server。
+eureka server的配置文件applcation.yml：
+server:
+  port: 8081 #服务注册中心端口号
+eureka:
+  instance:
+    hostname: 127.0.0.1 #服务注册中心IP地址
+  client:
+    registerWithEureka: false #是否向服务注册中心注册自己
+    fetchRegistry: false #是否检索服务
+    serviceUrl: #服务注册中心的配置内容，指定服务注册中心的位置
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+创建一个Eureka-Client客户端也就是服务提供者
+客户端在向注册中心它会提供一些元数据，例如主机和端口，URL，主页等。Eureka server 从每个client实例接收心跳消息。 如果心跳超时，则通常将该实例从注册server中删除。
+创建客户端和服务端差不多，只是启动注解有点不一样，还有yml配置文件
+< dependency>
+   < groupId>org.springframework.cloud< /groupId>
+   < artifactId>spring-cloud-starter-netflix-eureka-server< /artifactId>
+< /dependency>
+怎么证明它是Client呢,在Spring-boot的启动类上通过注解@EnableEurekaClient 表明自己是一个eurekaclient
+配置文件yml
+server:
+  port: 8082  #服务端口号 多个实例端口号不一致
+spring:
+  application:
+    name: service-provider #服务名称--调用的时候根据名称来调用该服务的方法
+ eureka:
+  instance:
+    instance-id: spring-cloud-front1    # id一定要与 application-two.yml 中id不同，不然2个实例会被覆盖
+    appname: ${spring.application.name}
+  client:
+    serviceUrl: #注册中心的注册地址
+      defaultZone: http://127.0.0.1:8081/eureka/
+
+Eureka-Client多个实例
+每个微服务都是一个Eureka-Client，我们把每个app（SpringBootApplication）都向注册中心注册一个服务。
+有时候，某个服务的工作量比较大的时候，我们可以多注册几个同名称的微服务，从而让他们交替工作，减轻单个服务的压力</pre>
           <h3>在项目中配置多套环境的配置方法</h3>
           <pre>
 因为现在一个项目有好多环境，开发环境，测试环境，准生产环境，生产环境，每个环境的参数不同，所以我们就可以把每个环境的参数配置到yml文件中，这样在想用哪个环境的时候只需要在主配置文件中将用的配置文件写上就行如application.yml
@@ -312,6 +366,19 @@ logging:
 通过指定启动参数使用不同的profile
 测试环境: java -jar my-spring-boot.jar --spring.profiles.active=test--server.port=8060
 生产环境: java -jar my-spring-boot.jar --spring.profiles.active=prod</pre>
+          <h3>.yml文件 Spring Cloud Config分布式配置文件的管理</h3>
+          <pre>
+一、对于Spring Cloud Config快速实现需要以下三个模块：
+EurekaServer 注册中心（主要是为了对外发布服务管理）
+ConfigServer 远程配置中心服务,从远程仓库读取文件的服务（对接远程仓库主要服务）
+ConfigClient 自己项目所对外提供的微服务
+
+< dependency>
+    < groupId>org.springframework.cloud< /groupId>
+    < artifactId>spring-cloud-config-server< /artifactId>
+< /dependency>
+
+          </pre>
           <h3>SpringBoot整合日志</h3>
           <pre>
 springboot本身就内置了日志功能,详细的搜整合SpringBoot整合logback，网上有好多教程
@@ -702,7 +769,7 @@ public class SaticScheduleTask {
           <pre>
 注解作用
 @Component注解表明一个类会作为组件类，并告知Spring要为这个类创建bean。
-@Bean注解告诉Spring这个方法将会返回一个对象，这个对象要注册为Spring应用上下文中的bean。通常方法体中包含了最终产生bean实例的逻辑。@Bean 需要在配置类中使用，即类上需要加上@Configuration注解
+@Bean 用于告诉方法，产生一个Bean对象，然后这个Bean对象交给Spring管理。产生这个Bean对象的方法Spring只会调用一次，随后这个Spring将会将这个Bean对象放在自己的IOC容器中。@Bean 需要在配置类中使用，即类上需要加上@Configuration注解
 理解
 @Component （@Controller @Service @Respository）作用于类上，只有在我们的SpringBoot应用程序启用了组件扫描并且包含了被注解的类时才有效。通过组件扫描，Spring将扫描整个类路径，并将所有@Component注释类添加到Spring Context，这里有的不足就是会把整个类当成bean注册到spring 容器上，如果这个类中并不是所有方法都需要注册为bean的话，会出现不需要的方法都注册成为bean，这时候必须确保这些不需要的方法也能注册为bean或者在扫描中加filter 过滤这些不需要的bean,否者spring将无法成功启动。
 @Bean相对来说就更加灵活了，它可以独立加在方法上，按需注册到spring容器，而且如果你要用到第三方类库里面某个方法的时候，你就只能用@Bean把这个方法注册到spring容器，因为用@Component你需要配置组件扫描到这个第三方类路径而且还要在别人源代码加上这个注解，很明显是不现实的。
@@ -730,6 +797,66 @@ public class WebSocketConfig {
 Student student;
 那为什么有了@Compent,还需要@Bean呢？
 如果你想要将第三方库中的组件装配到你的应用中，在这种情况下，是没有办法在它的类上添加@Component注解的，因此就不能使用自动化装配的方案了，但是我们可以使用@Bean</pre>
+          <h3>@Primary 和 @Qualifier的区别</h3>
+          <pre>
+当一个方法有多个实现类时，在方法中注入了多个，@primary可以指定注入哪一个。
+@Primary：自动装配时当出现多个Bean候选者时，被注解为@Primary的Bean将作为首选者，否则将抛出异常
+例如在多数据源的时候，使用@Primary注解用于指定其中一个作为主数据源，即如果数据库操作没有指明使用哪个数据源的时候，默认使用主数据源，这个时候我们就使用到了@primary这个注解
+@Autowired 默认按类型装配，如果我们想使用按名称装配，可以结合@Qualifier注解一起使用
+
+当一个接口有多个不同实现时，注入Spring的时候会产生org.springframework.beans.factory.NoUniqueBeanDefinitionException异常信息。
+解决方式有2种，使用@Primary 和 @Qualifier注解。
+
+注解	        区别
+@Primary	  优先注入该注解的标注的bean
+@Qualifier	确定注入该注解标定的bean
+
+@Qualifier
+该注解的意思是直接注入该注解标定的bean，而非选择。如：
+public interface ITeacher {
+    String getName();
+}
+@Component
+public class MathTeacher implements ITeacher {
+    public String getName() {
+        return "Math";
+    }
+}
+@Component
+public class EnglishTeacher implements ITeacher {
+    public String getName() {
+        return "English";
+    }
+}
+如果这个时候使用@Autowired就会报错，需要指定注入具体对象：
+public class ClassRoom {
+   @Autowired
+   @Qualifier("englishTeacher")
+   public ITeacher teacher;
+}
+
+@Primary
+@Qualifier是在使用注入的时候，使用方明确指出使用哪个；@Primary更像是提供方告诉你优先使用哪个。举个例子，你实现排序接口的很多的实例，如冒泡排序，快排，选择排序等等。在使用者选择不明确的情况下，你希望他优先（默认）选择冒泡排序。这样你就在冒泡排序实现类上使用@Primary予以标识。
+public interface ISort {
+    String getName();
+}
+@Component
+@Primary
+public class MaopaoSort implements ISort {
+    public String getName() {
+        return "冒泡排序";
+    }
+}
+@Component
+public class XuanzeSort implements ISort {
+    public String getName() {
+        return "选择排序";
+    }
+}
+public class MySort {
+   @Autowired
+   public ISort sort;
+}</pre>
           <h3>Controller获取Get请求问号后的参数</h3>
           <pre>
 通过HttpServletRequest接收，post方式和get方式都可以
@@ -792,9 +919,7 @@ public String addUser(HttpServletRequest request) {
        Map.Entry< String, String[]> itMap = it.next();
        logger.info("参数--"+itMap.getKey()+":"+Arrays.toString(itMap.getValue()));
     }
-}
-
-          </pre>
+}</pre>
           <h3>其他注解</h3>
           <pre>
 @Configuration把一个类作为一个IoC容器，它的某个方法头上如果注册了@Bean，就会作为这个Spring容器中的Bean。

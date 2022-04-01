@@ -202,7 +202,8 @@ public class UserDaoTest {
 保存和更新使用同一套接口
 save（entity）方法
 User user = new User("1","张三","123");  // 更新保证id相同
-userDao.save(user);
+userDao.save(user,""users);  // users是指定的collection
+
 saveAll（iterable）方法
 < S extends T> List< S> saveAll(Iterable< S> entities);
 saveAll需要传入实现Iterable接口的对象
@@ -221,21 +222,19 @@ delete（entity）方法
 传入一个实体，将会根据id删除数据库中的文档。
 User user = new User("8", "", "");
 userDao.delete(user);
-deleteAll（）方法
-删除所有数据
+
+deleteAll（）删除所有数据
 deleteAll（iterable）方法
 传入user集合，根据传入的id删除指定数据
 
 查询操作：父接口方法查询
 使用父接口中已经声明好的方法进行查询
-主键查询
-findById（id）
-根据id查询
+
+findById（id） 根据id查询
 Optional< User> opt = userDao.findById("1");
 System.out.println(opt.get());
 
-findAllById（iterable）
-传入一个可遍历的集合
+findAllById（iterable）传入一个可遍历的集合
 List< String> list = new ArrayList< String>() {
     {
     	add("2");
@@ -246,12 +245,10 @@ userDao.findAllById(list).forEach(user -> {
 	System.out.println(user);
 });
 
-查询所有
-findAll（）
+findAll（）查询所有
 List< User> users = userDao.findAll();
-findAll（sort）
-查询所有，并排序
 
+findAll（sort）查询所有，并排序
 // 按照id倒序排列
 Sort sort = Sort.by(Order.desc("id"));
 List< User> users = userDao.findAll(sort);
@@ -309,14 +306,14 @@ mongoTemplate.findAll（entityClass）
 查找所有数据，默认情况下查找entityClass类所指定文档的全部数据。
 List< User> users = this.mongoTemplate.findAll(User.class);
 mongoTemplate.findById（id, entityClass）
+
 传入id，查询id所对应的数据。
 User user = mongoTemplate.findById("1", User.class);
-mongoTemplate.find（query, entityClass）
+
+mongoTemplate.find（query, entityClass）查询条件  指定返回数据类型
 Criteria criteria = Criteria.where("username").is("李四");
 Query query = new Query(criteria);
-//查询条件  指定返回数据类型
 List< User> users = mongoTemplate.find(query, User.class);
-
 
 Query和Criteria
 上面的方法操作中，常设计到Query和Criteria两个类，Criteria用于构造查询条件并作为参数传递给Query。

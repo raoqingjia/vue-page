@@ -638,6 +638,12 @@ footer ul li a {
   overflow-y: auto;
 }
 
+.catalogue li.catalog {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
 .catalogue li a {
   display: block;
   cursor: pointer;
