@@ -376,9 +376,7 @@ ConfigClient 自己项目所对外提供的微服务
 < dependency>
     < groupId>org.springframework.cloud< /groupId>
     < artifactId>spring-cloud-config-server< /artifactId>
-< /dependency>
-
-          </pre>
+< /dependency></pre>
           <h3>SpringBoot整合日志</h3>
           <pre>
 springboot本身就内置了日志功能,详细的搜整合SpringBoot整合logback，网上有好多教程
@@ -408,7 +406,17 @@ file: /Users/gujiachun/Downloads/test.log
 5.lobback-spring.xml 配置
 logging:
    config: classpath:log/logback-spring.xml
-我们先把application.yml的关于日志的注释掉，新建一个文件logback-spring.xml，为什么要取这个名字呢，Spring Boot官方推荐优先使用带有-spring的文件名作为你的日志配置（如使用logback-spring.xml，而不是logback.xml），如果我们想自定义名字，可以在 application.yml中通过logging.config=classpath:/xxx.xml等方式配置。</pre>
+我们先把application.yml的关于日志的注释掉，新建一个文件logback-spring.xml，为什么要取这个名字呢，Spring Boot官方推荐优先使用带有-spring的文件名作为你的日志配置（如使用logback-spring.xml，而不是logback.xml），如果我们想自定义名字，可以在 application.yml中通过logging.config=classpath:/xxx.xml等方式配置。
+
+log4j按照日期分割
+Log4j配置中有5个重要的概念：日志记录器（Logger）、根记录器（rootLogger）、类别（category）、输出地（Appender）以及日志格式化器（Layout）。其中，Logger负责记录日志；rootLogger是所有记录器的父亲，任何记录器都可继承rooLogger的配置；category可以设置类别下所有的Logger，类似于java中的包，效果与Logger名字等价；Appender负责输出到什么地方；Layout负责以什么格式输出、输出哪些附加信息（比如：时间、类名、方法名、所在行数等）。在log4j.properties配置中，log4j.logger后面配置的是Logger，log4j.appender后面配置的是Appender，rootLogger直接用log4j.rootLogger配置。
+
+再说下说下log4j的几种log级别的等级：
+日志记录器（Logger）的行为是分等级的。如下表所示：
+分 为OFF、FATAL、ERROR、WARN、INFO、DEBUG、ALL或者您定义的级别，这些级别是从高到低的级别。Log4j建议只使用四个级别，优先级从高到低分别是 ERROR、WARN、INFO、DEBUG。通过在这里定义的级别，您可以控制到应用程序中相应级别的日志信息的开关。比如在这里定义了INFO级别， 则应用程序中所有DEBUG级别的日志信息将不被打印出来
+
+
+          </pre>
           <h3>Spring AOP @Aspect用法</h3>
           <pre>
 AOP为Aspect Oriented Programming的缩写，意为：面向切面编程，通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP是Spring框架中的一个重要内容，它通过对既有程序定义一个切入点，然后在其前后切入不同的执行内容，比如常见的有：打开数据库连接/关闭数据库连接、打开事务/关闭事务、记录日志等。基于AOP不会破坏原来程序逻辑，因此它可以很好的对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率
@@ -920,6 +928,16 @@ public String addUser(HttpServletRequest request) {
        logger.info("参数--"+itMap.getKey()+":"+Arrays.toString(itMap.getValue()));
     }
 }</pre>
+          <h3>@EnableCaching实现缓存</h3>
+          <pre>
+@EnableCaching注解是spring framework中的注解驱动的缓存管理功能。自spring版本3.1起加入了该注解。如果你使用了这个注解，那么你就不需要在XML文件中配置cache manager了。
+当你在配置类(@Configuration)上使用@EnableCaching注解时，会触发一个post processor，这会扫描每一个spring bean，查看是否已经存在注解对应的缓存。如果找到了，就会自动创建一个代理拦截方法调用，使用缓存的bean执行处理
+@EnableCaching 启用缓存注解
+下面四个注解，前三个写在方法上，第四个写在类上
+@Cacheable      缓存里有就用缓存里的
+@CacheEvict     每次用户缓存就清除缓存
+@CachePut       每次用完都更新缓存
+@CacheConfig</pre>
           <h3>其他注解</h3>
           <pre>
 @Configuration把一个类作为一个IoC容器，它的某个方法头上如果注册了@Bean，就会作为这个Spring容器中的Bean。

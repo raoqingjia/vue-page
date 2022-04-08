@@ -97,5 +97,14 @@ const crmNoteRouter = [ {
     created: "持续更新 最后版本 2021-10-02",
     component: resolve => require(['@/views/crm/mongodb'], resolve)
   },
+  {
+    path: '/note/redis',
+    name: "redis",
+    type: "crm",
+    img: require("../img/redis-icon.png"),
+    description: "redis笔记记录...",
+    created: "持续更新 最后版本 2022-03-02",
+    component: resolve => require(['@/views/crm/redis'], resolve)
+  },
   ];
 export default crmNoteRouter;
