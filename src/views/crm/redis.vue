@@ -49,6 +49,7 @@ pexpore key seconds      #设置过期时间毫秒语法
 persist key              #设置永不过期
 rename key newkey        #更改键名称
 flush db                 #清除指定的库
+monitor                  # Redis 服务器接收到的命令，调试用能实时的看到服务器的get  set ping信息
 
 String类型操作
 set key value            #存放键值对
@@ -124,14 +125,118 @@ sort list by it:* desc                     #by命令
 sort list by it:* desc get it:*            #get参数
 sort list by it:* desc get it:* store sorc:result  #sort命令之store参数：表示把sort查询的结果集
           </pre>
-          <h3>Spring Boot 中配置RedisTemplate</h3>
+          <h3>RedisTemplate和StringRedisTemplate的区别</h3>
           <pre>
-     https://blog.csdn.net/zxh_log4j/article/details/113785381?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ETopBlog-1.topblog&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ETopBlog-1.topblog&utm_relevant_index=1
-            https://blog.csdn.net/li_habit/article/details/112685339
+1. 两者的关系是StringRedisTemplate继承RedisTemplate。
+2. 两者的数据是不共通的；也就是说StringRedisTemplate只能管理StringRedisTemplate里面的数据，RedisTemplate只能管理RedisTemplate中的数据。
+3. SDR默认采用的序列化策略有两种，一种是String的序列化策略，一种是JDK的序列化策略。
+StringRedisTemplate默认采用的是String的序列化策略，保存的key和value都是采用此策略序列化保存的。
+RedisTemplate默认采用的是JDK的序列化策略，保存的key和value都是采用此策略序列化保存的。
+4.对于 RedisTemplate来说， k、v 都可以是任何类型，
+对于 StringRedisTemplate 来说， k、v 都必须是 String类型，包括 hash、set。 而且key 不能使用 对象，因为不会调用 toString(), 否则引起 cast 异常
+传给 RedisTemplate、StringRedisTemplate  相同的key ，但是对于redis 来说， 是不同的， 如下，同一个key 123，实际的key 完全不同：
+当你的redis数据库里面本来存的是字符串数据或者你要存取的数据就是字符串类型数据的时候，那么你就使用StringRedisTemplate即可，但是如果你的数据是复杂的对象类型，而取出的时候又不想做任何的数据转换，直接从Redis里面取出一个对象，那么使用RedisTemplate是更好的选择。
 
-StringRedisTemplate和RedisTemplate在Redis中存储和读取数据。它们最重要的一个区别就是默认采用的序列化方式不同。StringRedisTemplate采用的是RedisSerializer.string()来序列化Redis中存储数据的Key ；RedisTemplate使用的序列化类为defaultSerializer，默认情况下为JdkSerializationRedisSerializer。如果未指定Key的序列化类，keySerializer与defaultSerializer采用相同的序列化类。
+RedisTemplate的序列化类型
+SpringBoot提供的Redis存储序列化方式，常用的有以下几种：
+JdkSerializationRedisSerializer：默认的配置，将数据序列化为对象,被序列化的对象必须实现Serializable接口，存入redis中会出现乱码
+StringRedisSerializer：将数据序列化为字符串
+Jackson2JsonRedisSerializer：将数据序列化为json
+GenericJackson2JsonRedisSerializer  将数据序列化为json
+如果存储的类型为List等带有泛型的对象，反序列化的时候 Jackson2JsonRedisSerializer序列化方式会报错，而GenericJackson2JsonRedisSerializer序列化方式是成功的
 
-Spring Boot 中配置 Redis： application.properties
+StringRedis Template中对redis 数据结构的5种基本操作
+redisTemplate.opsForValue();　　//操作字符串
+redisTemplate.opsForHash();　　 //操作hash
+redisTemplate.opsForList();　　 //操作list
+redisTemplate.opsForSet();　　  //操作set
+redisTemplate.opsForZSet();　 　//操作有序set
+
+StringRedis Template常用操作
+stringRedisTemplate.opsForValue().set("test", "100",60*10,TimeUnit.SECONDS);//向redis里存入数据和设置缓存时间
+stringRedisTemplate.boundValueOps("test").increment(-1);//val做-1操作
+stringRedisTemplate.opsForValue().get("test")//根据key获取缓存中的val
+stringRedisTemplate.boundValueOps("test").increment(1);//val +1
+stringRedisTemplate.getExpire("test")//根据key获取过期时间
+stringRedisTemplate.getExpire("test",TimeUnit.SECONDS)//根据key获取过期时间并换算成指定单位
+stringRedisTemplate.delete("test");//根据key删除缓存
+stringRedisTemplate.hasKey("546545");//检查key是否存在，返回boolean值
+stringRedisTemplate.opsForSet().add("red_123", "1","2","3");//向指定key中存放set集合
+stringRedisTemplate.expire("red_123",1000 , TimeUnit.MILLISECONDS);//设置过期时间
+stringRedisTemplate.opsForSet().isMember("red_123", "1")//根据key查看集合中是否存在指定数据
+stringRedisTemplate.opsForSet().members("red_123");//根据key获取set集合</pre>
+          <h3>认识JedisPool</h3>
+          <pre>
+JedisPool解析
+JedisPool可以很好地重复利用Jedis，减少new的次数，从而提高效率
+Jedis一般是用单例模式生成
+虽然一般的项目开始之前已经封装好JedisPool的配置，但也需要读懂，方便以后作更改
+JedisPool的配置参数大部分是由JedisPoolConfig的对应项来赋值的。
+
+jedis 客户端
+< dependency>
+    < groupId>redis.clients< /groupId>
+    < artifactId>jedis< /artifactId>
+    < version>3.2.0< /version>
+< /dependency>
+
+JedisPoolConfig一般配置
+JedisPoolConfig config =  new  JedisPoolConfig();
+//连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true
+config.setBlockWhenExhausted(true);
+//设置的逐出策略类名, 默认DefaultEvictionPolicy(当连接超过最大空闲时间,或连接数超过最大空闲连接数)
+config.setEvictionPolicyClassName( "org.apache.commons.pool2.impl.DefaultEvictionPolicy" );
+//是否启用pool的jmx管理功能, 默认true
+config.setJmxEnabled( true );
+//MBean ObjectName = new ObjectName("org.apache.commons.pool2:type=GenericObjectPool,name=" + "pool" + i); 默 认为"pool", JMX不熟,具体不知道是干啥的...默认就好.
+config.setJmxNamePrefix( "pool" );
+//是否启用后进先出, 默认true
+config.setLifo( true );
+//最大空闲连接数, 默认8个
+config.setMaxIdle( 8 );
+//最大连接数, 默认8个
+config.setMaxTotal(8);
+//获取连接时的最大等待毫秒数(如果设置为阻塞时BlockWhenExhausted),如果超时就抛异常, 小于零:阻塞不确定的时间,  默认-1
+config.setMaxWaitMillis(-1);
+//逐出连接的最小空闲时间 默认1800000毫秒(30分钟)
+config.setMinEvictableIdleTimeMillis(1800000);
+//最小空闲连接数, 默认0
+config.setMinIdle( 0 );
+//每次逐出检查时 逐出的最大数目 如果为负数就是 : 1/abs(n), 默认3
+config.setNumTestsPerEvictionRun( 3 );
+//对象空闲多久后逐出, 当空闲时间>该值 且 空闲连接>最大空闲数 时直接逐出,不再根据MinEvictableIdleTimeMillis判断  (默认逐出策略)
+config.setSoftMinEvictableIdleTimeMillis(1800000);
+//在获取连接的时候检查有效性, 默认false
+config.setTestOnBorrow( false );
+//在空闲时检查有效性, 默认false
+config.setTestWhileIdle( false );
+//逐出扫描的时间间隔(毫秒) 如果为负数,则不运行逐出线程, 默认-1
+config.setTimeBetweenEvictionRunsMillis(-1);
+JedisPool pool =  new  JedisPool(config,  "localhost", );
+int timeout=3000;
+ new JedisSentinelPool(master, sentinels, poolConfig, timeout);//timeout 读取超时</pre>
+          <h3>Spring Boot 中RedisTemplate序列化</h3>
+          <pre>
+Spring Boot 2.0中spring-boot-starter-data-redis默认使用Lettuce方式替代了Jedis。使用Jedis的话先排除掉Lettuce的依赖，然后手动引入Jedis的依赖。
+
+我一开始写重写RedisTemplate时，程序中接口能成功的get和set调取redis，但是到客户动中确实查不到对应的key，最后通过monitor后观察redis客户端的信息的时候发现set的key值多了\xAC\xED\x00\xO5t之类的说明是序列化有问题，这个时候获取到的值就是NULL或者就查不到key，所以当你使用RedisTemplate获取不到数据的时候请检查一下是不是Redis里面的数据是可读形式而非字节数组，redisTemplate只能读取字节数组，不能读取字符串形式的。字符串形式的值，只能使用StringRedisTemplate读取
+
+< dependency>
+   < groupId>org.springframework.boot< /groupId>
+   < artifactId>spring-boot-starter-data-redis< /artifactId>
+   < exclusions>
+       < exclusion>
+           < groupId>io.lettuce< /groupId>
+           < artifactId>lettuce-core< /artifactId>
+       < /exclusion>
+   < /exclusions>
+< /dependency>
+< dependency>
+     < groupId>redis.clients< /groupId>
+     < artifactId>jedis< /artifactId>
+< /dependency>
+
+application.properties 配置
 spring.redis.host=127.0.0.1
 spring.redis.port=6379
 # Redis 数据库索引（默认为 0）
@@ -150,57 +255,43 @@ spring.redis.jedis.pool.min-idle=0
 # 连接超时时间（毫秒） 如果连接超时时间不设置，这要注释掉配置而不能=0，否则会报连接超时错误：Command timed out after no timeout,，有超时时间最后设置为200以上
 spring.redis.timeout=300
 
-RedisTemplate 的配置
+RedisTemplateSimple.class 文件
+@Slf4j
 @Configuration
-public class RedisConfig {
-
-    /**
-     * 默认是JDK的序列化策略，这里配置redisTemplate采用的是Jackson2JsonRedisSerializer的序列化策略
-     * @param redisConnectionFactory
-     * @return
-     */
-    @Bean
-    public RedisTemplate< String,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
-        //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值（默认使用JDK的序列化方式）
-        Jackson2JsonRedisSerializer< Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+// 控制配置类的加载顺序,先加载 RedisAutoConfiguration.class 再加载该类,这样才能覆盖默认的 RedisTemplate
+@AutoConfigureAfter(RedisAutoConfiguration.class)
+public class RedisTemplateConfig {
+    @Bean(name="RedisTemplateSimple")
+    RedisTemplate< String, Object> RedisTemplateSimple(RedisConnectionFactory factory) {
+        RedisTemplate< String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(factory);
+        Jackson2JsonRedisSerializer jacksonSeial = new Jackson2JsonRedisSerializer(Object.class);
         ObjectMapper om = new ObjectMapper();
-        // 指定要序列化的域，field,get和set,以及修饰符范围，ANY是都有包括private和public
-        om.setVisibility(PropertyAccessor.ALL,JsonAutoDetect.Visibility.ANY);
-        // 指定序列化输入的类型，类必须是非final修饰的，final修饰的类，比如String,Integer等会抛出异常
-        //om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);旧版本
-        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance ,
-                ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
-        RedisTemplate< String, Object> redisTemplate = new RedisTemplate<>();
-        // 配置连接工厂
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
-        //使用StringRedisSerializer来序列化和反序列化redis的key值
-        //redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setKeySerializer(jackson2JsonRedisSerializer);
-        // 值采用json序列化
-        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-        redisTemplate.setHashKeySerializer(jackson2JsonRedisSerializer);
-        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
-        redisTemplate.afterPropertiesSet();
-        return redisTemplate;
-    }
-
-    /***
-     * stringRedisTemplate默认采用的是String的序列化策略
-     * @param redisConnectionFactory
-     * @return
-     */
-    @Bean
-    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory){
-        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
-        stringRedisTemplate.setConnectionFactory(redisConnectionFactory);
-        return stringRedisTemplate;
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        jacksonSeial.setObjectMapper(om);
+        template.setValueSerializer(jacksonSeial);
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setHashKeySerializer(new StringRedisSerializer());
+        template.setHashValueSerializer(jacksonSeial);
+        template.afterPropertiesSet();
+        return template;
     }
 }
-
-          </pre>
+RedisUtil.class  工具类
+@Component
+public class RedisUtil {
+	@Resource(name = "RedisTemplateSimple")
+	private RedisTemplate< Object,Object> redisTemplate;
+	public RedisTemplate< Object,Object> getInstance(){
+		return redisTemplate;
+	}
+  //  .....
+}</pre>
           <h3>spring-boot 集成redis哨兵模式</h3>
           <pre>
+Spring Boot 2.0中spring-boot-starter-data-redis默认使用Lettuce方式替代了Jedis。
+
 1、添加依赖
 集成redis
 spring-boot-starter-redis在springboot 1.4.7版本后 所以如果想集成redis,应该引用spring-boot-starter-data-redis,如果就是想用前者,那么就应该加上版本号1.4.7.RELEASE
@@ -306,7 +397,10 @@ public class RedisConfig {
         }
     }
 }        </pre>
+          <h3>redis存储json格式设置</h3>
+          <pre>
 
+          </pre>
         </div>
       </div>
     </div>

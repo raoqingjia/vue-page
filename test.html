@@ -4,53 +4,103 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>css关键帧动画</title>
-
+  <title>测试案例</title>
   <style>
-    html{
-      font-size: 20px;
-    }
-    h1{
-      font-size: 1.8rem;
-    }
-    h2{
-      font-size: 1rem;
-    }
-    h3{
-      font-size: .9rem;
-    }
-    p{
-      font-size: 14px
+    .list {
+      width: 1000px;
+      height: 200px;
+      background: #aaaa7f;
     }
 
+    .content {
+      margin-top: 10px;
+      width: 1000px;
+      height: 200px;
+      background: #ffaaff;
+    }
+
+    .wrap {
+      margin-top: 10px;
+      width: 1000px;
+      height: 200px;
+      background: #ccc;
+    }
   </style>
 </head>
 <body>
-<h1>我是h1</h1>
-<h2>我是h2</h2>
-<h3>我是h3</h3>
-<p>我是p标签，我是p标签我是p标签我是p标签我是p标签我是p标签我是p标签我是p标签</p>
+<!-- 待拖拽列表 -->
+<div class="list">
+  <!-- draggable="true" 让目标可以拖拽 -->
+  <button id="btn" type="button" draggable="true">按钮</button>
+</div>
+
+<!-- 目标容器 -->
+<div id="content" class="content">
+
+</div>
+<!-- 目标容器 -->
+<div id="wrap" class="wrap">
+
+</div>
+
 <script>
+    let btn = document.getElementById("btn");
+    let content = document.getElementById("content");
+    let wrap = document.getElementById("wrap");
 
-    (function (doc, win) {
-        var docEl = doc.documentElement,
-            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-            recalc = function () {
-                var clientWidth = docEl.clientWidth;
-                if (!clientWidth) return;
-                if(clientWidth>=640){
-                    docEl.style.fontSize = '100px';
-                }else{
-                    docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
-                }
-            };
-        console.log( docEl.style);
-        console.log(  docEl.style.fontSize );
+    // ============= 以下是被拖拽目标的事件 =============
+    // 目标开始拖拽事件
+    btn.ondragstart = function (e) {
+        console.log("目标开始拖拽", e);
+        // e.dataTransfer是H5实现的一个可以在拖拽与被拖拽组件之间的“存储器”，实现组件间的数据传输
+        e.dataTransfer.setData("target", e.target);
+    };
+    // 目标开始拖拽中的事件
+    btn.ondrag = function (e) {
+        // console.log("目标拖拽的过程中", e);
+    };
+    // 目标拖拽结束的事件
+    btn.ondragend = function (e) {
+        console.log("目标拖拽结束", e)
+    };
 
-        if (!doc.addEventListener) return;
-        win.addEventListener(resizeEvt, recalc, false);
-        doc.addEventListener('DOMContentLoaded', recalc, false);
-    })(document, window);
+    // ============= 以下是拖拽到容器区域的事件 ============
+
+    // 目标进入容器
+    content.ondragenter = function (e) {
+        console.log("检测到目标进入容器", e);
+    };
+    wrap.ondragenter = function (e) {
+        console.log("检测到目标进入容器", e);
+    };
+    //  目标在容器中移动
+    content.ondragover = function (e) {
+        // console.log("目标在容器上移动！",e);
+        // 阻止默认事件，否则ondrop会失效
+        e.preventDefault();
+    };
+    wrap.ondragover = function (e) {
+        // console.log("目标在容器上移动！",e);
+        // 阻止默认事件，否则ondrop会失效
+        e.preventDefault();
+    };
+    // 目标离开容器的事件
+    content.ondragleave = function (e) {
+        console.log("拖目标离开容器", e);
+    };
+
+    // 目标在容器内被释放的事件
+    content.ondrop = function (e) {
+        console.log("目标在容器区域释放", e.dataTransfer.getData("target"));
+        // cloneNode(true)为深克隆节点，创建一个新的节点放到容器里面，这样才不会影响源节点
+        let node = document.getElementById(e.dataTransfer.getData("id")).cloneNode(true);
+        // 做一些标识，表示这个这个确实生成的
+        node.setAttribute("id", "newBtn");
+        node.innerText = "新按钮";
+        // 这是释放之后对应的容器的信息，我们总要拿到一个容器放目标组件
+        let targetContent = document.getElementById(e.target.id);
+        targetContent.appendChild(node);
+    }
 
 </script>
 </body>

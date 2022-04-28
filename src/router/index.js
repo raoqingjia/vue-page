@@ -46,6 +46,11 @@ let basicRouter = [
     name: 'plan',
     component: resolve => require(['@/views/plan'], resolve)
   },
+  {
+    path: '/onlineEdit',
+    name: 'onlineEdit',
+    component: resolve => require(['@/views/onlineEdit'], resolve)
+  },
 ];
 
 export const routes = [
@@ -64,7 +69,7 @@ export const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: resolve => require(['@/views/dashboard/dashboard'], resolve)
-  },
+  }
 ];
 
 

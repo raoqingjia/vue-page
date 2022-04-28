@@ -4,6 +4,10 @@
     <section class="section-content">
        <router-view></router-view>
     </section>
+    <ul class="fast-link">
+      <li @click="fastLink('/index')"><a>首页</a></li>
+      <li @click="fastLink('/onlineEdit')"><a>编辑</a></li>
+    </ul>
     <footernav v-if="footerShow"></footernav>
   </div>
 </template>
@@ -40,11 +44,27 @@
       ]),
     },
     methods:{
-
+        fastLink(path) {
+            this.$router.push({path: path});
+        }
     }
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="less">
+  ul.fast-link {
+    position: fixed;
+    top: 400px;
+    right: 30px;
 
+    li {
+      line-height: 30px;
+      padding: 0 8px;
+      text-align: center;
+      border-radius: 15px;
+      border: 1px solid #c3c3c3;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+  }
 </style>
