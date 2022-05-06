@@ -16,6 +16,7 @@
       <h2>2022年</h2>
       <ul class="clearfix plan-li">
         <li>POI内存溢出的解决场景</li>
+        <li>后端笔记单独用react项目</li>
       </ul>
     </div>
   </div>
