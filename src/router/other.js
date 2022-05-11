@@ -189,5 +189,12 @@ const otherRouter = [{
     created: "2022-02-23",
     component: resolve => require(['@/views/other/adviceForDashboard'], resolve)
   },
+  {
+    path: '/other/axiosGetError ',
+    name: 'axios中get请求对参数中包含的%进行了转义',
+    type: "other",
+    created: "2022-05-10",
+    component: resolve => require(['@/views/other/axiosGetError'], resolve)
+  },
 ];
 export default otherRouter;

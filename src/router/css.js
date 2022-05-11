@@ -159,6 +159,13 @@ const cssRouter = [ //css案例
     type: "css",
     created: "2019-02-23",
     component: resolve => require(['@/views/css/transformScale'], resolve)
+  },
+  {
+    path: '/css/marginFailure',
+    name: 'css中margin-top或者margin-bottom失效',
+    type: "css",
+    created: "2019-04-12",
+    component: resolve => require(['@/views/css/marginFailure'], resolve)
   }
   ];
 export default cssRouter;
