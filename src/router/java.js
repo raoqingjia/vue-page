@@ -56,6 +56,13 @@ const javaRouter = [    //JAVA 类
     component: resolve => require(['@/views/java/entityVoDto'], resolve)
   },
   {
+    path: '/java/postJson',
+    name: ' Java JSON 接收 post 传参， 实体类接收和 JSON接收',
+    type: "java",
+    created: "2020-03-01",
+    component: resolve => require(['@/views/java/postJson'], resolve)
+  },
+  {
     path: '/java/getLocalIP',
     name: 'Java 通过接口请求获取访问者本地ip',
     type: "java",

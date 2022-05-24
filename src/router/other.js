@@ -196,5 +196,26 @@ const otherRouter = [{
     created: "2022-05-10",
     component: resolve => require(['@/views/other/axiosGetError'], resolve)
   },
+  {
+    path: '/other/threeAPP ',
+    name: 'native APP、hybrid APP、web APP三者的区别',
+    type: "other",
+    created: "2022-05-10",
+    component: resolve => require(['@/views/other/threeAPP'], resolve)
+  },
+  {
+    path: '/other/postmanBody',
+    name: 'Post 中 Body 的 ContentType的格式',
+    type: "other",
+    created: "2022-05-23",
+    component: resolve => require(['@/views/other/postmanBody'], resolve)
+  },
+  {
+    path: '/other/cURL',
+    name: '如何使用cURL命令？有哪些常见的用法？',
+    type: "other",
+    created: "2022-05-23",
+    component: resolve => require(['@/views/other/cURL'], resolve)
+  },
 ];
 export default otherRouter;
