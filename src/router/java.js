@@ -103,6 +103,13 @@ const javaRouter = [    //JAVA 类
     type: "java",
     created: "2022-03-21",
     component: resolve => require(['@/views/java/macLocalHost'], resolve)
+  },
+  {
+    path: '/java/fastjson',
+    name: 'fastjson使用教程',
+    type: "java",
+    created: "2022-04-03",
+    component: resolve => require(['@/views/java/fastjson'], resolve)
   }
 ];
 export default javaRouter;
