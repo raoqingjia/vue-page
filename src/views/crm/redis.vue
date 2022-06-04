@@ -399,8 +399,66 @@ public class RedisConfig {
 }        </pre>
           <h3>redis存储json格式设置</h3>
           <pre>
+Controller层
+//http://localhost:8081/redis/setJsonString
+//{
+//    "key":"bboss.redis.JsonString",
+//        "value": {
+//            "id":"101",
+//            "name":"JsonString",
+//            "data":"bboss.redis.JsonString",
+//            "address":"beijing",
+//            "gender": "man"
+//       },
+//      "time":""
+//   }
+@RequestMapping(path = "/setJsonString", method = RequestMethod.POST)
+public BaseResult setJsonString( @RequestBody String params){
+    logger.info("/redis/setJsonString 入参 params=>{}",params);
+    JSONObject jsonObject = JSONObject.parseObject(params);   //  关键点是这，json字符串要转一下
+    logger.info("/redis/setJsonString 入参 jsonObject=>{}",jsonObject);
+    BaseResult result =  redisService.setJsonString(jsonObject.getString("key"),jsonObject.getString("value"),jsonObject.getString("time"));
+    logger.info("/redis/setJsonString 结果=>{}", JSON.toJSONString(result));
+    return result;
+}
+// http://localhost:8081/redis/getJsonString?key=bboss.redis.JsonString
+@RequestMapping(path = "/getJsonString", method = RequestMethod.GET)
+public BaseResult getJsonString(@RequestParam String  key){
+    logger.info("/redis/getJsonString 入参 key=>{}",key);
+    BaseResult result =  redisService.getJsonString(key);
+    logger.info("/redis/getJsonString 结果=>{}", JSON.toJSONString(result));
+    return result;
+}
+Service 层
+public BaseResult setJsonString(String key, String value, String time) {
+    BaseResult result = new BaseResult();
+    try {
+        if (StringUtils.isNotBlank(time)) {
+            long t = Long.parseLong(time);
+            redisUtil.setForTimeMS(key, value, t);
+        } else {
+            redisUtil.set(key,  value);
+        }
+        result.setSuccess("数据更新成功");
+    } catch (Exception e) {
+        result.setError(e.getMessage());
+    }
+    return result;
+}
 
-          </pre>
+public BaseResult getJsonString(String key) {
+    BaseResult result = new BaseResult();
+    try {
+        下面这几行是关键，把存在redis中的值给取出来
+        String value = stringRedisTemplateSentinel.opsForValue().get(key);
+        log.info("getJsonString value 结果=>{}", value);
+        String parse = (String) JSON.parse(value);
+        result.setSuccess(JSONObject.parseObject(parse, User.class));
+    } catch (Exception e) {
+        result.setError(e.getMessage());
+    }
+    return result;
+}          </pre>
         </div>
       </div>
     </div>
