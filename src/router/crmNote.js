@@ -47,7 +47,7 @@ const crmNoteRouter = [ {
     path: '/note/sqlPractice',
     name: "SQL练习积累",
     type: "crm",
-    img: require("../img/mysql-icon.png"),
+    img: require("../img/sqllx-icon.png"),
     description: "sql日常练习记录...",
     created: "持续更新 最后版本 2020-04-08",
     component: resolve => require(['@/views/crm/sqlPractice'], resolve)
@@ -78,5 +78,33 @@ const crmNoteRouter = [ {
     description: "docker相关的安装,命令行...",
     created: "持续更新 最后版本 2020-03-28",
     component: resolve => require(['@/views/crm/docker'], resolve)
-  }];
+  },
+  {
+    path: '/note/springboot',
+    name: "Spring Boot",
+    type: "crm",
+    img: require("../img/springboot-icon.png"),
+    description: "SpringBoot笔记记录...",
+    created: "持续更新 最后版本 2020-03-28",
+    component: resolve => require(['@/views/crm/springboot'], resolve)
+  },
+  {
+    path: '/note/MongoDB',
+    name: "MongoDB",
+    type: "crm",
+    img: require("../img/mongodb-icon.png"),
+    description: "MongoDB笔记记录...",
+    created: "持续更新 最后版本 2021-10-02",
+    component: resolve => require(['@/views/crm/mongodb'], resolve)
+  },
+  {
+    path: '/note/redis',
+    name: "redis",
+    type: "crm",
+    img: require("../img/redis-icon.png"),
+    description: "redis笔记记录...",
+    created: "持续更新 最后版本 2022-03-02",
+    component: resolve => require(['@/views/crm/redis'], resolve)
+  },
+  ];
 export default crmNoteRouter;

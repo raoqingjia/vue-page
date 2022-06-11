@@ -4,106 +4,103 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>css关键帧动画</title>
-
+  <title>测试案例</title>
   <style>
-
-    /* 让元素做关键帧动画： */
-    /* 第一步，创建动画 */
-
-    @keyframes move {
-      /* 0%表示动画开始的关键帧 */
-      0% {
-        transform: translate(0, 0);
-        animation-timing-function: ease-out;
-      }
-
-      25% {
-        transform: translate(300px, 0);
-        animation-timing-function: ease-in;
-      }
-      50% {
-        transform: translate(300px, 300px);
-      }
-      75% {
-        transform: translate(0px, 300px);
-      }
-
-      /* 动画结束时的关键帧 */
-      0% {
-        transform: translate(0, 0);
-      }
+    .list {
+      width: 1000px;
+      height: 200px;
+      background: #aaaa7f;
     }
 
-    #box {
-      width: 100px;
-      height: 100px;
-      background-color: red;
-
-      /* 第二步，把动画添加到元素上 */
-
-      /* animation-name:动画名字，设置本元素要执行哪个动画 */
-      animation-name: move;
-
-      /* 设置单次动画的执行时间 */
-      animation-duration: 2s;
-      /* 动画状态是否保留，设置为both可以保留动画结束时元素的样式 */
-      animation-fill-mode: both;
-      /* 设置动画执行速率，默认为ease-in-out，匀速使用linear */
-      animation-timing-function: linear;
-
-      /* 动画延时时间 */
-      animation-delay: 0s;
-
-      /* 设置动画方向 */
-      /* animation-direction: reverse; */
-
-      /* 动画执行次数，默认为1，设置为infinite表示无限次 */
-      animation-iteration-count: infinite;
+    .content {
+      margin-top: 10px;
+      width: 1000px;
+      height: 200px;
+      background: #ffaaff;
     }
 
-    #d2 {
-      width: 100px;
-      height: 100px;
-      background-color: blue;
-      margin: 50px auto;
-      text-align: center;
-      line-height: 100px;
-    }
-
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    .spin {
-      animation-name: spin;
-      animation-duration: 2s;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-
-    }
-
-    #d2:hover {
-      /* animation-play-state，设置动画执行状态，默认为running，设置为paused可以暂停动画 */
-      animation-play-state: paused;
-    }
-
-    #d2:active {
-      animation-play-state: running;
-      animation-direction: reverse;
+    .wrap {
+      margin-top: 10px;
+      width: 1000px;
+      height: 200px;
+      background: #ccc;
     }
   </style>
-
 </head>
 <body>
-<script>
+<!-- 待拖拽列表 -->
+<div class="list">
+  <!-- draggable="true" 让目标可以拖拽 -->
+  <button id="btn" type="button" draggable="true">按钮</button>
+</div>
 
+<!-- 目标容器 -->
+<div id="content" class="content">
+
+</div>
+<!-- 目标容器 -->
+<div id="wrap" class="wrap">
+
+</div>
+
+<script>
+    let btn = document.getElementById("btn");
+    let content = document.getElementById("content");
+    let wrap = document.getElementById("wrap");
+
+    // ============= 以下是被拖拽目标的事件 =============
+    // 目标开始拖拽事件
+    btn.ondragstart = function (e) {
+        console.log("目标开始拖拽", e);
+        // e.dataTransfer是H5实现的一个可以在拖拽与被拖拽组件之间的“存储器”，实现组件间的数据传输
+        e.dataTransfer.setData("target", e.target);
+    };
+    // 目标开始拖拽中的事件
+    btn.ondrag = function (e) {
+        // console.log("目标拖拽的过程中", e);
+    };
+    // 目标拖拽结束的事件
+    btn.ondragend = function (e) {
+        console.log("目标拖拽结束", e)
+    };
+
+    // ============= 以下是拖拽到容器区域的事件 ============
+
+    // 目标进入容器
+    content.ondragenter = function (e) {
+        console.log("检测到目标进入容器", e);
+    };
+    wrap.ondragenter = function (e) {
+        console.log("检测到目标进入容器", e);
+    };
+    //  目标在容器中移动
+    content.ondragover = function (e) {
+        // console.log("目标在容器上移动！",e);
+        // 阻止默认事件，否则ondrop会失效
+        e.preventDefault();
+    };
+    wrap.ondragover = function (e) {
+        // console.log("目标在容器上移动！",e);
+        // 阻止默认事件，否则ondrop会失效
+        e.preventDefault();
+    };
+    // 目标离开容器的事件
+    content.ondragleave = function (e) {
+        console.log("拖目标离开容器", e);
+    };
+
+    // 目标在容器内被释放的事件
+    content.ondrop = function (e) {
+        console.log("目标在容器区域释放", e.dataTransfer.getData("target"));
+        // cloneNode(true)为深克隆节点，创建一个新的节点放到容器里面，这样才不会影响源节点
+        let node = document.getElementById(e.dataTransfer.getData("id")).cloneNode(true);
+        // 做一些标识，表示这个这个确实生成的
+        node.setAttribute("id", "newBtn");
+        node.innerText = "新按钮";
+        // 这是释放之后对应的容器的信息，我们总要拿到一个容器放目标组件
+        let targetContent = document.getElementById(e.target.id);
+        targetContent.appendChild(node);
+    }
 
 </script>
 </body>

@@ -56,6 +56,13 @@ const javaRouter = [    //JAVA 类
     component: resolve => require(['@/views/java/entityVoDto'], resolve)
   },
   {
+    path: '/java/postJson',
+    name: ' Java JSON 接收 post 传参， 实体类接收和 JSON接收',
+    type: "java",
+    created: "2020-03-01",
+    component: resolve => require(['@/views/java/postJson'], resolve)
+  },
+  {
     path: '/java/getLocalIP',
     name: 'Java 通过接口请求获取访问者本地ip',
     type: "java",
@@ -82,6 +89,27 @@ const javaRouter = [    //JAVA 类
     type: "java",
     created: "2021-01-08",
     component: resolve => require(['@/views/java/mapReducce'], resolve)
+  },
+  {
+    path: '/java/learnJDBC',
+    name: 'JDBC与Druid简单介绍',
+    type: "java",
+    created: "2021-01-16",
+    component: resolve => require(['@/views/java/learnJDBC'], resolve)
+  },
+  {
+    path: '/java/macLocalHost',
+    name: 'mac电脑连接oracle报错ora-24454，客户主机名未设置',
+    type: "java",
+    created: "2022-03-21",
+    component: resolve => require(['@/views/java/macLocalHost'], resolve)
+  },
+  {
+    path: '/java/fastjson',
+    name: 'fastjson使用教程',
+    type: "java",
+    created: "2022-04-03",
+    component: resolve => require(['@/views/java/fastjson'], resolve)
   }
 ];
 export default javaRouter;

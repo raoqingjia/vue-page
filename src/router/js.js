@@ -355,6 +355,13 @@ const jsRouter = [//js案例
     type: "js",
     created: "2021-08-12",
     component: resolve => require(['@/views/js/cookiejs'], resolve)
+  },
+  {
+    path: '/js/eS6Tips',
+    name: '5个有助于开发的ES6小技能',
+    type: "js",
+    created: "2022-05-05",
+    component: resolve => require(['@/views/js/eS6Tips'], resolve)
   }
   ];
 export default jsRouter;

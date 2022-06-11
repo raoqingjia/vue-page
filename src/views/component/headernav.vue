@@ -54,14 +54,14 @@
         }
       },
       setSkinFun(){
-        if(this.setSkin.code === 'light'){
-          this.setSkin.code = 'dark';
-          this.setSkin.value = '暗夜版';
-          document.body.setAttribute('user-color-scheme', 'light');
+        if(this.setSkin.code === 'dark'){
+            this.setSkin.code = 'light';
+            this.setSkin.value = '高亮版';
+            document.body.setAttribute('user-color-scheme', 'dark');
         }else{
-          this.setSkin.code = 'light';
-          this.setSkin.value = '高亮版';
-          document.body.setAttribute('user-color-scheme', 'dark');
+            this.setSkin.code = 'dark';
+            this.setSkin.value = '暗夜版';
+            document.body.setAttribute('user-color-scheme', 'light');
         }
 
       },

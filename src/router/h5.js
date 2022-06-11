@@ -26,5 +26,13 @@ const h5Router = [  //H5 案例
     type: "h5",
     created: "2019-07-18",
     component: resolve => require(['@/views/h5/understandH5'], resolve)
-  }];
+  },
+  {
+    path: '/h5/h5Drag',
+    name: 'H5组件拖拽',
+    type: "h5",
+    created: "2020-03-11",
+    component: resolve => require(['@/views/h5/h5Drag'], resolve)
+  }
+];
 export default h5Router;

@@ -174,5 +174,48 @@ const otherRouter = [{
     type: "other",
     created: "2021-11-23",
     component: resolve => require(['@/views/other/osWebReflection'], resolve)
-  },];
+  },
+  {
+    path: '/other/enotfound',
+    name: 'npm run dev运行报错getaddrinfo ENOTFOUND localhost',
+    type: "other",
+    created: "2021-12-23",
+    component: resolve => require(['@/views/other/enotfound'], resolve)
+  },
+  {
+    path: '/other/adviceForDashboard',
+    name: '关于Dashboard数据可视化全屏写法的一些构思',
+    type: "other",
+    created: "2022-02-23",
+    component: resolve => require(['@/views/other/adviceForDashboard'], resolve)
+  },
+  {
+    path: '/other/axiosGetError ',
+    name: 'axios中get请求对参数中包含的%进行了转义',
+    type: "other",
+    created: "2022-05-10",
+    component: resolve => require(['@/views/other/axiosGetError'], resolve)
+  },
+  {
+    path: '/other/threeAPP ',
+    name: 'native APP、hybrid APP、web APP三者的区别',
+    type: "other",
+    created: "2022-05-10",
+    component: resolve => require(['@/views/other/threeAPP'], resolve)
+  },
+  {
+    path: '/other/postmanBody',
+    name: 'Post 中 Body 的 ContentType的格式',
+    type: "other",
+    created: "2022-05-23",
+    component: resolve => require(['@/views/other/postmanBody'], resolve)
+  },
+  {
+    path: '/other/cURL',
+    name: '如何使用cURL命令？有哪些常见的用法？',
+    type: "other",
+    created: "2022-05-23",
+    component: resolve => require(['@/views/other/cURL'], resolve)
+  },
+];
 export default otherRouter;

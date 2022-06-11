@@ -7,6 +7,27 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
+          <h3> rem是什么？</h3>
+          <pre>
+rem（font size of the root element）是指相对于根元素的字体大小的单位。简单的说它就是一个相对单位。看到rem大家一定会想起em单位，em（font size of the element）是指相对于父元素的字体大小的单位。它们之间其实很相似，只不过一个计算的规则是依赖根元素一个是依赖父元素计算。
+rem是通过根元素进行适配的，网页中的根元素指的是html我们通过设置html的字体大小就可以控制rem的大小。
+举个例子
+html{
+    font-size:20px;
+}
+.btn {
+    width: 6rem;
+    height: 3rem;
+    line-height: 3rem;
+    font-size: 1.2rem;
+    background: #06c;
+    color: #fff;
+    border-radius: .5rem;
+}
+按钮最后呈现为宽度120px，高度60px，字体24px，圆角10px，呈现出这种效果是因为
+10px  = 1rem  在根元素为font-size = 10px的时候；
+20px  = 1rem  在根元素为font-size = 20px的时候；
+ </pre>
           <pre>
 列举一下现在设计稿的参考依据，现在多以iPhoneX尺寸为准，用二倍图尺寸设计稿
 机型       一倍图     二倍图      逻辑分辨率(point)   物理分辨率(pixel)  缩放因子
@@ -33,7 +54,7 @@ rem布局非常使用你只需在页面引入下面这段原生js代码就可以
             if(clientWidth>=640){
                 docEl.style.fontSize = '100px';
             }else{
-                docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+                docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
             }
         };
 
@@ -62,7 +83,36 @@ height: 0.37rem;
 
 都哪些情况可以用rem布局？
 大部分情况下都可以用rem布局这个方法，当然具体还要看情况而定。拿我们公司项目举例，只有底部的导航不用rem，而是用的flex布局。因为导航点击最多，所以给它一个固定的大小（其实就是高度固定，宽度自适应的方案）。大家可以看看淘宝的这个手机页面 淘宝手机站，基本就是这种感觉，底部导航和顶部搜索框用的高固定，宽自适应的方案，其余的部分基本都是随着浏览器宽度变化在等比例缩放。
-          </pre>
+
+通过JS去动态计算根元素的font-size，这样的好处是所有设备分辨率都能兼容适配，淘宝首页目前就是用的JS计算。但其实不用JS我们也可以做适配，一般我们在做web app都会先统计自己网站有哪些主流的屏幕设备，然后去针对那些设备去做media query设置也可以实现适配，例如下面这样：
+html {
+    font-size : 20px;
+}
+@media only screen and (min-width: 401px){
+    html {
+        font-size: 25px !important;
+    }
+}
+@media only screen and (min-width: 428px){
+    html {
+        font-size: 26.75px !important;
+    }
+}
+@media only screen and (min-width: 481px){
+    html {
+        font-size: 30px !important;
+    }
+}
+@media only screen and (min-width: 569px){
+    html {
+        font-size: 35px !important;
+    }
+}
+@media only screen and (min-width: 641px){
+    html {
+        font-size: 40px !important;
+    }
+</pre>
         </div>
       </div>
     </div>

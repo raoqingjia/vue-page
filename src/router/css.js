@@ -148,10 +148,24 @@ const cssRouter = [ //css案例
   },
   {
     path: '/css/aKeyChangeSkin',
-    name: 'CSS var() 函数',
+    name: 'CSS实现皮肤切换',
     type: "css",
     created: "2019-02-23",
     component: resolve => require(['@/views/css/aKeyChangeSkin'], resolve)
+  },
+  {
+    path: '/css/transformScale',
+    name: '用transform:scale()缩放',
+    type: "css",
+    created: "2019-02-23",
+    component: resolve => require(['@/views/css/transformScale'], resolve)
+  },
+  {
+    path: '/css/marginFailure',
+    name: 'css中margin-top或者margin-bottom失效',
+    type: "css",
+    created: "2019-04-12",
+    component: resolve => require(['@/views/css/marginFailure'], resolve)
   }
   ];
 export default cssRouter;
