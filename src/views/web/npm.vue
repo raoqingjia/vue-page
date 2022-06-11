@@ -8,11 +8,15 @@
         </p>
         <div class="art-content">
           <h3>
-            1、淘宝镜像安装 npm install
+            1、npm 安装及版本
           </h3>
-          <article>
-            <p>npm install --registry=https://registry.npm.taobao.org</p>
-          </article>
+<pre>npm install --registry=https://registry.npm.taobao.org
+在v12.16.2以上版本就不在支持window7系统。
+安装 nvm 管理多个node环境
+nvm list 查看node版本
+nvm use 使用指定版本
+nvm install  安装指定版本
+nvm uninstall  卸载指定版本</pre>
           <h3>
             2、npm参数配置
           </h3>
