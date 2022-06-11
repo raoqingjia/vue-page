@@ -5,7 +5,7 @@
   "author": "raoqingjia <1007804453@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --open --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --inline --open --progress  --host 127.0.0.1 --port 4500 --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js"
   },
@@ -22,14 +22,15 @@
     "jszip": "^3.1.5",
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.22.1",
-    "node-sass": "^4.9.3",
+    "node-sass": "^7.0.1",
     "open": "0.0.5",
     "sass-loader": "^6.0.7",
     "swiper": "^3.4.2",
     "tiny-pinyin": "^1.2.1",
     "vue": "^2.5.2",
     "vue-i18n": "^8.0.0",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-waterfall-easy": "^2.4.4"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -70,7 +71,6 @@
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
-    "vue-waterfall-easy": "^1.0.8",
     "vuex": "^3.0.1",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
