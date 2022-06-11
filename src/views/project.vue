@@ -1,6 +1,6 @@
 <template>
   <div class="base waterfall-wrap inner">
-    <vue-waterfall-easy v-if="imgsArr.length" :imgsArr="imgsArr" @scrollLoadImg="fetchImgsData"  @click="clickFn" :height="'100vh'">
+    <vue-waterfall-easy v-if="imgsArr.length" :imgsArr="imgsArr" :maxCols="4" @scrollLoadImg="fetchImgsData"  @click="clickFn" :height="'100vh'">
       <template slot-scope="props">
         <div class="img-info">
           <h3>{{props.value.title}}</h3>
