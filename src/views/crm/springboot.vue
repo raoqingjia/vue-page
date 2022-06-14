@@ -205,7 +205,56 @@ public interface UserDAO {
 
 4、xml也可以直接放在resources、也可以直接放dao层下的impl里面，abs现在是一个项目下对应多个库的时候就放到了resources里，如果是一个项目对应一个mysql就直接放到了dao层的impl里面例如sso、urbac服务</pre>
           <img src="@/img/crm/mybatis-01.png" width="100%" height="450px">
-          <pre>使用Mybatis：
+          <pre>
+5、定义datasource工厂方法，并将其放在使用@configuration注解的类中：
+SpringBoot2中的spring-boot-starter-jdbc默认的数据已经更改为hikari，据说性能很高，有兴趣的可以进行测试。
+目前使用最广泛的druid基础数组实现，而hikari则是基于threadlocal +CopyOnWriteArrayList实现。
+配置文件中添加配置：
+#datasource
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/ak_blog?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.type=com.zaxxer.hikari.HikariDataSource
+spring.datasource.hikari.minimum-idle=5
+spring.datasource.hikari.maximum-pool-size=15
+spring.datasource.hikari.auto-commit=true
+spring.datasource.hikari.idle-timeout=30000
+spring.datasource.hikari.pool-name=DatebookHikariCP
+spring.datasource.hikari.max-lifetime=1800000
+spring.datasource.hikari.connection-timeout=30000
+spring.datasource.hikari.connection-test-query=SELECT 1
+
+@Bean
+@ConfigurationProperties("spring.datasource")
+public HikariDataSource dataSource() {
+	return DataSourceBuilder.create().type(HikariDataSource.class).build();
+}
+
+
+
+5、mybatis与spring的整合之SqlSessionFactoryBean
+在使用Spring+MyBatis的环境下，我们需要配值一个SqlSessionFactoryBean来充当SqlSessionFactory
+SqlSessionFactoryBean是解析映射接口对应的sql配置文件（xml文件）
+
+SqlSessionFactoryBean引入sql配置文件有两种形式，注入mapperLocations和注入configLocation
+mapperLocations与configLocation比较
+mapperLocations仅仅是sql配置文件，会被解析放入Configuration中
+configLocation可以设置其他东西，比如二级缓存、实体类别名、数据源（DataSource）等，可以配置多个config.xml实现多数据源配置。它会被解析为Configuration对象，这是构建SqlSessionFactory所必须的。
+
+例如下面
+private static final String MYBATIS_CONFIG = "mybatis-config.xml";
+private static final String MAPPER_LOCATION_MYSQL = "com/example/springdemo/urbac/dao/impl/*.xml";
+
+SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+sessionFactory.setConfigLocation(new ClassPathResource(MYBATIS_CONFIG));
+sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(MAPPER_LOCATION_MYSQL));
+sessionFactory.setDataSource(dataSource);
+SqlSessionFactory factory = sessionFactory.getObject();
+上面注意的是 SqlSessionFactoryBean 实现了 Spring 的 FactoryBean 接口。这意味着由 Spring 最终创建的 bean 并不是 SqlSessionFactoryBean 本身，而是工厂类（SqlSessionFactoryBean）的 getObject() 方法的返回结果。这种情况下，Spring 将会在应用启动时为你创建 SqlSessionFactory，并使用 sqlSessionFactory 这个名字存储起来
+
+
+6、使用Mybatis：
 创建映射对象User
 /** * User实体映射类
  * Created by Administrator on 2017/11/24.
@@ -445,50 +494,6 @@ ConfigClient 自己项目所对外提供的微服务
     < groupId>org.springframework.cloud< /groupId>
     < artifactId>spring-cloud-config-server< /artifactId>
 < /dependency></pre>
-          <h3>SpringBoot 集成Mybatis</h3>
-          <pre>1、添加Mybatis相关依赖
-spring连接驱动时，如com.alibaba.druid.pool.DruidDataSource使用
-< dependency>
-    < groupId>com.alibaba< /groupId>
-    < artifactId>druid-spring-boot-starter< /artifactId>
-    < version>1.1.22< /version>
-< /dependency>
-
- spring连接驱动时，如com.mysql.cj.jdbc.Driver使用
-< dependency>
-    < groupId>mysql< /groupId>
-    < artifactId>mysql-connector-java< /artifactId>
-    < scope>runtime< /scope>
-< /dependency>
-< dependency>
-    < groupId>org.mybatis.spring.boot< /groupId>
-    < artifactId>mybatis-spring-boot-starter< /artifactId>
-    < version>2.2.1< /version>
-< /dependency>
-
-driverClassName: com.mysql.jdbc.Driver    # mysql-connector-java 5.x及之前版本中的
-driverClassName: com.mysql.cj.jdbc.Driver # mysql-connector-java 6.x及后续版本中的
-
-
-2、数据源配置
-在application.yml：
-spring:
-  datasource:
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:18103/db_test?characterEncoding=GBK
-      username: root
-      password: root
-3、创建事务的模型实体类
-package com.springboottest.bean;
-@Data
-public class StudentBean {
-    private int id;
-    private String name;
-}
-注：这里的字段名称与数据库表字段名称一致。
-
-
-          </pre>
           <h3>SpringBoot整合日志</h3>
           <pre>
 springboot本身就内置了日志功能,详细的搜整合SpringBoot整合logback，网上有好多教程

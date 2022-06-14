@@ -56,8 +56,8 @@
   }
 
   .btn {
-    font-size: 12px;
-    padding: 0 8px;
+    font-size: 14px;
+    padding: 0 10px;
     margin: 10px 0 0 15px;
     line-height: 28px;
     border: 1px solid #c3c3c3;
