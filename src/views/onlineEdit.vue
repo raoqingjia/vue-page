@@ -28,18 +28,21 @@
         },
         methods: {
             initFile() {
-                const filecontent = window.localStorage.getItem("onlineEditTxt", filecontent);
+                const filecontent = window.sessionStorage.getItem("onlineEditTxt", filecontent);
                 this.textdata = filecontent;
             },
             writeFile() {
                 if (this.textdata) {
-                    window.localStorage.setItem("onlineEditTxt", this.textdata)
+                    window.sessionStorage.setItem("onlineEditTxt", this.textdata)
                 }
             },
             clearFile() {
                 this.textdata = '';
-                window.localStorage.clear("onlineEditTxt");
+                window.sessionStorage.clear("onlineEditTxt");
             }
+        },
+        beforeDestroy() {
+            // window.localStorage.clear("onlineEditTxt");
         }
     }
 </script>
