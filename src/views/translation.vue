@@ -81,7 +81,7 @@
                         console.log(data);
                         this.resultData.explains = data.basic ? data.basic.explains : [];
                         this.resultData.translation = data.translation;
-                        this.resultData.webdict = data.webdict.url;
+                        this.resultData.webdict = 'https' + data.webdict.url.split("http")[1];
                         this.resultData.pcurl = data.dict.url;
 
                     }).catch((error) => {

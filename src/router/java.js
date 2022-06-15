@@ -110,6 +110,13 @@ const javaRouter = [    //JAVA 类
     type: "java",
     created: "2022-04-03",
     component: resolve => require(['@/views/java/fastjson'], resolve)
+  },
+  {
+    path: '/java/resultmapAndResulttype',
+    name: 'resultmap和resulttype区别和应用',
+    type: "java",
+    created: "2022-04-11",
+    component: resolve => require(['@/views/java/fastjson'], resolve)
   }
 ];
 export default javaRouter;
