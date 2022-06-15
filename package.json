@@ -5,7 +5,7 @@
   "author": "raoqingjia <1007804453@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --open --progress  --host  --port  --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --inline --open --progress  --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js"
   },
