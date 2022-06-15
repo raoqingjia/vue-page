@@ -217,5 +217,12 @@ const otherRouter = [{
     created: "2022-05-23",
     component: resolve => require(['@/views/other/cURL'], resolve)
   },
+  {
+    path: '/other/getCacheForIE',
+    name: 'get请求在ie浏览器中缓存问题',
+    type: "other",
+    created: "2022-05-23",
+    component: resolve => require(['@/views/other/getCacheForIE'], resolve)
+  },
 ];
 export default otherRouter;

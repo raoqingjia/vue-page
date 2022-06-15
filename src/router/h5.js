@@ -33,6 +33,13 @@ const h5Router = [  //H5 案例
     type: "h5",
     created: "2020-03-11",
     component: resolve => require(['@/views/h5/h5Drag'], resolve)
+  },
+  {
+    path: '/h5/ifreamNotShownPage',
+    name: 'iframe不显示链接页面问题',
+    type: "h5",
+    created: "2020-04-01",
+    component: resolve => require(['@/views/h5/ifreamNotShownPage'], resolve)
   }
 ];
 export default h5Router;

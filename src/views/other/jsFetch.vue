@@ -16,6 +16,7 @@ fetch 规范与 jQuery.ajax() 主要有三种方式的不同：
 fetch与axios的区别
 1、axios在第一个.then中就可以拿到数据，
 fetch在第二个拿，第一个是未处理的结果集
+
 2、axios是一个基于Promise的一个http request的请求方式
 既能在服务端请求也能在客户端请求数据
 服务端: 根据Http进行数据请求
@@ -28,6 +29,21 @@ fetch不是用XMLHttpRequest进行数据请求的
 特点:符合关注分离，没有将输入、输出和用事件来跟踪的状态混杂在一个对象里
 脱离了XHR，是ES规范里新的实现方式
 fetch没有办法原生监测请求的进度，而XHR可以
+
+3、fetch 默认返回的 body 就是 ReadableStream 数据，需要自己处理成期望的数据格式
+你得知道后端返回的数据格式是什么。
+如果是 json字符串 ，使用 res.json() 方法来将数据转换成 json 格式数据
+  fetch('请求地址').then(res=>{
+    return res.json();
+  }).then(res=>{
+    console.log(res); // 这里得到的就是 json 格式数据
+  });
+如果是普通的字符串，使用 res.text() 方法将数据转换成普通字符串
+  fetch('请求地址').then(res=>{
+    return res.text();
+  }).then(res=>{
+    console.log(res); // 这里得到的就是普通字符串格式数据
+  });
 
 使用方式
 var req = new Request(URL, {method: 'GET', cache: 'reload'});
@@ -50,12 +66,16 @@ fetch(btnItem.url, {
       location: "",
   }).toString(),
   }).then((res) =>{
-           res.text();
+    try {
+        return resp.json();
+    } catch (err) {}
+    return resp.text();
    }).then((data) => {
           console.log(data);
   }).catch((error) => {
           if (error) throw error;
   });
+
           </pre>
         </div>
       </div>

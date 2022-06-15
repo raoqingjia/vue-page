@@ -38,6 +38,10 @@ springboot 只是为了提高开发效率，是为了提升生产力的：
 三、SpringBoot是微服务框架吗？
 1、SpringBoot只是一个快速开发框架，算不上微服务框架。
 2、SpringCloud+Spring Boot 实现微服务开发。具体的来说是，SpringCloud具备微服务开发的核心技术：RPC远程调用技术；SpringBoot的web组件默认集成了SpringMVC，可以实现HTTP+JSON的轻量级传输，编写微服务接口，所以SpringCloud依赖SpringBoot框架实现微服务开发。</pre>
+          <h3>Spring Boot 集成篇</h3>
+          <pre>
+starter 主要分为两种：一种是官方的，一种是三方的。官方与三方的命名方式上不太一样，官方的命名以 spring-boot 开头，而三方的命名以自定义的 xxx 名称开头。
+例如，官方的命名：spring-boot-xxx-xxx.jar，而三方的命名：xxx-spring-boot-starter.jar。</pre>
           <h3>Spring Boot项目启动方式</h3>
           <pre>
 方式一
@@ -46,9 +50,8 @@ springboot 只是为了提高开发效率，是为了提升生产力的：
 @ComponentScan： 扫描被@Component (@Service,@Controller)注解的 bean，注解默认会扫描该类所在的包下所有的类
 方式二
 启动类上添加@SpringBootApplication注解，它等同于 @EnableAutoConfiguration 和 @ComponentScan 的组合，它会自动扫描同一目录下面所有的包中的内容
-所在包不是Spring Boot启动类所在的包或者子包下就需要指定@ComponentScan，因为Spring Boot默认只扫描和启动类同一级或者下一级包。</pre>
-          <h3>Spring Boot项目启动方式</h3>
-          <pre>
+所在包不是Spring Boot启动类所在的包或者子包下就需要指定@ComponentScan，因为Spring Boot默认只扫描和启动类同一级或者下一级包。
+
 spring-boot-starter-parent父依赖启动器的主要作用是进行版本统一管理
 < parent>
     < groupId>org.springframework.boot< /groupId>
@@ -122,38 +125,48 @@ ${}: 标准变量表达式
 #{}: 消息(i18n)表达式
 @{}: 链接(URL)表达式
 ~{}: 片段表达式</pre>
+
           <h3>SpringBoot整合Mysql、Mybatis和JDBC的配置</h3>
           <pre>
-首先注入依赖
-MySQL和JBDC依赖
+1、pom文件注入依赖
+MySQL 驱动
 < dependency>
-    // 整合jdbc模板框架
-    < groupId>org.springframework.boot< /groupId>
-    < artifactId>spring-boot-starter-jdbc< /artifactId>
-< /dependency>
-< dependency>
-    // 整合mysql驱动类
     < groupId>mysql< /groupId>
     < artifactId>mysql-connector-java< /artifactId>
 < /dependency>
+通过 JDBC 连接数据库依赖 或者通过 下面二选一   druid的连接后面单独讲
+< dependency>
+    < groupId>org.springframework.boot< /groupId>
+    < artifactId>spring-boot-starter-jdbc< /artifactId>
+< /dependency>
+
+< dependency>
+   < groupId>com.alibaba< /groupId>
+   < artifactId>druid-spring-boot-starter< /artifactId>
+   < version>1.1.17< /version>
+< /dependency>
+MyBatis应用程序
 < dependency>
     < groupId>org.mybatis.spring.boot< /groupId>
     < artifactId>mybatis-spring-boot-starter< /artifactId>
     < version>1.3.2< /version>
 < /dependency>
+https://blog.csdn.net/javaforwork/article/details/122677832  mysql配置引申
 
-然后配置application文件
+2、然后配置application文件
 spring:
- datasource:
-   username: root
-   password: 123456
-   url: jdbc:mysql://localhost:3306/pestore?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
-   driver-class-name: com.mysql.cj.jdbc.Driver
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/pestore?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver  # 用的jdbc连接池
 mybatis:
   mapper-locations: classpath:mapping/*Mapper.xml   #告诉mybatis去哪里扫描mapper
-
+  configLocation: classpath:mybatis/mybatis-config.xml  # 加载全局的配置文件
 注意：配置文件和数据库连接的相对内容（url，username,password,classname)要相对应，而且要注意MySQL的版本与驱动之间的对应
-关于mybatis配置扫描
+
+
+3、关于mybatis配置扫描
 1、java目录下的xml资源在项目打包时会被忽略掉，所以，如果xml放在包下，需要在pom.xml文件中再添加如下配置，避免打包时java目录下的XML文件被自动忽略掉：
 < build>
     < resources>
@@ -168,10 +181,12 @@ mybatis:
         < /resource>
     < /resources>
 < /build>
+
 2、xml也可以直接放在resources目录下，这样就不用担心打包时被忽略了，但是放在resources目录下，又不能自动被扫描到，需要添加额外配置。例如我在resources目录下创建mapper目录用来放mapper文件
 此时在application.properties中告诉mybatis去哪里扫描mapper：
 mybatis.mapper-locations=classpath:mapper/*.xml
 如此配置之后，mapper就可以正常使用了。注意第二种方式不需要在pom.xml文件中配置文件过滤
+
 3、在application启动类中添加@MapperScan注解
 @Mapper注解：
 作用：在接口类上添加了@Mapper，在编译之后会生成相应的接口实现类
@@ -186,7 +201,109 @@ public interface UserDAO {
 @MapperScan("com.demo.mapper")：扫描指定包中的接口
 @MapperScan("com.demo.*.mapper")：一个*代表任意字符串，但只代表一级包,比如可以扫到com.demo.aaa.mapper,不能扫到com.demo.aaa.bbb.mapper
 @MapperScan("com.demo.**.mapper")：两个*代表任意个包,比如可以扫到com.demo.aaa.mapper,也可以扫到com.demo.aaa.bbb.mapper
-@MapperScan({"com.kfit.demo","com.kfit.user"}使用@MapperScan注解多个包</pre>
+@MapperScan({"com.kfit.demo","com.kfit.user"}使用@MapperScan注解多个包
+
+4、xml也可以直接放在resources、也可以直接放dao层下的impl里面，abs现在是一个项目下对应多个库的时候就放到了resources里，如果是一个项目对应一个mysql就直接放到了dao层的impl里面例如sso、urbac服务</pre>
+          <img src="@/img/crm/mybatis-01.png" width="100%" height="450px">
+          <pre>
+5、定义datasource工厂方法，并将其放在使用@configuration注解的类中：
+SpringBoot2中的spring-boot-starter-jdbc默认的数据已经更改为hikari，据说性能很高，有兴趣的可以进行测试。
+目前使用最广泛的druid基础数组实现，而hikari则是基于threadlocal +CopyOnWriteArrayList实现。
+配置文件中添加配置：
+#datasource
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/ak_blog?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.type=com.zaxxer.hikari.HikariDataSource
+spring.datasource.hikari.minimum-idle=5
+spring.datasource.hikari.maximum-pool-size=15
+spring.datasource.hikari.auto-commit=true
+spring.datasource.hikari.idle-timeout=30000
+spring.datasource.hikari.pool-name=DatebookHikariCP
+spring.datasource.hikari.max-lifetime=1800000
+spring.datasource.hikari.connection-timeout=30000
+spring.datasource.hikari.connection-test-query=SELECT 1
+
+@Bean
+@ConfigurationProperties("spring.datasource")
+public HikariDataSource dataSource() {
+	return DataSourceBuilder.create().type(HikariDataSource.class).build();
+}
+
+
+
+5、mybatis与spring的整合之SqlSessionFactoryBean
+在使用Spring+MyBatis的环境下，我们需要配值一个SqlSessionFactoryBean来充当SqlSessionFactory
+SqlSessionFactoryBean是解析映射接口对应的sql配置文件（xml文件）
+
+SqlSessionFactoryBean引入sql配置文件有两种形式，注入mapperLocations和注入configLocation
+mapperLocations与configLocation比较
+mapperLocations仅仅是sql配置文件，会被解析放入Configuration中
+configLocation可以设置其他东西，比如二级缓存、实体类别名、数据源（DataSource）等，可以配置多个config.xml实现多数据源配置。它会被解析为Configuration对象，这是构建SqlSessionFactory所必须的。
+
+例如下面
+private static final String MYBATIS_CONFIG = "mybatis-config.xml";
+private static final String MAPPER_LOCATION_MYSQL = "com/example/springdemo/urbac/dao/impl/*.xml";
+
+SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+sessionFactory.setConfigLocation(new ClassPathResource(MYBATIS_CONFIG));
+sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(MAPPER_LOCATION_MYSQL));
+sessionFactory.setDataSource(dataSource);
+SqlSessionFactory factory = sessionFactory.getObject();
+上面注意的是 SqlSessionFactoryBean 实现了 Spring 的 FactoryBean 接口。这意味着由 Spring 最终创建的 bean 并不是 SqlSessionFactoryBean 本身，而是工厂类（SqlSessionFactoryBean）的 getObject() 方法的返回结果。这种情况下，Spring 将会在应用启动时为你创建 SqlSessionFactory，并使用 sqlSessionFactory 这个名字存储起来
+
+
+6、使用Mybatis：
+创建映射对象User
+/** * User实体映射类
+ * Created by Administrator on 2017/11/24.
+ */
+public class User {
+     private Integer id;
+     private String name;
+     private String password;
+     private String phone;
+     //省略 get 和 set ...
+}
+创建User映射的操作UserMapper，为了后续单元测试验证，实现插入和查询操作
+/**
+  * User映射类
+  * Created by Administrator on 2017/11/24.
+  */
+@Mapper
+public interface UserMapper {
+    User findUserByPhone(@Param("phone") String phone);
+    int insert(@Param("name") String name, @Param("password") String password, @Param("phone") String phone);
+}
+映射文件配置
+< ?xml version="1.0" encoding="UTF-8"?>
+< !DOCTYPE mapper PUBLIC "-// mybatis.org//DTD Mapper 3.0//EN" " http://mybatis.org/dtd/mybatis-3-mapper.dtd";> ;
+< mapper namespace="com.test2.mapper.UserMapper">
+    < select id="findUserByPhone" resultType="com.test2.entry.User">
+        SELECT * FROM t_user WHERE PHONE=#{phone}
+    < /select>
+    < insert id="insert">
+        INSERT INTO t_user(NAME,PASSWORD,PHONE) VALUES (#{name},#{password},#{phone})
+    < /insert>
+< /mapper>
+创建单元测试：
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class Demo2ApplicationTests {
+   @Autowired
+   private UserMapper userMapper;
+   @Test
+   public void insert(){
+      userMapper.insert("hy","123456","123456789");
+   }
+   @Test
+   public void getBYphone(){
+      User user =userMapper.findUserByPhone("123456789");
+      Assert.assertEquals("hy", user.getName());
+      System.out.println(user.getName()+":"+user.getPassword());
+   }
+}</pre>
           <h3>druid数据库连接池</h3>
           <pre>
 Java程序很大一部分要操作数据库，为了提高性能操作数据库的时候，又不得不使用数据库连接池。

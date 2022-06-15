@@ -51,6 +51,11 @@ let basicRouter = [
     name: 'onlineEdit',
     component: resolve => require(['@/views/onlineEdit'], resolve)
   },
+  {
+    path: '/translation',
+    name: 'translation',
+    component: resolve => require(['@/views/translation'], resolve)
+  }
 ];
 
 export const routes = [

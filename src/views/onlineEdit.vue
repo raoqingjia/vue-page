@@ -28,18 +28,21 @@
         },
         methods: {
             initFile() {
-                const filecontent = window.localStorage.getItem("onlineEditTxt", filecontent);
+                const filecontent = window.sessionStorage.getItem("onlineEditTxt", filecontent);
                 this.textdata = filecontent;
             },
             writeFile() {
                 if (this.textdata) {
-                    window.localStorage.setItem("onlineEditTxt", this.textdata)
+                    window.sessionStorage.setItem("onlineEditTxt", this.textdata)
                 }
             },
             clearFile() {
                 this.textdata = '';
-                window.localStorage.clear("onlineEditTxt");
+                window.sessionStorage.clear("onlineEditTxt");
             }
+        },
+        beforeDestroy() {
+            // window.localStorage.clear("onlineEditTxt");
         }
     }
 </script>
@@ -56,8 +59,8 @@
   }
 
   .btn {
-    font-size: 12px;
-    padding: 0 8px;
+    font-size: 14px;
+    padding: 0 10px;
     margin: 10px 0 0 15px;
     line-height: 28px;
     border: 1px solid #c3c3c3;

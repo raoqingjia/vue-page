@@ -99,12 +99,21 @@ const crmNoteRouter = [ {
   },
   {
     path: '/note/redis',
-    name: "redis",
+    name: "Redis",
     type: "crm",
     img: require("../img/redis-icon.png"),
     description: "redis笔记记录...",
     created: "持续更新 最后版本 2022-03-02",
     component: resolve => require(['@/views/crm/redis'], resolve)
+  },
+  {
+    path: '/note/RabbitMQ',
+    name: "RabbitMQ",
+    type: "crm",
+    img: require("../img/rabbitmq-icon.png"),
+    description: "redis笔记记录...",
+    created: "持续更新 最后版本 2022-05-03",
+    component: resolve => require(['@/views/crm/rabbitmq'], resolve)
   },
   ];
 export default crmNoteRouter;
