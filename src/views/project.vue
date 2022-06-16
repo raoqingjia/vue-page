@@ -44,7 +44,7 @@
     },
     methods: {
       urlFun(code){
-        this.$router.push({path: "/list"});
+        this.$router.push({path: "/list"});n
         this.$store.commit('listTabFun_m', code)
       },
       clickFn(event, { index, value }){

@@ -113,10 +113,17 @@ const javaRouter = [    //JAVA 类
   },
   {
     path: '/java/resultmapAndResulttype',
-    name: 'resultmap和resulttype区别和应用',
+    name: 'MyBatis 之 resultmap和resulttype区别和应用',
     type: "java",
     created: "2022-04-11",
-    component: resolve => require(['@/views/java/fastjson'], resolve)
+    component: resolve => require(['@/views/java/resultmapAndResulttype'], resolve)
+  },
+  {
+    path: '/java/resultmapAndResulttype',
+    name: 'MyBatis 之 parameterType',
+    type: "java",
+    created: "2022-04-11",
+    component: resolve => require(['@/views/java/resultmapAndResulttype'], resolve)
   }
 ];
 export default javaRouter;

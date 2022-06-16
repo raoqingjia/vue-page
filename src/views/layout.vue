@@ -6,7 +6,7 @@
     </section>
     <ul class="fast-link">
       <li @click="fastLink('/index')"><a>首页</a></li>
-      <li @click="fastLink('/onlineEdit')"><a>编辑</a></li>
+      <li @click="fastLink('/onlineEdit')"><a>文本</a></li>
       <li @click="fastLink('/translation')"><a>翻译</a></li>
     </ul>
     <footernav v-if="footerShow"></footernav>
