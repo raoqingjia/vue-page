@@ -124,6 +124,13 @@ const javaRouter = [    //JAVA 类
     type: "java",
     created: "2022-04-11",
     component: resolve => require(['@/views/java/myBatisParameterType'], resolve)
+  },
+  {
+    path: '/java/myBatisLike',
+    name: 'Mybatis中 Like 的三种使用方式',
+    type: "java",
+    created: "2022-04-11",
+    component: resolve => require(['@/views/java/myBatisLike'], resolve)
   }
 ];
 export default javaRouter;
