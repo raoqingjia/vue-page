@@ -119,11 +119,11 @@ const javaRouter = [    //JAVA 类
     component: resolve => require(['@/views/java/resultmapAndResulttype'], resolve)
   },
   {
-    path: '/java/resultmapAndResulttype',
+    path: '/java/myBatisParameterType',
     name: 'MyBatis 之 parameterType',
     type: "java",
     created: "2022-04-11",
-    component: resolve => require(['@/views/java/resultmapAndResulttype'], resolve)
+    component: resolve => require(['@/views/java/myBatisParameterType'], resolve)
   }
 ];
 export default javaRouter;
