@@ -362,6 +362,13 @@ const jsRouter = [//js案例
     type: "js",
     created: "2022-05-05",
     component: resolve => require(['@/views/js/eS6Tips'], resolve)
+  },
+  {
+    path: '/js/ieRefererLoss',
+    name: 'IE中JS跳转丢失referer的问题',
+    type: "js",
+    created: "2022-05-16",
+    component: resolve => require(['@/views/js/ieRefererLoss'], resolve)
   }
   ];
 export default jsRouter;
