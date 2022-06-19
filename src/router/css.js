@@ -166,6 +166,13 @@ const cssRouter = [ //css案例
     type: "css",
     created: "2019-04-12",
     component: resolve => require(['@/views/css/marginFailure'], resolve)
+  },
+  {
+    path: '/css/cssBFC',
+    name: 'BFC (Block formatting context) “块级格式化上下文”',
+    type: "css",
+    created: "2019-07-02",
+    component: resolve => require(['@/views/css/cssBFC'], resolve)
   }
   ];
 export default cssRouter;
