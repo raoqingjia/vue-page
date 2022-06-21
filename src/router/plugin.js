@@ -91,6 +91,13 @@ const pluginRouter = [
     type: "plugin",
     created: "2021-08-12",
     component: resolve => require(['@/views/plugin/jscookie'], resolve)
+  },
+  {
+    path: '/plugin/eslint',
+    name: 'ESLint可组装的 javaScript 和 JSX 检查工具',
+    type: "plugin",
+    created: "2021-09-02",
+    component: resolve => require(['@/views/plugin/eslint'], resolve)
   }
 ];
 export default pluginRouter;

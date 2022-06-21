@@ -30,8 +30,8 @@ compiler(编译器)的作用是把TS代码转换成JS代码;
 ES6规范是在2015年发布的，而目前所有主流的浏览器并没有完全支持ES6规范，所以用ES6写的东西并不能直接放在浏览器中去跑。
 使用本地compiler开发
 首先、安装TS编译器，其实就是安装TS的一个过程；
-安装教程 https://www.jianshu.com/p/c5005fad4274
-http://www.typescriptlang.org/</pre>
+安装教程  http://www.typescriptlang.org/
+npm install typescript -g</pre>
           <h3>TypeScript 常用类型</h3>
           <pre>
 <span>① 基础类型</span>

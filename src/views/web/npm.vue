@@ -13,10 +13,12 @@
 <pre>npm install --registry=https://registry.npm.taobao.org
 在v12.16.2以上版本就不在支持window7系统。
 安装 nvm 管理多个node环境
-nvm list 查看node版本
+nvm ls-remote  查看有哪些 node 版本
+nvm list 查看本机node版本
 nvm use 使用指定版本
 nvm install  安装指定版本
-nvm uninstall  卸载指定版本</pre>
+nvm uninstall  卸载指定版本
+nvm version 显示当前nvm 版本，别名 v</pre>
           <h3>
             2、npm参数配置
           </h3>
@@ -109,7 +111,11 @@ at Object.&#60anonymous&#62 (C:\ecWebTest\node_modules\.0.3.8@orchestrator\lib\r
         at Function.Module._load (module.js:489:3)
 解决方法
 1：将node_modules文件夹以及子文件全部删除；
-2：重装本地依赖包：npm install</pre>
+2：重装本地依赖包：npm install
+
+七、不同的node环境下经常报node-sass错误，多半是环境版本造成的
+node-sass 对应的node版本连接
+https://github.com/sass/node-sass/releases?page=1           </pre>
           <h3>
             4、nodejs全局安装和本地安装的区别 （http://www.cnblogs.com/PeunZhang/p/5629329.html#install-global转载地址）
           </h3>
