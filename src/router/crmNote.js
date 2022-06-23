@@ -71,15 +71,6 @@ const crmNoteRouter = [ {
     component: resolve => require(['@/views/crm/activeMq'], resolve)
   },
   {
-    path: '/note/docker',
-    name: "Docker",
-    type: "crm",
-    img: require("../img/docker-icon.png"),
-    description: "docker相关的安装,命令行...",
-    created: "持续更新 最后版本 2020-03-28",
-    component: resolve => require(['@/views/crm/docker'], resolve)
-  },
-  {
     path: '/note/springboot',
     name: "Spring Boot",
     type: "crm",
@@ -87,6 +78,24 @@ const crmNoteRouter = [ {
     description: "SpringBoot笔记记录...",
     created: "持续更新 最后版本 2020-03-28",
     component: resolve => require(['@/views/crm/springboot'], resolve)
+  },
+  {
+    path: '/note/mybatis',
+    name: "Mybatis",
+    type: "crm",
+    img: require("../img/mybatis-icon.png"),
+    description: "Mybatis使用及总结",
+    created: "持续更新 最后版本 2020-03-28",
+    component: resolve => require(['@/views/crm/mybatis'], resolve)
+  },
+  {
+    path: '/note/docker',
+    name: "Docker",
+    type: "crm",
+    img: require("../img/docker-icon.png"),
+    description: "docker相关的安装,命令行...",
+    created: "持续更新 最后版本 2020-03-28",
+    component: resolve => require(['@/views/crm/docker'], resolve)
   },
   {
     path: '/note/MongoDB',

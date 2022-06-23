@@ -131,6 +131,20 @@ const javaRouter = [    //JAVA 类
     type: "java",
     created: "2022-04-11",
     component: resolve => require(['@/views/java/myBatisLike'], resolve)
-  }
+  },
+  {
+    path: '/java/mapperAndMapperScan',
+    name: 'Mybatis中Mapper和MapperScan注解',
+    type: "java",
+    created: "2022-04-25",
+    component: resolve => require(['@/views/java/mapperAndMapperScan'], resolve)
+  },
+  {
+    path: '/java/sqlSFAndST',
+    name: 'MyBatis之 SqlSession 、SqlSessionFactory 、SqlSessionTemplate、 SqlSessionManager',
+    type: "java",
+    created: "2022-04-25",
+    component: resolve => require(['@/views/java/sqlSFAndST'], resolve)
+  },
 ];
 export default javaRouter;
