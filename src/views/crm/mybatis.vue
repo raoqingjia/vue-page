@@ -23,7 +23,7 @@ Mybatis：是一个半自动ROM框架，支持SQL查询，存储，高级映射�
 JDBC：Java Database Connection 数据库连接，提供了一套数据库操作API包括加载驱动，获取连接，获取执行者对象，发送SQL语句。
 ORM：Object Relational Mapping 对象关系映射。
 ORM的映射是什么映射：对象与关系的映射，对操作的映射，对关联的映射。
-mybatis的工作原理：config --- mybatis-config.xml---Mapping.xml---创建会话工厂---创建会话对象---创建执行器---封装映射对象---操作数据库---输出结果映射
+mybatis的工作原理：配置类config --- mybatis-config.xml---Mapping.xml---创建会话工厂---创建会话对象---创建执行器---封装映射对象---操作数据库---输出结果映射
 
 二.mybatis-config.xml
 Mybatis的三个核心对象：SqlSessionFactoryBuilder，SqlSessionFactory，SqlSession
@@ -137,7 +137,8 @@ basepackages : 基于包下面的扫描MyBatis的接口。注意是，只有是�
 举例配置多数据源
 直接上config配置代码，其他yml配置忽略了
 由于Spring boot的自动装载不适用于多数据源，所以应该为每一个数据源各创建一个手动配置的配置文件。
-注意：'默认数据源配（理解主数据源或者是随便一个就）'置文件里的每个方法都需要加@Primary注解，表示此数据源为默认数据源，不加的话Spring boot找不到默认的数据源
+注意：'默认数据源配（理解主数据源或者是随便一个就）'置文件里的每个方法都需要加@Primary注解，表示此数据源为默认数据源，不加的话Spring boot找不到默认的数据源。
+因为在Spring Boot Jdbc的自动配置过程中，会对于开发者透明地使用dataSource进行一些相关配置，所以当有两个Datasource实现类时，Spring Boot将无法确定使用哪一个。
 各个版本的 springboot 配置 datasource 时参数有所变化，例如低版本中yml配置数据库 url时使用 url 属性，高版本中yml配置使用 jdbc-url 属性，请注意区分
 
 DataSourceConfig1 数据源
@@ -673,6 +674,212 @@ public void findUserByLikeName3(){
 < select id="findUserByLikeName4" parameterType="java.lang.String" resultMap="user">
 select * from t_user where name like concat('%',#{name,jdbcType=VARCHAR},'%') ESCAPE '/'
 < /select></pre>
+          <h3>关于MyBatis的分页方式</h3>
+          <pre>一、Limit分页
+语法：
+limit ${startPos},${pageSize}
+在实际项目中我们一般会加上为空为null判断，如下：
+< if test="startPos!=null and pageSize!=null">
+    limit ${startPos},${pageSize}
+< /if>
+业务层代码：
+< select id="getUserInfo" parameterType="map" resultType="dayu">
+    select * from user
+    < if test="startPos!=null and pageSize!=null">
+        limit ${startPos},${pageSize}
+    < /if>
+< /select>
+
+List< User> getUserInfo(Map< String,Object> map);
+
+public void selectUser() {
+      Map< String,Object> parms = new HashMap<>();
+      parms.put("startPos","0");
+      parms.put("pageSize","5");
+     List< User> users = mapper.getUserInfo(parms);
+     for (User map: users){
+         System.out.println(map);
+    }
+}
+这些内容其实就时MySQL中的内容，不作再详细讲解了。
+
+二、Mybatis_PageHelper分页插件
+
+1. 引入依赖jar包：
+< dependency>
+   < groupId>com.github.pagehelper< /groupId>
+   < artifactId>pagehelper< /artifactId>
+   < version>5.1.7< /version>
+< /dependency>
+一种是在mybatis的配置文件中配置
+
+2. 但数据配置分页拦截器
+下面是但数据源的配置
+1）在application.properties或application.yml添加
+pagehelper:
+  helperDialect: mysql
+  offsetAsPageNum: true
+  rowBoundsWithCount: true
+  reasonable: false
+
+2）在mybatis-config.xml文件中配置：
+plugins在配置文件中的位置必须符合要求，否则会报错，顺序如下: properties?, settings?, typeAliases?,
+typeHandlers?, objectFactory?,objectWrapperFactory?, plugins?, environments?,
+databaseIdProvider?, mappers?
+< plugins>
+   // com.github.pagehelper为PageHelper类所在包名
+   < plugin interceptor="com.github.pagehelper.PageHelper">
+        < property name="dialect" value="mysql" />
+        // 该参数默认为false
+        // 设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用
+        // 和startPage中的pageNum效果一样
+        < property name="offsetAsPageNum" value="true" />
+        // 该参数默认为false
+        // 设置为true时，使用RowBounds分页会进行count查询
+        < property name="rowBoundsWithCount" value="true" />
+        // 设置为true时，如果pageSize=0或者RowBounds.limit = 0就会查询出全部的结果
+        // （相当于没有执行分页查询，但是返回结果仍然是Page类型）
+        < property name="pageSizeZero" value="true" />
+        // 3.3.0版本可用 - 分页参数合理化，默认false禁用
+        // 启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页
+        // 禁用合理化时，如果pageNum<1或pageNum>pages会返回空数据
+        < property name="reasonable" value="true" />
+	< /plugin>
+< /plugins>
+
+3）如果mybatis没有mybatis-config.xml文件，那么就只能直接在spring的配置文件中配置了：
+< bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+  < property name="dataSource" ref="dataSource"/>
+  < property name="mapperLocations">
+    < array>
+      < value>classpath:config/mapper/*.xml< /value>
+    < /array>
+  < /property>
+  < property name="typeAliasesPackage" value="com.test.pojo"/>
+  < property name="plugins">
+    < array>
+      < bean class="com.github.pagehelper.PageHelper">
+        < property name="properties">
+          < value>
+                helperDialect=mysql
+                offsetAsPageNum=true
+                rowBoundsWithCount=true
+                reasonable=false
+          < /value>
+        < /property>
+      < /bean>
+    < /array>
+  < /property>
+< /bean>
+如果使用的是多数据源，所以这里的配置稍微有些不同，我们需要在sessionFactory这里配置
+@Bean(name = "masterSqlSessionFactory")
+@Primary
+public SqlSessionFactory masterSqlSessionFactory(@Qualifier("masterDataSource") DataSource masterDataSource) throws Exception {
+    final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+    sessionFactory.setDataSource(masterDataSource);
+    sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(MasterDataSourceConfig.MAPPER_LOCATION));
+    //分页插件
+    Interceptor interceptor = new PageInterceptor();
+    Properties properties = new Properties();
+    //数据库
+    properties.setProperty("helperDialect", "mysql");
+    //是否将参数offset作为PageNum使用
+    properties.setProperty("offsetAsPageNum", "true");
+    //是否进行count查询
+    properties.setProperty("rowBoundsWithCount", "true");
+    //是否分页合理化
+    properties.setProperty("reasonable", "false");
+    interceptor.setProperties(properties);
+    sessionFactory.setPlugins(new Interceptor[] {interceptor});
+    return sessionFactory.getObject();
+}
+
+设置完PageHelper 之后，使用的话，只需要在查询的sql前面添加PageHelper.startPage(pageNum,pageSize);如果是想知道总数的话，在查询的sql语句后买呢添加getTotal()就可以了。
+public  PageInfo< PcOffer>  getOfferList(){
+    // 分页插件，设置起始位置和每页大小
+    PageHelper.startPage(Integer.parseInt(currentPage), Integer.parseInt(pageSize));
+    // 查询出所有商品列表
+    List< PcOffer> pcOfferList = pcOfferDao.getOfferList(companyNum, categoryNum, offerNameOrNum, offerNum, status, bindFlag, isSort);
+    // 分页工具分页
+    PageInfo< PcOffer> pageInfo = new PageInfo< PcOffer>(pcOfferList);
+    return pageInfo;
+}
+在查询的sql语句执行之前，添加一行代码PageHelper.startPage(1, 10);第一个参数表示第几页，第二个参数表示每页显示的记录数
+而且在项目中我们可以根据自己项目的情况，定义一个PageBean，来保存分页之后的结果，需要哪些属性，就加入哪些属性，具体可以参考源代码中的PageInfo类的定义</pre>
+          <h3>generator自动生成代码</h3>
+          <pre>在pom.xml中添加plugin
+< plugin>
+  < groupId>org.mybatis.generator< /groupId>
+  < artifactId>mybatis-generator-maven-plugin< /artifactId>
+  < version>1.3.2< /version>
+  < dependencies>
+      < dependency>
+          < groupId>mysql< /groupId>
+          < artifactId>mysql-connector-java< /artifactId>
+          < version>5.1.35< /version>
+      < /dependency>
+  < /dependencies>
+  < configuration>
+      // 配置文件的路径
+      < configurationFile>${basedir}/src/main/resources/generatorConfig.xml< /configurationFile>
+      < overwrite>true< /overwrite>
+  < /configuration>
+< /plugin>
+${basedir}，该属性的用途就如字面意思根目录，就是获取项目根目录路径的一个属性。
+
+generatorConfig.xml  配置
+< ?xml version="1.0" encoding="UTF-8"?>
+< !DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+< generatorConfiguration>
+    // < properties resource="application.yml"/>  根据yml进行配置${spring.driver}
+    < context id="test" targetRuntime="MyBatis3">
+        < plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin">< /plugin>
+        < plugin type="org.mybatis.generator.plugins.SerializablePlugin">< /plugin>
+        < plugin type="org.mybatis.generator.plugins.ToStringPlugin">< /plugin>
+        < commentGenerator>
+            //这个元素用来去除指定生成的注释中是否包含生成的日期 false:表示保护
+            //如果生成日期，会造成即使修改一个字段，整个实体类所有属性都会发生变化，不利于版本控制，所以设置为true
+            < property name="suppressDate" value="true" />
+            //是否去除自动生成的注释 true：是 ： false:否
+            < property name="suppressAllComments" value="true" />
+        < /commentGenerator>
+           //  数据库链接URL，用户名、密码
+        < jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://10.248.64.132:3307/abs_shparm"
+                        userId="root" password="!2#4%6&amp;8">
+        < /jdbcConnection>
+
+        < javaTypeResolver>
+            < property name="forceBigDecimals" value="false" />
+        < /javaTypeResolver>
+        // 生成pojo模型的包名和位置
+        < javaModelGenerator targetPackage="com.example.springdemo.pojo.shparm"
+                             targetProject="src/main/java">
+            < property name="enableSubPackages" value="true" />
+            < property name="trimStrings" value="true" />
+        < /javaModelGenerator>
+         //生成映射文件的包名和位置
+        < sqlMapGenerator targetPackage="shparm"
+                          targetProject="src/main/resources/mapper">
+            < property name="enableSubPackages" value="true" />
+        < /sqlMapGenerator>
+        // 生成DAO的包名和位置
+        < javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.example.springdemo.dao.shparm"
+                             implementationPackage="src/main/java/"
+                             targetProject="src/main/java">
+            < property name="enableSubPackages" value="true" />
+        < /javaClientGenerator>
+
+        // 要生成哪些表,一次生成多个表时 复制下面这段即可
+        < table tableName="shparm_nation" domainObjectName="ShparmNation"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">< /table>
+    < /context>
+< /generatorConfiguration>
+          </pre>
+          <img src="../../img/crm/mybaits-generator.jpg" width="1000px" height="600px">
         </div>
       </div>
     </div>
@@ -756,7 +963,6 @@ select * from t_user where name like concat('%',#{name,jdbcType=VARCHAR},'%') ES
         }
     }
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 </style>
