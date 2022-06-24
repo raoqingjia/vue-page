@@ -378,6 +378,7 @@ public class Demo2ApplicationTests {
       System.out.println(user.getName()+":"+user.getPassword());
    }
 }</pre>
+          <img src="../../img/crm/mybatis-01.png" width="100%" height="450px">
           <h3>MyBatis 之 resultmap和resulttype区别和应用</h3>
           <pre>1、MyBatis中在查询进行select映射的时候，返回结果的类型可以用resultType或者resultMap
 2、resultType是直接表示返回类型的，而resultMap则适合应用复杂的映射关系
