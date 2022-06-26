@@ -828,11 +828,35 @@ public  PageInfo< PcOffer>  getOfferList(){
 < /plugin>
 ${basedir}，该属性的用途就如字面意思根目录，就是获取项目根目录路径的一个属性。
 
-generatorConfig.xml  配置
+generatorConfig.properties 因为我我项目是多数据源，就写了两套
+shparm.driver=com.mysql.jdbc.Driver
+shparm.url= jdbc:mysql://10.248.64.132=3307/abs_shparm
+shparm.username= root
+shparm.password= !2#4%6&8
+shparm.pojoPackage= com.example.springdemo.pojo.shparm
+shparm.pojoProject= src/main/java
+shparm.mapPackage= shparm
+shparm.mapProject= src/main/resources/mapper
+shparm.daoPackage= com.example.springdemo.dao.shparm
+shparm.daoProject= src/main/java
+
+omss.driver= com.mysql.jdbc.Driver
+omss.url= jdbc:mysql://10.248.64.132:3307/omss_rds
+omss.username= root
+omss.password= !2#4%6&8
+omss.pojoPackage= com.example.springdemo.pojo.omss
+omss.pojoProject= src/main/java
+omss.mapPackage= omss
+omss.mapProject= src/main/resources/mapper
+omss.daoPackage= com.example.springdemo.dao.omss
+omss.daoProject= src/main/java
+
+
+generatorConfig.xml  配置我这里是写死的没走generatorConfig.properties配置
 < ?xml version="1.0" encoding="UTF-8"?>
 < !DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 < generatorConfiguration>
-    // < properties resource="application.yml"/>  根据yml进行配置${spring.driver}
+    // < properties resource="generatorConfig.properties"/>  根据properties进行配置${omss.driver}
     < context id="test" targetRuntime="MyBatis3">
         < plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin">< /plugin>
         < plugin type="org.mybatis.generator.plugins.SerializablePlugin">< /plugin>
@@ -879,6 +903,15 @@ generatorConfig.xml  配置
                selectByExampleQueryId="false">< /table>
     < /context>
 < /generatorConfiguration>
+
+generator逆向工程出现**WithBLOBs解决办法
+原因：
+表中有text的字段， 当表中有Text类型的字段时，generator会生成WithBLOBS.java文件并继承entity，同时具有带有text等类型字段的属性
+解决办法：
+在generator.xml配置文件中加上
+< table ....
+    < columnOverride column="operation_info" javaType="java.lang.String" jdbcType="VARCHAR"/>
+< /table>
           </pre>
           <img src="../../img/crm/mybaits-generator.jpg" width="1000px" height="600px">
         </div>

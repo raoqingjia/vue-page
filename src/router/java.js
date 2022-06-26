@@ -146,5 +146,12 @@ const javaRouter = [    //JAVA 类
     created: "2022-04-25",
     component: resolve => require(['@/views/java/sqlSFAndST'], resolve)
   },
+  {
+    path: '/java/easyexcel',
+    name: 'SpringBoot中实现数据库导入导出Excel文件',
+    type: "java",
+    created: "2022-04-29",
+    component: resolve => require(['@/views/java/easyexcel'], resolve)
+  },
 ];
 export default javaRouter;
