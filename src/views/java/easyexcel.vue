@@ -24,6 +24,12 @@ package com.example.getexcel.entity;
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
 @Data
+@EqualsAndHashCode(callSuper = false)
+//一些表头基本配置
+@ContentStyle(horizontalAlignment= HorizontalAlignment.CENTER)
+@HeadStyle(horizontalAlignment= HorizontalAlignment.CENTER)
+@ContentFontStyle(fontHeightInPoints=12)
+@HeadFontStyle(fontHeightInPoints=12)
 public class House {
 
     @ColumnWidth(50)
@@ -33,13 +39,14 @@ public class House {
     @ExcelProperty(value ="电话" , index = 1)
     private String phone;
 
-    @ExcelProperty({"基本信息","地址"})
+    @ExcelProperty(index = 2, value = {"基本信息","地址"})
     private String location;
 
-    @ExcelProperty({"基本信息","设施"})
+    @ExcelProperty(index = 3, value = {"基本信息","年龄"})
+    private String age;
 
-    @ExcelProperty({"基本信息","规格"})
-    private String hao;
+    @ExcelProperty(index = 4, value = {"基本信息","性别"})
+    private String gender;
 }
 如果对象里面有些字段我们并不想导出到Excel中，只要使用@ExcelIgnore注解就可以了
 @ExcelProperty的index可以指定导出的列索引
@@ -82,6 +89,7 @@ public void systemOperationLogDownload(HttpServletResponse response){
 
 先书写listener监听器逻辑
 @Slf4j
+ // 分批次存储到数据库，然后清空列表，方便内存回收，在导入
 public class SystemOperationLogListener extends AnalysisEventListener< SystemOperationLog> {
 
     // 每隔500条存储数据库，实际使用中可以3000条，然后清理list ，方便内存回收
@@ -184,6 +192,18 @@ public String upLoadFile(@RequestParam("file") MultipartFile multipartFile)
 加上@RequestParam(“file”)注解，以及在postman中Header中设置key=Content-Type,value=multipart/form-data，再次运行，上传文件成功。
 这里说明下@RequestParam参数里面为什么用"file"，是因为postman中Body中key值为file</pre>
           <img src="../../img/java/easyexcel01.png" alt="postman模拟附件上传" height="300px" width=500px">
+          <pre>AnalysisEventListener
+@Override
+public void invoke(Dto dto, AnalysisContext context) {
+// 每一条数据都会循环，可以实现空数据，重复数据的检查
+// 在外层增加list，就可以实现数据临时的缓存
+}
+
+@Override
+public void doAfterAllAnalysed(AnalysisContext context) {
+// 通过变量list 也可以实现检查，并且能实现批量存储
+}</pre>
+
         </div>
       </div>
     </div>

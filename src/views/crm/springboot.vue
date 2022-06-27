@@ -265,7 +265,7 @@ eureka:
 创建客户端和服务端差不多，只是启动注解有点不一样，还有yml配置文件
 < dependency>
    < groupId>org.springframework.cloud< /groupId>
-   < artifactId>spring-cloud-starter-netflix-eureka-server< /artifactId>
+   < artifactId>spring-cloud-starter-netflix-eureka-client< /artifactId>
 < /dependency>
 怎么证明它是Client呢,在Spring-boot的启动类上通过注解@EnableEurekaClient 表明自己是一个eurekaclient
 配置文件yml
