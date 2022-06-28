@@ -161,10 +161,17 @@ const javaRouter = [    //JAVA 类
     component: resolve => require(['@/views/java/springFeign'], resolve)
   },
   {
+    path: '/java/springEureka',
+    name: 'Eureka服务注册',
+    type: "java",
+    created: "2022-05-09",
+    component: resolve => require(['@/views/java/springEureka'], resolve)
+  },
+  {
     path: '/java/springUnknown',
     name: 'spring-cloud-starter-netflix-eureka-client 版本显示unknown的问题',
     type: "java",
-    created: "2022-04-29",
+    created: "2022-05-21",
     component: resolve => require(['@/views/java/springUnknown'], resolve)
   },
 

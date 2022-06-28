@@ -27,18 +27,9 @@ Feign 是⼀个 HTTP 请求的轻量级客户端框架。通过 接口 + 注解�
     < groupId>org.springframework.cloud< /groupId>
     < artifactId>spring-cloud-starter-openfeign< /artifactId>
 < /dependency>
-< dependency>
-    < groupId>io.github.openfeign< /groupId>
-    < artifactId>feign-core< /artifactId>
-    < version>10.2.3< /version>
-< /dependency>
-< dependency>
-    < groupId>org.springframework.cloud< /groupId>
-    < artifactId>spring-cloud-openfeign-core< /artifactId>
-    < version>2.2.6.RELEASE< /version>
-< /dependency>
 
-
+https://blog.csdn.net/ronshi/article/details/124036646?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~aggregatepage~first_rank_ecpm_v1~rank_v31_ecpm-4-124036646-null-null.pc_agg_new_rank&utm_term=boot+spring+%E9%9B%86%E6%88%90feign&spm=1000.2123.3001.4430
+ https://www.jianshu.com/p/59295c91dde7
           </pre>
         </div>
       </div>

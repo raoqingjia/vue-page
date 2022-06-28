@@ -268,7 +268,8 @@ eureka:
    < artifactId>spring-cloud-starter-netflix-eureka-client< /artifactId>
 < /dependency>
 怎么证明它是Client呢,在Spring-boot的启动类上通过注解@EnableEurekaClient 表明自己是一个eurekaclient
-配置文件yml
+
+配置文件application-one.yml
 server:
   port: 8082  #服务端口号 多个实例端口号不一致
 spring:
@@ -276,15 +277,16 @@ spring:
     name: service-provider #服务名称--调用的时候根据名称来调用该服务的方法
  eureka:
   instance:
-    instance-id: spring-cloud-front1    # id一定要与 application-two.yml 中id不同，不然2个实例会被覆盖
+    instance-id:  127.0.0.1:8082    # 本地程序运行ip端口
     appname: ${spring.application.name}
   client:
-    serviceUrl: #注册中心的注册地址
-      defaultZone: http://127.0.0.1:8081/eureka/
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8081/eureka/   # 注册中心的注册地址
 
 Eureka-Client多个实例
 每个微服务都是一个Eureka-Client，我们把每个app（SpringBootApplication）都向注册中心注册一个服务。
-有时候，某个服务的工作量比较大的时候，我们可以多注册几个同名称的微服务，从而让他们交替工作，减轻单个服务的压力</pre>
+有时候，某个服务的工作量比较大的时候，我们可以多注册几个同名称的微服务，从而让他们交替工作，减轻单个服务的压力
+https://blog.csdn.net/qq_36381800/article/details/119536562 </pre>
           <h3>在项目中配置多套环境的配置方法</h3>
           <pre>
 因为现在一个项目有好多环境，开发环境，测试环境，准生产环境，生产环境，每个环境的参数不同，所以我们就可以把每个环境的参数配置到yml文件中，这样在想用哪个环境的时候只需要在主配置文件中将用的配置文件写上就行如application.yml

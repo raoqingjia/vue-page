@@ -11,7 +11,7 @@
           <pre>
 Springcloud：spring-cloud-starter-netflix-eureka-client 版本显示unknown的问题
 
-pom文件里加上下面的代码就行
+pom文件里加上下面的代码就行，固定springcloud组件的版本
  < dependencyManagement>
     < dependencies>
         < dependency>
