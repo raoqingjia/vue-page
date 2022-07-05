@@ -161,7 +161,27 @@ eureka:
     #Eureka客户端向服务端发送心跳的时间间隔，单位为秒（默认是30秒）
     lease-renewal-interval-in-seconds: 1
     #Eurekaf服务端在收到最后一次心跳后等待时间上限，单位为秒（默认是90秒），超时将剔除服务
-    lease-expiration-duration-in-seconds: 2</pre>
+    lease-expiration-duration-in-seconds: 2
+
+
+          </pre>
+          <h3>euraka Status是什么意思</h3>
+          <img src="../../img/java/eureka02.png" width="auto">
+          <pre>
+192.166.130.152：8800    为docker容器内部网络IP地址。
+10.248.50.225：8800      为服务器主机IP地址，使我们真正需要的地址，feign中的url用的IP地址
+abs-bpm-admin-74bd48c688-lh5h4:abs-bpm-admin:8771  为服务器名，即HostName。
+instanceId: ${server.ip}:${server.port}  # 当前微服务外网的ip地址，为服务器IP地址的占位符表示方式，用于传递给docker容器
+
+eureka:
+  instance:
+    instance-id: provider-8001  #这个是修改Eureka界面的Status名称
+    prefer-ip-address: true    #这个是设置鼠标放在status上的时候，出现的提示，设置ip地址显示
+  client: #客户端注册进eureka服务列表内
+    register-with-eureka: false    #false表示不向注册中心注册自己。
+    fetch-registry: false           #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    service-url:
+      defaultZone: http://localhost:7001/eureka  #设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址</pre>
         </div>
       </div>
     </div>
