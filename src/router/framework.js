@@ -115,5 +115,14 @@ const frameworkRouter = [ // 前端框架
     type: "framework",
     created: "2021-12-23",
     component: resolve => require(['@/views/framework/vuekeepalive'], resolve)
-  }];
+  },
+  {
+    path: '/framework/vueUseAndNewVue',
+    name: 'vue.use()与new Vue({})的区别',
+    type: "framework",
+    created: "2021-12-23",
+    component: resolve => require(['@/views/framework/vueUseAndNewVue'], resolve)
+  }
+
+];
 export default frameworkRouter;

@@ -369,6 +369,13 @@ const jsRouter = [//js案例
     type: "js",
     created: "2022-05-16",
     component: resolve => require(['@/views/js/ieRefererLoss'], resolve)
+  },
+  {
+    path: '/js/jsSleep',
+    name: 'Js中使程序暂时中断睡眠的sleep方法',
+    type: "js",
+    created: "2022-06-22",
+    component: resolve => require(['@/views/js/jsSleep'], resolve)
   }
   ];
 export default jsRouter;

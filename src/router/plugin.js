@@ -98,6 +98,13 @@ const pluginRouter = [
     type: "plugin",
     created: "2021-09-02",
     component: resolve => require(['@/views/plugin/eslint'], resolve)
+  },
+  {
+    path: '/plugin/vueI18n',
+    name: 'vue项目利用vue-i18n实现国际化',
+    type: "plugin",
+    created: "2021-09-02",
+    component: resolve => require(['@/views/plugin/vueI18n'], resolve)
   }
 ];
 export default pluginRouter;
