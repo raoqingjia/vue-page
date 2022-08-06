@@ -30,7 +30,7 @@ git push -f origin master     -f表示将目前自己本机的代码库推送到
 git update-index --assume-unchanged  include/db.php   忽略文件，include/db.php是文件名，忽略的文件不能在.gitignore
 git update-index --no-assume-unchanged  include/db.php    恢复跟踪
 
-5.Git只merge一个commit的方法
+5. Git只merge一个commit的方法
 一个分支的所有代码变动，那么就采用合并（git merge）。另一种情况是，你只需要部分代码变动（某几个提交），这时可以采用git cherry-pick
 git cherry-pick < commitHash>       将指定的提交commitHash合并到当前分支
 git cherry-pick sit                 将sit分支的最近一次提交，转移到当前分支
@@ -40,7 +40,13 @@ git push -f  origin master    加了参数-u后，以后即可直接用git push 
 在git分支-M main中-M是什么意思？
 -M是git branch上的docs页上--move --force的标志（快捷方式）。因此，它移动/重命名名为main的分支（因为使用命令行创建的存储库的默认分支名称是master，而在GitHub中创建的那些（从2020年10月开始）具有默认名称main）并强制它（即使新的分支名称已经存在，也允许重命名分支）
 'git push -u origin master'中'-u'的含义是什么？
--u标志为您推送的上游服务器添加引用。这可以让你git pull不提供额外的参数，即一旦你输入git push -u origin master，你就可以简单地键入git pull，这个命令将明白你将来的意思是git pull origin master。          </pre>
+-u标志为您推送的上游服务器添加引用。这可以让你git pull不提供额外的参数，即一旦你输入git push -u origin master，你就可以简单地键入git pull，这个命令将明白你将来的意思是git pull origin master。
+
+6.Git安装
+在 Mac 本子上执行如下命令：
+git --version
+如果本子上已经安装了 git 工具，会输出类似下面的版本信息：
+git version 2.24.3 (Apple Git-128)</pre>
           <h3>GIt设置全局变量</h3>
           <pre>
 git config --list       可以查看配置的一些东西
