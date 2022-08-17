@@ -217,13 +217,6 @@ const jsRouter = [//js案例
     component: resolve => require(['@/views/js/createObjectURL'], resolve)
   },
   {
-    path: '/js/blobTurnFileTurnBase64',
-    name: 'blob 转 base64，base64 转 blob，blob转化为file，base64转为file，url 转 base64',
-    type: "js",
-    created: "2019-12-03",
-    component: resolve => require(['@/views/js/blobTurnFileTurnBase64'], resolve)
-  },
-  {
     path: '/js/blobType',
     name: 'Blob类型',
     type: "js",
@@ -231,11 +224,25 @@ const jsRouter = [//js案例
     component: resolve => require(['@/views/js/blobType'], resolve)
   },
   {
+    path: '/js/blobTurnFileTurnBase64',
+    name: 'blob 转 base64，base64 转 blob，blob转化为file，base64转为file，url 转 base64',
+    type: "js",
+    created: "2019-12-03",
+    component: resolve => require(['@/views/js/blobTurnFileTurnBase64'], resolve)
+  },
+  {
     path: '/js/JsBase64',
     name: 'Base64编码解码',
     type: "js",
-    created: "2019-12-03",
+    created: "2019-12-10",
     component: resolve => require(['@/views/js/JsBase64'], resolve)
+  },
+  {
+    path: '/js/blob2json',
+    name: 'blob格式转json',
+    type: "js",
+    created: "2019-12-15",
+    component: resolve => require(['@/views/js/blob2json'], resolve)
   },
   {
     path: '/js/blobURL',
