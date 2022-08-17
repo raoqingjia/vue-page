@@ -105,6 +105,13 @@ const pluginRouter = [
     type: "plugin",
     created: "2021-09-02",
     component: resolve => require(['@/views/plugin/vueI18n'], resolve)
+  },
+  {
+    path: '/plugin/liveServer',
+    name: 'live-server使用指南',
+    type: "plugin",
+    created: "2022-01-14",
+    component: resolve => require(['@/views/plugin/liveServer'], resolve)
   }
 ];
 export default pluginRouter;

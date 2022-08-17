@@ -204,7 +204,6 @@ git pull
     mounted:function(){
       this.$nextTick(function(){
         this.createCatalogue();
-
       })
     },
     computed:{},
