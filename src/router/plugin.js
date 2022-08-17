@@ -105,6 +105,13 @@ const pluginRouter = [
     type: "plugin",
     created: "2021-09-02",
     component: resolve => require(['@/views/plugin/vueI18n'], resolve)
+  },
+  {
+    path: '/plugin/html2canvas ',
+    name: 'html2canvas ',
+    type: "plugin",
+    created: "2022-08-14",
+    component: resolve => require(['@/views/plugin/html2canvas '], resolve)
   }
 ];
 export default pluginRouter;
