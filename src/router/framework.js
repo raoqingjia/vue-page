@@ -122,6 +122,13 @@ const frameworkRouter = [ // 前端框架
     type: "framework",
     created: "2021-12-23",
     component: resolve => require(['@/views/framework/vueUseAndNewVue'], resolve)
+  },
+  {
+    path: '/framework/reactComTemp',
+    name: '通过webstorm快速创建react组件模板',
+    type: "framework",
+    created: "2022-04-12",
+    component: resolve => require(['@/views/framework/reactComTemp'], resolve)
   }
 
 ];

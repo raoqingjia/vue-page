@@ -224,5 +224,12 @@ const otherRouter = [{
     created: "2022-05-23",
     component: resolve => require(['@/views/other/getCacheForIE'], resolve)
   },
+  {
+    path: '/other/finishAndDOMContentLoaded',
+    name: '浏览器中 DOMContentLoaded 和 Load 和 Finish 代表着什么？',
+    type: "other",
+    created: "2022-08-20",
+    component: resolve => require(['@/views/other/finishAndDOMContentLoaded'], resolve)
+  },
 ];
 export default otherRouter;

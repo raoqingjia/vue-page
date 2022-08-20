@@ -111,7 +111,7 @@ const pluginRouter = [
     name: 'html2canvas ',
     type: "plugin",
     created: "2022-08-14",
-    component: resolve => require(['@/views/plugin/html2canvas '], resolve)
+    component: resolve => require(['@/views/plugin/html2canvas'], resolve)
   }
 ];
 export default pluginRouter;
