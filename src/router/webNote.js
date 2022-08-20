@@ -45,6 +45,15 @@ const webNoteRouter = [  //工作笔记
     component: resolve => require(['@/views/web/vue3.0'], resolve)
   },
   {
+    path: '/note/react',
+    name: "React",
+    type: "web",
+    img: require("../img/react-icon.png"),
+    description: "React使用简介...",
+    created: "持续更新 最后版本 2022-05-26",
+    component: resolve => require(['@/views/web/react'], resolve)
+  },
+  {
     path: '/note/git',
     name: "Git",
     type: "web",
