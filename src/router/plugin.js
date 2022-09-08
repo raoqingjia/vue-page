@@ -119,6 +119,13 @@ const pluginRouter = [
     type: "plugin",
     created: "2022-08-14",
     component: resolve => require(['@/views/plugin/html2canvas'], resolve)
+  },
+  {
+    path: '/plugin/html2canvas ',
+    name: '免费的谷歌翻译api google-translate-open-api',
+    type: "plugin",
+    created: "2022-09-07",
+    component: resolve => require(['@/views/plugin/googleTranslateApi'], resolve)
   }
 ];
 export default pluginRouter;
