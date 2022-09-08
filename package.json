@@ -21,7 +21,7 @@
     "full-icu": "^1.2.1",
     "imagemin-webpack-plugin": "^2.4.2",
     "jquery": "^3.3.1",
-    "jszip": "^3.1.5",
+    "jszip": "^3.7.0",
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.22.1",
     "node-sass": "^7.0.1",
