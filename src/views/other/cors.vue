@@ -54,7 +54,15 @@ response.setHeader("Access-Control-Allow-Credentials", "true");
 
 如果是spring boot的项目就更简单了，controller层的接口上加个  @CrossOrigin(origins = "*", maxAge = 3600) 就行了
 
-3）ajax的jsonp跨域请求，不过现在都是用angular，react和vue了，不做解释</pre>
+3）ajax的jsonp跨域请求，不过现在都是用angular，react和vue了，不做解释
+
+4）npm install fetch-jsonp -S
+import fetchJSONP from 'fetch-jsonp'
+fetchJSONP("https://example.com/api/test")
+.then(response => response.json())
+.then( data => {
+	console.log(data)
+})</pre>
         </div>
       </div>
     </div>

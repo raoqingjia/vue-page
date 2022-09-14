@@ -121,11 +121,18 @@ const pluginRouter = [
     component: resolve => require(['@/views/plugin/html2canvas'], resolve)
   },
   {
-    path: '/plugin/html2canvas ',
+    path: '/plugin/googleTranslateApi ',
     name: '免费的谷歌翻译api google-translate-open-api',
     type: "plugin",
     created: "2022-09-07",
     component: resolve => require(['@/views/plugin/googleTranslateApi'], resolve)
+  },
+  {
+    path: '/plugin/fetchJsonp ',
+    name: 'fetch-jsonp 实现跨域',
+    type: "plugin",
+    created: "2022-09-14",
+    component: resolve => require(['@/views/plugin/fetchJsonp'], resolve)
   }
 ];
 export default pluginRouter;
