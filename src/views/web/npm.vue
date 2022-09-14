@@ -18,7 +18,19 @@ nvm list 查看本机node版本
 nvm use 使用指定版本
 nvm install  安装指定版本
 nvm uninstall  卸载指定版本
-nvm version 显示当前nvm 版本，别名 v</pre>
+nvm version 显示当前nvm 版本，别名 v
+window安装nvm  https://github.com/coreybutler/nvm-windows/releases 直接下载nvm-setup.exe安装就行
+mac安装nvm
+1、 进入家目录 cd ~
+2、使用git安装 git clone https://github.com/nvm-sh/nvm.git
+3、进入nvm目录 cd nvm
+4、执行编译文件 ./install.sh
+5、在家目录编辑 .bash_profile ，默认不存在，可以使用命令 vim ~/.bash_profile
+6、在文件内写入
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+7、最后执行命令 source ~/.bash_profile</pre>
           <h3>
             2、npm参数配置
           </h3>
