@@ -74,56 +74,183 @@ export default {
   	console.log(props);
   }
 }</pre>
-          <h3>什么是reactive</h3>
-          <pre>
-reactive是vue3中提供的实现响应式数据（“响应式”，是指当数据改变后，Vue 会通知到使用该数据的代码。例如，视图渲染中使用了数据，数据改变后，视图也会自动更新。）的方法
-vue2中的响应式数据是通过defineProperty来实现的,而vue3中响应式数据是通过ES6的Proxy来实现的（本质就是将传入的数据包装成一个Proxy对象）
+          <h3>ref与reactive的用法与区别</h3>
+          <pre>什么是reactive
+Vue3.0中还为我们提供了一个对象式响应的reactive函数 。
+Reactive函数创建一个响应式对象。其实，在我看来，reactive函数 就是VUE3.0为我们提供的替代VUE2.0中data的一个函数，因此，在这里，我不建议将方法也写到reactive函数中。reactive函数 中只写数据即可。
 
-reactive的注意点
-reactive参数必须是对象（object.array）,如果给reactive传递了其他对象（例如new Date()日期对象）默认情况下修改对象界面不会自动更新，如果想更新可以通过重新赋值的方式,（即不允许直接操作数据，需要放个新的数据来替代原数据）</pre>
-          <h3>什么是ref </h3>
-          <pre>
-由于 reactive 必须传递一个对象，如果我们只想让某个变量实现响应式的时候会非常麻烦，而ref就能实现对简单值的监听,也就是说ref函数只能监听简单类型的变化，不能监听复杂类型的变化（对象和数组），reactive可以监听数组和对象的
+Vue2.x vs Vue3.x
+Vue2中响应式是通过defineProperty实现的
+Vue3中响应式是通过ES6的Proxy实现的
+Vue3中实现响应式数据的方法是ref和reactive
 
-ref的本质
-ref的底层本质还是reactive，系统会自动根据我们给ref传入的值将它转换成ref(xx) -> reactive({value:xx});
-ref的注意点
-html中使用ref的值不用通过value获取，在js中使用ref的值必须通过value获取
+特点
+reactive的参数一般是对象或者数组,他能够将复杂数据类型变为响应式数据。
+reactive的响应式是深层次的，底层本质是将传入的数据转换为Proxy对象
+使用方法
+< div>
+   < h2>{ { data.name}}< /h2>
+   < p>{ { data.age}}< /p>
+< /div>
+import { reactive } from 'vue'
+export default {
+  name: 'App',
+  setup () {
+    const data  = reactive({
+      name: 'frank',
+      age: 18
+    })
+    const handleChange = () => {
+      data.name = 'mike';
+      data.age = 20;
+    }
+    return { data , handleChange }
+  }
+}
+主要有这几个区别：
+1：在js中调用需要使用data.属性来赋值使用。
+2：在VUE模板语法中，也需要使用data.属性来赋值使用。
 
-ref和reactive的区别
-再template中使用ref类型数据Vue会自动添加.value，但是reactive数据类型Vue不会自动添加.value
-Vue是通过当前数据是否存在__V_ref节点来判断的，如果有这个私有属性并且取值为true那么就代表是一个ref类型
-Vue3中提供了import {isRef，isReactive} from 'vue' 的方式来判断当前类型是是否为ref和reactive</pre>
+引申提前说一下toRefs函数
+模板语法中需要使用data.属性来调用属性显示，相对来说就比较麻烦。
+其实我们可以使用ES6中的扩展运算符来对其进行解构处理，但是，这样吧解构之后，便不再具有响应式的属性，这个不行。
+VUE3.0为我们提供了toRefs函数可以解决这个问题。
+import {ref,reactive,toRefs} from "vue";
+< template>
+  < h1>{ { msg }}< /h1>
+  < button @click="count++">count is: { { count }}< /button>
+  < button @click="clickMe()">点我弹窗< /button>
+< /template>
+< script lang='ts'>
+import {
+  ref,
+  reactive,
+  toRefs
+} from "vue";
+export default {
+  name: 'HelloWorld',
+  props: {
+    msg: String
+  },
+  // 使用setup 代替 data
+  // 因为我这里使用的是typescript，因此需要给参数指定类型
+  setup(props:any,context:any){
+    // ref 定义响应式数据
+    // let count = ref(0);
+
+    // reactive 创建响应式对象
+    let data = reactive({
+      // 定义响应式数据
+      count:0,
+    });
+
+    const clickMe = () => {
+      // 使用ref关键字绑定的变量，赋值 的时候必须使用.value
+      // count.value++;
+      // 调用reactive 定义对象的参数的时候需要使用对象.来调用
+      data.count++;
+    }
+    // 使用toRefs函数对data对象进行包装，确保使用扩展运算符进行解构之后，仍具有响应式
+    let param = toRefs(data);
+    return {
+      // data,
+      ...param,
+      clickMe
+    }
+  },
+}
+< /script>
+
+Proxy vs defineProperty
+reactive方法内部是利用ES6的Proxy API来实现的，这里与Vue2中的defineProperty方法有本质的区别。
+defineProperty只能单一地监听已有属性的修改或者变化，无法检测到对象属性的新增或删除，而Proxy可以轻松实现
+defineProperty无法监听属性值是数组类型的变化，而Proxy可以轻松实现
+
+ref
+特点
+ref的参数一般是基本数据类型，也可以是对象类型
+如果参数是对象类型，其实底层的本质还是reactive，系统会自动将ref转换为reactive，例如
+ref(1) ===> reactive({value:1})
+在模板中访问ref中的数据，系统会自动帮我们添加.value,在JS中访问ref中的数据，需要手动添加.value
+ref的底层原理同reactive一样，都是Proxy
+
+使用方法
+< template>
+	< h1>{ { name }}< /h1>
+	< h1>{ { age }}< /h1>
+< /template>
+< script>
+import { ref} from 'vue'
+export default {
+  name: 'App',
+  setup () {
+    const name = ref('frank')
+    const age = ref(18)
+    const handleChange = () => {
+      name.value = 'mike'
+      age.value = 20
+    }
+    return { name, age, handleChange }
+  }
+}
+< /script>
+
+reactive vs ref
+reactive参数一般接受对象或数组，是深层次的响应式。ref参数一般接收简单数据类型，若ref接收对象为参数，本质上会转变为reactive方法
+在JS中访问ref的值需要手动添加.value，访问reactive不需要
+响应式的底层原理都是Proxy</pre>
           <h3>shallowRef、shallowReactive 递归监听</h3>
-          <pre>
-默认情况下，Vue3 中的 ref 和 reactive 都是递归监听的，即能实时监听对象的底层变化。只要我们对 ref 和 reactive 中的内容进行更改，在默认情况下，只要更改的对象不是类似 new Date() 的类型，都是能察觉到并且进行双向数据绑定的。在默认情况下，递归监听肯定是好的，它让数据的变化能被实时监测到。然而它也带来了性能消耗的问题。
+          <pre>其实这两个函数并不是很常用，在开发过程中基本上用不到，‘这里笔记可以跳过’。
+无论 ref 函数还是 reactive 函数都是深度监听。
+如果数据量过大，超级超级消耗性能。
+如果我们不需要对数据进行深度监听的时候，就可以使用 shallowRef 函数和 shallowReactive 函数。
 
-非递归监听
-Vue3 提供了 import  {shallowRef ,shallowReactive}  from 'vue' 方案，以防止进行递归式的监听。
-shallowRef 中的最外层是 value ，所以我们只能改变整个 value 值来提醒变化，shallowRef的本质是监听.value的值
+非深度监听
 shallowReactive 是监听第一层数据是否发生变化，如果发生变化则从新渲染整个界面，如果是第二层数据发生变化则不渲染界面
-我们还可以通过triggerRef()手动去触发 ref 的变化监听事件来实现界面的改变，但是确没有triggerReactive这种方法，当ref的底层数据发生变化，可通过triggerRef()令整个界面变化</pre>
-          <h3>toRaw、markRaw 是否更新UI界面</h3>
-          <pre>
-ref/reactiv数据类型的特点
-每次修改都会被追踪，都会更新UI界面，但是这样其实是非常消耗性能的，所以如果我们有一些操作
-不需要更新UI界面，那么这个时候我们就可以通过toRaw方法拿到它的原始数据，对原始数据进行修改，这样就不会更新UI界面了，提高了页面性能
+shallowRef 中的最外层是 value ，所以我们只能改变整个 value 值来提醒变化，shallowRef的本质是监听.value的值
 
-reactive的toRaw没什么可注意的，直接toRaw(对应变量名)就
-但是ref 的 toRaw需要注意：如果想通过toRaw拿到ref类型的原始数据（创建时传入的那个数据）那么就必须明确告诉toRaw方法，要获取的是.value的值，
-因为必须经过Vue处理之后.value中保存的才是当初创建是传入的那个原始数据  let raw = toRaw(msg.value);
+代码示例说明一下 shallowReactive
+假设我们页面有一个个人信息展示，有名字、有年龄需要展示，我们数据是存在 boy 对象里面，然后 age 是在 boy 对象的 news 属性下面，也就是深层，但是 name 是在 boy 对象下面，也就是第一层，我们有两个按钮，分别修改 name 和 age，看一下会有什么效果。
+template>
+  < div>
+    < h1>姓名：{ {name}}< /h1>
+    < h1>年龄：{ {news.age}}< /h1>
+    < button @click="btn">修改name< /button>
+    < button @click="btn2">修改age< /button>
+  < /div>
+< /template>
+< script>
+import { shallowReactive, toRefs } from "vue";
+export default {
+  name: "App",
+  setup() {
+    const boy = shallowReactive({
+      name: "我是𝒆𝒅.",
+      news: {
+        birthday: "2012-10-14",
+        age: 10
+      }
+    });
+    const btn = () => {
+      boy.name = "𝒆𝒅.";
+    };
+    const btn2 = () => {
+      boy.news.age++;
+    };
+    return { ...toRefs(boy), btn, btn2 };
+  }
+};
+< /script>
+点击btn页面发生变化，点击btn2页面不变化
+shallowReactive 是监听第一层数据是否发生变化，如果是第二层数据发生变化则不渲染界面
 
-markRaw：有的时候，我们希望某些数据是无法被改变的。markRaw显式标记一个 对象 （不能是简单类型） 为“永远不会转为响应式代理”，函数返回这个对象本身。
-const foo = markRaw({})
-console.log(isReactive(reactive(foo))) // false
-如果被 markRaw 标记了，即使在响应式对象中作属性，也依然不是响应式的</pre>
+我们还可以通过triggerRef()手动去触发 ref 的变化监听事件来实现界面的改变，但是确没有triggerReactive这种方法，当ref的底层数据发生变化，可通过triggerRef()令整个界面变化
+shallowRef 和 triggerRef() 不单独细讲了上网搜吧，工作中几乎用不着</pre>
           <h3>customRef 用于自定义 ref</h3>
-          <pre>
+          <pre> 了解就行，工作中用处不大
 有的 ref 可以与视图层实现双向数据绑定，而有的则不能。假如我们需要自定义一个 ref ，当这个 ref 监听的数据变化时，执行我们自己定义的方法，就像是 watchfEffect 一样去检测一个数据，则可以使用 customRef
-
 #示例
 import { customRef } from 'vue';
-
 function myRef(value) {
     // customer 需要提供一个函数作为参数该函数默认带参数 track 和 trigger ，都是方法。
     return customRef((track, trigger) => {
@@ -143,7 +270,6 @@ function myRef(value) {
       }
     })
 }
-
 export default {
   name: 'App',
   setup() {
@@ -153,20 +279,100 @@ export default {
       obj
     };
   }
-}
-          </pre>
+}</pre>
           <h3>toRef 、toRefs 地址指向问题</h3>
-          <pre>
-let obj = { name：'liming' , age:'12'};
-let state = ref(obj.name);     ref->复制
-let flag = toRef(obj,'name');   toRef-> 引用
+          <pre>正常写法
+< template>
+    < div>
+        < h2> 人的信息< /h2>
+        < p>姓名 { {person.name}}< /p>
+        < p>年龄 { {person.age}}< /p>
+        < p>性别 { {person.sex}}< /p>
+        < p>工作详情  内容{ {person.job.position}} 薪资{ {person.job.salary}}< /p>
+    < /div>
+< /template>
+script>
+export default {
+  setup() {
+    let person = reactive({
+      name:'张三',
+      age:18,
+      sex:'男',
+      job:{
+        position:'UI开发',
+        salary:'20K'
+      }
+    })
+    return {
+      person,
+    }
+  },
+};
+< /script>
+运用toRef的写法
+< template>
+  < div>
+      < h2> 人的信息< /h2>
+      < p>姓名 { {name}}< /p>
+      < p>年龄 { {age}}< /p>
+      < p>性别 { {sex}}< /p>
+      < p>工作详情  内容{ {position}} 薪资{ {salary}}< /p>
+  < /div>
+< /template>
+< script>
+import { reactive,toRef} from 'vue';
+export default {
+  setup() {
+    let person = reactive({
+      name:'张三',
+      age:18,
+      sex:'男',
+      job:{
+        name:'UI开发',
+        salary:'20K'
+      }
+    })
+    return {
+      name:toRef(person,'name'),
+      age:toRef(person,'age'),
+      sex:toRef(person,'sex'),
+      position:toRef(person.job,'position'),
+      salary:toRef(person.job,'salary'),
+    }
+  },
+};
+< /script>
 
-ref和toRef区别
-ref创建出来的数据和以前无关(复制关系)，我们修改当ref响应式数据变量不会影响到原数据，界面会更新
-toRef创建出来的数据和以前的有关(引用关系)，我们修改当toRef响应式数据变量会影响到原数据，界面不会更新，这里是有前提的toRefs引用的是普通对象，如果是reactive对象就是另一种效果了，;
-toRefs 用于将响应式对象转换为结果对象，其中结果对象的每个属性都是指向原始对象相应属性的ref，toRefs()函数可以将reactive()创建出来的响应式对象，转换为普通对象，只不过这个对象上的每个属性节点，都是ref()类型的响应式数据，当数据发生改变，界面会更新，解释一些这里有点绕，上面说了toRefs是引用，当数据改变会影响到原数据，但是原数据是reactive类型的，reactive类型的数据改变了，界面不也就更新了吗，
-toRefs
-为了将多个数据都设置监听，或者对整个对象的所有数据发起监听</pre>
+运用toRefs的写法
+< template>
+  < div>
+      < h2> 人的信息< /h2>
+      < p>姓名 { {name}}< /p>
+      < p>年龄 { {age}}< /p>
+      < p>性别 { {sex}}< /p>
+      < p>工作{ {job.position}} 薪资{ {job.salary}}< /p>
+  < /div>
+< /template>
+< script>
+import { reactive,toRefs } from 'vue';
+export default {
+  setup() {
+    let person = reactive({
+      name:'张三',
+      age:18,
+      sex:'男',
+      job:{
+        position:'UI开发',
+        salary:'20K'
+      }
+    })
+    return {
+      ...toRefs(person)
+    }
+  },
+};
+< /script>
+总结:toRef是智能一个转换，toRefs是全部转换。类似于前端的深拷贝和浅拷贝。toRefs拷贝出来的是一个对象，所以要用解构语法解构他。并且toRefs拷贝出来的外面那一层，遇到复杂的还要慢慢找到他这个变量</pre>
           <h3>父组件与子组件之间的数据传递</h3>
           <pre>
 1、父组件向子组件传输数据方式一
@@ -393,7 +599,6 @@ app.use(store).use(router).use(Antd).mount('#app')
   }< /script>
 </pre>
         </div>
-
       </div>
     </div>
   </div>
@@ -402,25 +607,25 @@ app.use(store).use(router).use(Antd).mount('#app')
 <script>
   export default {
     name: 'vue',
-    data () {
+    data() {
       return {
         created: this.$route.query.created,
         title: this.$route.query.name,
-        catalogue:[]
+        catalogue: []
       }
     },
-    created(){
+    created() {
 
     },
-    mounted:function(){
-      this.$nextTick(function(){
-          this.createCatalogue();
+    mounted: function () {
+      this.$nextTick(function () {
+        this.createCatalogue();
 
-     })
+      })
     },
-    computed:{},
+    computed: {},
     methods: {
-      jump (index) {
+      jump(index) {
 //        let jump = document.getElementsByTagName('h3');
 //       // 获取需要滚动的距离
 //        let total = jump[index].offsetTop;
@@ -444,8 +649,8 @@ app.use(store).use(router).use(Antd).mount('#app')
           smoothUp()
         }
 
-        function smoothDown () {
-          if (total>distance ) {
+        function smoothDown() {
+          if (total > distance) {
             distance += step;
             document.body.scrollTop = distance;
             document.documentElement.scrollTop = distance;
@@ -455,8 +660,9 @@ app.use(store).use(router).use(Antd).mount('#app')
             document.documentElement.scrollTop = total
           }
         }
-        function smoothUp () {
-          if ( total<distance) {
+
+        function smoothUp() {
+          if (total < distance) {
             distance -= step;
             document.body.scrollTop = distance;
             document.documentElement.scrollTop = distance;
@@ -468,14 +674,14 @@ app.use(store).use(router).use(Antd).mount('#app')
         }
       },
       //创建目录函数
-      createCatalogue(){
+      createCatalogue() {
         let object = document.getElementsByTagName('h3');
-        var flag=[];
-        for(var i=0;i<object.length;i++){
-          var o={name:object[i].innerHTML};
+        var flag = [];
+        for (var i = 0; i < object.length; i++) {
+          var o = {name: object[i].innerHTML};
           flag.push(o)
         }
-       this.catalogue=flag;
+        this.catalogue = flag;
       }
     }
   }

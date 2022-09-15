@@ -129,6 +129,20 @@ const frameworkRouter = [ // 前端框架
     type: "framework",
     created: "2022-04-12",
     component: resolve => require(['@/views/framework/reactComTemp'], resolve)
+  },
+  {
+    path: '/framework/angularInnerHTML',
+    name: 'Angular中innerHTML标签的样式不起作用的原因解析  ',
+    type: "framework",
+    created: "2022-05-06",
+    component: resolve => require(['@/views/framework/angularInnerHTML'], resolve)
+  },
+  {
+    path: '/framework/vueImgUseSrc',
+    name: 'vue img使用动态:src',
+    type: "framework",
+    created: "2022-09-14",
+    component: resolve => require(['@/views/framework/vueImgUseSrc'], resolve)
   }
 
 ];

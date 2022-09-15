@@ -95,7 +95,7 @@
             console.log(res);
             this.resultData.explains = res.explains;
             this.resultData.translation = res.translation;
-            this.resultData.webdict = res.webdict.url;
+            this.resultData.webdict = 'https' + data.webdict.url.split("http")[1];
             this.resultData.speakUrl = res.speakUrl;
             this.resultData.tSpeakUrl = res.tSpeakUrl;
           }).catch((err) => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="base inner">
+  <div class="base">
       <div class="content">
 <!--          <h2>案例记录</h2>-->
 <!--          <ul class="clearfix">-->

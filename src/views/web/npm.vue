@@ -7,11 +7,37 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <h3>
-            1、npm 安装及版本
-          </h3>
+          <h3>node和npm的关联</h3>
+          <pre>我们安装了node之后可以发现：node -v 或者npm -v可以查看到node和npm的两个版本，这是为什么呢？二者又有什么关系
+一、npm是什么
+当一个网站依赖的js代码越来越多，程序员发现这是一件很麻烦的事情：
+去 jQuery 官网下载 jQuery
+去 BootStrap 官网下载 BootStrap
+……
+有些程序员就受不鸟了，于是npm就出来了，全称是 Node Package Manager 包管理工具。
+这一点和maven、gradle十分相似，只不过maven、gradle是用来管理java jar包的，而npm是用来管理js的。
+
+NPM 的实现思路和maven、gradle是一样的：
+1、有一个远程代码仓库（registry），在里面存放所有需要被共享的js代码，每个js文件都有自己唯一标识。
+2、用户想使用某个js的时候，只需引用对应的标识，js文件会自动下载下来。
+
+二、Node.js是什么
+Node.js是一个Javascript运行环境(runtime environment)，不是一个js文件，实质是对Chrome V8引擎进行了封装。Node.js 是一个让 JavaScript 运行在服务端的开发平台，它让 JavaScript 成为与PHP、Python 等服务端语言平起平坐的脚本语言。
+[1]Node.js提供替代的API，使得V8在非浏览器环境下运行得更好。V8引擎执行Javascript的速度非常快，性能非常好。
+[2]Node.js是一个基于Chrome JavaScript运行时建立的平台， 用于方便地搭建响应速度快、易于扩展的网络应用。
+chrome浏览器和Node.js在解析javascript都使用了v8引擎：
+
+三、npm和Node.js的发展
+npm作者已经将npm开发完成，于是发邮件通知 jQuery、Bootstrap、Underscore 作者，希望他们把 jquery、bootstrap 、 underscore 放到npm远程仓库，但是没有收到回应，于是npm的发展遇到了瓶颈。
+Node.js作者也将Node.js开发完成，但是 Node.js 缺少一个包管理器，于是他和 npm 的作者一拍即合、抱团取暖，最终 Node.js 内置了 npm。
+后来的事情大家都知道，Node.js 火了。随着 Node.js 的火爆，大家开始用 npm 来共享 JS 代码了，于是 jQuery 作者也将 jQuery 发布到 npm 了。所以现在，你可以使用 npm install jquery 来下载 jQuery 代码。现在用 npm 来分享代码已经成了前端的标配。
+
+四、node.js和npm的安装
+node.js的安装这里就不再多说了。npm由于内置在node.js中，所以就一并安装了。有时候我们只想单独安装npm，不想安装node.js，这是不行的</pre>
+          <h3>npm 安装及nvm版本管理</h3>
 <pre>npm install --registry=https://registry.npm.taobao.org
 在v12.16.2以上版本就不在支持window7系统。
+
 安装 nvm 管理多个node环境
 nvm ls-remote  查看有哪些 node 版本
 nvm list 查看本机node版本
@@ -31,9 +57,22 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 7、最后执行命令 source ~/.bash_profile</pre>
-          <h3>
-            2、npm参数配置
-          </h3>
+          <h3>Node.js 版本知多少</h3>
+          <pre>上面说了nvm这里我们再了解一下node安装版本
+先清楚的几个术语
+CURRENT：指代最新的 Node.js 版本系列（单数）。
+Active：指正在积极维护和升级的版本系列，包括向后移植非破坏性功能和改进，解决错误以及修补安全漏洞。
+Maintenance：这是一个维护的 LTS 版本系列，直到它的生命周期终止，只会在短时间内收到错误修复和安全补丁。
+LTS：是 Long-Term Support 的缩写，代表 Node.js 长期支持的版本（版本号为复数）。
+EOL：EOL 是 End of Life 的首字母缩写，进入到 EOL 时间线的版本，将不在维护。
+
+版本的生命周期
+让我们看下 Node.js 版本的生命周期是怎么样的？首先要知道每年的 4 月、10 月分别发布偶数、奇数版本，下面是过程说明：
+最近的一个偶数版本在 4 月份发布之后会持续 6 个月。
+待 10 月份会发布一个奇数版本，最近的偶数版本会进入 Active LTS 版本持续时间为 18 个月，这期间几乎不会有不兼容的大功能更新，开发者也可以放心升级到 Active LTS 版本。
+18 个月的 Active LTS 版本到期后，会进入 Maintenance LTS 版本，也就是进入维护期，时间为 12 个月，在这期间仅进行安全、Bug 更新。
+一旦 Maintenance LTS 版本 12 个月的时间已到就会进入 EOL 版本，正式退出历史舞台。</pre>
+          <h3>npm参数配置</h3>
            <pre>
 设置npm中的代理
 npm config set proxy=http://10.1.57.56:8080
@@ -82,9 +121,7 @@ devDependencies 里面的插件只用于开发环境，不用于生产环境，�
 –-save 就是将要安装的依赖写到package.json的dependencies 对象中去
 --save-dev是将要安装的依赖写到package.json的devDependencies 对象中去
            </pre>
-          <h3>
-            3、错误积累及提示
-          </h3>
+          <h3>错误积累及提示</h3>
           <pre>
 一、查看node模块或安装包下的所有版本号的方法：npm view 模块名\安装包名 versions
 例如  npm view swiper versions  回车后就能看到所有swiper的版本号之后从这些版本号中挑选一个 npm install swiper@3.4.2 -S 安装了
@@ -128,9 +165,7 @@ at Object.&#60anonymous&#62 (C:\ecWebTest\node_modules\.0.3.8@orchestrator\lib\r
 七、不同的node环境下经常报node-sass错误，多半是环境版本造成的
 node-sass 对应的node版本连接
 https://github.com/sass/node-sass/releases?page=1           </pre>
-          <h3>
-            4、nodejs全局安装和本地安装的区别 （http://www.cnblogs.com/PeunZhang/p/5629329.html#install-global转载地址）
-          </h3>
+          <h3>nodejs全局安装和本地安装的区别 （http://www.cnblogs.com/PeunZhang/p/5629329.html#install-global转载地址）</h3>
           <pre>
 什么是全局安装（global）
 全局安装方式是键入命令：npm install gulp -g 或 npm install gulp --global，
