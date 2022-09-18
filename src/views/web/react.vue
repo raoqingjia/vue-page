@@ -581,7 +581,7 @@ class Component1 extends React.Component {
           onClick={() => {
             this.refs.content.innerHTML =
               this.refs.content.innerHTML === "白虎" ? "青龙" : "白虎";
-          }}
+          } }
         >
           点击
         < /button>
@@ -658,6 +658,61 @@ export default App;
 上面代码中，组件的子节点有一个文本输入框，用于获取用户的输入。这时就必须获取真实的 DOM 节点，虚拟 DOM 是拿不到用户输入的。为了做到这一点，文本输入框必须有一个 ref 属性，然后 this.refs.[refName] 就会返回这个真实的 DOM 节点。
 需要注意的是，由于 this.refs.[refName] 属性获取的是真实 DOM ，所以必须等到虚拟 DOM 插入文档以后，才能使用这个属性，否则会报错。上面代码中，通过为组件指定 Click 事件的回调函数，确保了只有等到真实 DOM 发生 Click 事件之后，才会读取 this.refs.[refName] 属性。</pre>
           <h3>React 路由</h3>
+          <pre>
+react-router-dom文档地址： https://reacttraining.com/react-router/
+安装包：npm i react-router-dom@5.3.0（react-router-dom现在发了6.0版本，目前不稳定。 尽量使用5.0版本），这个包提供了三个核心的组件:HashRouter, Route, Link
+导入包，并使用：import { HashRouter, Route, Link } from 'react-router-dom'  ，用HashRouter包裹整个应用，一个项目中只会有一个Router
+使用Link指定导航链接，用Route指定路由规则(哪个路径展示哪个组件)
+
+React路由三大对象之 Router、Link、Route
+1， Router 组件：包裹整个应用，一个 React 应用只需要使用一次
+两种常用路由：
+HashRouter :hash模式
+BrowserRouter: history模式 
+原理：（推荐 BrowserRouter）
+HashRouter：使用 URL 的 hash 实现
+原理：监听 window 的 hashchange 事件来实现的 （http://localhost:3000/#/first）
+BrowserRouter：使用 H5 的 history.pushState() API 实现  （http://localhost:3000/first）
+原理：监听 window 的 popstate 事件来实现的
+
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { HashRouter as Router, Route, Link } from 'react-router-dom'
+使用es6的导入重命名来统一名字： 无论导入的是哪个路由对象，都叫Router
+
+2， Link 或者 NavLink  ：最终会渲染成a标签，用于指定路由导航
+Link组件：
+to 属性，将来会渲染成a标签的href属性
+Link 组件无法展示哪个link处于选中的效果
+
+NavLink：一个更特殊的 Link 组件，可以用于指定当前导航高亮
+to属性，用于指定地址，会渲染成a标签的href属性
+activeClassName: 用于指定高亮的类名，默认active。一般不去修改。
+exact: 精确匹配，表示必须地址栏和to的属性值 精确匹配类名才生效
+
+这两个标签的区别就是 NavLink指向的路径会自带一个名为 active 的css类名 
+
+3，Route：决定路由匹配规则
+格式：< Route path="/xx/xx" component={组件}>< /Route> 
+path： Route组件中path属性的值
+pathname: 指的如下格式
+link组件中to的属性值
+地址栏中的地址
+模糊匹配规则
+只要pathname以path开头就算匹配成功
+匹配成功就加载对应组件；
+整个匹配过程是逐一匹配，一个匹配成功了，并不会停止匹配。
+模糊匹配和精确匹配
+默认是模糊匹配的
+补充exact可以设置成精确匹配
+
+Switch与404
+Switch
+用Switch组件包裹多个Route组件。
+在Switch组件下，不管有多少个Route的路由规则匹配成功，都只会渲染第一个匹配的组件
+
+
+https://blog.csdn.net/wallowyou/article/details/105491074
+</pre>
           <h3>React hooks</h3>
           <pre></pre>
           <h3>组件实例的三大核心属性 state，props，refs</h3>
