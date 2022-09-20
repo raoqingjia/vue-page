@@ -10,6 +10,32 @@
           <ul class="catalogue">
             <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
           </ul>
+          <h3>docker举例</h3>
+          <pre>
+exit   停止容器中退出主机
+ctrl+P+Q 容器不停止退出
+
+
+docker pull centos      下载centos镜像
+docker run -it centos  /bin/bash   运行容器
+exit
+进入容器
+docker exec -it containerId  bash    进入容器开启一个新终端交互
+docker attach 容器id                 进入容器正在执行的终端，不会中断进程
+
+宿主机和容器内的文件相互拷贝命令
+docker cp gbss-node:/GridWeb/node_modules.tar  /opt   将gbss-node容器内的node_modules.tar赋值到opt目录下
+docker cp /opt/test.js testtomcat：/usr/local/tomcat/webapps/test/js  将宿主机opt文件拷贝到容器中
+
+docker image  build -f  dockerfile.web  -t  vueweb.image .
+docker run  -it   vueweb.image  bash
+docker run  -d --name vueimage   vueweb.image
+
+
+docker run -d --name nginx01 -p 3344:80 nginx  公网的3344访问我的80Nginx
+-d 后台运行  --name 给容器命名  -p宿主机端口，容器内部端口
+curl localhost:3344
+          </pre>
           <h3>前言</h3>
           <pre>为了更好的理解 Docker 是什么，我们先来讲个故事：
 我需要盖一个房子，于是我搬石头、砍木头、画图纸、盖房子。一顿操作，终于把这个房子盖好了。
@@ -25,11 +51,9 @@ Docker 本身并不是容器，它是创建容器的工具，是应用容器引�
 Docker 技术的三大核心概念，分别是：镜像 Image、容器 Container、仓库 Repository
 镜像（Image）：镜像是一个文件，它是用来创建容器的。镜像是一个可执行包，其包含运行应用程序所需的代码、运行时、库、环境变量和配置文件，容器是镜像的运行时实例。如果你有装过 Windows 操作系统，那么 Docker 镜像特别像“Win7纯净版.rar”文件
 容器（Container）：容器特别像一个虚拟机，容器中运行着一个完整的操作系统。可以在容器中装 Nodejs，可以执行npm install，可以做一切你当前操作系统能做的事情
-Dockerfile: 类似于“package.json”  -> Image: 类似于“Win7纯净版.rar” ->Container: 一个完整操作系统
-          </pre>
+Dockerfile: 类似于“package.json”  -> Image: 类似于“Win7纯净版.rar” ->Container: 一个完整操作系统</pre>
           <h3>docker的常用命令</h3>
-          <pre>
-docker version   显示版本信息
+          <pre>docker version   显示版本信息
 docker info  显示docker的系统信息，镜像和容器的数量
 docker 命令  --help   帮助命令查看详情
 日志、元数据、进程的查看
@@ -37,8 +61,7 @@ docker logs -tf  --tail 10  容器id
 docker top  容器id    查看容器中运行的进程信息，支持 ps 命令参数
 docker inspect [OPTIONS] NAME|ID   获取容器/镜像的元数据。</pre>
         <h3>docker之image镜像</h3>
-        <pre>
-镜像社区也叫做Image registry（镜像登记处），是拉取和下载镜像的网站，类似简单版GitHub
+        <pre>镜像社区也叫做Image registry（镜像登记处），是拉取和下载镜像的网站，类似简单版GitHub
 dockerhub：网址- https://hub.docker.com/ ,Docker官方社区，在使用Docker时默认的拉取网站。
 Quay：网址-https://quay.io/ ，这个是Liunx Red Hat （红帽）的旗下一个第三方Docker 社区。
 
@@ -50,6 +73,17 @@ docker image  ls  查看所有本地主机上的镜像
 docker image  inspect < IMAGE ID> 查看具体镜像信息
 docker image rmi  -f 容器id 容器id 容器id     删除多个指定镜像
 docker image rmi  -f $(docker images -aq)   删除全部镜像
+docker image prune -a    删除没有使用的所有镜像
+
+docker images : 列出本地镜像。
+docker images [OPTIONS] [REPOSITORY[:TAG]]
+OPTIONS说明：
+-a :列出本地所有的镜像（含中间映像层，默认情况下，过滤掉中间映像层）；
+--digests :显示镜像的摘要信息；
+-f :显示满足条件的镜像；
+--format :指定返回值的模板文件；
+--no-trunc :显示完整的镜像信息；
+-q :只显示镜像ID
 
 Docker镜像的导入导出
 在工作中经常使用。比如公司来了一个新同事，也会Docker，你正好自己制作了一个公司内部的镜像，就可以把你机器上的镜像导出给他。他拿到镜像之后直接导入，就可以进行开发了，好处是你们的开发环境基本统一了。
@@ -76,23 +110,29 @@ CREATED: 创建的时间
 STATUS: 目前镜像的状态，一般会有两种状态Up和Exited.
 PORTS: 协议和端口
 NAMES: 容器的名称，名字是Docker随机生成的
-要查看你所有容器，包含已经停止的容器，可以加一个-a， docker container ls -a
+要查看你所有容器，包含已经停止的容器，可以加一个-a， docker container ls
+
+docker ps : 列出容器不过最新的版本都改成   docker container ls
+docker ps -n  3    列出最近创建的n个容器
+          -s       显示总的文件大小
+          -a       显示所有的容器，包括未运行的
+          -l       显示最近创建的容器
 
 docker container run时可以加以下参数
 --name="name"  给容器起名字
 -d     后台方式运行
 -it    使用交互方式运行，进入容器查看内容
--p     端口映射比如你想把Docker的80端口，映射到服务器的90端口 
+-p     端口映射比如你想把Docker的80端口，映射到服务器的90端口
   -p 主机端口：容器端口
 docker container run -p 90:80 nginx
-
 docker start    < name or ID>     启动容器运行
 docker restart  < name or ID>     重启容器运行
 docker stop     < name or ID>     停止正在运行的容器
 docker stop     < ID1  ID2  ID3>  停止多个运行容器
 docker kill     < name or ID>     强制停止正在运行容器
 docker rm       < name or ID>     删除容器    -f 运行中容器也可删除
-docker rm  -f $(docker ps -aq)    删除所有容器  
+docker rm  -f $(docker ps -aq)    删除所有容器
+docker system prune -f            批量删除不再使用的容器 , 这个是批量删除已经退出的容器
 
 容器attached 和detached模式
 attached模式
@@ -131,51 +171,227 @@ detached模式下的交互
 用detached模式创建一个nginx镜像的容器。
 docker container run -d -p 80:80 nginx
 直接通过下面的命令就可以进入到交互模式下了。(这是我们以后要经常使用的一个命令)
-docker exec -it < ID or Image name> sh 
+docker exec -it < ID or Image name> sh
 exec是执行的意思，-it交互模式 ，sh交互的方式，用shell脚本进行交互整个命令的意思是：用shell脚本的方式执行交互模式。
-这种模式的优点是，再使用exit退出后，服务并不会停止，而只是退出了交互模式。可以自己尝试一下退出，然后使用docker container ls -a来查看一下容器的状态，你会发现依然是 up状态。
-
-
-
-
-exit   停止容器中退出主机
-ctrl+P+Q 容器不停止退出
-
-
-举例
-docker pull centos      下载centos镜像
-docker run -it centos  /bin/bash   运行容器
-exit
-
-
-进入容器
-docker exec -it containerId  bash    进入容器开启一个新终端交互
-docker attach 容器id                 进入容器正在执行的终端，不会中断进程
-
-宿主机和容器内的文件相互拷贝命令
-docker cp gbss-node:/GridWeb/node_modules.tar  /opt   将gbss-node容器内的node_modules.tar赋值到opt目录下
-docker cp /opt/test.js testtomcat：/usr/local/tomcat/webapps/test/js  将宿主机opt文件拷贝到容器中
-
-docker run -d --name nginx01 -p 3344:80 nginx  公网的3344访问我的80Nginx
--d 后台运行  --name 给容器命名  -p宿主机端口，容器内部端口
-curl localhost:3344
-
-
-          </pre>
+这种模式的优点是，再使用exit退出后，服务并不会停止，而只是退出了交互模式。可以自己尝试一下退出，然后使用docker container ls -a来查看一下容器的状态，你会发现依然是 up状态。</pre>
           <h3>docker之Dockerfile文件</h3>
         <pre>通过Dockerfile构建镜像虽然比较麻烦，这是最常使用的一种方式
 什么是Dockerfile
 Dockerfile是一个包含用于组合映像的命令的文本文档。可以使用在命令行中调用任何命令。 Docker通过读取Dockerfile中的指令自动生成映像。
 可以简单总结为下面三点：
 Dockerfile是用于构建docker镜像的文件
-Dockerfile里包含了构建镜像所需的”指令“
+Dockerfile里包含了构建镜像所需的"指令"
 Dockerfile有其特定的语法规则（重要学习）
 
 通过Dockerfile构建镜像
+制作一个简单镜像案例,镜像的操作系统是Ubuntu最新版，然后在系统上运行jspang.py程序。Python程序的内容非常简单，只要打印出Hello JSPang
+我们把Dockerfile文件和jspang.py文件放在一起个文件夹下
+FROM ubuntu:latest
+RUN  apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y python3.9 python3-pip python3.9-dev
+ADD jspang.py   /
+CMD ["python3","jspang.py"]
+
+当有了Dockerfile和jspang.py文件以后，通过PowerShell进入到两个文件的文件夹。通过Docker命令就可以完成构建。
+docker image build -t < Name:tag> < file path>
+例如现在要通过已经写好的Dockerfile，构建一个jspang的镜像，就可以使用下面的命令构建。
+docker image build -t jspang .
+注意命令最后是有一个.的，如果你是第一次执行打包，这个过程还是需要2-3分钟的，当出现FINISHED后，说明打包完成了
+
+FROM语法
+在上面的案例中，Dockerfile文件第一句就是FROM ubuntu:latest , 它的意思是选择一个基础镜像，我这里选择的是ubuntu系统的最新版。
+选择镜像的三个基本原则。
+1、官方镜像优于非官方的镜像；
+2、固定版本的Tag，而不是每次都使用latest;
+3、功能满足，选择体积小的镜像；
+
+RUN执行指令使用技巧
+新建一个Dockerfile.bad文件
+如果用RUN命令来编写，直接可以写成下面的样子。
+FROM ubuntu:latest
+RUN apt-get update
+RUN apt-get install -y wget
+RUN wget https://github.com/ipinfo/cli/releases/download/ipinfo-2.0.1/ipinfo_2.0.1_linux_amd64.tar.gz
+RUN tar zxf ipinfo_2.0.1_linux_amd64.tar.gz
+但这样写的问题是，镜像的分层会变的很多，每一个RUN都是一个分层，打出来的镜像包也会变大。
+把上面的文件写到Dockerfile里，并个文件命名为Dockerfile.bad。执行下面的命令进行打包。
+docker image build -f Dockerfile.bad -t ipinfo-bad .
+-f为指定打包的名称。 这个过程会很长。打包完成后，
+docker image ls    用查看命令，看一下包的基本信息
+具体的分层情况，使用下面的命令查看。
+docker image history < Image ID>
+
+正确的Dockerfile写法是把所有执行命令放到一个RUN里，并用&& \进行连接。就可以把很多命令写到一个RUN里边了。
+FROM ubuntu:latest
+RUN apt-get update && \
+    apt-get install -y wget && \
+    wget https://github.com/ipinfo/cli/releases/download/ipinfo-2.0.1/ipinfo_2.0.1_linux_amd64.tar.gz && \
+    tar zxf ipinfo_2.0.1_linux_amd64.tar.gz && \
+    mv ipinfo_2.0.1_linux_amd64 /usr/bin/ipinfo && \
+    rm -rf ipinfo_2.0.1_linux_amd64.tar.gz
+镜像的分层会变的很多，每一个RUN都是一个分层，打出来的镜像包也会变大。
+
+Dockerfile中的文件操作
+制作镜像的时候，经常需要向镜像里添加文件。在Dockerfile中有两个命令可以向镜像中添加文件COPY和ADD
+
+用COPY命令构建镜像
+COPY和ADD命令，在复制普通文件的时候，并没有什么太大的不同，两个命令都可以把本地文件，复制到镜像里。如果复制的路径不存在，则会自动创建。
+
+写一个Dockerfile，里边的内容是用基础Node镜像，然后拷贝一个index.js文件进去。
+Dockerfile.copy内容如下.
+FROM node:alpine3.14
+COPY index.js  /app/index.js
+引用node3.13版本，然后把index.js文件，拷贝到app目录下面。
+index.js文件如下。代码是我们在3000端口上，开启了一个最简单web服务，然后返回了Hello Nodejs两个单词。
+//1. 导入 http 模块
+const http = require('http');
+//2. 创建服务器对象
+const server = http.createServer();
+//3. 开启服务器
+server.listen(3000, () => {
+    console.log('Server is running...');
+});
+//4. 监听浏览器请求并进行处理
+server.on('request', (req, res) => {
+    // end方法能够将数据返回给浏览器，浏览器会显示该字符串
+    res.end('Hello Nodejs');
+});
+两个文件准备好以后，用build命令进行构建。
+docker image build -f Dockerfile.copy -t hello-copy .
+构建完成后，可以使用docerk image ls命令进行查询。生成成功后，可以启用交互模式，再加上映射端口的形式，运行容器。
+docker container run -it -p 3000:3000 hello-copy sh
+这里映射了3000端口，这样我们就可以用127.0.0.1:3000进行访问了。
+
+用ADD构建镜像
+ADD 构建镜像和COPY最直观的一点不同，是ADD命令可以直接解压gzip压缩文件，这当我们有很多文件要上传操作的时候，就会变的简单很多。
+
+Dockerfile.add文件内容
+FROM node:alpine3.14
+ADD index.tar  /app/
+用ADD命令进行打包镜像
+docker image build -f Dockerfile.add -t hello-gzip .
+打包好以后使用交互模式，开启容器。
+docker container run -it -p 3000:3000 hello-gzip sh
+再进入app路径下面，可以看到下面自动给我们解压了index.tar文件。
+
+切换工作目录 WORKDIR
+在写Dockerfile文件时，默认的操作目录，是镜像的根目录。但有时候需要拷贝很多内容到镜像里是二级目录，就可以使用WORKDIR命令。把工作目录切换到二级，WORKDIR命令像我们操作linux下的cd命令。
+比如还是刚才的Dockerfile.add文件，我们可以使用WORKDIR命令，改成下面的形式。
+FROM node:alpine3.14
+WORKDIR /app
+ADD index.tar  index.js
+这时候进入系统后的工作目录，就是在/app下面了。
+
+Dockerfile中的ARG和ENV
+ARG 和ENV 是经常容易被混淆的两个Dockerfile语法，它们都可以用来设置一个"变量",但其实两个语法在细节上有很多不同
+写了一个Docerkfile.good的文件，文件内容如下。
+FROM ubuntu:latest
+RUN apt-get update && \
+    apt-get install -y wget && \
+    wget https://github.com/ipinfo/cli/releases/download/ipinfo-2.0.1/ipinfo_2.0.1_linux_amd64.tar.gz && \
+    tar zxf ipinfo_2.0.1_linux_amd64.tar.gz && \
+    mv ipinfo_2.0.1_linux_amd64 /usr/bin/ipinfo && \
+    rm -rf ipinfo_2.0.1_linux_amd64.tar.gz
+这段文件里有ipinfo的版本是ipinfo-2.0.1,这个版本是有可能改变的。文件里一共出现了5次2.0.1，修改起来已经比较麻烦了，如果出现更多次，几乎变的不可维护。所以这时候就需要定义一个变量，方便日后的维护。
+先用ENV的形式来修改变量，把上面的Dockerfile.good文件修改为下面的形式
+新建一个Dockerfile.ENV的文件，拷贝Dockerfile.good的代码。
+这里有个小坑就是注意在写变量时，值不要有任何的空格，否则在打包时会失败。
+FROM ubuntu:latest
+ENV VERSION=2.0.1
+RUN apt-get update && \
+    apt-get install -y wget && \
+    wget https://github.com/ipinfo/cli/releases/download/ipinfo-${VERSION}/ipinfo_${VERSION}_linux_amd64.tar.gz && \
+    tar zxf ipinfo_${VERSION}_linux_amd64.tar.gz && \
+    mv ipinfo_${VERSION}_linux_amd64 /usr/bin/ipinfo && \
+    rm -rf ipinfo_${VERSION}_linux_amd64.tar.gz
+这样写之后，如果以后版本改变了，我们只要修改一处，就可以完成所有的修改了。
+构建一下这个ENV的镜像。
+docker image build -f Dockerfile.ENV -t ipinfo-env .
+
+ARG定义变量
+跟上面的方法一样用ARG定义变量效果是一样。只是把ENV换成了ARG。
+这个文件是Dockerfile.ARG，内容如下。
+FROM ubuntu:latest
+ARG VERSION=2.0.1
+RUN apt-get update && \
+    apt-get install -y wget && \
+    wget https://github.com/ipinfo/cli/releases/download/ipinfo-${VERSION}/ipinfo_${VERSION}_linux_amd64.tar.gz && \
+    tar zxf ipinfo_${VERSION}_linux_amd64.tar.gz && \
+    mv ipinfo_${VERSION}_linux_amd64 /usr/bin/ipinfo && \
+    rm -rf ipinfo_${VERSION}_linux_amd64.tar.gz
+我们可以通过命令来构建一下ARG的镜像。
+docker image build -f Dockerfile.ARG -t ipinfo-arg .
+
+ARG和ENV的不同点
+总的来说ARG和ENV有两点不同，第一点是声明变量的作用域不同，第二点是ARG声明后，可以在构建时修改变量。
+
+1.ARG是构建环境 ， ENV可带到镜像中
+用交互模式进入到ipconfig-env镜像中，然后输入env可以看到当前镜像的信息。
+docker container run -it ipinfo-env
+然后输入env，可以看到里边是会有VERSION变量的。
+
+2.ARG可以在构建镜像时改变变量值
+在构建时，可以使用—build-arg 参数来更改变量的值，比如现在要把变量VERSION的值进行修改,就可以使用下面的命令。
+docker image build -f Dockerfile.ARG -t ipinfo-arg-2.0.0 --build-arg VERSION=2.0.0 .
+这时候我们再使用交互模式，开启ipinfo-arg-2.0.0容器。
+docker container run -it ipinfo-arg-2.0.0
+然后再通过shell命令，ipinfo verison查看ipinfo的版本，可以看到版本已经变成了2.0.0了。
+
+CMD容器启动命令
+当设置好基础环境，安装完对应软件，处理完文件后。有时候需要启动某个默认命令。CMD用来设置容器启动时默认会执行的命令。
+CMD命令的三个基本特性
+a.容器启动时默认执行的命令
+b.如果docker container run启动容器时指定了其它命令，则CMD命令会被忽略
+c.如果定义多个CMD，只有最后一个CMD执行
+
+CMD < shell 命令>
+CMD ["< 可执行文件>", "< 参数1>", "< 参数2>", ...] # 官方推荐格式
+CMD ["< 参数1>", "< 参数2>", ...]  # 此种写法在指定了 ENTRYPOINT 指令后，用 CMD 指定具体的参数。
+Docker 不是虚拟机，容器就是进程。既然是进程，那么在启动容器的时候，需要指定所运行的程序及参数。​​CMD​​ 指令就是用于指定默认的容器主进程的启动命令的。
+在运行时可以指定新的命令来替代镜像设置中的这个默认命令，比如，​​ubuntu​​​ 镜像默认的 ​​CMD​​​ 是 ​​/bin/bash​​​，如果我们直接 ​​docker run -it ubuntu​​​ 的话，会直接进入 ​​bash​​​。我们也可以在运行时指定运行别的命令，如 ​​docker run -it ubuntu cat /etc/os-release​​​。这就是用 ​​cat /etc/os-release​​​ 命令替换了默认的 ​​/bin/bash​​ 命令了，输出了系统版本信息
+官方更推荐使用第二种 exec 格式，此种格式在解析时会被解析成 JSON 数组，因此一定要使用双引号 " , 而不是单引号 '
+如果你使用第一种 shell 格式，最终还是会转成第二种格式，实际命令会被包装成 sh -c 的参数进行执行，比如：
+CMD echo $HOME
+会被转成：
+CMD [ "sh", "-c", "echo $HOME" ]
+
+ENTRYPOINT
+ENTRYPOINT指令与CMD指令非常类似，也很容易和CMD指令弄混。
+该指令提供的命令不容易在启动容器的时候被覆盖，事实上，docker run 命令指定的任何参数都会被当做参数传递给ENTRYPOINT指令。
+
+ENTRYPOINT和CMD的区别
+CMD设置的命令，可以在 docker container run 时传入其它命令，覆盖掉 CMD 的命令，但是ENTRYPOINT所设置的命令时一定会被执行的。
+ENTRYPOINT 和 CMD 可以联合使用， ENTRYPOINT 设置执行的命令，CMD传递参数。
+了解CMD和ENTRYPOINT是如何交互的lm
+
+CMD和ENTRYPOINT指令都定义了在运行容器时执行什么命令。很少有规则描述他们的合作。
+Dockerfile应该指定至少一个CMD或ENTRYPOINT命令。
+在将容器用作可执行文件时，应该定义ENTRYPOINT。
+CMD应该用作定义ENTRYPOINT命令的默认参数或在容器中执行特别命令的方法。
+当运行带有可选参数的容器时，CMD将被覆盖
 
 
 
 </pre>
+          <pre>
+FROM 10.248.50.219:1179/nginx:latest
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+  && echo 'Asia/Shanghai' >/etc/timezone
+#add file
+ADD dist.tar    /opt/
+RUN mkdir -p /usr/share/nginx/html/absweb/file
+RUN cp -rf /opt/dist/support/* /usr/share/nginx/html/absweb/ && cp -rf /opt/dist /usr/share/nginx/html/absweb/ui
+RUN mkdir -p   /usr/share/nginx/html/absweb/ui/soft
+RUN cp -rf /usr/share/nginx/html/absweb/*exe  /usr/share/nginx/html/absweb/ui/soft/
+RUN sed '22 a       client_max_body_size  3M;' -i /etc/nginx/nginx.conf
+RUN sed '23 a large_client_header_buffers  4 64k;' -i /etc/nginx/nginx.conf
+RUN sed -i '27a server_tokens off;' /etc/nginx/nginx.conf
+RUN sed -i 's/nginx\/$nginx_version/nginx/g' /etc/nginx/fastcgi_params
+RUN sed '11 a       proxy_next_upstream off;' -i /etc/nginx/conf.d/default.conf
+RUN sed '12 a       location /absweb/OpPlatform_web { \n     proxy_pass  http://10.34.93.3:7882/absweb/omss-web/#/;  \n    proxy_set_header Host $host:$server_port; \n     proxy_set_header  X-Real-IP        $remote_addr; \n    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; \n}' -i /etc/nginx/conf.d/default.conf
+RUN sed '28 a       gzip on;\n gzip_min_length 10k;\n gzip_buffers 4 16k;\n gzip_comp_level 3;\n gzip_types application/json;\n' -i /etc/nginx/conf.d/default.conf
+EXPOSE 80
+          </pre>
         </div>
       </div>
     </div>
