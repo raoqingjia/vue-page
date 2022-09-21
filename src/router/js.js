@@ -84,6 +84,13 @@ const jsRouter = [//js案例
     component: resolve => require(['@/views/js/jsForIn'], resolve)
   },
   {
+    path: '/other/jsonObject',
+    name: '什么是JSON',
+    type: "js",
+    created: "2018-07-16",
+    component: resolve => require(['@/views/js/jsonObject'], resolve)
+  },
+  {
     path: '/js/jsonTurnObject',
     name: 'Json与Object的相互转换',
     type: "js",
