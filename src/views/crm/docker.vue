@@ -10,32 +10,26 @@
           <ul class="catalogue">
             <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
           </ul>
-          <h3>docker举例</h3>
-          <pre>
+          <h3>docker常用命令</h3>
+          <pre>docker images | grep vueweb     查找vueweb开头的镜像名称
+docker image rmi  -f 镜像id   根据id删除镜像
+docker image  build -f  dockerfile.web  -t  vueweb.image .
+
+docker run  -it   vueweb.image  bash（或/bin/bash、sh）  // 不加bash运行一次就退出结束了，而且exit 后直接停止容器了
+docker run  -d  --name  nginx01 -p 3344:80 nginx   公网的3344访问我的80Nginx
+-d 后台运行  --name 给容器命名  -p宿主机端口，容器内部端口
+curl localhost:3344
+
+docker exec -it containerId  bash    进入容器开启一个新终端交互
 exit   停止容器中退出主机
 ctrl+P+Q 容器不停止退出
 
-
-docker pull centos      下载centos镜像
-docker run -it centos  /bin/bash   运行容器
-exit
-进入容器
-docker exec -it containerId  bash    进入容器开启一个新终端交互
-docker attach 容器id                 进入容器正在执行的终端，不会中断进程
+docker container ls -n 5  查看最近5个新起的镜像
+docker container rm  -f  容器id  删除容器
 
 宿主机和容器内的文件相互拷贝命令
 docker cp gbss-node:/GridWeb/node_modules.tar  /opt   将gbss-node容器内的node_modules.tar赋值到opt目录下
-docker cp /opt/test.js testtomcat：/usr/local/tomcat/webapps/test/js  将宿主机opt文件拷贝到容器中
-
-docker image  build -f  dockerfile.web  -t  vueweb.image .
-docker run  -it   vueweb.image  bash
-docker run  -d --name vueimage   vueweb.image
-
-
-docker run -d --name nginx01 -p 3344:80 nginx  公网的3344访问我的80Nginx
--d 后台运行  --name 给容器命名  -p宿主机端口，容器内部端口
-curl localhost:3344
-          </pre>
+docker cp /opt/test.js testtomcat：/usr/local/tomcat/webapps/test/js  将宿主机opt文件拷贝到容器中</pre>
           <h3>前言</h3>
           <pre>为了更好的理解 Docker 是什么，我们先来讲个故事：
 我需要盖一个房子，于是我搬石头、砍木头、画图纸、盖房子。一顿操作，终于把这个房子盖好了。
@@ -52,7 +46,7 @@ Docker 技术的三大核心概念，分别是：镜像 Image、容器 Container
 镜像（Image）：镜像是一个文件，它是用来创建容器的。镜像是一个可执行包，其包含运行应用程序所需的代码、运行时、库、环境变量和配置文件，容器是镜像的运行时实例。如果你有装过 Windows 操作系统，那么 Docker 镜像特别像“Win7纯净版.rar”文件
 容器（Container）：容器特别像一个虚拟机，容器中运行着一个完整的操作系统。可以在容器中装 Nodejs，可以执行npm install，可以做一切你当前操作系统能做的事情
 Dockerfile: 类似于“package.json”  -> Image: 类似于“Win7纯净版.rar” ->Container: 一个完整操作系统</pre>
-          <h3>docker的常用命令</h3>
+          <h3>docker基本命令</h3>
           <pre>docker version   显示版本信息
 docker info  显示docker的系统信息，镜像和容器的数量
 docker 命令  --help   帮助命令查看详情
@@ -71,19 +65,10 @@ docker image pull   下载镜像，默认下载最新版本
 docker image pull  mysql:5.7   指定下载版本
 docker image  ls  查看所有本地主机上的镜像
 docker image  inspect < IMAGE ID> 查看具体镜像信息
-docker image rmi  -f 容器id 容器id 容器id     删除多个指定镜像
+docker image rmi  -f 镜像id1 镜像id2 镜像id3     删除多个指定镜像
 docker image rmi  -f $(docker images -aq)   删除全部镜像
 docker image prune -a    删除没有使用的所有镜像
-
-docker images : 列出本地镜像。
-docker images [OPTIONS] [REPOSITORY[:TAG]]
-OPTIONS说明：
--a :列出本地所有的镜像（含中间映像层，默认情况下，过滤掉中间映像层）；
---digests :显示镜像的摘要信息；
--f :显示满足条件的镜像；
---format :指定返回值的模板文件；
---no-trunc :显示完整的镜像信息；
--q :只显示镜像ID
+docker images|grep < imageName> 根据镜像名称筛选镜像信息
 
 Docker镜像的导入导出
 在工作中经常使用。比如公司来了一个新同事，也会Docker，你正好自己制作了一个公司内部的镜像，就可以把你机器上的镜像导出给他。他拿到镜像之后直接导入，就可以进行开发了，好处是你们的开发环境基本统一了。
@@ -103,21 +88,6 @@ docker image load -i .\mybusybox.image
 docker container run < image name >  创建容器，系统中没有这个镜像，Docker会自动去Docker Hub上拉取
 
 docker container ls 命令用于列出所有容器
-CONTAINER ID : 容器对应的ID，这个是唯一的
-IMAGE : 使用的镜像名称，显示不同
-COMMAND : 执行的相关命令
-CREATED: 创建的时间
-STATUS: 目前镜像的状态，一般会有两种状态Up和Exited.
-PORTS: 协议和端口
-NAMES: 容器的名称，名字是Docker随机生成的
-要查看你所有容器，包含已经停止的容器，可以加一个-a， docker container ls
-
-docker ps : 列出容器不过最新的版本都改成   docker container ls
-docker ps -n  3    列出最近创建的n个容器
-          -s       显示总的文件大小
-          -a       显示所有的容器，包括未运行的
-          -l       显示最近创建的容器
-
 docker container run时可以加以下参数
 --name="name"  给容器起名字
 -d     后台方式运行
@@ -133,6 +103,9 @@ docker kill     < name or ID>     强制停止正在运行容器
 docker rm       < name or ID>     删除容器    -f 运行中容器也可删除
 docker rm  -f $(docker ps -aq)    删除所有容器
 docker system prune -f            批量删除不再使用的容器 , 这个是批量删除已经退出的容器
+docker port    < name or ID>     查看当前容器的端口号，必须运行时单独映射端口了，不然看不到
+docker container inspect < name or ID>       查看所有详细信息
+docker container inspect --format '{ {.Config.ExposedPorts}}' < name or ID>
 
 容器attached 和detached模式
 attached模式
@@ -370,10 +343,41 @@ Dockerfile应该指定至少一个CMD或ENTRYPOINT命令。
 CMD应该用作定义ENTRYPOINT命令的默认参数或在容器中执行特别命令的方法。
 当运行带有可选参数的容器时，CMD将被覆盖
 
+EXPOSE
+Dockerfile 里面的 expose，是标记信息，不能直接打开端口，方便运维人员在使用容器时，知道要打开哪些端口。使用时 docker run -itd -P xxx:xxx ，大写 -P，会映射在Dockerfile文件中使用EXPOSE定义的端口，不需要手动 -p : 这种形式。
+EXPOSE只是一种文档表述方式，在dockerfile中让开发者可以更快读懂Image开放了哪些服务，没有实际作用意义。如果没有EXPOSE端口, Container之间服务也是可以互相访问的
+我这边列出这这四种组合
+A、既、有在Dockerfile里Expose，也没有run -p
+B、只在Dockerfile里Expose了这个端口
+C、同时在Dockerfile里Expose，又run -p
+D、只有run －p
+1）针对情况A，启动在这个container里的服务既不能被host主机和外网访问，也不能被link的container访问，只能在此容器内部使用
+2）针对情况B，启动在这个container里的服务不能被docker外部世界（host和其他主机）访问，但是可以通过containerlink，被其他link的container访问到
+3）针对情况C，启动的这个cotnainer既可以被docker外部世界访问，也可以被link的container访问
+4）针对情况D，其实docker做了特殊的隐式转换，等价于情况C，既可以被外部世界访问，也可以被link的container访问到。针对这种情况，原因是docker认为，既然你都要把portopen到外部世界了，等价于其他的container肯定也能访问，所以docker做了自动的Expos</pre>
+          <h3>docker简单运行应用</h3>
+          <pre>node项目
+# 指定node版本为14
+FROM node:14
+# node环境变量
+ENV NODE_ENV production
+# 项目在docker里面的工作目录，/web只是随意指定的目录而已
+WORKDIR /web
+# 把当前目录下的所有文件添加到docker里面的/web目录
+ADD . /web
+# build docker镜像时运行npm命令,(这一步是在docker里面跑的命令)
 
+RUN npm config set registry "https://registry.npm.taobao.org/"
 
-</pre>
-          <pre>
+RUN npm install
+# build docker镜像时运行npm命令,根据实际情况，可能会有多个run
+# RUN npm run build
+# 因为我在nodejs项目里面写了 app.listen(3000),所以要暴露3000端口
+EXPOSE 3000
+# docker容器启动时执行的命令,这一步可能有些项目会用pm2来启动,那就需要改成pm2对应的指令
+CMD node index.js
+
+下面是abs运行文件
 FROM 10.248.50.219:1179/nginx:latest
 RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
   && echo 'Asia/Shanghai' >/etc/timezone
