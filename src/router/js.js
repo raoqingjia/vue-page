@@ -383,6 +383,14 @@ const jsRouter = [//js案例
     type: "js",
     created: "2022-06-22",
     component: resolve => require(['@/views/js/jsSleep'], resolve)
+  },
+  {
+    path: '/js/validator',
+    name: 'validator.js 校验 验证 常用方法',
+    type: "js",
+    created: "2022-09-21",
+    component: resolve => require(['@/views/js/validator'], resolve)
   }
+
   ];
 export default jsRouter;

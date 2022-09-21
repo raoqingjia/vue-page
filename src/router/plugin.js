@@ -133,6 +133,13 @@ const pluginRouter = [
     type: "plugin",
     created: "2022-09-14",
     component: resolve => require(['@/views/plugin/fetchJsonp'], resolve)
+  },
+  {
+    path: '/plugin/validator ',
+    name: '前端的验证工具 validator.js',
+    type: "plugin",
+    created: "2022-09-21",
+    component: resolve => require(['@/views/plugin/validator'], resolve)
   }
 ];
 export default pluginRouter;
