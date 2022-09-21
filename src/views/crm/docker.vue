@@ -21,8 +21,10 @@ docker run  -d  --name  nginx01 -p 3344:80 nginx   公网的3344访问我的80Ng
 curl localhost:3344
 
 docker exec -it containerId  bash    进入容器开启一个新终端交互
-exit   停止容器中退出主机
-ctrl+P+Q 容器不停止退出
+
+退出 容器的方式
+exit / Ctrl+D     退出后，这个容器也就停止了，再次启动需要docker start
+ctrl+p  ctrl + q  退出后容器仍在后台运行
 
 docker container ls -n 5  查看最近5个新起的镜像
 docker container rm  -f  容器id  删除容器
@@ -106,6 +108,10 @@ docker system prune -f            批量删除不再使用的容器 , 这个是�
 docker port    < name or ID>     查看当前容器的端口号，必须运行时单独映射端口了，不然看不到
 docker container inspect < name or ID>       查看所有详细信息
 docker container inspect --format '{ {.Config.ExposedPorts}}' < name or ID>
+
+退出 容器的方式
+exit / Ctrl+D     退出后，这个容器也就停止了，再次启动需要docker start
+ctrl+p  ctrl + q  退出后容器仍在后台运行
 
 容器attached 和detached模式
 attached模式
