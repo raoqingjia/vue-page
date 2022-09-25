@@ -214,5 +214,6 @@ const webNoteRouter = [  //工作笔记
     description: "web开发中面试题积累...",
     created: "持续更新 最后版本 2018-04-08",
     component: resolve => require(['@/views/web/webInterview'], resolve)
-  }];
+  },
+  ];
 export default webNoteRouter;
