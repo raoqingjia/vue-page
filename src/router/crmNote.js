@@ -82,7 +82,7 @@ const crmNoteRouter = [ {
   {
     path: '/note/keywords',
     name: "开发常用关键字",
-    type: "web",
+    type: "crm",
     img: require("../img/keywords-icon.png"),
     description: "日常开发常用关键字...",
     created: "持续更新 最后版本 2022-09-24",
