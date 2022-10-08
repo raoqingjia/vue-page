@@ -47,6 +47,7 @@
                 <li><a href="http://es6.ruanyifeng.com/" target="_blank">ECMAScript 6 入门</a></li>
                 <li><a href="http://www.css88.com/jqapi-1.9/category/version/1.0/" target="_blank">jQuery API中文文档</a></li>
                 <li><a href="http://tool.lanrentuku.com/guifan/ui.html" target="_blank">移动端UI尺寸规范</a></li>
+                <li><a href="https://cloud.tencent.com/developer/doc/1282" target="_blank">腾讯云开发文档手册（相当全）</a></li>
               </ul>
             </div>
         </div>

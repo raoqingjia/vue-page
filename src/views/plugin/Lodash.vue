@@ -14,7 +14,9 @@
 Lodash 是一个一致性、模块化、高性能的 JavaScript 实用工具库。
 相关网址
 https://www.lodashjs.com/
-http://lodash.net/</pre>
+http://lodash.net/
+lodash 教程
+https://cloud.tencent.com/developer/doc/1138</pre>
           <h3>2.常用的命令</h3>
         <pre>
 var array = [

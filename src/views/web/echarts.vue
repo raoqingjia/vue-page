@@ -7,10 +7,22 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <h3>常用链接</h3>
-          <pre>https://www.makeapie.cn/
+          <ul class="catalogue">
+            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
+          </ul>
+          <h3>文档常用链接</h3>
+          <pre>案例和文档
+https://www.makeapie.cn/
 https://pie.antcode.net/
-https://echarts.apache.org/zh/option.html</pre>
+https://echarts.apache.org/zh/option.html
+
+DataV.GeoAtlas地理小工具系列
+https://datav.aliyun.com/portal/school/atlas/area_selector  阿里生成的china数据在map3d和geo3d上是无法显示名称的，但是省份或者市是可以的
+
+可以借鉴的案例
+https://www.makeapie.cn/echarts_content/xlw6cwVrpX.html  地图、航线与柱状图关联展示
+https://www.makeapie.cn/echarts_content/xr5cqmiBBf.html  地图带阴影，航线
+          </pre>F
           <h3>Option的配置的通用配置</h3>
           <pre>
 backgroundColor                                     背景色
@@ -237,7 +249,43 @@ series-treemap
   . height: '72%',
   . width: '90%',
   . color: ['transparent'],</pre>
-          <h3>echarts wordCloud 总结使用说明</h3>
+          <h3>Echarts地图的label到底怎么居中</h3>
+          <pre>
+在geojson注册的时候，可以定义 properties.cp 属性，实现文本的坐标自定义，实现居中。
+echarts.registerMap('china',
+    "type": "FeatureCollection",
+    "features": [{
+        "id": "650000",
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [],
+            "encodeOffsets": [[, ]]
+        },
+        "properties": {
+            "cp": [87.617733, 43.792818],
+            "name": "新疆",
+            "childNum":
+        }
+    }],
+    "UTF8Encoding": true
+});
+上面的写法不对，但是思路是对的，因为  registerMap引入的肯定是提前写好的chinaMap.json文件，所以改也是取json文件里改而不是单独的改registerMap里面配置
+json文件里只改properties.cp 这个字段就行，这里[]里表示的是经纬度，我记不住经纬度概念就用x y轴表示了
+ {
+  "type": "Feature",
+  "id": "640000",
+  "properties": {
+    "id": "640000",
+    "cp": [
+      106.278179,  /* x轴 大数往左，小数往右   地域面积比较小的每次加减0.5左右就差不多了 */
+      37.26637    /*  y轴 大数向上，小数向下  */
+    ],
+    "name": "宁夏",
+    "childNum": 2
+},
+如果只改中国的31个省份还好，工作量不大，要是地市级也改成居中的工作量就大了还是网上找现成的json文件吧 </pre>
+          <h3>echarts wordCloud词云图总结使用说明</h3>
           <pre>
 1、安装echarts 和 echarts-wordcloud
 npm install echarts --save
@@ -375,17 +423,72 @@ initCharts() {
     data () {
       return {
         created: this.$route.query.created,
-        title: this.$route.query.name
+        title: this.$route.query.name,
+        catalogue:[]
       }
     },
-    mounted(){
+    mounted:function(){
       this.$nextTick(function(){
-
+        this.createCatalogue();
       })
     },
     methods: {
-      toggle(){
+      jump (index) {
+//        let jump = document.getElementsByTagName('h3');
+//       // 获取需要滚动的距离
+//        let total = jump[index].offsetTop;
+//        // Chrome
+//        document.body.scrollTop = total;
+//        // Firefox
+//        document.documentElement.scrollTop = total;
+//       // Safari
+//        window.pageYOffset = total
+//        https://www.cnblogs.com/wisewrong/p/6495726.html  参考网站
+        let jump = document.getElementsByTagName('h3');
+        let total = jump[index].offsetTop;  // 获取目标位置滚动的距离
+        let distance = document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
+        // 平滑滚动，时长500ms，每10ms一跳，共50跳
+        let step = total / 50;
+        if (total > distance) {
+          smoothDown()
+        } else {
+          let newTotal = distance - total;  //防止total，let step=total/50太小，移动缓慢
+          step = newTotal / 50;
+          smoothUp()
+        }
 
+        function smoothDown () {
+          if (total>distance ) {
+            distance += step;
+            document.body.scrollTop = distance;
+            document.documentElement.scrollTop = distance;
+            setTimeout(smoothDown, 10)
+          } else {
+            document.body.scrollTop = total;
+            document.documentElement.scrollTop = total
+          }
+        }
+        function smoothUp () {
+          if ( total<distance) {
+            distance -= step;
+            document.body.scrollTop = distance;
+            document.documentElement.scrollTop = distance;
+            setTimeout(smoothUp, 10)
+          } else {
+            document.body.scrollTop = total;
+            document.documentElement.scrollTop = total
+          }
+        }
+      },
+      //创建目录函数
+      createCatalogue(){
+        let object = document.getElementsByTagName('h3');
+        var flag=[];
+        for(var i=0;i<object.length;i++){
+          var o={name:object[i].innerHTML};
+          flag.push(o)
+        }
+        this.catalogue=flag;
       }
     }
   }
@@ -393,7 +496,7 @@ initCharts() {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   strong{
-background-repeat: no-repeat;
+       background-repeat: no-repeat;
 
   }
 </style>

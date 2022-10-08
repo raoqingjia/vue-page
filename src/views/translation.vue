@@ -70,7 +70,7 @@
           // input=q前10个字符 + q长度 + q后10个字符（当q长度大于20）或 input=q字符串（当q长度小于等于20)
           let input = query;
           if (query.length > 20) {
-            input = query.substring(0, 10) + val.length + query.substring(val.length - 10, query.length);
+            input = query.substring(0, 10) + query.length + query.substring(query.length - 10, query.length);
           }
           const appKey = app_id , keys = app_secret, salt = (new Date).getTime(), curtime = Math.round(new Date().getTime() / 1000);
           // sha256(应用ID+input+salt+curtime+应用密钥)
