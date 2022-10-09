@@ -21,8 +21,8 @@ https://datav.aliyun.com/portal/school/atlas/area_selector  阿里生成的china
 
 可以借鉴的案例
 https://www.makeapie.cn/echarts_content/xlw6cwVrpX.html  地图、航线与柱状图关联展示
-https://www.makeapie.cn/echarts_content/xr5cqmiBBf.html  地图带阴影，航线
-          </pre>F
+https://www.makeapie.cn/echarts_content/xr5cqmiBBf.html  地图带阴影，散点图，航线
+          </pre>
           <h3>Option的配置的通用配置</h3>
           <pre>
 backgroundColor                                     背景色
