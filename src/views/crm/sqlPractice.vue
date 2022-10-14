@@ -7,7 +7,7 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <ul class="catalogue">
+          <ul class="catalogue clearfix">
             <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
           </ul>
           <h3>题目：在一张表里查找最晚入职员工的所有信息：</h3>

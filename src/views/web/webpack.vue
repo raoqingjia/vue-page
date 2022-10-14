@@ -7,7 +7,7 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <ul class="catalogue">
+          <ul class="catalogue clearfix">
             <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
           </ul>
           <h3>webpack 五个核心概念</h3>
@@ -29,7 +29,7 @@ npm install webpack webpack-cli -D
 npm i css-loader style-loader less-loader less -D   打包样式资源下载安装 loader 包
 npm install --save-dev html-webpack-plugin  打包 HTML 资源
 npm install --save-dev html-loader url-loader file-loader   打包图片资源
-npm install webpack-dev-server 安装webpack-dev-server实现了自动编译刷新浏览器  运行指令: npx webpack-dev-server  
+npm install webpack-dev-server 安装webpack-dev-server实现了自动编译刷新浏览器  运行指令: npx webpack-dev-server
 npm install --save-dev mini-css-extract-plugin   提取 css 成单独文件</pre>
           <h3>编译打包应用</h3>
           <pre>

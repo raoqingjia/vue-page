@@ -8,7 +8,7 @@
         </p>
 
         <div class="art-content">
-          <ul class="catalogue">
+          <ul class="catalogue clearfix">
             <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
           </ul>
           <h3>TCP（传输控制协议）是什么？</h3>

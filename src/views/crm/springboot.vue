@@ -7,7 +7,7 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <ul class="catalogue">
+          <ul class="catalogue clearfix">
             <li class="catalog">目录</li>
             <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
           </ul>

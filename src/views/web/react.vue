@@ -7,7 +7,7 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <ul class="catalogue">
+          <ul class="catalogue clearfix">
             <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
           </ul>
           <h3>React项目安装搭建</h3>
@@ -668,7 +668,7 @@ React路由三大对象之 Router、Link、Route
 1， Router 组件：包裹整个应用，一个 React 应用只需要使用一次
 两种常用路由：
 HashRouter :hash模式
-BrowserRouter: history模式 
+BrowserRouter: history模式
 原理：（推荐 BrowserRouter）
 HashRouter：使用 URL 的 hash 实现
 原理：监听 window 的 hashchange 事件来实现的 （http://localhost:3000/#/first）
@@ -689,10 +689,10 @@ to属性，用于指定地址，会渲染成a标签的href属性
 activeClassName: 用于指定高亮的类名，默认active。一般不去修改。
 exact: 精确匹配，表示必须地址栏和to的属性值 精确匹配类名才生效
 
-这两个标签的区别就是 NavLink指向的路径会自带一个名为 active 的css类名 
+这两个标签的区别就是 NavLink指向的路径会自带一个名为 active 的css类名
 
 3，Route：决定路由匹配规则
-格式：< Route path="/xx/xx" component={组件}>< /Route> 
+格式：< Route path="/xx/xx" component={组件}>< /Route>
 path： Route组件中path属性的值
 pathname: 指的如下格式
 link组件中to的属性值

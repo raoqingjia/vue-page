@@ -133,5 +133,14 @@ const crmNoteRouter = [ {
     created: "持续更新 最后版本 2022-05-03",
     component: resolve => require(['@/views/crm/rabbitmq'], resolve)
   },
+  {
+    path: '/note/nginx',
+    name: "Nginx",
+    type: "crm",
+    img: require("../img/nginx-icon.png"),
+    description: "Nginx转发及反响代理",
+    created: "持续更新 最后版本 2022-10-13",
+    component: resolve => require(['@/views/crm/nginx'], resolve)
+  },
   ];
 export default crmNoteRouter;

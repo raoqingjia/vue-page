@@ -7,7 +7,7 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <ul class="catalogue">
+          <ul class="catalogue clearfix">
             <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
           </ul>
           <h3>API</h3>
@@ -2339,7 +2339,7 @@ public class Service {
     int length =dis.read(by);
     System.out.println(new String(by, 0, length,"GBK"));
     System.out.println("请求结束");
-    dis.flush();   
+    dis.flush();
     dis.close();     // 关闭流
     client.close(); // 关闭服务端socket
   }

@@ -19,7 +19,7 @@ const webNoteRouter = [  //工作笔记
   },
   {
     path: '/note/angular',
-    name: "Angular 4.0",
+    name: "Angular",
     type: "web",
     img: require("../img/angular4-icon.png"),
     description: "基于angular-cli脚手架搭建...",
