@@ -421,7 +421,8 @@ semi: 2, // 要求或禁止使用分号代替': 2, // ASI
 'template-curly-spacing': 2, // 要求或禁止模板字符串中的嵌入表达式周围空格的使用
 'yield-star-spacing': 2, // 强制在 yield* 表达式中 * 周围使用空格</pre>
           <h3>ESLint的一个报错信息</h3>
-          <pre> /typescript-eslint-project/src/index.ts
+          <pre> 1）不允许有console打印
+/typescript-eslint-project/src/index.ts
 1:1  error  Unexpected console statement  no-console
 ✖ 1 problem (1 error, 0 warnings)
 说明不允许有console打印
@@ -429,6 +430,21 @@ no-console关掉
 "rules": { 
     "no-console": 0 // 使用0或者"off",都是同样的
   }
+
+2）有未使用的变量
+@typescript-eslint/no-unused-vars 警告问题
+很简单：
+1、最标准的方式当然是删掉这些变量。
+2、配置一下 eslinetrc.js 环境即可。
+module.exports = {
+	rules: {
+		"no-unused-vars": "off",
+    	"@typescript-eslint/no-unused-vars": ["off"],
+	}
+}
+烦人的警告没有了。
+另外，多了解一下配置项，eslint 默认将这个功能设置为 warning，起到了提示作用，警告用户文件中包含未使用的变量。如果你想将它设置为强制属性，那么请把上面的 off 改为 error 即可，
+"@typescript-eslint/no-unused-vars": ["error"]
 </pre>
         </div>
       </div>
