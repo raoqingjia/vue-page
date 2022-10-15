@@ -8,8 +8,11 @@
         </p>
         <div class="art-content">
           <h3>简介</h3>
-          <pre>ESLint是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，它的目标是保证代码的一致性和避免错误。在许多方面，它和 JSLint、JSHint 相似，除了少数的例外：
+          <pre>
+ESLint是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，它的目标是保证代码的一致性和避免错误。在许多方面，它和 JSLint、JSHint 相似，除了少数的例外。
 ESLint 说白了就是个语法检查工具，根据提前定义好的规则去检查项目中代码书写格式是否符合规范
+可能有人听过TSLint，它是为TypeScript为生的。但在2019年，TSLint的团队决定不再继续维护，推荐使用ESLint来替代。主要不维护的原因就是TSLint和ESLint功能一致，有这大量重复的代码。所以不搞了。
+以后TypeScript的项目我们去使用ESLint就好了。
 
 你可以使用 npm 安装 ESLint：
 $ npm install eslint --save-dev
@@ -17,20 +20,71 @@ $ npm install eslint --save-dev
 
 运行 eslint --init 之后，.eslintrc 文件会在你的文件夹中自动创建。你可以在 .eslintrc 文件中看到许多像这样的规则：
 {
-    "rules": {
-        "semi": ["error", "always"],  //  [2, 'never']  不使用分号，否则报错
-        "quotes": ["2", "double"]   //  使用双引号，否则报错；或者将double改为single使用单引号，否则报错
-    }
+  "rules": {    
+    "semi": ["error", "always"],//  [2, 'never']  不使用分号，否则报错
+    "quotes": ["2", "double"],   //  使用双引号，否则报错；或者将double改为single使用单引号，否则报错
+    "no-console": 2 // 如果有console,会抛出错误
+  }
 }
 "semi" 和 "quotes" 是 ESLint 中 规则 的名称。第一个值是错误级别，可以使下面的值之一：
-"off" or 0 - 关闭规则
-"warn" or 1 - 将规则视为一个警告（不会影响退出码）
-"error" or 2 - 将规则视为一个错误 (退出码为1)
+"off"可以替换成0，代表关闭该规则
+"warn"可以替换成1，代表打开规则，提示警告，但不会报错
+"error"可以替换成2，代表打开规则，直接报错
 这三个错误级别可以允许你细粒度的控制
 
 在编码的过程中使用npm run lint校验代码规范，如果报错，可以通过报错信息去详细查看是那一条规范报错          </pre>
+ <h3>在TypeScript项目中使用ESLint</h3>
+          <pre>创建项目并安装依赖
+mkdir typescript-eslint-project
+cd typescript-eslint-project
+npm init -y
+
+安装依赖
+npm install typescript eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin -D
+创建ESLint配置文件.eslintrc
+touch .eslintrc 
+
+写入下面的配置
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ]
+}
+
+创建ESLint忽略文件配置.eslintignore，来指定我们不需要进行检查的目录或文件
+touch .eslintignore
+这里我忽略掉node_modules文件夹，和TypeScript编译输出的文件夹dist。
+node_modules
+dist
+
+在package.json中添加lint命令
+{
+  "scripts": {
+    ...
+    "lint": "eslint . --ext .ts",
+  }
+}
+
+接下来，创建一个ts文件，根目录创建src文件夹，在src下创建index.ts文件
+src/
+	index.ts
+
+写入一段测试代码 
+console.log('my typescript eslint project')
+
+解析来，我们测试一下lint
+npm run lint
+终端内没有任何输出，说明代码正确，没有任何错误。</pre>
           <h3>ESLint的extends</h3>
-          <pre>在初始化eslint或者打开一个已有eslint配置的项目的.eslintrc文件，会看到有个extends字段，extends可能是一个字符串，也可能是一个数组，以最简单的字符串为例，它可能是这样的：extends: 'eslint:recommended'；
+          <pre>
+在初始化eslint或者打开一个已有eslint配置的项目的.eslintrc文件，会看到有个extends字段，extends可能是一个字符串，也可能是一个数组，以最简单的字符串为例，它可能是这样的：extends: 'eslint:recommended'；
 官网中有这么一段话：在配置文件中，使用"extends": "eslint:recommended"来启用推荐的规则，报告一些常见的问题，在某些中这些推荐的规则都带有一个✅标记。
 意思是，eslint:recommended这个规则集合中的集合在所有规则列表中都用✅标记了（相当于一个规则集合）。rules中如果没有覆盖带有✅的规则，那么就采用eslint:recommended这个集合下的规则来规范代码。
 反之，如果在rules字段中又定义了与该集合下的规则相同的规则，就用rules中的规则覆盖该重名的集合
@@ -55,7 +109,8 @@ module.exports = {
 总结
 extends可以看做是集成一个个配置方案的最佳实践。它配置的内容实际就是一份别人配置好的.eslintrc.js。
 extends 的模块名称以 eslint-config- 开头，例如 eslint-config-myconfig，使用的时候可以用全称，也可以用缩写。
-允许 extends 配置多个模块，如果规则冲突，位置靠后的包将覆盖前面的。rules 中的规则相同，并且优先级恒定高于 extends。</pre>
+允许 extends 配置多个模块，如果规则冲突，位置靠后的包将覆盖前面的。rules 中的规则相同，并且优先级恒定高于 extends。</pre
+          >
           <h3>ESLint的plugin</h3>
           <pre>
 如果你在npm中搜索eslint-plugin- *，你可以找到第三方提供的大量自定义插件。
@@ -71,12 +126,11 @@ module.exports = {
   rules: {
     'myplugin/hello': true      //  自定义插件规则
   },
-}
-
-
-          </pre>
+}</pre>
           <h3>下面先说说rules相关的配置</h3>
-          <pre>先清楚下面 0 1 2 表示的含义
+          <pre>我们可以在ESLint的官网（https://eslint.org/docs/rules/）上找到ESLint的基本规则。
+
+先清楚下面 0 1 2 表示的含义
 0  表示 off  - 关闭规则
 1  表示 warn - 将规则视为一个警告（不会影响退出码）
 2  表示 error- 将规则视为一个错误
@@ -363,8 +417,16 @@ semi: 2, // 要求或禁止使用分号代替': 2, // ASI
 'sort-imports': 2, // 强制模块内的 import 排序
 'symbol-description': 2, // 要求 symbol 描述
 'template-curly-spacing': 2, // 要求或禁止模板字符串中的嵌入表达式周围空格的使用
-'yield-star-spacing': 2, // 强制在 yield* 表达式中 * 周围使用空格
-
+'yield-star-spacing': 2, // 强制在 yield* 表达式中 * 周围使用空格</pre>
+          <h3>ESLint的一个报错信息</h3>
+          <pre> /typescript-eslint-project/src/index.ts
+1:1  error  Unexpected console statement  no-console
+✖ 1 problem (1 error, 0 warnings)
+说明不允许有console打印
+no-console关掉
+"rules": { 
+    "no-console": 0 // 使用0或者"off",都是同样的
+  }
 </pre>
         </div>
       </div>
@@ -373,26 +435,22 @@ semi: 2, // 要求或禁止使用分号代替': 2, // ASI
 </template>
 
 <script>
-    export default {
-        name: 'qrcanvas',
-        data() {
-            return {
-                created: this.$route.query.created,
-                title: this.$route.query.name
-            }
-        },
-        mounted() {
-            this.$nextTick(function () {
-            })
-        },
-        methods: {
-            toggle() {
-
-            }
-        }
-    }
+export default {
+  name: "qrcanvas",
+  data() {
+    return {
+      created: this.$route.query.created,
+      title: this.$route.query.name,
+    };
+  },
+  mounted() {
+    this.$nextTick(function () {});
+  },
+  methods: {
+    toggle() {},
+  },
+};
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>
