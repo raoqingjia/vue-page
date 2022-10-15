@@ -8,8 +8,8 @@
         </p>
         <div class="art-content">
           <ul class="catalogue clearfix">
-            <li v-for="(items, index) in catalogue">
-              <a @click="jump(index)">{{ index + 1 }}、{{ items.name }}</a>
+            <li v-for="(items, index) in catalogue" :key="index">
+              <a @click="jump(index)" >{{ index + 1 }}、{{ items.name }}</a>
             </li>
           </ul>
           <h3>webpack 五个核心概念</h3>
