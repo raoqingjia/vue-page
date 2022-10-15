@@ -34,7 +34,9 @@ $ npm install eslint --save-dev
 
 在编码的过程中使用npm run lint校验代码规范，如果报错，可以通过报错信息去详细查看是那一条规范报错          </pre>
  <h3>在TypeScript项目中使用ESLint</h3>
-          <pre>创建项目并安装依赖
+          <pre>typescript-eslint git地址            
+https://github.com/typescript-eslint/typescript-eslint创建项目并安装依赖
+
 mkdir typescript-eslint-project
 cd typescript-eslint-project
 npm init -y

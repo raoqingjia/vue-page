@@ -143,6 +143,13 @@ const frameworkRouter = [ // 前端框架
     type: "framework",
     created: "2022-09-14",
     component: resolve => require(['@/views/framework/vueImgUseSrc'], resolve)
+  },
+  {
+    path: '/framework/reactInJsxScope',
+    name: '提示错误：React must be in scope when using JSX react/react-in-jsx-scope',
+    type: "framework",
+    created: "2022-10-04",
+    component: resolve => require(['@/views/framework/reactInJsxScope'], resolve)
   }
 
 ];
