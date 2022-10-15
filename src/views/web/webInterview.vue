@@ -9,7 +9,9 @@
 
         <div class="art-content">
           <ul class="catalogue clearfix">
-            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
+            <li v-for="(items, index) in catalogue">
+              <a @click="jump(index)">{{ items.name }}</a>
+            </li>
           </ul>
           <h3>TCP（传输控制协议）是什么？</h3>
           <pre>
@@ -22,12 +24,11 @@ TCP是传输控制协议，是TCP/IP体系中非常复杂的一个协议，属�
 可靠交付。通过TCP连接传送的数据是没有差错、不会丢失、不重复并且按序到达的。
 全双工通信。TCP允许连接的双方可以在任何时候发送数据，双方都有发送缓存和接收缓存。应用程序把数据给发送缓存之后就可以做其他的事情了，TCP发送缓存会在合适的时候自己把缓存中的数据发送出去。在接受的时候TCP会把数据存进接收缓存，上层应用程序会在合适的时候读取数据。也正因为是全双工通信方式，建立连接时最少需要三次信息确认，也就是三次握手，断开连接时最少需要四次信息确认，也就是所谓的四次挥手。
 面向字节流。TC不像UDP每一个数据报独立传输，而是在不保留报文边界的情况下以字节流的方式进行传输，这也是长连接的由来。TCP中的“流”就是指流入到进程或从进程流出的字节序列。
-头部开销大。最小20字节，最大60字节。加上TCP的可靠传输机制功能的影响，数据传输效率比UDP慢很多。</pre>
+头部开销大。最小20字节，最大60字节。加上TCP的可靠传输机制功能的影响，数据传输效率比UDP慢很多。</pre
+          >
 
           <h3>vue双向数据绑定原理</h3>
-          <pre>
-
-          </pre>
+          <pre></pre>
           <h3>React事件绑定原理</h3>
           <pre>
 解释React事件绑定原理讲述之前先理解下面案例：
@@ -61,7 +62,8 @@ React事件绑定原理
 连接文章
 https://www.jb51.net/article/151921.htm
 https://zhuanlan.zhihu.com/p/49067231
-https://blog.csdn.net/weixin_34090562/article/details/88702472?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link</pre>
+https://blog.csdn.net/weixin_34090562/article/details/88702472?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link</pre
+          >
           <h3>说一下浏览器输入URL发生了什么？</h3>
           <pre>
 【得分点】
@@ -86,7 +88,8 @@ DNS解析、TCP握手、HTTP缓存、重定向、服务器状态码、渲染引�
 6.本地DNS服务器向域名的解析服务器发出请求，这时就能收到一个域名和IP地址对应关系，本地DNS服务器不仅要把IP地址返回给用户电脑，还要把这个对应关系保存在缓存中，以备下次别的用户查询时，可以直接返回结果，加快网络访问。
           </pre>
           <h3>说一说你对闭包的理解？</h3>
-          <pre>【得分点】
+          <pre>
+【得分点】
 变量背包、作用域链、局部变量不销毁、函数体外访问函数的内部变量、内存泄漏、内存溢出、形成块级作用域、柯里化、构造函数中定义特权方法、Vue中数据响应式Observer
 【参考答案】
 标准回答
@@ -148,8 +151,11 @@ function defineReactive(obj, key, value) {
           value = newVal;
       }
   })
-}</pre>
-          <h3>代码var foo = "10"+3-"1";console.log(foo);执行后，foo的值为( )</h3>
+}</pre
+          >
+          <h3>
+            代码var foo = "10"+3-"1";console.log(foo);执行后，foo的值为( )
+          </h3>
           <pre>
 正确答案: B
 A)"102"
@@ -159,7 +165,8 @@ D)"12"
 对于“+”来说，有两个含义：第一个含义是做字符串拼接，第二个含义是加减法中的加法。
 1，如果操作数里有一个是字符串，其他的值将被转换成字符串；
 2，其他情况，操作数转换成数字执行加法运算。
-而对于“ - ”来说，只有一个含义，就是做减法，自然不会转化成字符串了。</pre>
+而对于“ - ”来说，只有一个含义，就是做减法，自然不会转化成字符串了。</pre
+          >
           <h3>在大数据量场景下，以下哪种js中字符串连接方式较为高效（）</h3>
           <pre>
 正确答案: C  但是这题答案很片面
@@ -172,7 +179,8 @@ Array.push()
 在现代浏览器，尽量用"+",更高效。
 当然，在少数现代浏览器里 “+” 不一定会比 join 快（如，safari 5.0.5，opera 11.10)
 本身是字符串数组的，直接 join 会更好。
-在"+"与concat之间，当然是优选使用"+"，方便又直观又高效。</pre>
+在"+"与concat之间，当然是优选使用"+"，方便又直观又高效。</pre
+          >
           <h3>只能输入零和非零开头的数字，正确的正则表达式是</h3>
           <pre>
 A)^(0|[1-9][0-9]*)$
@@ -185,7 +193,8 @@ D)^\+[1-9][0-9]*$
 *任意多次
 |或的意思
 ()组
-[]集合</pre>
+[]集合</pre
+          >
           <h3>有如下代码,请问执行后弹出的值是：（）</h3>
           <pre>
 var name = "World!";
@@ -204,7 +213,8 @@ B)Goodbye Jack
 C)Hello Jack
 D)Goodbye World!
 解释1：js搜索变量是从内部顺原型链往外部找的，内部直接找到了name，就不去外部了，执行第一次if时还没初始化值，所以为undefined，然后赋值，执行console结束
-解释2：当函数内部变量与全局变量同名时 全局变量会被覆盖 因为js是单线程执行 var name当前没有赋值 所以类型为undefined</pre>
+解释2：当函数内部变量与全局变量同名时 全局变量会被覆盖 因为js是单线程执行 var name当前没有赋值 所以类型为undefined</pre
+          >
           <h3>两个for控制台打印的结果是？</h3>
           <pre>
 for(let i=0;i<2;i++){
@@ -224,7 +234,8 @@ A)0 1 2 2
 B)0 1 0 1
 C)0 1 1 1
 D)1 1 0 0
-解题思路：①Js是单线程的，Settimeout是异步宏任务，所以代码执行遇到异步的，就放在事件队列中的，等线程中的任务执行完后才会执行事件队列中的任务。② let是es6中声明变量的方式，有自己的作用域块，可以放变量，所以let绑定for循环时，每个i都有自己的值. 在这个for循环中就是满足一次条件向事件队列中添加一个打印i的事件，且每个事件中的i有自己的值 ③Var没有作用域块，for循环的变量就会后一个覆盖前一个，当循环完毕时i就只有一个值，又因为for循环的判断条件是不满足跳出，所以i最后是2而不是1 ④这些完了后执行事件队列中的任务，就打印了0122          </pre>
+解题思路：①Js是单线程的，Settimeout是异步宏任务，所以代码执行遇到异步的，就放在事件队列中的，等线程中的任务执行完后才会执行事件队列中的任务。② let是es6中声明变量的方式，有自己的作用域块，可以放变量，所以let绑定for循环时，每个i都有自己的值. 在这个for循环中就是满足一次条件向事件队列中添加一个打印i的事件，且每个事件中的i有自己的值 ③Var没有作用域块，for循环的变量就会后一个覆盖前一个，当循环完毕时i就只有一个值，又因为for循环的判断条件是不满足跳出，所以i最后是2而不是1 ④这些完了后执行事件队列中的任务，就打印了0122          </pre
+          >
           <h3>angularjs1中的$apply()的作用是？</h3>
           <pre>
 正确答案: C
@@ -232,11 +243,16 @@ A)手动绑定外部数据
 B)格式化数据
 C)使方法生效
 D)发送消息给其它controller
-解题思路：在原生js或者第三方框架下，修改model，是有可能不会触发视图更新的，比如setTimeout、jquery插件。为什么？因为他们脱离了Angularjs的上下文，Angularjs并不能监听到数据的改变，$apply 是为了让angularJS内部没有在$digest状态当中的代码块进入到$digest当中，从而实现双向数据绑定。所谓$digest就是angularjs 检测数据更新的方式</pre>
-          <h3>Math类中提供了三个与取整有关的方法：ceil,floor,round，这三个用处功能</h3>
+解题思路：在原生js或者第三方框架下，修改model，是有可能不会触发视图更新的，比如setTimeout、jquery插件。为什么？因为他们脱离了Angularjs的上下文，Angularjs并不能监听到数据的改变，$apply 是为了让angularJS内部没有在$digest状态当中的代码块进入到$digest当中，从而实现双向数据绑定。所谓$digest就是angularjs 检测数据更新的方式</pre
+          >
+          <h3>
+            Math类中提供了三个与取整有关的方法：ceil,floor,round，这三个用处功能
+          </h3>
           <pre>
-这些方法的作用于它们的英文名称的含义相对应，例如：ceil的英文意义是天花板，该方法就表示向上取整，Math.ceil（11.3）的结果为12，Math.ceil(-11.6)的结果为-11；floor的英文是地板，该方法就表示向下取整，Math.floor(11.6)的结果是11，Math.floor(-11.4)的结果-12；最难掌握的是round方法，他表示“四舍五入”，算法为Math.floor(x+0.5),即将原来的数字加上0.5后再向下取整，所以，Math.round(11.5)的结果是12，Math.round(-11.5)的结果为-11</pre>
-          <h3>通过div显示XMLHttpRequest的状态，哪个是正确的做法</h3><pre>
+这些方法的作用于它们的英文名称的含义相对应，例如：ceil的英文意义是天花板，该方法就表示向上取整，Math.ceil（11.3）的结果为12，Math.ceil(-11.6)的结果为-11；floor的英文是地板，该方法就表示向下取整，Math.floor(11.6)的结果是11，Math.floor(-11.4)的结果-12；最难掌握的是round方法，他表示“四舍五入”，算法为Math.floor(x+0.5),即将原来的数字加上0.5后再向下取整，所以，Math.round(11.5)的结果是12，Math.round(-11.5)的结果为-11</pre
+          >
+          <h3>通过div显示XMLHttpRequest的状态，哪个是正确的做法</h3>
+          <pre>
 A)var myDiv = document.getElementById ("statusCode"); myDiv.innerHTML = req.statusCode;
 B)var myDiv = document.getElementById ("statusCode"); myDiv.innerHTML = req.status;
 C)var myDiv = document.getElementById ("statusCode"); myDiv.setStatus (req.statusCode);
@@ -258,7 +274,8 @@ status实际是一种辅状态判断，只是status更多是服务器方的状�
 2xx——成功，表示用户请求被正确接收，理解和处理。例如，200：OK；201：提示知道新文件的URL
 3xx——重定向，表示请求没有成功，客户必须采取进一步的动作。如，300：请求的资源可在多处得到；301：删除请求数据
 4xx——客户端错误，表示客户端提交的请求有错误。如，404：NOT Found，意味着请求中所引用的文档不存在。
-5xx——服务器错误，表示服务器不能完成对请求的处理。如，500，服务器产生内部错误</pre>
+5xx——服务器错误，表示服务器不能完成对请求的处理。如，500，服务器产生内部错误</pre
+          >
           <h3>以下代码执行后，console 的输出是？</h3>
           <pre>
 function Foo(){'use strict'
@@ -270,18 +287,21 @@ B)undefined
 C)null
 D)TypeError
 正确答案: D
-'use strict'是严格模式,严格模式下禁止this关键字指向全局对象。此时this为undefined         </pre>
+'use strict'是严格模式,严格模式下禁止this关键字指向全局对象。此时this为undefined         </pre
+          >
           <h3>JavaScript的基本数据类型？</h3>
           <pre>
 解答:基本数据类型：String  Boolean Number Undefined Null Symbol（es6引入） 引用数据类型：Object Array Function
-可以这样记 usnb u: undifined s: string symbol n: number null b: boolean</pre>
+可以这样记 usnb u: undifined s: string symbol n: number null b: boolean</pre
+          >
           <h3>代码的输出结果是</h3>
           <pre>
 var one;
 var two=null;
 console.log(one==two,one===two);
 上面代码的输出结果是：true false
-解析：one变量的值是undefined，two的值是null，undefined==null，但undefined的type是undefined，但null的类型是object</pre>
+解析：one变量的值是undefined，two的值是null，undefined==null，但undefined的type是undefined，但null的类型是object</pre
+          >
           <h3>以下哪些表达式的结果为true（）</h3>
           <pre>
 A. undefined == null
@@ -304,8 +324,12 @@ parseInt("123", 10)   //返回 123
 2.3如果字母和数字都存在
 2.3.1以数字开头，则取截止到第一个字母出现之前的所有数字进行转换
 2.3.2如果参数“string”，以字母开头，直接返回NaN （10进制中字母不是一个有效的的表示）
-parseInt("df2bc", 10)  //返回 NaN</pre>
-          <h3>jquery中   eq(index)  find(expr)  siblings([expr])  next() 查找元素的范围是什么</h3>
+parseInt("df2bc", 10)  //返回 NaN</pre
+          >
+          <h3>
+            jquery中 eq(index) find(expr) siblings([expr]) next()
+            查找元素的范围是什么
+          </h3>
           <pre>siblings同辈，find后辈及子辈，eq第几个，next下一个</pre>
           <h3>typeof 结果有哪些类型</h3>
           <pre>
@@ -314,13 +338,15 @@ boolean           布尔值
 string            字符串
 number            数值（整形和浮点）
 object            对象或null
-function          函数</pre>
+function          函数</pre
+          >
           <h3>浏览器私有前缀</h3>
-<pre>
+          <pre>
 -moz-         火狐浏览器
 -webkit-      360、苹果、猎豹、搜狗、QQ、 Chrome等浏览器
 -o-           Opera/欧朋浏览器
--ms-          IE、百度等浏览器</pre>
+-ms-          IE、百度等浏览器</pre
+          >
           <h3>返回的json和jsonp有什么区别？</h3>
           <pre>
 json是一种基于文本的数据交换格式（不支持跨域），而jsonp是一种非官方跨域数据传输方式,json不支持跨域请求,只能使用jsonp。
@@ -331,7 +357,8 @@ json的特点：
 jsonp的使用方法 ：
 JSONP的出现是为了解决Ajax跨域请求问题，所谓的跨域请求问题，即访问不同的域 (只要协议、域名、端口有任何一个不同，都被当作是不同的域) 的资源的时候会被拒绝。
 开发过程中，如果出现类似 “Origin ****** is not allowed by Access-Control-Allow-Origin.” 的错误，则可能是由于json数据不支持跨域导致的，应考虑使用jsonp协议。
-如果出现类似 ”SyntaxError: Unexpected token ':'. Parse error.“ 的错误，则可能是由于返回的json数据没有用”callback“传递的函数名封装导致的。</pre>
+如果出现类似 ”SyntaxError: Unexpected token ':'. Parse error.“ 的错误，则可能是由于返回的json数据没有用”callback“传递的函数名封装导致的。</pre
+          >
           <h3>浏览器里面的事件都会按照一定的规则去传递，这个规则是什么？</h3>
           <pre>
 事件捕获、事件响应、事件冒泡。
@@ -358,7 +385,8 @@ CMD 是 SeaJS 在推广过程中对模块定义的规范化产出，SeaJS 遵循
 对于依赖的模块，AMD 是提前执行，CMD 是延迟执行。不过 RequireJS 从 2.0 开始，也改成可以延迟执行（根据写法不同，处理方式不同），CMD 推崇依赖就近，AMD 推崇依赖前置。
 amd 规范 https://github.com/amdjs/amdjs-api/wiki/AMD-(%E4%B8%AD%E6%96%87%E7%89%88)
 cmd 规范 https://github.com/seajs/seajs/issues/242
-</pre>
+</pre
+          >
         </div>
       </div>
     </div>
@@ -366,85 +394,86 @@ cmd 规范 https://github.com/seajs/seajs/issues/242
 </template>
 
 <script>
-  export default {
-    name: 'http_error',
-    data() {
-      return {
-        created: this.$route.query.created,
-        title: this.$route.query.name,
-        catalogue: []
+export default {
+  name: "http_error",
+  data() {
+    return {
+      created: this.$route.query.created,
+      title: this.$route.query.name,
+      catalogue: [],
+    };
+  },
+  mounted() {
+    this.$nextTick(function () {
+      this.createCatalogue();
+    });
+  },
+  methods: {
+    jump(index) {
+      //        let jump = document.getElementsByTagName('h3');
+      //       // 获取需要滚动的距离
+      //        let total = jump[index].offsetTop;
+      //        // Chrome
+      //        document.body.scrollTop = total;
+      //        // Firefox
+      //        document.documentElement.scrollTop = total;
+      //       // Safari
+      //        window.pageYOffset = total
+      //        https://www.cnblogs.com/wisewrong/p/6495726.html  参考网站
+      let jump = document.getElementsByTagName("h3");
+      let total = jump[index].offsetTop; // 获取目标位置滚动的距离
+      let distance =
+        document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
+      // 平滑滚动，时长500ms，每10ms一跳，共50跳
+      let step = total / 50;
+      if (total > distance) {
+        smoothDown();
+      } else {
+        let newTotal = distance - total; //防止total，let step=total/50太小，移动缓慢
+        step = newTotal / 50;
+        smoothUp();
       }
-    },
-    mounted() {
-      this.$nextTick(function () {
-        this.createCatalogue();
-      })
-    },
-    methods: {
-      jump(index) {
-//        let jump = document.getElementsByTagName('h3');
-//       // 获取需要滚动的距离
-//        let total = jump[index].offsetTop;
-//        // Chrome
-//        document.body.scrollTop = total;
-//        // Firefox
-//        document.documentElement.scrollTop = total;
-//       // Safari
-//        window.pageYOffset = total
-//        https://www.cnblogs.com/wisewrong/p/6495726.html  参考网站
-        let jump = document.getElementsByTagName('h3');
-        let total = jump[index].offsetTop;  // 获取目标位置滚动的距离
-        let distance = document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
-        // 平滑滚动，时长500ms，每10ms一跳，共50跳
-        let step = total / 50;
+
+      function smoothDown() {
         if (total > distance) {
-          smoothDown()
+          distance += step;
+          document.body.scrollTop = distance;
+          document.documentElement.scrollTop = distance;
+          setTimeout(smoothDown, 10);
         } else {
-          let newTotal = distance - total;  //防止total，let step=total/50太小，移动缓慢
-          step = newTotal / 50;
-          smoothUp()
+          document.body.scrollTop = total;
+          document.documentElement.scrollTop = total;
         }
-
-        function smoothDown() {
-          if (total > distance) {
-            distance += step;
-            document.body.scrollTop = distance;
-            document.documentElement.scrollTop = distance;
-            setTimeout(smoothDown, 10)
-          } else {
-            document.body.scrollTop = total;
-            document.documentElement.scrollTop = total
-          }
-        }
-
-        function smoothUp() {
-          if (total < distance) {
-            distance -= step;
-            document.body.scrollTop = distance;
-            document.documentElement.scrollTop = distance;
-            setTimeout(smoothUp, 10)
-          } else {
-            document.body.scrollTop = total;
-            document.documentElement.scrollTop = total
-          }
-        }
-      },
-      //创建目录函数
-      createCatalogue() {
-        let object = document.getElementsByTagName('h3');
-        var flag = [];
-        for (var i = 0; i < object.length; i++) {
-          object[i].innerHTML = ((i + 1) + ". " + object[i].innerHTML);
-          flag.push({name: object[i].innerHTML})
-        }
-        this.catalogue = flag;
       }
-    }
-  }
+
+      function smoothUp() {
+        if (total < distance) {
+          distance -= step;
+          document.body.scrollTop = distance;
+          document.documentElement.scrollTop = distance;
+          setTimeout(smoothUp, 10);
+        } else {
+          document.body.scrollTop = total;
+          document.documentElement.scrollTop = total;
+        }
+      }
+    },
+    //创建目录函数
+    createCatalogue() {
+      let object = document.getElementsByTagName("h3");
+      var flag = [];
+      for (var i = 0; i < object.length; i++) {
+        object[i].innerHTML = i + 1 + ". " + object[i].innerHTML;
+        flag.push({ name: object[i].innerHTML });
+      }
+      this.catalogue = flag;
+    },
+  },
+};
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-ul.catalogue li{
-  float: none!important;
+ul.catalogue li {
+  float: none !important;
 }
 </style>

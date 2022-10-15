@@ -8,7 +8,9 @@
         </p>
         <div class="art-content">
           <ul class="catalogue clearfix">
-            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
+            <li v-for="(items, index) in catalogue">
+              <a @click="jump(index)">{{ index + 1 }}、{{ items.name }}</a>
+            </li>
           </ul>
           <h3>webpack 五个核心概念</h3>
           <pre>
@@ -21,7 +23,8 @@
 4、Mode
 模式(Mode)指示 webpack 使用相应模式的配置。
 development 会将 DefinePlugin 中 process.env.NODE_ENV 的值设置为 development。启用 NamedChunksPlugin 和NamedModulesPlugin。能让代码本地调试运行的环境
-production  会将 DefinePlugin 中 process.env.NODE_ENV 的值设置为 production。启用 FlagDependencyUsagePlugin, FlagIncludedChunksPlugin, ModuleConcatenationPlugin, NoEmitOnErrorsPlugin, OccurrenceOrderPlugin, SideEffectsFlagPlugin 和 TerserPlugin。能让代码优化上线运行的</pre>
+production  会将 DefinePlugin 中 process.env.NODE_ENV 的值设置为 production。启用 FlagDependencyUsagePlugin, FlagIncludedChunksPlugin, ModuleConcatenationPlugin, NoEmitOnErrorsPlugin, OccurrenceOrderPlugin, SideEffectsFlagPlugin 和 TerserPlugin。能让代码优化上线运行的</pre
+          >
           <h3>输入指令下载并安装 webpack</h3>
           <pre>
 npm install webpack webpack-cli -g
@@ -30,7 +33,8 @@ npm i css-loader style-loader less-loader less -D   打包样式资源下载安�
 npm install --save-dev html-webpack-plugin  打包 HTML 资源
 npm install --save-dev html-loader url-loader file-loader   打包图片资源
 npm install webpack-dev-server 安装webpack-dev-server实现了自动编译刷新浏览器  运行指令: npx webpack-dev-server
-npm install --save-dev mini-css-extract-plugin   提取 css 成单独文件</pre>
+npm install --save-dev mini-css-extract-plugin   提取 css 成单独文件</pre
+          >
           <h3>编译打包应用</h3>
           <pre>
 webpack 能够编译打包 js 和 json 文件。能将 es6 的模块化语法转换成浏览器能识别的语法。能压缩代码。不能编译打包 css、img 等文件。不能将 js 的 es6 基本语法转化为 es5 以下语法。
@@ -129,7 +133,8 @@ module.exports = {
     // 自动打开浏览器
     open: true
   }
-} </pre>
+} </pre
+          >
           <h3>对css的处理</h3>
           <pre>
 对css的处理主要在于1、提取css成单独文件2、css兼容性处理3、压缩css
@@ -200,8 +205,9 @@ module.exports ={
     new OptimizeCssAssetsWebpackPlugin()
   ],
   mode: 'development'
-}</pre>
-              <h3>对js进行修改</h3>
+}</pre
+          >
+          <h3>对js进行修改</h3>
           <pre>
 1、 使用eslint-loader对代码进行js语法检查
 module.exports = {
@@ -275,18 +281,95 @@ module.exports = {
     ]
   },
   ........
-};</pre>
-              <h3></h3>
-          <pre></pre>
-              <h3></h3>
-          <pre></pre>
-              <h3></h3>
-          <pre></pre>
-              <h3></h3>
-          <pre></pre>
-              <h3></h3>
-          <pre></pre>
-              <h3></h3>
+};</pre
+          >
+          <h3>webpack配置之source-map 控制台报错信息是否明确和这个息息相关</h3>
+          <pre>https://webpack.docschina.org/configuration/devtool/ 官方介绍
+Devtool作用
+此选项控制是否生成，以及如何生成 source map。
+使用 SourceMapDevToolPlugin 进行更细粒度的配置。查看 source-map-loader 来处理已有的 source map
+
+source-map是一种提供源代码到构建后代码映射技术，也就是说如果构建后代码出错了，通过映射可以追踪源代码错误
+格式：[inline- | hidden- | eval-][nosources-][cheap-[module-]]source-map
+  可以任意排列，但[]的顺序不能乱
+具体介绍
+source-map: 在外部生成一个文件
+  在控制台会显示 错误代码准确信息 和 源代码的错误位置
+inline-source-map: 内嵌到bundle.js中
+  只生成一个source-map
+  在控制台会显示 错误代码准确信息 和 源代码的错误位置
+hidden-source-map: 外部
+  错误代码错误原因，源代码的错误位置
+  不能追踪源代码错误，只能提示到构建后代码的错误位置
+eval-source-map： 内嵌
+  每一个文件都生成对应的source-map
+  错误代码准确信息，源代码的错误位置
+nosources-source-map: 外部
+  错误代码准确信息，没有任何源代码信息
+cheap-source-map: 外部
+  错误代码准确信息，源代码的错误位置
+  只能精准到行
+cheap-odule-source-map: 外部
+  错误代码准确信息，源代码的错误位置
+  module会将loader的source-map加入
+
+内嵌与外部的区别： 1.外部生成单独的文件，内嵌没有 2.内嵌构建速度快
+
+这么多source-map如何选择？
+开发环境：速度快，调试更友好
+  速度快（ eval>inline>cheap>··· ）
+    组合eval-cheap-source-map > eval-source-map
+  调试更友好
+    source-map > cheap-module-source-map > cheap-source-map
+  最终结果：cheap-module-source-map 和 eval-source-map (vuecli与react脚手架默认)
+
+生产环境：源代码要不要隐藏？调试要不要更友好
+  内嵌会让代码体积变大，所以在生产环境下不用内嵌
+  nosources-source-map  全部隐藏
+  hidden-source-map   只隐藏源代码，会提示构建后代码错误信息
+  最终结果：source-map 和 cheap-module-source-map
+
+webpack.config.js文件全部配置
+const { resolve } = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  entry: ['./src/index.js', './src/index.html'],
+  output: {
+    filename: 'bundle.js',
+    path: resolve(__dirname, 'bundle')
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.html$/,
+        loader: 'html-loader'
+      }
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    })
+  ],
+  mode: 'development',
+  devServer: {
+    contentBase: resolve(__dirname, 'bundle'),
+    compress: true,
+    port: 3000,
+    open: true,
+    hot: true,  // 启用HMR模块
+  },
+  devtool: 'cheap-module-source-map'
+}</pre>
+          <h3></h3>
           <pre></pre>
         </div>
       </div>
@@ -295,87 +378,84 @@ module.exports = {
 </template>
 
 <script>
-  export default {
-    name: 'vue',
-    data () {
-      return {
-        created: this.$route.query.created,
-        title: this.$route.query.name,
-        catalogue:[]
+export default {
+  name: "vue",
+  data() {
+    return {
+      created: this.$route.query.created,
+      title: this.$route.query.name,
+      catalogue: [],
+    };
+  },
+  created() {},
+  mounted: function () {
+    this.$nextTick(function () {
+      this.createCatalogue();
+    });
+  },
+  computed: {},
+  methods: {
+    jump(index) {
+      //        let jump = document.getElementsByTagName('h3');
+      //       // 获取需要滚动的距离
+      //        let total = jump[index].offsetTop;
+      //        // Chrome
+      //        document.body.scrollTop = total;
+      //        // Firefox
+      //        document.documentElement.scrollTop = total;
+      //       // Safari
+      //        window.pageYOffset = total
+      //        https://www.cnblogs.com/wisewrong/p/6495726.html  参考网站
+      let jump = document.getElementsByTagName("h3");
+      let total = jump[index].offsetTop; // 获取目标位置滚动的距离
+      let distance =
+        document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
+      // 平滑滚动，时长500ms，每10ms一跳，共50跳
+      let step = total / 50;
+      if (total > distance) {
+        smoothDown();
+      } else {
+        let newTotal = distance - total; //防止total，let step=total/50太小，移动缓慢
+        step = newTotal / 50;
+        smoothUp();
       }
-    },
-    created(){
 
-    },
-    mounted:function(){
-      this.$nextTick(function(){
-          this.createCatalogue();
-
-     })
-    },
-    computed:{},
-    methods: {
-      jump (index) {
-//        let jump = document.getElementsByTagName('h3');
-//       // 获取需要滚动的距离
-//        let total = jump[index].offsetTop;
-//        // Chrome
-//        document.body.scrollTop = total;
-//        // Firefox
-//        document.documentElement.scrollTop = total;
-//       // Safari
-//        window.pageYOffset = total
-//        https://www.cnblogs.com/wisewrong/p/6495726.html  参考网站
-        let jump = document.getElementsByTagName('h3');
-        let total = jump[index].offsetTop;  // 获取目标位置滚动的距离
-        let distance = document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
-        // 平滑滚动，时长500ms，每10ms一跳，共50跳
-        let step = total / 50;
+      function smoothDown() {
         if (total > distance) {
-          smoothDown()
+          distance += step;
+          document.body.scrollTop = distance;
+          document.documentElement.scrollTop = distance;
+          setTimeout(smoothDown, 10);
         } else {
-          let newTotal = distance - total;  //防止total，let step=total/50太小，移动缓慢
-          step = newTotal / 50;
-          smoothUp()
+          document.body.scrollTop = total;
+          document.documentElement.scrollTop = total;
         }
-
-        function smoothDown () {
-          if (total>distance ) {
-            distance += step;
-            document.body.scrollTop = distance;
-            document.documentElement.scrollTop = distance;
-            setTimeout(smoothDown, 10)
-          } else {
-            document.body.scrollTop = total;
-            document.documentElement.scrollTop = total
-          }
-        }
-        function smoothUp () {
-          if ( total<distance) {
-            distance -= step;
-            document.body.scrollTop = distance;
-            document.documentElement.scrollTop = distance;
-            setTimeout(smoothUp, 10)
-          } else {
-            document.body.scrollTop = total;
-            document.documentElement.scrollTop = total
-          }
-        }
-      },
-      //创建目录函数
-      createCatalogue(){
-        let object = document.getElementsByTagName('h3');
-        var flag=[];
-        for(var i=0;i<object.length;i++){
-          var o={name:object[i].innerHTML};
-          flag.push(o)
-        }
-       this.catalogue=flag;
       }
-    }
-  }
+      function smoothUp() {
+        if (total < distance) {
+          distance -= step;
+          document.body.scrollTop = distance;
+          document.documentElement.scrollTop = distance;
+          setTimeout(smoothUp, 10);
+        } else {
+          document.body.scrollTop = total;
+          document.documentElement.scrollTop = total;
+        }
+      }
+    },
+    //创建目录函数
+    createCatalogue() {
+      let object = document.getElementsByTagName("h3");
+      var flag = [];
+      for (var i = 0; i < object.length; i++) {
+        var o = { name: object[i].innerHTML };
+        flag.push(o);
+      }
+      this.catalogue = flag;
+    },
+  },
+};
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>
