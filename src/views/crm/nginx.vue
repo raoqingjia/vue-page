@@ -19,19 +19,84 @@ http://nginx.org/
 Nginx下载
 [root@caochenlei ~]# wget http://nginx.org/download/nginx-1.18.0.tar.gz          </pre>
           <h3>Nginx常用命令</h3>
-          <pre>
-版本： nginx -v
-普通启动服务：nginx
+          <pre>版本： nginx -v
+普通启动服务：start nginx
 配置文件启动：nginx -c /usr/local/nginx/conf/nginx.conf
 暴力停止服务：nginx -s stop
 优雅停止服务：nginx -s quit
 重新加载配置：nginx -s reload
 检查配置文件：nginx -t
+查看相关进程：ps -ef | grep nginx</pre>
+          <h3>Nginx常用命令</h3>
+          <pre>每个指令必须有分号结束
+events块：配置影响nginx服务器或与用户的网络连接。有每个进程的最大连接数，选取哪种事件驱动模型处理连接请求，是否允许同时接受多个网路连接，开启多个网络连接序列化等。
+http块：可以嵌套多个server，配置代理，缓存，日志定义等绝大多数功能和第三方模块的配置。如文件引入，mime-type定义，日志自定义，是否使用sendfile传输文件，连接超时时间，单连接请求数等。
+server块：配置虚拟主机的相关参数，一个http中可以有多个server。
+location块：配置请求的路由，以及各种页面的处理情况
+error_log log/error.log debug;  #制定日志路径，级别。这个设置可以放入全局块，http块，server块，级别以此为：debug|info|notice|warn|error|crit|alert|emerg</pre>
+          <h3>Nginx反向代理</h3>
+          <pre>
+正向代理：如果把局域网外的 Internet 想象成一个巨大的资源库，则局域网中的客户端要访问 Internet，则需要通过代理服务器来访问，这种代理服务就称为正向代理。
+反向代理，客户端对代理是无感知的，因为客户端不需要任何配置就可以访问，我们只需要将请求发送到反向代理服务器，由反向代理服务器去选择目标服务器获取数据后，在返回给客户端，此时反向代理服务器和目标服务器对外就是一个服务器，暴露的是代理服务器地址，隐藏了真实服务器 IP 地址。
+server {
+    listen       80;               // 访问端口
+    server_name  192.168.206.128;  // 访问ip
+    location / {
+        proxy_pass http:127.0.0.1:8080;  //  转发ip及端口
+    }
+}
+反向代理小结
+location /a {
+        proxy_pass http://ip;
+    }
+location /b/ {
+        proxy_pass http://ip;
+    }
+上述配置会导致
+/a/x  ->  http://ip/a/x
+/b/x  ->  http://ip/x</pre>
+          <h3>负载均衡</h3>
+          <pre>轮询的策略，一人一下，雨露均沾
+那我们在server的同级写：
+upstream 别名 {
+  server 192.168.159.140:80;
+  server 192.168.159.141:80;
+}
+在proxy_pass 后面写别名
 
-查看相关进程：ps -ef | grep nginx
+下面是案例
+upstream httpds {
+  server 192.168.159.140:80;
+  server 192.168.159.141:80;
+}
+server {
+    listen       80;               // 访问端口
+    server_name  192.168.206.128;  // 访问ip
+    location / {
+        proxy_pass http:httpds;  // 别名为httpds
+    }
+}
 
-location 匹配规则
-通配符：
+配置负载比重
+负载均衡的几个配置：
+权重：weight=10
+停用：down
+备用：backup
+这几个配置都是加在upstream里的ip后面例如：
+upstream httpds {
+  server 192.168.159.140:80 weight=8;
+  server 192.168.159.141:80 weight=2 down;
+  server 192.168.159.141:80 weight=2 backup;
+}
+server {
+    listen       80;               // 访问端口
+    server_name  192.168.206.128;  // 访问ip
+    location / {
+        proxy_pass http:httpds;  // 别名为httpds
+    }
+}</pre>
+          <h3>location 匹配规则</h3>
+          <pre>通配符：
 标识符	描述
 =	  精确匹配，如果匹配成功，就停止匹配，立即执行该location里面的请求。
 ~	  正则匹配，并且区分大小写。
@@ -74,39 +139,9 @@ location  /blog/ {
 
 优先级
 同优先级的，匹配程度较高的优先匹配
-匹配程度一样的，写在最前面的优先匹配
-
-
-            https://blog.csdn.net/qq_40036754/article/details/102463099?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522166565870716800182753500%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=166565870716800182753500&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-102463099-null-null.142^v56^pc_rank_34_queryrelevant25,201^v3^add_ask&utm_term=nginx&spm=1018.2226.3001.4187
-          </pre>
-          <h3>Nginx反向代理</h3>
-          <pre>
-正向代理：如果把局域网外的 Internet 想象成一个巨大的资源库，则局域网中的客户端要访问 Internet，则需要通过代理服务器来访问，这种代理服务就称为正向代理。
-反向代理，客户端对代理是无感知的，因为客户端不需要任何配置就可以访问，我们只需要将请求发送到反向代理服务器，由反向代理服务器去选择目标服务器获取数据后，在返回给客户端，此时反向代理服务器和目标服务器对外就是一个服务器，暴露的是代理服务器地址，隐藏了真实服务器 IP 地址。
-server {
-    listen       80;
-    server_name  192.168.206.128;
-    location / {
-        proxy_pass http:127.0.0.1:8080;
-        root   html;
-        index  index.html index.htm;
-    }
-}
-反向代理小结
-location /a {
-        proxy_pass http://ip;
-    }
-location /b/ {
-        proxy_pass http://ip;
-    }
-上述配置会导致
-/a/x  ->  http://ip/a/x
-/b/x  ->  http://ip/x
-
-          </pre>
-          <h3>常见问题</h3>
-          <pre>
-在下载了nginx后，cmd下运行nginx.exe文件时，出现错误nginx: [emerg] bind() to 0.0.0.0:80 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
+匹配程度一样的，写在最前面的优先匹配</pre>
+          <h3>常见错误积累</h3>
+          <pre>1) 在下载了nginx后，cmd下运行nginx.exe文件时，出现错误nginx: [emerg] bind() to 0.0.0.0:80 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
 意思是80端口被占用，只需要找到nginx 的配置文件conf文件，打开nginx.conf，把里面的
 server {
         listen       80;
@@ -118,7 +153,17 @@ server {
             index  index.html index.htm;
         }
 listen 80 ；改成没有占用的端口就可以了，然后cmd下运行nginx.exe文件，重启。
-          </pre>
+
+2) 解决nginx: [emerg] unexpected “}“
+可能某处多了或少了一个 “｝” , 或者是某一行未加 ；分号结尾 ，或者是存在特殊字符
+
+3) nginx: [emerg] invalid URL prefix in URL/nginx.conf
+意思是nginx配置的URL地址前缀不正确,可能是ip前面没加http
+
+4) nginx: [warn] server name "http://127.0.0.1" has suspicious symbols in E:\nginx\ nginx-1.20.2/conf/n
+错误原因:nginx要求  server_name 不能包含“/”
+错误：server_name http://ip.com;
+正确：server_name ip.com;</pre>
         </div>
       </div>
     </div>
