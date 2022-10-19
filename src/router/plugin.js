@@ -140,6 +140,13 @@ const pluginRouter = [
     type: "plugin",
     created: "2022-09-21",
     component: resolve => require(['@/views/plugin/validator'], resolve)
+  },
+  {
+    path: '/plugin/cryptoJS ',
+    name: '前端加密JS库--CryptoJS',
+    type: "plugin",
+    created: "2022-10-19",
+    component: resolve => require(['@/views/plugin/cryptoJS'], resolve)
   }
 ];
 export default pluginRouter;

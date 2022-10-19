@@ -1,4 +1,4 @@
-const crmNoteRouter = [ {
+const crmNoteRouter = [{
   path: '/note/javaone',
   name: "JAVA入门简介",
   type: "crm",
@@ -142,5 +142,14 @@ const crmNoteRouter = [ {
     created: "持续更新 最后版本 2022-10-13",
     component: resolve => require(['@/views/crm/nginx'], resolve)
   },
-  ];
+  {
+    path: '/note/shell',
+    name: "Shell",
+    type: "crm",
+    img: require("../img/shell-icon.png"),
+    description: "Shell脚本入门级操作",
+    created: "持续更新 最后版本 2022-10-19",
+    component: resolve => require(['@/views/crm/shell'], resolve)
+  },
+];
 export default crmNoteRouter;

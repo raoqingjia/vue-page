@@ -13,9 +13,41 @@
               <a @click="jump(index)">{{ items.name }}</a>
             </li>
           </ul>
+          <h3>IE浏览器兼容性记录</h3>
+          <pre>1.IE8中行块的对其基线是不一样的，可能要转块
+2.ie低版本不支持表单的placeholder格式，要用插件解决
+3.ie低版本不支持css圆角的效果，全都要用切图的效果区解决
+4.解决opacity不被识别的兼容性代码
+要加ie的条件语句
+filter:alpha(opacity=80)progid:DXImageTransform.Microsoft.gradient(startColorstr=#1e1919,endColorstr=#1e1919);
+5.ie低版本后代选择器不被识别
+6.get请求时涉及到传输中文的字段要用encodeURIComponent()转义，不然IE不会将中文自动转义
+7.new Date(string)在IE不兼容
+对于 '2020-02-04' '2020.04.04' 这样的字符串日期，在new Date时在IE中会有将有兼容性问题，会出现new Date('2020-02-04') 为invalid date
+解决方法:将日期字符串中的分隔符替换成“/”，例如'2020/02/04' `
+8.低版本ie不支持placeholder
+< script type="text/javascript" src="http://www.ijquery.cn/js/jquery-1.7.2.min.js">< /script>
+< script type="text/javascript" src="http://www.ijquery.cn/js/jquery.placeholder.min.js">< /script>
+< script type="text/javascript">
+$(function(){ $('input, textarea').placeholder(); });
+< /script>
+9. 这是改变input中的placeholder颜色的兼容性代码
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #ccccce;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #ccccce;
+}
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #ccccce;
+}
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #ccccce;
+}</pre>
           <h3>TCP（传输控制协议）是什么？</h3>
-          <pre>
-标准回答
+          <pre>标准回答
 TCP是传输控制协议，是TCP/IP体系中非常复杂的一个协议，属于运输层协议。与UDP协议一样用于处理应用层的数据。它和UDP一样具有复用和分用的功能以及可靠传输的功能。TCP的主要特点是：面向连接、单播、可靠交付、全双工通讯、面向字节流、头部开销大。
 加分回答
 TCP是传输控制协议，是TCP/IP体系中非常复杂的一个协议，属于运输层协议。与UDP协议一样用于处理应用层的数据。它和UDP一样具有复用和分用的功能以及差错检测的功能。UDP的主要特点是：
@@ -24,11 +56,9 @@ TCP是传输控制协议，是TCP/IP体系中非常复杂的一个协议，属�
 可靠交付。通过TCP连接传送的数据是没有差错、不会丢失、不重复并且按序到达的。
 全双工通信。TCP允许连接的双方可以在任何时候发送数据，双方都有发送缓存和接收缓存。应用程序把数据给发送缓存之后就可以做其他的事情了，TCP发送缓存会在合适的时候自己把缓存中的数据发送出去。在接受的时候TCP会把数据存进接收缓存，上层应用程序会在合适的时候读取数据。也正因为是全双工通信方式，建立连接时最少需要三次信息确认，也就是三次握手，断开连接时最少需要四次信息确认，也就是所谓的四次挥手。
 面向字节流。TC不像UDP每一个数据报独立传输，而是在不保留报文边界的情况下以字节流的方式进行传输，这也是长连接的由来。TCP中的“流”就是指流入到进程或从进程流出的字节序列。
-头部开销大。最小20字节，最大60字节。加上TCP的可靠传输机制功能的影响，数据传输效率比UDP慢很多。</pre
-          >
-
+头部开销大。最小20字节，最大60字节。加上TCP的可靠传输机制功能的影响，数据传输效率比UDP慢很多。</pre>
           <h3>vue双向数据绑定原理</h3>
-          <pre></pre>
+          <pre>见案例 -> 框架 -> vue双向数据绑定原理 文章</pre>
           <h3>React事件绑定原理</h3>
           <pre>
 解释React事件绑定原理讲述之前先理解下面案例：
