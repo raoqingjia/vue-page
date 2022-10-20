@@ -8,7 +8,7 @@
         </p>
         <div class="art-content">
           <ul class="catalogue clearfix">
-            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
+            <li v-for="(items,index) in catalogue"  :key="index" ><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
           </ul>
           <h3>Git常用命令</h3>
           <pre>

@@ -8,7 +8,7 @@
         </p>
         <div class="art-content">
           <ul class="catalogue clearfix">
-            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
+            <li v-for="(items,index) in catalogue"  :key="index" ><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
           </ul>
           <h3>文档连接</h3>
           <pre>http://c.biancheng.net/tcp_ip/  TCP/IP协议入门教程</pre>

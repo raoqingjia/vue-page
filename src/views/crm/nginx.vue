@@ -8,7 +8,7 @@
         </p>
         <div class="art-content">
           <ul class="catalogue clearfix">
-            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
+            <li v-for="(items,index) in catalogue"  :key="index" ><a @click="jump(index)">{{items.name}}</a></li>
           </ul>
           <h3>简介</h3>
           <pre>Nginx是一个HTTP服务器、反向代理服务器、一个邮件代理服务器和一个通用的TCP/UDP代理服务器
