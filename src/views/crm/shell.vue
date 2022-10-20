@@ -8,7 +8,7 @@
         </p>
         <div class="art-content">
           <ul class="catalogue clearfix">
-            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
+            <li v-for="(items,index) in catalogue"  :key="index" ><a @click="jump(index)">{{items.name}}</a></li>
           </ul>
           <h3>脚本的调用形式</h3>
           <pre>打开终端时系统自动调用：/etc/profile 或 ~/.bashrc
@@ -187,8 +187,102 @@ case $cho in
 esac
 解释一下脚本思路：请用户输入 yes 或 no，如果输入的是 yes，则输出"Your choose is yes!"；如果输入的是 no，则输出"Your choose is no!"；如果输入的是其他字符，则输出"Your choose is error!"
 
- https://blog.csdn.net/qq_58168493/article/details/126511823
-          </pre>
+for循环
+写法一
+for 变量名 in 取值列表
+do
+  命令
+done
+案例1
+for i in {1..5};do echo $i;done
+{1..5}为取值范围1到5；echo $i 输出当前的取值
+案例2
+for i in `seq 5`;do echo $i;done
+seq 5 与{1..5}效果一样
+
+写法二
+for ((初始值;循环控制条件;变量变化))
+do
+  命令
+done
+案例3
+for((i=1;i<=5;i++));do echo $i;done
+使用（（））双括号，可以支持C语言的一些命令；i=1;i<=5;i++ #i初始值为1，如果i小于等于5时执行循环，每次循环后+1
+
+案例4
+利用for循环，打印99乘法表
+#!/bin/bash
+for ((i=1;i<=9;i++))     #此处也可以写  for i in {1..9}
+do
+    for ((j=1;j<=i;j++))  #此处也可写 for j in `seq $i`
+    do echo -n -e "$j*$i=$[j*i]\t" #-n不换行输出；-e使用\转义符；\t横向制表；若不用-e，则\t为普通字符
+    done
+  echo
+done
+        
+while循环基础语法
+#当条件测试成立（条件测试为真），执行循环
+while  条件测试
+do
+      循环体
+done
+案例1
+#!/bin/bash
+i=1
+while [ $i -le 10 ]
+do
+    echo $i
+    let i++
+done
+
+案例2
+#用for循环实现
+a=1
+b=9
+for i in {1..9}
+do
+     echo $a + $b = $[ $a + $b ]
+     let a++
+     let b--
+done
+#用while循环实现
+a=1
+b=9
+while [ $a -le 9 ]
+do
+       echo $a + $b = $[ $a + $b ]
+       let a++
+       let b--
+done
+
+案例3
+判断用户输入的数值是否大于0，如果大于0，则三秒输出一次大于
+[root@manage while]# cat while-03.sh 
+#!/bin/bash
+read -p "请输入数字：" num
+while [ $num -gt 0 ]
+do
+      echo "大于0"
+      sleep 3
+done
+
+
+read 读取控制台输
+基本语法: read (选项) (参数)
+选项：
+-p：指定读取值时的提示符；
+-t：指定读取值时等待的时间（秒）如果-t 不加表示一直等待
+参数
+变量：指定读取值的变量名
+提示7秒内，读取控制台输入的变量，并输出
+#!/bin/bash
+read -p "在七秒内输入一个变量" -t 7 var
+echo $var
+
+https://blog.csdn.net/mr__sun__/article/details/124223003?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-124223003-blog-126511823.pc_relevant_multi_platform_whitelistv4&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-124223003-blog-126511823.pc_relevant_multi_platform_whitelistv4
+https://blog.csdn.net/qq_58168493/article/details/126511823
+
+</pre>
         </div>
       </div>
     </div>
