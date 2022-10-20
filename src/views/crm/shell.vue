@@ -66,19 +66,129 @@ num_1=20 正确
 3、双引号 单引号的区别
 双引号：可以解析变量的值
 单引号：不能解析变量的值
+4、变量的值如果有空格，需要使用双引号或单引号括起来
+5、变量的值如果有空格，需要使用双引号或单引号括起来
 
 设置环境变量
 export 变量名=变量值 （将shell变量输出为环境变量或全局变量）
 source 配置文件 (刷新配置文件，让修改后的配置信息立刻生效)
-echo $变量名   (查询环境变量的值)
+echo $变量名   (查询环境变量的值)</pre>
+          <img src="../../img/crm/shell01.png">
+          <h3>Shell运算</h3>
+          <pre>算术运算：Bash 原生不支持数学运算，可以使用 awk 和 expr
+注意乘号需要加上转义：\*，而且运算符两侧必须空格
+#!/bin/bash
+a=10
+b=3
+val=`expr $a + $b`    # 加
+echo "a + b : $val"
+val=`expr $a - $b`    # 减
+echo "a - b : $val"
+val=`expr $a \* $b`   # 乘
+echo "a * b : $val"
+val=`expr $b / $a`    # 除
+echo "b / a : $val"
+val=`expr $b % $a`    # 取余
+echo "b % a : $val"
 
+除了上面书写方式还可以改为
+$((运算式))” 或 “$[运算式]”
+例如S=$[(2+3)*4]	计算（2+3）* 4 的值</pre>
+          <h3>条件判断</h3>
+          <pre>基本语法：
+1）test 判断表达式
+2）[ 判断表达式 ]（注意 condition 前后要有空格）
+注意：条件非空即为 true，[ atguigu ]返回 true，[   ] 返回 false
 
+两个整数之间比较
+-eq 等于（equal）
+-ne 不等于（not equal）
+-lt 小于（less than）
+-le 小于等于（less equal）
+-gt 大于（greater than）
+-ge 大于等于（greater equal） 注：如果是字符串之间的比较 ，用等号“=”判断相等；用“!=”判断不等。
 
+按照文件权限进行判断
+-r 有读的权限（read）
+-w 有写的权限（write）
+-x 有执行的权限（execute）
+
+按照文件类型进行判断
+-e 文件存在（existence）
+-f 文件存在并且是一个常规的文件（file）
+-d 文件存在并且是一个目录（directory）</pre>
+          <img src="../../img/crm/shell02.png">
+          <h3>流程控制</h3>
+          <pre>if单分支判断
+if [ 条件判断 ] ; then
+   程序
+fi
+或者
+if [ 条件判断 ]
+then
+   程序
+fi
+
+if多分支判断
+if [ 条件判断 ]
+then
+   程序
+elif[ 条件判断 ]
+then
+   程序
+else
+   程序
+fi
+注意事项：
+[ 条件判断式 ]，中括号和条件判断式之间必须有空格
+if 后要有空格
+
+case语句
+case $变量名 in
+"值 1")
+;;
+如果变量的值等于值1，则执行程序1，值
+2")
+如果变量的值等于值2，则执行程序2
+…省略其他分支…
+*)
+如果变量的值都不是以上的值，则执行此程序
+;;
+esac
+
+注意事项：
+case 语句以"case"开头，以"esac"结尾。
+case 行尾必须为单词“in”，每一个模式匹配必须以右括号“）”结束。
+双分号“;;”表示命令序列结束，相当于 java 中的 break。
+最后的“*）”表示默认模式，相当于 java 中的 default
+
+[root@localhost ~]# vi sh/case.sh
+#!/bin/bash
+#判断用户输入
+read -p "Please choose yes/no: " -t 30 cho
+#在屏幕上输出"请选择yes/no"，然后把用户选择赋予变量cho
+case $cho in
+#判断变量cho的值
+    "yes")
+    #如果是yes
+        echo "Your choose is yes!"
+        #则执行程序1
+        ;;
+    "no")
+    #如果是no
+        echo "Your choose is no!"
+        #则执行程序2
+        ;;
+    *)
+    #如果既不是yes,也不是no
+    echo "Your choose is error!"
+    #则执行此程序
+    ;;
+esac
+解释一下脚本思路：请用户输入 yes 或 no，如果输入的是 yes，则输出"Your choose is yes!"；如果输入的是 no，则输出"Your choose is no!"；如果输入的是其他字符，则输出"Your choose is error!"
+
+ https://blog.csdn.net/qq_58168493/article/details/126511823
           </pre>
-          <h3></h3>
-          <pre></pre>
-          <h3></h3>
-          <pre></pre>
         </div>
       </div>
     </div>

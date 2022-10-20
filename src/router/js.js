@@ -397,7 +397,20 @@ const jsRouter = [//js案例
     type: "js",
     created: "2022-09-21",
     component: resolve => require(['@/views/js/validator'], resolve)
+  },
+  {
+    path: '/js/javaScriptSetUUID',
+    name: 'javaScript 生成唯一ID的几种方式',
+    type: "js",
+    created: "2022-10-20",
+    component: resolve => require(['@/views/js/validator'], resolve)
+  },
+  {
+    path: '/js/consoleTime',
+    name: 'console.time和console.timeEnd用法',
+    type: "js",
+    created: "2022-10-20",
+    component: resolve => require(['@/views/js/consoleTime'], resolve)
   }
-
   ];
 export default jsRouter;
