@@ -10,9 +10,8 @@
           <ul class="catalogue clearfix">
             <li v-for="(items,index) in catalogue"  :key="index" ><a @click="jump(index)">{{items.name}}</a></li>
           </ul>
-          <h3>linux简介</h3>
-          <pre>
-基本操作命令
+          <h3>linux命令简介</h3>
+          <pre>基本操作命令
 #    超级管理员登录
 $    普通用户登录
 ~    你所在的目录
@@ -39,8 +38,9 @@ ls 查看目录中的文件
 ls -l 显示文件和目录的详细资料
 ls -S 以文件大小排序
 ls -h 以易读大小显示
-
-vi 命令使用
+          </pre>
+          <h3>vi 命令使用</h3>
+          <pre>
 在 vi 编辑器里,先 i 编辑状态，输入内容后，按一下 ESC 退出，然后 按 : 键，然后输入 wq 保存并退出的意思，再打回车，即可退出编辑状态。
 k、j、h、l——上、下、左、右光标移动命令
 i 从目前光标所在处插入
@@ -57,20 +57,19 @@ P 大写为将已经复制的数据在光标上一行粘贴 取出剪贴板中�
 vi file1 file2 ->  yy 在文件1的光标处拷贝所在行 -> :n 切换到文件2 (n=next) ->p 在文件2的光标所在处粘贴所拷贝的行 -> :n 切换回文件1
 Ctrl+F 向前滚动一屏  Ctrl+B 向后滚动一屏
 Ctrl+D 向前滚动半屏  Ctrl+U 向后滚动半屏
-Ctrl+E 向下滚动一行，保持当前光标不动  Ctrl+Y 向上滚动一行，保持当前光标不动
-
-查看日志方法
+Ctrl+E 向下滚动一行，保持当前光标不动  Ctrl+Y 向上滚动一行，保持当前光标不动</pre>
+          <h3>查看日志方法</h3>
+          <pre>
 cat abs-svc-urbac-tv895-20201026.log | grep 'WebSearchConfigService' | grep 120
-tail -10f  当前日志文件中最后10条数据
-
-文件上传下载功能
+tail -10f  当前日志文件中最后10条数据</pre>
+          <h3>v文件上传下载功能</h3>
+          <pre>
 sz fileName  下载
 rz fileName  上传
 在SecureCRT中设置上传下载目录
-选项--->会话选项--->终端--->X/Y/Zmodem--->目录--->上传--->下载
-
-打包命令
-tar -cvf dist.tar  dist   仅打包，不压缩
+选项--->会话选项--->终端--->X/Y/Zmodem--->目录--->上传--->下载</pre>
+          <h3>打包命令</h3>
+          <pre>tar -cvf dist.tar  dist   仅打包，不压缩
 tar -zcvf dist.tar dist   打包后，以 gzip 压缩
 tar -jcvf dist.tar dist   打包后，以 bzip2 压缩
 tar xvf dist.tar  解包
@@ -289,8 +288,8 @@ awk '/SCC/{getline; print}' URFILE</pre>
       }
     },
     mounted(){
-      this.$nextTick(function(){
-
+      this.$nextTick(function () {
+        this.createCatalogue();
       })
     },
     computed:{
