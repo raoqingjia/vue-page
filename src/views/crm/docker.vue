@@ -401,7 +401,34 @@ RUN sed '11 a       proxy_next_upstream off;' -i /etc/nginx/conf.d/default.conf
 RUN sed '12 a       location /absweb/OpPlatform_web { \n     proxy_pass  http://10.34.93.3:7882/absweb/omss-web/#/;  \n    proxy_set_header Host $host:$server_port; \n     proxy_set_header  X-Real-IP        $remote_addr; \n    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; \n}' -i /etc/nginx/conf.d/default.conf
 RUN sed '28 a       gzip on;\n gzip_min_length 10k;\n gzip_buffers 4 16k;\n gzip_comp_level 3;\n gzip_types application/json;\n' -i /etc/nginx/conf.d/default.conf
 EXPOSE 80
-          </pre>
+
+os的dockfile
+FROM nginx:v1
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+ADD dist.tar /opt/
+RUN chmod -R 777 /opt
+EXPOSE 80
+
+Dockerfile 时区设置  /etc/localtime是用来描述本机时间，而 /etc/timezone是用来描述本机所属的时区
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo 'Asia/Shanghai' >/etc/timezone
+chmod命令可以改变权限目录和文件权限，-R是目录下所有文件，777是高权限(读、写、执行)，
+
+omss的dockfile
+FROM {{ ops_web_image }}
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+  && echo 'Asia/Shanghai' >/etc/timezone
+#add file
+ADD dist.tar    /opt/
+RUN mkdir -p /usr/share/nginx/html/omss-web
+RUN cp -rf /opt/bboss/omss-web/* /usr/share/nginx/html/omss-web/
+RUN sed '22 a       client_max_body_size  3M;' -i /etc/nginx/nginx.conf
+RUN sed -i '27a server_tokens off;' /etc/nginx/nginx.conf
+RUN sed -i 's/nginx\/$nginx_version/nginx/g' /etc/nginx/fastcgi_params
+RUN sed '11 a       location /absweb/zuul { \n     proxy_pass http://10.248.50.224; \n    proxy_set_header Host $host:$server_port; \n     proxy_set_header  X-Real-IP        $remote_addr; \n    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; \n }' -i /etc/nginx/conf.d/default.conf
+EXPOSE 80
+</pre>
         </div>
       </div>
     </div>
