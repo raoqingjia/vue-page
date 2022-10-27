@@ -9,7 +9,7 @@
         <div class="art-content">
           <ul class="catalogue clearfix">
             <li class="catalog">目录</li>
-            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
+            <li v-for="(items,index) in catalogue"  :key="index" ><a @click="jump(index)">{{items.name}}</a></li>
           </ul>
           <h3>简述一下spring boot 和 spring cloud</h3>
           <pre>

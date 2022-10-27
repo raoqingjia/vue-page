@@ -8,7 +8,7 @@
         </p>
         <div class="art-content">
           <ul class="catalogue clearfix">
-            <li v-for="(items,index) in catalogue"><a @click="jump(index)">{{items.name}}</a></li>
+            <li v-for="(items,index) in catalogue"  :key="index" ><a @click="jump(index)">{{items.name}}</a></li>
           </ul>
           <h3>MyBatis基本概念</h3>
           <pre>把这些概念问题都梳理一下。
