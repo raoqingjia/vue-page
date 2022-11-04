@@ -662,8 +662,12 @@ a.demo-link{
   text-align: right;
   padding: 10px 0;
 }
-
-
+a.a-download{
+  display: inline-block;
+  font-weight: bold;
+  text-decoration: underline;
+  padding: 0 10px ;
+}
 @media screen and (max-width: 1459px) {
 
 

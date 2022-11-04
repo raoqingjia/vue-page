@@ -61,8 +61,127 @@ Ctrl+E 向下滚动一行，保持当前光标不动  Ctrl+Y 向上滚动一行�
           <h3>查看日志方法</h3>
           <pre>
 cat abs-svc-urbac-tv895-20201026.log | grep 'WebSearchConfigService' | grep 120
-tail -10f  当前日志文件中最后10条数据</pre>
-          <h3>v文件上传下载功能</h3>
+less app.log | grep '发货成功' | grep '不存在'
+grep -i tree /var/log/yum.log  找含有关键字tree的grep是区分大小写，让grep不区分大小写可以加上参数-i
+
+tail命令
+命令格式: tail[必要参数][选择参数][文件]
+-f 循环读取
+-q 不显示处理信息
+-v 显示详细的处理信息
+-c< 数目> 显示的字节数
+-n< 行数> 显示行数
+-q, --quiet, --silent 从不输出给出文件名的首部
+-s, --sleep-interval=S 与-f合用,表示在每次反复的间隔休眠S秒
+Ctrl+c 是退出tail命令
+
+tail用法用例
+tail  -n  10   test.log   ## 查询日志尾部最后10行的日志;
+tail  -n +10   test.log   ## 查询10行之后的所有日志;
+tail  -fn 1000 test.log   ## 循环实时查看最后1000行记录(最常用的)
+## 可配合grep使用
+tail -fn 1000 test.log | grep '关键字'
+## 如果一次性查询的数据量太大,可以进行翻页查看
+tail -n 4000  test.log |more -1000 ## 可以进行多屏显示(ctrl + f 或者 空格键可以快捷键)
+## 把test.txt文件扔进垃圾箱，赋空值test.txt
+cat /dev/null > /etc/test.txt
+
+head命令
+跟tail是相反的head是看前多少行日志，head其他参数参考tail
+head -n  10  test.log   ## 查询日志文件中的头10行日志;
+head -n -10  test.log   ## 查询日志文件除了最后10行的其他所有日志;
+
+cat搜索关键字附近的日志
+最常用的：
+cat -n filename |grep "关键字"
+其他情况：
+cat app.log | grep -C 5 '关键字' 　　(显示日志里匹配字串那行以及前后5行)
+cat app.log | grep -B 5 '关键字' 　　(显示匹配字串及前5行)
+cat app.log | grep -A 5 '关键字' 　　(显示匹配字串及后5行)
+
+cat filename  一次显示整个文件
+cat > filename  创建一个文件
+cat file1 file2 > file ## 只能创建新文件,不能编辑已有文件  将几个文件合并为一个文件
+cat -n textfile1 >> textfile2   将一个日志文件的内容追加到另外一个
+cat : >textfile2    清空一个日志文件
+注意：
+> 是创建,将两个或多个文件连接到另一个新文件;
+>> 是追加,运算符将输出附加到指定文件，或者如果它不存在则创建指定文件
+
+less
+less命令在查询日志时，一般流程如下
+常用命令参数
+## less与more类似，使用less可以随意浏览文件，而more仅能向前移动，不能向后移动，而且 less 在查看之前不会加载整个文件。
+less log2013.log 查看文件
+ps -ef | less   ps查看进程信息并通过less分页显示
+history | less   查看命令历史使用记录并通过less分页显示
+less log2013.log log2014.log   浏览多个文件
+常用命令参数：
+-b < 缓冲区大小> 设置缓冲区的大小
+-g 只标志最后搜索的关键词
+-i 忽略搜索时的大小写
+-m 显示类似more命令的百分比
+-N 显示每行的行号
+-o < 文件名> 将less 输出的内容在指定文件中保存起来
+-Q 不使用警告音
+-s 显示连续空行为一行
+/字符串：向下搜索"字符串"的功能
+?字符串：向上搜索"字符串"的功能
+n：重复前一个搜索（与 / 或 ? 有关）
+N：反向重复前一个搜索（与 / 或 ? 有关）
+b 向后翻一页
+h 显示帮助界面
+q 退出less 命令
+
+less test.log
+shift+G : 	命令到文件尾部  然后输入 ？加上你要搜索的关键字例如 ？1213
+按n :  	 	向上查找关键字
+shift+n :	反向查找关键字
+## less与more类似，使用less可以随意浏览文件，而more仅能向前移动，不能向后移动，而且 less 在查看之前不会加载整个文件。
+less log2013.log 	## 查看文件
+ps -ef | less   	## ps查看进程信息并通过less分页显示
+history | less   	## 查看命令历史使用记录并通过less分页显示
+less test1.log test2.log   ## 浏览多个文件
+
+more查看所有关键字相关的日志
+more的语法：more [文件名]
+more app.log 默认打开所有的，从前往后
+more app.log | grep '关键字'
+Enter: 	向下n行，需要定义，默认为1行
+Ctrl+f: 向下滚动一屏
+空格键:	向下滚动一屏
+Ctrl+b: 返回上一屏
+= :		输出当前行的行号
+:f :	输出文件名和当前行的行号
+v :		调用vi编辑器
+!命令 : 	调用Shell，并执行命令
+q : 	退出more
+
+vi(vim) 进入编辑查找：
+1、进入vim编辑模式：vi app.log
+2、输入“/关键字”,按enter键查找
+3、查找下一个，按“n”即可（ n 查找上一处错误日志  N 查找下一处错误日志）
+4、ctrl+f: 下翻一屏。
+ctrl+b: 上翻一屏。
+ctrl+d: 下翻半屏。
+ctrl+u: 上翻半屏。
+ctrl+e: 向下滚动一行。
+ctrl+y: 向上滚动一行。
+5、ctrl+o回到搜索的地方
+退出：按ESC键后，接着再输入:号时，vi会在屏幕的最下方等待我们输入命令
+wq! 保存退出；
+q! 不保存退出；
+其他情况：
+/关键字  　　注：正向查找，按n键把光标移动到下一个符合条件的地方
+?关键字  　　注：反向查找，按shift+n 键，把光标移动到下一个符合条件的
+
+sed根据时间查看
+这个命令可以查找日志文件特定的一段 , 根据时间的一个范围查询，可以按照行号和时间范围查询。
+cat xxx.log |sed -n '/2020-10-24 22:16:21/,/2020-10-24 22:16:59/p' abc.log
+sed -n '5,10p' filename  只查看文件的第5行到第10行
+sed -n '/2014-12-17 16:17:20/,/2014-12-17 16:17:36/p'  test.log        按照时间段查看日志
+          </pre>
+          <h3>文件上传下载功能</h3>
           <pre>
 sz fileName  下载
 rz fileName  上传

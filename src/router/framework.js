@@ -150,7 +150,13 @@ const frameworkRouter = [ // 前端框架
     type: "framework",
     created: "2022-10-04",
     component: resolve => require(['@/views/framework/reactInJsxScope'], resolve)
+  },
+  {
+    path: '/framework/rxjs',
+    name: 'Rxjs 专题详解',
+    type: "framework",
+    created: "2022-10-04",
+    component: resolve => require(['@/views/framework/rxjs'], resolve)
   }
-
 ];
 export default frameworkRouter;

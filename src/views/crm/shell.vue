@@ -5,6 +5,7 @@
         <h2 class="art-title" v-html="title"></h2>
         <p class="art-time">
           <span v-html="created"></span>
+          <a href="static/document/shell.mht" class="a-download">shell笔记下载</a>
         </p>
         <div class="art-content">
           <ul class="catalogue clearfix">
@@ -100,7 +101,84 @@ $?  显示最后命令的退出状态。0表示没有错误，其他任何值表
 echo "Shell 传递参数实例！";
 echo "第一个参数为：$1";
 echo "参数个数为：$#";
-echo "传递的参数作为一个字符串显示：$*";</pre>
+echo "传递的参数作为一个字符串显示：$*";
+
+read 读取控制台输
+基本语法: read (选项) (参数)
+选项：
+-p：指定读取值时的提示符；
+-t：指定读取值时等待的时间（秒）如果-t 不加表示一直等待
+参数
+变量：指定读取值的变量名
+提示7秒内，读取控制台输入的变量，并输出
+#!/bin/bash
+read -p "在七秒内输入一个变量" -t 7 var
+echo $var</pre>
+          <h3>test条件判断</h3>
+          <pre>基本语法：
+1）test 判断表达式
+2）[ 判断表达式 ]（注意 condition 前后要有空格）
+注意：条件非空即为 true，[ atguigu ]返回 true，[   ] 返回 false
+
+两个整数之间比较
+-eq 等于（equal）
+-ne 不等于（not equal）
+-lt 小于（less than）
+-le 小于等于（less equal）
+-gt 大于（greater than）
+-ge 大于等于（greater equal） 注：如果是字符串之间的比较 ，用等号“=”判断相等；用“!=”判断不等。
+
+文件测试
+参数	说明
+-e 文件名	如果文件存在则为真
+-r 文件名	如果文件存在且可读则为真
+-w 文件名	如果文件存在且可写则为真
+-x 文件名	如果文件存在且可执行则为真
+-s 文件名	如果文件存在且至少有一个字符则为真
+-d 文件名	如果文件存在且为目录则为真
+-f 文件名	如果文件存在且为普通文件则为真
+-c 文件名	如果文件存在且为字符型特殊文件则为真
+-b 文件名	如果文件存在且为块特殊文件则为真
+
+字符串测试
+下表列出了常用的字符串运算符，假定变量 a 为 "abc"，变量 b 为 "efg"：
+运算符    说明       举例
+=    检测两个字符串是否相等，相等返回 true。   [ $a = $b ] 返回 false。
+!=   检测两个字符串是否相等，不相等返回 true。 [ $a != $b ] 返回 true。
+-z   检测字符串长度是否为0，为0返回 true。     [ -z $a ] 返回 false。
+-n   检测字符串长度是否为0，不为0返回 true。  [ -n "$a" ] 返回 true。
+$    检测字符串是否为空，不为空返回 true。     [ $a ] 返回 true。
+
+另外，Shell还提供了与( -a )、或( -o )、非( ! )三个逻辑操作符用于将测试条件连接起来，其优先级为："!"最高，"-a"次之，"-o"最低。例如：
+#!/bin/bash
+cd /bin
+if test -e ./notFile -o -e ./bash
+then
+    echo '至少有一个文件存在!'
+else
+    echo '两个文件都不存在'
+fi
+
+案例1
+num1=100
+num2=100
+if test $[num1] -eq $[num2]
+then
+    echo '两个数相等！'
+else
+    echo '两个数不相等！'
+fi
+输出结果：两个数相等！
+
+案例2
+cd /bin
+if test -e ./bash
+then
+    echo '文件已存在!'
+else
+    echo '文件不存在!'
+fi</pre>
+          <img src="../../img/crm/shell02.png">
           <h3>Shell运算</h3>
           <pre>算术运算：Bash 原生不支持数学运算，可以使用 awk 和 expr
 注意乘号需要加上转义：\*，而且运算符两侧必须空格
@@ -168,74 +246,7 @@ then
    echo "a 小于 b"
 else
    echo "a 不小于 b"
-fi
-
-
-
-          </pre>
-          <h3>test条件判断</h3>
-          <pre>基本语法：
-1）test 判断表达式
-2）[ 判断表达式 ]（注意 condition 前后要有空格）
-注意：条件非空即为 true，[ atguigu ]返回 true，[   ] 返回 false
-
-两个整数之间比较
--eq 等于（equal）
--ne 不等于（not equal）
--lt 小于（less than）
--le 小于等于（less equal）
--gt 大于（greater than）
--ge 大于等于（greater equal） 注：如果是字符串之间的比较 ，用等号“=”判断相等；用“!=”判断不等。
-
-文件测试
-参数	说明
--e 文件名	如果文件存在则为真
--r 文件名	如果文件存在且可读则为真
--w 文件名	如果文件存在且可写则为真
--x 文件名	如果文件存在且可执行则为真
--s 文件名	如果文件存在且至少有一个字符则为真
--d 文件名	如果文件存在且为目录则为真
--f 文件名	如果文件存在且为普通文件则为真
--c 文件名	如果文件存在且为字符型特殊文件则为真
--b 文件名	如果文件存在且为块特殊文件则为真
-
-字符串测试
-参数	说明
-=	等于则为真
-!=	不相等则为真
--z 字符串	字符串的长度为零则为真
--n 字符串	字符串的长度不为零则为真
-
-另外，Shell还提供了与( -a )、或( -o )、非( ! )三个逻辑操作符用于将测试条件连接起来，其优先级为："!"最高，"-a"次之，"-o"最低。例如：
-#!/bin/bash
-cd /bin
-if test -e ./notFile -o -e ./bash
-then
-    echo '至少有一个文件存在!'
-else
-    echo '两个文件都不存在'
-fi
-
-案例1
-num1=100
-num2=100
-if test $[num1] -eq $[num2]
-then
-    echo '两个数相等！'
-else
-    echo '两个数不相等！'
-fi
-输出结果：两个数相等！
-
-案例2
-cd /bin
-if test -e ./bash
-then
-    echo '文件已存在!'
-else
-    echo '文件不存在!'
 fi</pre>
-          <img src="../../img/crm/shell02.png">
           <h3>流程控制</h3>
           <pre>if单分支判断
 if [ 条件判断 ] ; then
@@ -303,9 +314,9 @@ case $cho in
     #则执行此程序
     ;;
 esac
-解释一下脚本思路：请用户输入 yes 或 no，如果输入的是 yes，则输出"Your choose is yes!"；如果输入的是 no，则输出"Your choose is no!"；如果输入的是其他字符，则输出"Your choose is error!"
-
-for循环
+解释一下脚本思路：请用户输入 yes 或 no，如果输入的是 yes，则输出"Your choose is yes!"；如果输入的是 no，则输出"Your choose is no!"；如果输入的是其他字符，则输出"Your choose is error!"</pre>
+          <h3>循环语句</h3>
+          <pre>for循环
 写法一
 for 变量名 in 取值列表
 do
@@ -384,23 +395,99 @@ do
       sleep 3
 done
 
-
-read 读取控制台输
-基本语法: read (选项) (参数)
-选项：
--p：指定读取值时的提示符；
--t：指定读取值时等待的时间（秒）如果-t 不加表示一直等待
-参数
-变量：指定读取值的变量名
-提示7秒内，读取控制台输入的变量，并输出
+break命令
+break命令允许跳出所有循环（终止执行后面的所有循环）
+下面的例子中，脚本进入死循环直至用户输入数字大于5。要跳出这个循环，返回到shell提示符下，需要使用break命令。
 #!/bin/bash
-read -p "在七秒内输入一个变量" -t 7 var
-echo $var
+while :
+do
+    echo -n "输入 1 到 5 之间的数字:"
+    read num
+    case $num in
+        1|2|3|4|5) echo "你输入的数字为 $num!"
+        ;;
+        *) echo "你输入的数字不是 1 到 5 之间的数字! 游戏结束"
+            break
+        ;;
+    esac
+done
 
-https://blog.csdn.net/mr__sun__/article/details/124223003?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-124223003-blog-126511823.pc_relevant_multi_platform_whitelistv4&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-124223003-blog-126511823.pc_relevant_multi_platform_whitelistv4
-https://blog.csdn.net/qq_58168493/article/details/126511823
+练习
+练习1写一个脚本：
+1.创建目录/tmp/scripts
+2.切换工作目录至此目录中
+3.复制/etc/pam.d目录至当前目录，并重命名为test
+4.将当前目录test属主改为bin，属组改为adm
+5.将test文件的权限改为用户可读可写可执行，用户组可读可写，其他人没有任何权限
+#!/bin/bash
+mkdir -p /tmp/scripts
+cd /tmp/scripts
+cp -r /etc/pam.d ./test
+chown  bin:adm ./test
+chmod  760 ./test
 
-</pre>
+练习2：写一个脚本：
+脚本生成一个 100 以内的随机数,提示用户猜数字,根据用户的输入,提示用户猜对了,
+# 猜小了或猜大了,直至用户猜对脚本结束。
+# RANDOM 为系统自带的系统变量,值为 0‐32767的随机
+# 使用取余算法将随机数变为 1‐100 的随机数
+#!/bin/bash
+num=$[RANDOM%100+1]
+echo "$num"
+while :
+do
+  read -p "计算机生成了一个 1‐100 的随机数,你猜: "  cai
+  if [ $cai -eq $num ]
+  then
+      echo "恭喜,猜对了"
+      exit
+      elif [ $cai -gt $num ]
+      then
+              echo "不好意思,猜大了"
+      else
+              echo "不好意思,猜小了"
+      fi
+done
+          </pre>
+          <h3>Shell 函数</h3>
+          <pre>
+linux shell 可以用户定义函数，然后在shell脚本中可以随便调用。
+举例：
+#!/bin/bash
+sayHi(){
+    echo "hello student"
+}
+sayHi
+
+下面定义一个带有return语句的函数：
+#!/bin/bash
+funWithReturn(){
+    echo "这个函数会对输入的两个数字进行相加运算..."
+    echo "输入第一个数字: "
+    read num1
+    echo "输入第二个数字: "
+    read num2
+    echo "两个数字分别为 $num1 和 $num2 "
+    return $(($num1+$num2))
+}
+funWithReturn
+echo "输入的两个数字之和为 $? "
+
+函数参数
+在Shell中，调用函数时可以向其传递参数。在函数体内部，通过 $n 的形式来获取参数的值，例如，$1表示第一个参数，$2表示第二个参数...
+带参数的函数示例：
+#!/bin/bash
+funWithParam(){
+    echo "第一个参数为 $1 "
+    echo "第二个参数为 $2 "
+    echo "第十个参数为 $10 "
+    echo "第十个参数为 ${10} "
+    echo "第十一个参数为 ${11} "
+    echo "参数总数有 $# 个"
+    echo "作为一个字符串输出所有参数 $* "
+}
+funWithParam 1 2 3 4 5 6 7 8 9 34 73
+注意：$10 不能获取第十个参数，获取第十个参数需要${10}。当n>=10时，需要使用${n}来获取参数。</pre>
         </div>
       </div>
     </div>
