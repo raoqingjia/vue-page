@@ -36,7 +36,7 @@
         paginationShow:this.$store.getters.listTab=="all"?false:true,
         routes:routes,
         total: 0,     // 记录总条数
-        display: 15,   // 每页显示条数
+        display: 20,   // 每页显示条数
         current: 1   // 当前的页数
       }
     },
