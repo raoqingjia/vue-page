@@ -157,6 +157,13 @@ const frameworkRouter = [ // 前端框架
     type: "framework",
     created: "2022-10-04",
     component: resolve => require(['@/views/framework/rxjs'], resolve)
+  },
+  {
+    path: '/framework/reactHooks',
+    name: 'react Hooks 总结 ',
+    type: "framework",
+    created: "2022-10-04",
+    component: resolve => require(['@/views/framework/reactHooks'], resolve)
   }
 ];
 export default frameworkRouter;

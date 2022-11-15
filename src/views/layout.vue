@@ -7,9 +7,10 @@
     <ul class="fast-link">
       <li @click="fastLink('/index')"><a>首页</a></li>
       <li @click="fastLink('/onlineEdit')"><a>文本</a></li>
-      <li @click="fastLink('/translation')"><a>翻译</a></li>
+      <li @click="setShowTranslation()"><a>翻译</a></li>
     </ul>
     <footernav v-if="footerShow"></footernav>
+    <translation  ref="translationItem"></translation>
   </div>
 </template>
 
@@ -17,12 +18,12 @@
   import Headernav from '@/views/component/headernav'
   import Footernav from '@/views/component/footernav'
   import { mapGetters } from 'vuex'
+  import Translation from "./component/translation";
   export default {
     name: 'layout',
-    components:{Headernav,Footernav},
+    components:{Translation, Headernav,Footernav},
     created () {
       // this.$route.path 当前路由对象的路径
-
       if(this.$route.path==="/"){
         this.$router.push({path:"/index"});  //初始进入当前页面就跳到index首页
       }else{
@@ -47,7 +48,10 @@
     methods:{
         fastLink(path) {
             this.$router.push({path: path});
-        }
+        },
+        setShowTranslation(){
+          this.$refs.translationItem.showWindow = true //修改子组件data
+       }
     }
   }
 </script>
