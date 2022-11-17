@@ -82,7 +82,7 @@
         var flag=[];
         if(type=="all"){
           for(var i=0;i<list.length;i++){
-            if(["h5","css","js","jq","app","other","plugin","java","framework"].indexOf(list[i].type)!==-1){
+            if(["h5","css","js","jq","app","other","java","framework"].indexOf(list[i].type)!==-1){
               flag.push(list[i])
             }
           }

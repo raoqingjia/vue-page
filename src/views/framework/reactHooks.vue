@@ -8,7 +8,8 @@
         </p>
         <div class="art-content">
           <ul class="catalogue clearfix">
-            <li v-for="(items,index) in catalogue"  :key="index" ><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
+            <li v-for="(items,index) in catalogue" :key="index"><a @click="jump(index)">{{index+1}}、{{items.name}}</a>
+            </li>
           </ul>
           <h3>初步介绍hooks</h3>
           <pre>React 16.8 新出来的Hooks可以让React 函数组件具有状态，并提供类似 componentDidMount和componentDidUpdate等生命周期方法。
@@ -27,8 +28,8 @@ useEffect()
           <h3>useState()</h3>
           <pre>用于定义函数组件的 State。
 useState 接受唯一的参数作为 state 的初始值，不设置则为 undefined。
-useState 调用后返回一个数组，包含两个元素，第一个值为 state 读取值，第二个值为改变 state 的函数
-----------------使用 Hook 的函数组件-------------------
+useState 调用后返回一个数组，包含两个元素，第一个值为 state 读取值，第二个值为改变 state 的函数</pre>
+          <pre><code class="language-js line-numbers">----------------使用 Hook 的函数组件-------------------
 import { useState } from 'react';
 function Example() {
   const [count, setCount] = useState(0);
@@ -38,10 +39,10 @@ function Example() {
       < button onClick={() => setCount(count + 1)}> Click me < /button>
     < /div>
   );
-}
-----------------等价的 class 组件-------------------
-<code class="language-tsx line-numbers" >
-class Example extends React.Component {
+}</code></pre>
+          <pre>
+<code class="language-js line-numbers">----------------等价的 class 组件-------------------
+  class Example extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,8 +59,7 @@ class Example extends React.Component {
       < /div>
     );
   }
-}
- </code>
+  }</code>
           </pre>
           <h3></h3>
           <pre></pre>
@@ -73,83 +73,78 @@ class Example extends React.Component {
 
 <script>
   import Prism from "prismjs";
-    export default {
-        name: 'reactHooks',
-        data() {
-            return {
-                created: this.$route.query.created,
-                title: this.$route.query.name,
-                catalogue:[]
-            }
-        },
-        mounted() {
-          Prism.highlightAll();
-          this.$nextTick(function(){
-            this.createCatalogue();
-          })
-        },
-        methods: {
-          jump (index) {
-//        let jump = document.getElementsByTagName('h3');
-//       // 获取需要滚动的距离
-//        let total = jump[index].offsetTop;
-//        // Chrome
-//        document.body.scrollTop = total;
-//        // Firefox
-//        document.documentElement.scrollTop = total;
-//       // Safari
-//        window.pageYOffset = total
-//        https://www.cnblogs.com/wisewrong/p/6495726.html  参考网站
-            let jump = document.getElementsByTagName('h3');
-            let total = jump[index].offsetTop;  // 获取目标位置滚动的距离
-            let distance = document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
-            // 平滑滚动，时长500ms，每10ms一跳，共50跳
-            let step = total / 50;
-            if (total > distance) {
-              smoothDown()
-            } else {
-              let newTotal = distance - total;  //防止total，let step=total/50太小，移动缓慢
-              step = newTotal / 50;
-              smoothUp()
-            }
 
-            function smoothDown () {
-              if (total>distance ) {
-                distance += step;
-                document.body.scrollTop = distance;
-                document.documentElement.scrollTop = distance;
-                setTimeout(smoothDown, 10)
-              } else {
-                document.body.scrollTop = total;
-                document.documentElement.scrollTop = total
-              }
-            }
-            function smoothUp () {
-              if ( total<distance) {
-                distance -= step;
-                document.body.scrollTop = distance;
-                document.documentElement.scrollTop = distance;
-                setTimeout(smoothUp, 10)
-              } else {
-                document.body.scrollTop = total;
-                document.documentElement.scrollTop = total
-              }
-            }
-          },
-          //创建目录函数
-          createCatalogue(){
-            let object = document.getElementsByTagName('h3');
-            var flag=[];
-            for(var i=0;i<object.length;i++){
-              var o={name:object[i].innerHTML};
-              flag.push(o)
-            }
-            this.catalogue=flag;
+  export default {
+    name: 'reactHooks',
+    data() {
+      return {
+        created: this.$route.query.created,
+        title: this.$route.query.name,
+        catalogue: []
+      }
+    },
+    mounted() {
+      Prism.highlightAll();
+      this.$nextTick(function () {
+        this.createCatalogue();
+      })
+    },
+    methods: {
+      jump(index) {
+        let jump = document.getElementsByTagName('h3');
+        let total = jump[index].offsetTop;  // 获取目标位置滚动的距离
+        let distance = document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
+        // 平滑滚动，时长500ms，每10ms一跳，共50跳
+        let step = total / 50;
+        if (total > distance) {
+          smoothDown()
+        } else {
+          let newTotal = distance - total;  //防止total，let step=total/50太小，移动缓慢
+          step = newTotal / 50;
+          smoothUp()
+        }
+
+        function smoothDown() {
+          if (total > distance) {
+            distance += step;
+            document.body.scrollTop = distance;
+            document.documentElement.scrollTop = distance;
+            setTimeout(smoothDown, 10)
+          } else {
+            document.body.scrollTop = total;
+            document.documentElement.scrollTop = total
           }
         }
+
+        function smoothUp() {
+          if (total < distance) {
+            distance -= step;
+            document.body.scrollTop = distance;
+            document.documentElement.scrollTop = distance;
+            setTimeout(smoothUp, 10)
+          } else {
+            document.body.scrollTop = total;
+            document.documentElement.scrollTop = total
+          }
+        }
+      },
+      //创建目录函数
+      createCatalogue() {
+        let object = document.getElementsByTagName('h3');
+        var flag = [];
+        for (var i = 0; i < object.length; i++) {
+          var o = {name: object[i].innerHTML};
+          flag.push(o);
+          object[i].innerHTML = (i+1) +'、'+ object[i].innerHTML;
+        }
+        this.catalogue = flag;
+      }
     }
+  }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  pre.language-js {
+    background: #000 !important;
+  }
 </style>
