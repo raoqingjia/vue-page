@@ -668,6 +668,18 @@ a.a-download{
   text-decoration: underline;
   padding: 0 10px ;
 }
+
+
+.language-bg{
+  text-align: left;
+  line-height: 24px;
+  padding: 0 10px;
+  border-radius: 4px;
+  color: #dddddd;
+  background: #222222!important;
+}
+
+
 @media screen and (max-width: 1459px) {
 
 
