@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="wrap">
+  <div class="block-item  customer-info">
+    <h1 class="title-first">
+      <div class="title-fl">
+        <i class="head-icon"></i>
+        <span class="txt-info">客户信息</span>
+      </div>
+      <div class="title-fr">
+        <div class="display-wrap">
+          <i></i>
+        </div>
+      </div>
+    </h1>
+    <ul class="info-colspan">
+      <li>
+        <label><span>*</span>客户名称：</label>
+        <section>
+          <input type="text" class="trigger-input" placeholder="请选择" readonly>
+          <button type="button" class="trigger-btn"><i class="head-icon"></i></button>
+        </section>
+      </li>
+      <li>
+        <label><span>*</span>客户编码：</label>
+        <section>
+          <input type="text" placeholder="请输入" readonly>
+        </section>
+      </li>
+      <li>
+        <label><span>*</span>客户等级：</label>
+        <section>
+          <p class="input-readonly">custServLevel</p>
+        </section>
+      </li>
+      <li>
+        <label><span>*</span>客户所在省：</label>
+        <section>
+          <p class="input-readonly">custProvNum}</p>
+        </section>
+      </li>
+      <li>
+        <label><span>*</span>客户所在地市：</label>
+        <section>
+          <input type="text" readonly>
+        </section>
+      </li>
+      <li>
+        <label><span>*</span>客户来源：</label>
+        <section>
+          <input type="text" readonly>
+        </section>
+      </li>
+      <li>
+        <label><span>*</span>添加合同：</label>
+        <section>
+          <div class="trigger-input-wrap">
+            <input type="text" class="trigger-input have-click-btn" readonly>
+            <i class="close-icon"></i>
+          </div>
+          <button type="button" class="trigger-btn">
+            <i class="choose-icon"></i>
+          </button>
+          <button type="button" class="click-btn"><i class="add-icon"></i></button>
+        </section>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="block-item choose-wrap">
+    <h1 class="title-first">
+      <div class="title-fl">
+        <i class="search-icon"></i>
+        <span class="txt-info">选择产品</span>
+      </div>
+      <div class="title-fr">
+        <div class="display-wrap" >
+          <i></i>
+        </div>
+      </div>
+    </h1>
+    <div class="choose-sku">
+      <ul class="clearfix">
+        <li>
+          <label>
+            <input type="checkbox" >
+            <span></span>
+          </label>
+          <em>skuItem.skuName</em>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+
+</div>
+</body>
+</html>

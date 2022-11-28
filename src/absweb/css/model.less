@@ -1,0 +1,140 @@
+
+.modal-wrap {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  overflow: auto;
+  outline: 0;
+  background-color: rgba(0, 0, 0, .45);
+  filter: alpha(opacity=50);
+
+  .modal {
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0 0 24px;
+    color: rgba(0, 0, 0, .65);
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 1.5;
+    list-style: none;
+    font-feature-settings: 'tnum';
+    position: relative;
+    top: 100px;
+    width: auto; //  790px;
+    pointer-events: none;
+  }
+
+  .modal-content {
+    position: relative;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 0;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgb(0, 0, 0, 0.15);
+    pointer-events: auto;
+  }
+
+  .modal-body {
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    word-wrap: break-word;
+  }
+}
+
+.modal-body {
+  .header-wrap{
+    margin: 10px 0;
+    h3{
+      float: left;
+      color: #8493a7;
+      line-height: 30px;
+    }
+    i{
+      display: block;
+      float: right;
+      width: 26px;
+      height: 26px;
+      line-height: 26px;
+      cursor: pointer;
+      font-size: 20px;
+      border: 1px solid;
+      text-align: center;
+      border-radius: 21px;
+    }
+  }
+  .filter-wrap {
+    padding: 20px 10px;
+    border: 1px solid #dbe2e5;
+    background-color: #fafbfc;
+    ul.filter-condition {
+      li {
+        float: left;
+        padding: 0 6px;
+        span {
+          display: inline-block;
+          text-align: left;
+          margin: 0 15px 0 0;
+          line-height: 34px;
+          color: #8493a7;
+          font-size: 14px;
+        }
+        input[type='text'] {
+          display: inline-block;
+          line-height: 34px;
+          height: 34px;
+          width: 180px;
+          padding: 0 15px;
+          font-size: 14px;
+          box-sizing: border-box;
+          color: #b0b3b9;
+          border: 1px #dfe3e9 solid;
+          border-radius: 4px;
+        }
+      }
+      li.btn{
+        float: right;
+      }
+    }
+  }
+
+  table{
+    width: 100%;
+    margin: 20px 0;
+    border: 1px solid #e9ecef;
+  }
+  table thead th {
+    font-size: 14px;
+    padding: 0 14px !important;
+    line-height: 49px;
+    border-top: none;
+  }
+
+  table tbody {
+    max-height: 500px;
+    overflow: scroll;
+  }
+
+  table tbody td {
+    line-height: 40px;
+    font-size: 14px;
+    padding: 0 14px !important;
+    vertical-align: top;
+    border-top: 1px solid #e9ecef;
+  }
+
+  label.no-drop {
+    display: inline-block;
+    width: 37px;
+    height: 37px;
+    line-height: 37px;
+  }
+
+
+
+
+}
+

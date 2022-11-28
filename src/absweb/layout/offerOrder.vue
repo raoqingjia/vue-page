@@ -1,103 +1,131 @@
 <template>
-  <div class="customer-info">
-    <h1 class="title-first">
-      <div class="title-fl">
-        <i class="head-icon"></i>
-        <span class="txt-info">客户信息</span>
-      </div>
-      <div class="title-fr">
-        <div class="display-wrap" (click)="basicDisplayList()">
-          <i [ngClass]="{'expand': !basicDisplay, 'collapse': basicDisplay}"></i>
+  <div class="wrap">
+    <div class="block-item  customer-info">
+      <h1 class="title-first">
+        <div class="title-fl">
+          <i class="head-icon"></i>
+          <span class="txt-info">客户信息</span>
         </div>
-      </div>
-    </h1>
-    <div class="customer-info">
+        <div class="title-fr">
+          <div class="display-wrap">
+            <i></i>
+          </div>
+        </div>
+      </h1>
       <ul class="info-colspan">
         <li>
           <label><span>*</span>客户名称：</label>
           <section>
-            <input type="text" class="trigger-input" placeholder="请选择" [title]="detailInfo.customerName"
-                   [(ngModel)]="detailInfo.customerName" readonly>
-            <button type="button" class="trigger-btn" (click)="custmerquery.setChooseCustomerShow()"><i
-              class="head-icon"></i></button>
-            <app-custmerquery #custmerquery (exportdata)="getCustomerName($event)"></app-custmerquery>
+            <input type="text" class="trigger-input" :value="orderInfo.customerName" placeholder="请选择" readonly>
+            <button type="button" class="trigger-btn" @click="getCustomerInfo()"><i class="head-icon"></i></button>
           </section>
         </li>
         <li>
           <label><span>*</span>客户编码：</label>
           <section>
-            <input type="text" placeholder="请输入" [(ngModel)]="detailInfo.customerNum" readonly>
+            <input type="text" placeholder="请输入" :value="orderInfo.customerNumber" readonly>
           </section>
         </li>
-        <li *ngIf="detailInfo.custServLevel">
+        <li>
           <label><span>*</span>客户等级：</label>
           <section>
-            <p class="input-readonly">{{detailInfo.custServLevel | customerLevel}}</p>
+            <p class="input-readonly" >{{setCustLevel(orderInfo.valueLevelId)}}</p>
           </section>
         </li>
-        <li *ngIf="detailInfo.custProvNum">
+        <li>
           <label><span>*</span>客户所在省：</label>
           <section>
-            <p class="input-readonly">{{detailInfo.custProvNum | provinceName:''}}</p>
+            <input type="text" readonly  :value="orderInfo.companyName">
           </section>
         </li>
-        <li *ngIf="detailInfo.locationName">
+        <li>
           <label><span>*</span>客户所在地市：</label>
           <section>
-            <input type="text" [(ngModel)]="detailInfo.locationName" readonly>
+            <input type="text" readonly  :value="orderInfo.locationName">
           </section>
         </li>
-        <li *ngIf="detailInfo.custSourceName">
+        <li>
           <label><span>*</span>客户来源：</label>
           <section>
-            <input type="text" [(ngModel)]="detailInfo.custSourceName" readonly>
+            <input type="text" readonly  :value="orderInfo.custSourceName">
           </section>
         </li>
-        <li *ngIf="detailInfo.agreementFlag!=0">
-          <label><span *ngIf="detailInfo.agreementRequired != false">*</span>添加合同：</label>
+        <li>
+          <label><span>*</span>添加合同：</label>
           <section>
             <div class="trigger-input-wrap">
-              <input type="text" class="trigger-input have-click-btn"
-                     [title]="detailInfo.prodistAgreements[0].agreementName"
-                     [(ngModel)]="detailInfo.prodistAgreements[0].agreementName" readonly>
-              <i class="close-icon" *ngIf="detailInfo.agreementRequired == false" (click)="cancelAddContract()"></i>
+              <input type="text" class="trigger-input have-click-btn" readonly>
+              <i class="close-icon"></i>
             </div>
-            <button type="button" class="trigger-btn" (click)="addContract.show(detailInfo.customerNum,detailInfo.agreementsTemplate)">
+            <button type="button" class="trigger-btn">
               <i class="choose-icon"></i>
             </button>
-            <button type="button" class="click-btn" (click)="createContract.show(detailInfo, logInfo)"><i class="add-icon"></i></button>
-            <app-add-contract #addContract (agreementOutput)="sureAddContract($event)"></app-add-contract>
-            <app-create-contract #createContract (contractOutput)="sureCreateContract($event)"></app-create-contract>
-          </section>
-        </li>
-        <app-business-opportunity  [detailInfo]="detailInfo" #businessOpportunity></app-business-opportunity>
-        <!--          busiOpportunity_dictProjectId  全网项目编码 非必填-->
-        <li  *ngIf="detailInfo.alias&&detailInfo.alias.indexOf('dictProjectId')!==-1">
-          <label>全网项目编码：</label>
-          <section>
-            <input  *ngIf="!detailInfo.dictProjectIdDisabled" type="text" placeholder="样例：I19391110140003" [(ngModel)]="detailInfo.dictProjectId">
-            <p *ngIf="detailInfo.dictProjectIdDisabled" class="readonly" nz-popover [nzPopoverContent]="detailInfo.dictProjectId">{{detailInfo.dictProjectId | filternull | intercept: 16}}</p>
+            <button type="button" class="click-btn"><i class="add-icon"></i></button>
           </section>
         </li>
       </ul>
     </div>
+    <chooseSku  :orderInfo="orderInfo" v-if="orderInfo.bizSkuSpecLst && orderInfo.bizSkuSpecLst.length>0"></chooseSku>
+
+
+
+
+<!--    <div class="sku-info"></div>-->
+<!--    <div class="account-info"></div>-->
+<!--    <div class="other-info"></div>-->
+<!--    <div class="btn-wrap">-->
+<!--      <button type="button"> 提交订单</button>-->
+<!--      <button type="button"> 提交订单</button>-->
+<!--    </div>-->
+
+    <queryCustomerInfo ref="queryCustomerInfoTmp" v-if="detailInfo.queryCustomerInfoModel" :detailInfo="detailInfo" :orderInfo="orderInfo"></queryCustomerInfo>
   </div>
-  <div class="choose-sku"></div>
-  <div class="sku-info"></div>
-  <div class="account-info"></div>
-  <div class="other-info"></div>
-  <div class="btn-wrap">
-    <button type="button"> 提交订单 </button>
-    <button type="button"> 提交订单 </button>
-  </div>
+
 </template>
 
 <script>
-    export default {
-        name: "offerOrder"
+  import queryCustomerInfo from '../component/queryCustomerInfo';
+  import chooseSku from '../component/chooseSku';
+  import { getFirstPackageSpecInfo} from '../../request/api';
+  export default {
+    components:{
+      queryCustomerInfo,
+      chooseSku
+    },
+    name: "offerOrder",
+    mounted(){
+      getFirstPackageSpecInfo({}).then((result)=>{
+        for (const key in result.data[0]) {
+          this.$set(this.orderInfo, key, result.data[0][key]);
+        }
+      });
+    },
+    data(){
+      return{
+        orderInfo:{},
+        detailInfo:{
+          queryCustomerInfoModel : false
+        }
+      }
+    },
+    methods:{
+      getCustomerInfo(){
+        this.detailInfo.queryCustomerInfoModel = true;
+        console.log(this.detailInfo);
+      },
+      setCustLevel(data){
+         if(data === '01'){
+           return '金牌'
+         }
+        if(data === '02'){
+          return '银牌'
+        }
+        return '铜牌'
+      }
     }
+  }
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+  @import "../css/common.less";
 </style>

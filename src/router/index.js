@@ -79,6 +79,11 @@ export const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: resolve => require(['@/views/dashboard/dashboard'], resolve)
+  },
+  {
+    path: '/absweb',
+    name: 'absweb',
+    component: resolve => require(['@/absweb/layout/offerOrder'], resolve)
   }
 ];
 

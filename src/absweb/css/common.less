@@ -1,8 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
-@import "./reboot.scss";
-@import './style-ant.css';
-@import "./animate.css";
+@import "./model.less";
 
+/* You can add global styles to this file, and also import other style files */
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del,
 dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label,
 legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header,
@@ -89,26 +87,14 @@ body {
 .inner {
   width: 1366px;
   margin: 0 auto;
-  padding-top: 11px;
-  padding-bottom: 10px;
+  padding: 10px 0;
 }
+
 
 .wrap {
-  /* min-width: 1250px; */
-  min-width: 1380px;
-  width: 100%;
-  position: absolute !important;
-  left: 0;
-  bottom: 0;
+  padding: 10px 20px;
+  position: relative;
   z-index: 100;
-}
-
-.have-banner {
-  top: 40px;
-}
-
-.no-banner {
-  top: 90px;
 }
 
 //  border 边框的颜色  输入框的颜色，title文字下边框的颜色
@@ -119,32 +105,65 @@ body {
 //  字体的最小值
 @fontSizeMin: 14px;
 
+.required {
+  display: inline-block;
+  color: red;
+  padding-right: 10px;
+}
+
+.block-item {
+  overflow: hidden;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0px 9px 16px rgba(159, 162, 191, 0.18), 0px 2px 2px rgba(159, 162, 191, 0.32);
+  border-radius: 6px;
+  background-color: #ffffff;
+}
+
+.borderRed{
+  border: 2px solid red;
+}
+.clear-float() {
+  zoom: 1;
+  &::before,
+  &::after {
+    display: table;
+    content: ' ';
+  }
+  &::after {
+    clear: both;
+    height: 0;
+    font-size: 0;
+    visibility: hidden;
+  }
+}
+
 //  左右结构
 ul.info-colspan {
   width: 100%;
-@extend %clearfix; // 清浮动
+  .clear-float();  // 清浮动
   li {
     float: left;
     width: 25%;
     margin: 15px 0;
-  @extend %clearfix; // 清浮动
+    .clear-float();  // 清浮动
     label {
       float: left;
-      width: 39%;
+      width: 37%;
       line-height: 34px;
       color: #7a7a99;
       text-align: right;
 
       span {
-      @extend %required; // 必填红色星号
+        &:extend(.required); // 必填红色星号
       }
     }
 
     section {
-      width: 61%;
+      width: 63%;
       float: left;
       height: 34px;
-    @extend %clearfix; // 清浮动
+      .clear-float();  // 清浮动
       p {
         height: 34px;
         line-height: 34px;
@@ -173,15 +192,19 @@ ul.info-colspan {
       i.head-icon {
         background: url('../img/icons.png')  -70px -180px no-repeat;
       }
+
       i.choose-icon {
         background: url('../img/icons.png')  -70px -34px no-repeat;
       }
+
       i.close-icon {
         background: url('../img/icons.png')  -70px -874px no-repeat;
       }
+
       i.add-icon {
         background: url('../img/icons.png')  -70px -1381px no-repeat;
       }
+
       i.tariff-icon {
         background: url('../img/icons.png')  -70px -1523px no-repeat;
       }
@@ -202,8 +225,8 @@ ul.info-colspan {
       .trigger-input-wrap {
         float: left;
         position: relative;
-      @extend %clearfix; // 清浮动
-        i.close-icon{
+        .clear-float();  // 清浮动
+        i.close-icon {
           position: absolute;
           top: 7px;
           right: 10px;
@@ -211,20 +234,21 @@ ul.info-colspan {
           display: none;
         }
       }
-      .trigger-input-wrap:hover i.fa-close , .trigger-input-wrap:hover i.close-icon {
+
+      .trigger-input-wrap:hover i.fa-close, .trigger-input-wrap:hover i.close-icon {
         display: block;
       }
 
       input[type="text"].trigger-input {
         float: left;
-        width: 160px;
+        width: 157px;
         border-right: none;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
       }
 
       input[type="text"].have-click-btn {
-        width: 120px;
+        width: 115px;
       }
 
       span.error {
@@ -258,6 +282,7 @@ ul.info-colspan {
         cursor: default;
         margin-left: 3px;
       }
+
       button {
         float: left;
         font-size: @fontSizeMin;
@@ -270,7 +295,7 @@ ul.info-colspan {
 
       button.trigger-btn {
         width: 38px;
-        height: 34px;
+        height: 36px;
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;
       }
@@ -281,7 +306,8 @@ ul.info-colspan {
         height: 34px;
         border-radius: @borderRadius;
       }
-      .readonly-agreement{
+
+      .readonly-agreement {
         pointer-events: none;
       }
     }
@@ -293,20 +319,20 @@ ul.info-colspan {
 //  上下结构
 ul.info-rowspan {
   width: 100%;
-@extend %clearfix; // 清浮动
+  .clear-float();  // 清浮动
   li {
     float: left;
     width: 25%;
     margin: 0;
     padding: 0;
-  @extend %clearfix; // 清浮动
+    .clear-float();  // 清浮动
     > label {
       line-height: 34px;
       color: #7a7a99;
       text-align: right;
 
       span {
-      @extend %required; // 必填红色星号
+        &:extend(.required); // 必填红色星号
       }
     }
 
@@ -329,7 +355,7 @@ ul.info-rowspan {
 
       .trigger-input-wrap {
         position: relative;
-      @extend %clearfix; // 清浮动
+        .clear-float();  // 清浮动
       }
 
       .trigger-input-wrap:hover i.fa-close {
@@ -431,26 +457,30 @@ ul.info-rowspan {
       white-space: nowrap;
       cursor: default;
     }
+
     p.color-strong {
       color: red !important;
     }
-    .trigger-add-create-wrap{
+
+    .trigger-add-create-wrap {
       float: left;
     }
   }
 }
 
 //  属性样式修改
-ul.char-rowspan{
-  li{
+ul.char-rowspan {
+  li {
     height: 90px;
+
     > section {
       //width: 198px;
     }
+
     .char-name {
       display: block;
       text-align: left;
-      max-width:270px;
+      max-width: 270px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -465,15 +495,17 @@ h1.title-first {
   line-height: 58px;
   font-weight: 600;
   border-bottom: 1px solid @borderColor;
-@extend %clearfix; // 清浮动
+  .clear-float();  // 清浮动
   position: relative;
-  .title-back-image{
+
+  .title-back-image {
     position: absolute;
     top: 0;
     left: 0;
     width: 100px;
     background: #0000FF;
   }
+
   div.title-fl {
     float: left;
     padding: 0 0 0 20px;
@@ -527,7 +559,6 @@ h1.title-first {
     }
 
 
-
     span.txt-info {
       display: block;
       float: left;
@@ -535,8 +566,9 @@ h1.title-first {
       font-size: 16px;
       color: #1d1d40;
     }
-    .commodity-circulation{
-      font-size: 14px!important;
+
+    .commodity-circulation {
+      font-size: 14px !important;
     }
 
     //  说明文档下载样式
@@ -545,19 +577,23 @@ h1.title-first {
       margin-top: -3px;
     }
   }
+
   div.img-change-adjust {
     padding-left: 0;
+
     div.title-left-img {
       display: inline-block;
       width: 18px;
       height: 30px;
       margin-left: 32px;
       vertical-align: baseline;
+
       .sku-icon {
         float: none;
       }
     }
-    .title-middle-img{
+
+    .title-middle-img {
       float: none !important;
       display: inline-block !important;
       height: 58px;
@@ -565,15 +601,17 @@ h1.title-first {
       vertical-align: top;
       padding: 0 10px !important;
       color: #fff !important;
+
       .sku-icon {
         margin-right: 20px;
       }
     }
   }
+
   div.title-fr {
     float: right;
     padding: 0 20px 0;
-  @extend %clearfix; // 清浮动
+    .clear-float();  // 清浮动
     div.copy-btn {
       float: left;
       line-height: 34px;
@@ -583,13 +621,16 @@ h1.title-first {
       float: left;
       line-height: 34px;
     }
+
     div.template-import-download {
       line-height: 52px;
     }
+
     div.display-wrap {
       float: left;
       line-height: 58px;
       margin-left: 10px;
+
       i {
         display: inline-block;
         width: 24px;
@@ -612,11 +653,11 @@ h3.title-third {
   line-height: 40px;
   font-weight: normal;
   border-bottom: 1px solid @borderColor;
-  @extend %clearfix; // 清浮动
+  .clear-float();  // 清浮动
 
   div.title-fl {
     float: left;
-    @extend %clearfix; // 清浮动
+    .clear-float();  // 清浮动
     i.point {
       display: block;
       float: left;
@@ -627,10 +668,11 @@ h3.title-third {
       background-color: #1d1d40;
     }
 
-    span.product-num{
-      color: #372E99!important;
-      font-weight: bold!important;
+    span.product-num {
+      color: #372E99 !important;
+      font-weight: bold !important;
     }
+
     span.txt-info {
       display: block;
       float: left;
@@ -644,7 +686,7 @@ h3.title-third {
   div.title-fr {
     float: right;
     padding: 0 0 0 20px;
-  @extend %clearfix; // 清浮动
+    .clear-float();  // 清浮动
     div.display-wrap {
       float: left;
       line-height: 50px;
@@ -665,10 +707,10 @@ h4.title-fourth {
   line-height: 34px;
   font-weight: normal;
   overflow: hidden;
-@extend %clearfix; // 清浮动
+  .clear-float();   // 清浮动
   div.title-fl {
     float: left;
-  @extend %clearfix; // 清浮动
+    .clear-float();  // 清浮动
     span.txt-info {
       display: block;
       float: left;
@@ -696,3 +738,129 @@ h4.title-fourth {
     }
   }
 }
+
+
+
+/*radio单选效果*/
+label.radio {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: 0 10px -3px 0;
+  overflow: hidden;
+}
+
+label.radio input[type="checkbox"] {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: -16px 0 0 -16px;
+}
+
+label.radio span {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: url("../img/radio.png") no-repeat left center;
+  background-size: cover;
+}
+
+label.radio input:checked + span {
+  background: url("../img/radioed.png") left center no-repeat;
+  background-size: cover;
+}
+
+/*radio单选效果结束*/
+
+/*checkbox多选框效果开始*/
+label.checkbox {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: 0 10px -3px 0;
+  overflow: hidden;
+}
+
+label.checkbox input[type="checkbox"] {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: -16px 0 0 -16px;
+}
+
+label.checkbox span {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: url("../img/checkbox-no.png") no-repeat left center;
+  background-size: cover;
+}
+
+label.checkbox input:checked + span {
+  background: url("../img/checkbox-yes.png") left center no-repeat;
+  background-size: cover;
+}
+
+/*checkbox多选框效果结束*/
+
+
+button.btn {
+  border-radius: 5px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: 0;
+  font-size: 14px;
+  background: #fff;
+  padding: 6px 12px;
+  &.blue {
+    background-color: #372e99;
+    color: #fff !important;
+    border: none;
+  }
+  &.gray {
+    background: #dcdcf5;
+    color: #372199;
+    border: none;
+  }
+}
+
+
+
+.choose-wrap {
+  width: 100%;
+  background-color: #fff;
+  margin: 20px 0  0;
+  .choose-sku{
+    padding: 10px;
+    ul {
+      width: 100%;
+      li {
+        float: left;
+        width: calc(25% - 20px);
+        height: 58px;
+        line-height: 58px;
+        margin: 10px;
+        padding: 0 10px;
+        border: 1px solid #d7d9e0;
+        border-radius: 4px;
+        background-color: #FAFAFA;
+        label{
+          float: left;
+          margin: 22px 10px 0 0;
+          cursor: pointer;
+        }
+
+        em {
+          display: block;
+          float: left;
+          font-style: normal;
+          font-size: 14px;
+          color: #1D1D40;
+        }
+      }
+    }
+  }
+}
+
+
+
