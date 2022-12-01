@@ -70,7 +70,26 @@
 
 
 
-<!--    <div class="sku-info"></div>-->
+    <div class="product-wrap block-item">
+      <h1 class="title-first title-sku">
+        <div class="title-fl img-change-adjust">
+          <div class="title-left-img"></div>
+          <span class="txt-info title-middle-img">skuItem.skuName</span>
+        </div>
+        <div class="title-fr">
+          <div class="display-wrap">
+            <i></i>
+          </div>
+        </div>
+      </h1>
+      <div class="product-info">
+        <skuAttributeOperation :orderInfo="orderInfo" :detailInfo="detailInfo"></skuAttributeOperation>
+<!--        <app-sku-attribute-operation *ngIf="!(skuItem.alias!=null&&skuItem.alias.indexOf('NOBIZCHAR')!=-1)" [detailInfo]="detailInfo" [skuItem]="skuItem" [skuIndex]="skuIndex" [pipeArgs]="'first'"  [nextNodeTmp]="nextNodeTmp"></app-sku-attribute-operation>-->
+<!--        <app-sku-rate-operation [detailInfo]="detailInfo" [skuItem]="skuItem" [skuIndex]="skuIndex"-->
+<!--                                [disabled]="rateDisable" [nextNodeTmp]="nextNodeTmp"></app-sku-rate-operation>-->
+<!--        <app-sku-charge-operation [detailInfo]="detailInfo" [skuItem]="skuItem"></app-sku-charge-operation>-->
+      </div>
+    </div>
 <!--    <div class="account-info"></div>-->
 <!--    <div class="other-info"></div>-->
 <!--    <div class="btn-wrap">-->
@@ -86,11 +105,13 @@
 <script>
   import queryCustomerInfo from '../component/queryCustomerInfo';
   import chooseSku from '../component/chooseSku';
+  import skuAttributeOperation from '../component/skuAttributeOperation';
   import { getFirstPackageSpecInfo} from '../../request/api';
   export default {
     components:{
       queryCustomerInfo,
-      chooseSku
+      chooseSku,
+      skuAttributeOperation
     },
     name: "offerOrder",
     mounted(){

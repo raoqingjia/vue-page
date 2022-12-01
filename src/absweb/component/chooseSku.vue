@@ -46,7 +46,7 @@
     },
     methods: {
       chooseSku(skuItem){
-
+        console.log(skuItem);
       }
     }
   }

@@ -149,6 +149,11 @@
       border-radius: 4px;
       background-color: #FFFFFF;
       color: #000000;
+      h3{
+        text-align: left;
+        font-size: 16px;
+        line-height: 32px;
+      }
       textarea {
         width: 100%;
         height: 100%;
@@ -168,6 +173,7 @@
       }
       p{
         text-align: left;
+        line-height: 28px;
       }
       ul {
         border-top: 1px solid #c3c3c3;

@@ -174,6 +174,12 @@ const javaRouter = [    //JAVA 类
     created: "2022-05-21",
     component: resolve => require(['@/views/java/springUnknown'], resolve)
   },
-
+  {
+    path: '/java/indirectTabVerticalTab',
+    name: ' 数据库横表和纵表的区别',
+    type: "java",
+    created: "2022-12-01",
+    component: resolve => require(['@/views/java/indirectTabVerticalTab'], resolve)
+  },
 ];
 export default javaRouter;

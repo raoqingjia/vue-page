@@ -3,16 +3,21 @@
 </template>
 
 <script>
+  import queryCustomerInfo from "./queryCustomerInfo";
+  import chooseSku from "./chooseSku";
+  import skuAttributeOperation from "./skuAttributeOperation";
+
   export default {
     name: '',
+    components:{},
     props: {
       orderInfo: {
         type: Object,
-        required: true,
+        required: false,
       },
       detailInfo: {
         type: Object,
-        required: true,
+        required: false,
       }
     },
     data() {
@@ -27,5 +32,5 @@
   }
 </script>
 <style scoped lang="less">
-
+  @import "../css/common.less";
 </style>
