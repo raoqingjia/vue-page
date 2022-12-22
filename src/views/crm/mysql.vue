@@ -7,27 +7,6 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
-          <h3>MySQL简介L</h3>
-          <pre>
-数据库 Oracle （市场占有率最大） DB2   MS Sql Server (只能在微软使用)  MySql
-MySQ是一款开源的关系型数据库 存储数据结构以关系为主，以表为基础数据是放在表里。
-MySQL属于oracle，开源社区维护了MySQL一个分之版本MariaDB,可以理解为MySQL与MariaDB功能是兼容的一回事。安装MariaDB跟安装了MySQL的运行效果是一样的。
-Data Base Management System: 数据库管理系统，用于管理保存数据的文件，通过统一的方式对文件中的数据进行增删改查。
-常见DBMS：
-MySQL：开源 Oracle公司，市场排名第一。
-Oracle：闭源 市场占有率排名第二，性能最高的数据库，价格最贵
-DB2：闭源 IBM公司的产品
-SQLServer：微软产品 闭源收费
-SQLite ：轻量级数据库 只有几十k 移动设备android、ios
-          </pre>
-          <h3>MySQL的安装流程</h3>
-          <pre>
-1）2018年7月最新版本是8版本，但是越是最新的越是不稳定，我安装的是MySQL Community Server 5.5
-2）linux 环境用yum有网环境下安装 mariadb
-3）安装时需要设置root用户名和密码
-4）安装过程中需要勾选数据库编码为utf8，用于支持中文;
-5）如果是MAC的安装，安装密码是系统提前生成好的，你要记住密码后再自己更改
-6）利用cmd执行mysql肯能报未定义的命令，说明要配置环境变量,配置完环境变量后重启一下</pre>
           <h3>MySQL的客户端和服务端</h3>
           <pre>
 <span>① 服务端：</span>

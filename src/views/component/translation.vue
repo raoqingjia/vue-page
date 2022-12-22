@@ -124,7 +124,7 @@
 <style scoped lang="less">
   .translate-wrap{
     position: fixed;
-    top: 53px;
+    top: 52px;
     right: 0;
     border: 1px solid #cccccc;
     background: #cccccc;
@@ -138,8 +138,8 @@
 
   .item-wrap{
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-evenly;
+    /*align-items: center;*/
     .item-aside {
       height: 400px;
       width: 300px;

@@ -92,7 +92,18 @@ order by d.dept_no ASC</pre>
 补充：不相等有三种表示方式：<>、!=、IS NOT
 求余数： emp_no&1   emp_no%2 = 1
 注意：last_name是varchar类型，所以对它的判断需要加上单引号</pre>
-
+          <h3>一张横表需要查看用户来自于哪些学校-查询结果去重</h3>
+          <pre>以下两种都可以进行去重查询，区别是： 用distinct去重，只能查询到去重的属性那一列，无法查询其他字段 用group by分组查询，可以根据需求查询对应的其他字段，推荐用group by
+select university from user_profile group by university;
+select distinct university from user_profile;</pre>
+          <h3>查询结果限制返回2行数</h3>
+          <pre>select device_id from user_profile limit 0,2  ---运行效率更高
+select device_id from user_profile limit 2    ---运行效率低
+也可结合 limit offset： 一起使用时，limit表示要取的数量，offset表示跳过的数量
+select device_id from user_profile limit 2 offset 0 // 跳过0条，从第一条数据开始取，取两条数据 ---运行效率中</pre>
+          <h3>查找后多列排序</h3>
+          <pre>户信息表中的年龄和gpa数据，并先按照gpa升序排序，再按照年龄升序排序输出
+SELECT device_id , gpa , age FROM user_profile ORDER BY gpa asc , age asc;</pre>
 <!--          <h3></h3>-->
 <!--          <pre></pre>-->
         </div>
@@ -181,5 +192,7 @@ order by d.dept_no ASC</pre>
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  .art-content pre{
+     font-size: 18px;
+   }
 </style>
