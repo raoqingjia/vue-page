@@ -20,4 +20,4 @@ watch: {
 
 
 
-<p class="language-bg"> 定义黑色code代码格式
+<p class="language-bg"> 和 <p class="pre-cmd"> 定义黑色code代码格式

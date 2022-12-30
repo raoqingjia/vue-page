@@ -193,6 +193,6 @@ SELECT device_id , gpa , age FROM user_profile ORDER BY gpa asc , age asc;</pre>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .art-content pre{
-     font-size: 18px;
+     font-size: 16px;
    }
 </style>
