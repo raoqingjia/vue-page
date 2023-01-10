@@ -46,7 +46,15 @@ git push -f  origin master    加了参数-u后，以后即可直接用git push 
 在 Mac 本子上执行如下命令：
 git --version
 如果本子上已经安装了 git 工具，会输出类似下面的版本信息：
-git version 2.24.3 (Apple Git-128)</pre>
+git version 2.24.3 (Apple Git-128)
+
+7.git执行 git push 报以下错误：
+remote: HTTP Basic: Access denied
+fatal: Authentication failed for 'http://git.xxxx.com/harlan/interface-new.git/'
+原因:账号密码验证不通过，密码或者权限不对，导致 Git 操作失败。
+解决方法
+输入：git config --system --unset credential.helper
+再次进行 Git 操作，输入正确的用户名，密码即可。          </pre>
           <h3>GIt设置全局变量</h3>
           <pre>
 git config --list       可以查看配置的一些东西

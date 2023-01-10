@@ -658,63 +658,536 @@ export default App;
 上面代码中，组件的子节点有一个文本输入框，用于获取用户的输入。这时就必须获取真实的 DOM 节点，虚拟 DOM 是拿不到用户输入的。为了做到这一点，文本输入框必须有一个 ref 属性，然后 this.refs.[refName] 就会返回这个真实的 DOM 节点。
 需要注意的是，由于 this.refs.[refName] 属性获取的是真实 DOM ，所以必须等到虚拟 DOM 插入文档以后，才能使用这个属性，否则会报错。上面代码中，通过为组件指定 Click 事件的回调函数，确保了只有等到真实 DOM 发生 Click 事件之后，才会读取 this.refs.[refName] 属性。</pre>
           <h3>React 路由</h3>
-          <pre>
-react-router-dom文档地址： https://reacttraining.com/react-router/
-安装包：npm i react-router-dom@5.3.0（react-router-dom现在发了6.0版本，目前不稳定。 尽量使用5.0版本），这个包提供了三个核心的组件:HashRouter, Route, Link
-导入包，并使用：import { HashRouter, Route, Link } from 'react-router-dom'  ，用HashRouter包裹整个应用，一个项目中只会有一个Router
-使用Link指定导航链接，用Route指定路由规则(哪个路径展示哪个组件)
+          <pre>路由模块的安装 
+npm install react-router-dom   // 目前版本： v6.3
+官方案例：
+import { render } from "react-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+import App from "./App";
+import Expenses from "./routes/expenses";
+import Invoices from "./routes/invoices";
+const rootElement = document.getElementById("root");
+render(
+  < BrowserRouter>
+    < Routes>
+      < Route path="/" element={< App />} />
+      < Route path="/expenses" element={< Expenses />} />
+      < Route path="/invoices" element={< Invoices />} />
+    < /Routes>
+  < /BrowserRouter>,
+  rootElement
+)
+路由各组件 
+1. BrowserRouter / HashRouter 相当于容器（类似router-view），用于指定路由的模式
+BrowserRouter为history模式，刷新某个路由路径时, 会出现 404 的错误， 前端路由的路径不要与后台路由路径相同(并且请求方式也相同)
+HashRouter是通过 hash 值来对路由进行控制。使用 HashRouter，路由会默认有个#。
+注意：BrowserRouter和HashRouter组件最好放在最顶层所有组件之外，这样能确保内部组件使用Link做路由跳转时不出错
+如下：
+function App() {
+  return (
+     < HashRouter>
+      < Router>
+        < Routes>
+          < Route path="/product/:id" element={< ProductDetails/>}>< /Route>
+          < Route path="/home" element={< StudentList />}>< /Route>
+        < /Routes>
+      < /Router>
+     < /HashRouter>
+  );
+}
 
-React路由三大对象之 Router、Link、Route
-1， Router 组件：包裹整个应用，一个 React 应用只需要使用一次
-两种常用路由：
-HashRouter :hash模式
-BrowserRouter: history模式
-原理：（推荐 BrowserRouter）
-HashRouter：使用 URL 的 hash 实现
-原理：监听 window 的 hashchange 事件来实现的 （http://localhost:3000/#/first）
-BrowserRouter：使用 H5 的 history.pushState() API 实现  （http://localhost:3000/first）
-原理：监听 window 的 popstate 事件来实现的
+2. Route 定义具体的路由
+< Route path="/expenses" element={< Home/>} />
+path 为路由名 ， element 为对应的组件
+注：element 的值 必须 写成标签的形式
 
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import { HashRouter as Router, Route, Link } from 'react-router-dom'
-使用es6的导入重命名来统一名字： 无论导入的是哪个路由对象，都叫Router
+3. 老版本V5 中的作用路由
+示例：
+< BrowserRouter>
+ < Route path="/" component={ Home } />
+ < Route path="/product" component={ Product } />
+< /BrowserRouter>
+如上代码：
+在当用户输入/product时，将会匹配到两个路由，/ 及 /product ；则会显示两个组件 ；
+原因是老版本路由在匹配时，是进行模糊匹配
+解决方案：
+步骤1：使用Switch让路由只能匹配一个； 注意顺序问题，路由先从上向下进行匹配
+< BrowserRouter>
+ < Switch>
+    < Route path="/" element={< Home />} />
+    < Route path="/product" element={< Product />} />
+ < /Switch>
+< /BrowserRouter>
+步骤2：使用exact关键字，让路由进行精准匹配
+< Route path="/" exact component={Home} />
+加上以上关键字，路由将会精准匹配，只会匹配，path为”/" 的路由
 
-2， Link 或者 NavLink  ：最终会渲染成a标签，用于指定路由导航
-Link组件：
-to 属性，将来会渲染成a标签的href属性
-Link 组件无法展示哪个link处于选中的效果
+4. V6中的 组件Routes
+v6 中 Switch 名称变为 Routes ， 且Route 标签必须包含在Routes标签里，会不然报错
+也就是说，路由只能匹配到一个，不会在出现多个路由匹配的情况
 
-NavLink：一个更特殊的 Link 组件，可以用于指定当前导航高亮
-to属性，用于指定地址，会渲染成a标签的href属性
-activeClassName: 用于指定高亮的类名，默认active。一般不去修改。
-exact: 精确匹配，表示必须地址栏和to的属性值 精确匹配类名才生效
+5. v6 中，exact 属性不再需要
+v6 内部算法改变，不再需要加exact实现精确匹配路由，默认就是匹配完整路径。
+如果需要旧的行为(模糊匹配)，路径后加/*
+< Route path="/products/*" element={< Products />} />
+< Route path="/products/:productId" element={< ProductDetail />} />
+测试： /prodcuts 显示
+/products/4 显示
+/products/haha 显示
+/products/haha/hehe 显示
+结论：看第6点：React Router 能够自动找出最优匹配路径 ，顺序不重要
+若：path属性取值为*时，可以匹配任何（非空）路径，同时该匹配拥有最低的优先级。可以用于设置404页面。
+< Routes>
+    < Route path='/foo' element={Foo}>
+        < Route path='bar' element={Bar}>< /Route>
+        < Route path='*' element={NotFound}>< /Route>
+    < /Route>
+< /Routes>
 
-这两个标签的区别就是 NavLink指向的路径会自带一个名为 active 的css类名
+6. v6 中，Route 先后顺序不再重要，React Router 能够自动找出最优匹配路径
 
-3，Route：决定路由匹配规则
-格式：< Route path="/xx/xx" component={组件}>< /Route>
-path： Route组件中path属性的值
-pathname: 指的如下格式
-link组件中to的属性值
-地址栏中的地址
-模糊匹配规则
-只要pathname以path开头就算匹配成功
-匹配成功就加载对应组件；
-整个匹配过程是逐一匹配，一个匹配成功了，并不会停止匹配。
-模糊匹配和精确匹配
-默认是模糊匹配的
-补充exact可以设置成精确匹配
+7. v6 保留Link，NavLink
+Link,NavLink 类似与a标准，区别NavLink可以设置高亮样式
+< Link to="/home">首页< /Link>
+NavLink的使用，及激活状态的样式设置
+V5老版本，activeClassName设置，或activeStyle
+< NavLink to="/" activeClassName='active-menu'>
+    < i className="fa fa-dashboard">< /i>< span>首页< /span>
+< /NavLink>
+V6新版本，activeClassName 与 activeStyle属性被移除可以直接在的className和style中使用一个函数来设置激活状态的样式。
+方法：通过箭头函数接收到isActive参数值，通过isActive的值来设置
+通过className
+< NavLink to="/faq"className={({ isActive }) => isActive ? 'active' : ''}>首页< /NavLink>
 
-Switch与404
-Switch
-用Switch组件包裹多个Route组件。
-在Switch组件下，不管有多少个Route的路由规则匹配成功，都只会渲染第一个匹配的组件
+通过style
+< NavLink to="/product/1" style={({ isActive }) => {
+    return {
+      fontWeight: "bold",
+      color: isActive ? "red" : ""
+    };
+}}
+fontWeight: "bold" 不管是否激活，都会有； 因为没有判断
 
+8. Navigate组件
+< Route path="/" element ={< Navigate replace to="/home" />} />
+< Navigate replace to="" />是对旧的 Redirect 的完整取代。
+replace 属性也可以省略，不过行为由 replace 改为 push
+replace vs push
+this.props.history.push('router地址')
+push: a-b-c，可以回到上一级
+push跳转会形成history，可返回到上一层。
+this.props.history.replace('router地址')
+replace: a-b-c 回不到上一级 适用于登录后，不需要重新回到登页面
+replace跳转不会形成history，不可返回到上一层。
+结论：push有历史记录，replace没有历史记录
 
-https://blog.csdn.net/wallowyou/article/details/105491074
-</pre>
+9. V6中嵌套路由改为相对路径
+嵌套路由必须放在Route中，且使用相对路径，不再像v5那样必须提供绝对路径
+< Route path='/about' element={< About />}>
+    < Route index element={< Address />} />
+    < Route path='address' element={< Address />}>< /Route>
+    < Route path='information' element={< Information />}>< /Route>
+    < Route path='joinus' element={< Join />}>< /Route>
+< /Route>
+上面的访问路径为 /about/address , /about/information, /about/joinus
+
+10. 使用Outlet组件
+此组件是一个占位符，告诉 React Router 嵌套的内容应该放到哪里。
+export default class about extends Component {
+  render() {
+    return (
+      < div className='container'>
+        < h2>关于< /h2>
+        < div>
+            < div className="left">
+               < ul>
+                < li>< Link to='/about/address'>公司地址< /Link> /li>
+                < li>< Link to='/about/join'>加入我们< /Link>< /li>
+                < li>< Link to='/about/story'>背景故事< /Link>< /li>
+               < /ul>
+            < /div>
+            < div className="left">
+                < Outlet/>
+            < /div>
+        < /div>
+      < /div>
+    )
+  }
+}
+
+11. 使用index 指定默认路由, 或者path为空
+< Route path='/about' element={< About/>}>
+    < Route index element={< Address/>} />
+    < Route path='address' element={< Address/>}>< /Route>
+    < Route path='information' element={< Information/>}>< /Route>
+    < Route path='joinus' element={< Join/>}>< /Route>
+< /Route> 
+或者设置path为空，来指定默认路由
+let router  =[{
+  path: "/home",
+  element :< Home/>,
+  children: [
+    {
+    path:"",
+    element:< News/>
+    },
+    {
+    path: " news " ,
+    element:< News/>
+    }
+  ]
+}]
+
+12. useRoutes 声明式的路由配置方式(项目常用方式)
+声明式路由中，不能写index, 可以让path: "" , 来实现显示默认组件;
+useRoutes函数，会返回已经渲染好的路由元素
+const GetRoutes=()=>{
+    return useRoutes([
+      {
+        path:'/',
+        element:< Home/>
+      },
+      {
+        path:'/home',
+        element:< Home/>
+      },
+      {
+        path:'/product',
+        element:< Product/>
+      },
+      {
+        path:'/about',
+        element:< About/>,
+        children:[
+          {
+            path:"",
+            element:< Story/>
+          },
+          {
+            path:'address',
+            element:< Address/>
+          },
+          {
+            path:'join',
+            element:< Join/>
+          },
+          {
+            path:'story',
+            element:< Story/>
+          }
+        ]
+      },
+      {
+        path:'/concat',
+        element:< Concat/>
+      },
+      {
+        path:'/brand',
+        element:< Brand/>
+      }
+    ])
+}
+function App() {
+  return (
+    < div>
+      < Router>
+       < Nav>< /Nav>
+       < GetRoutes/>  // GetRoutes就代替了下面注释的代码
+         // < Routes>
+            // < Route path='/' element={< Home/>}>< /Route>
+            // < Route path='/home' element={< Home/>}>< /Route>
+            // < Route path='/product' element={< Product/>}>< /Route>
+            // < Route path='/about' element={< About/>}>
+                 // < Route index element={< Story/>}>< /Route>
+                 // < Route path='address' element={< Address/>}>< /Route>
+                 // < Route path='join' element={< Join/>}>< /Route>
+                 // < Route path='story' element={< Story/>}>< /Route>
+            // < /Route>
+            // < Route path='/concat' element={< Concat/>}>< /Route>
+            // < Route path='/brand' element={< Brand/>}>< /Route>
+         // < /Routes>
+      < /Router>
+    < /div>
+  );
+}
+export default App;
+
+13. v6 用useNavigate实现编程式导航，useHistory被移除
+import {useNavigate} from "react-router-dom";
+const navigate = useNavigate();
+navigate("/welcome");  // 等同于push
+如果要重定向:
+navigate("/welcome",{replace:true});
+除此之外，还可以使用navigate(-1)后退到前一页，使用navigate(-2)后退到前一页的前一页，navigate(1)前向导航，
+注：V5版本中的编程式路由导航 this.props.history.replace() 与  this.props.history.push();
+在V6中useNavigate 替代
+详细版本：
+v6版本编程导航使用 useNavigate (以下为引入代码)
+import { useNavigate } from "react-router-dom";
+export default function A() {
+  const navigate = useNavigate();
+  //...
+}
+1.push跳转+携带params参数
+navigate(`/b/child1/${id}/${title}`);
+2.push跳转+携带search参数
+navigate(`/b/child2?id=${id}&title=${title}`);
+3.push跳转+携带state参数
+navigate("/b/child2", { state: { id, title }});
+4.replace跳转+携带params参数
+navigate(`/b/child1/${id}/${title}`,{replace: true});
+5.replace跳转+携带search参数
+navigate(`/b/child2?id=${id}&title=${title}`,{replace: true});
+6.replace跳转+携带state参数
+navigate("/b/child2", { state: { id, title },replace: true});
+
+14. useSearch 获取路由参数的方法
+在Route组件中的path属性中定义路径参数
+在组件内通过useParams hook访问路径参数
+< BrowserRouter>
+    < Routes>
+        < Route path='/foo/:id' element={Foo} />
+    < /Routes>
+< /BrowserRouter>
+用useParams获取
+import { useParams } from 'react-router-dom';
+export default function Foo(){
+  const params = useParams();
+  return (
+      < div>
+        < h1>{params.id}< /h1>
+      < /div>
+  )
+}
+在以前版本中，组件的props会包含一个match对象，在其中可以取到路径参数。但在最新的6.x版本中，无法从props获取参数。
+并且，针对类组件的withRouter高阶组件已被移除。
+因此对于类组件来说，使用参数有两种兼容方法：
+1. 将类组件改写为函数组件传递
+2. 写一个HOC来包裹类组件，用useParams获取参数后通过props传入原本的类组件
+
+15. useSearchParams 获取search 参数
+查询参数不需要在路由中定义
+使用useSearchParams hook来访问查询参数。其用法和useState类似，会返回当前对象和更改它的方法，更改searchParams时，必须传入所有的查询参数，否则会覆盖已有参数
+import { useSearchParams } from 'react-router-dom';
+// 当前路径为 /foo?id=12
+function Foo(){
+    const [searchParams, setSearchParams] = useSearchParams();
+    console.log(searchParams.get('id')) // 12
+    setSearchParams({name: 'foo'}) // /foo?name=foo
+    return (
+        < div>foo< /div>
+    )
+}
+但在最新的6.x版本中，无法从props获取参数。在类组件中获取search参数的值，解决方法与上面一样
+
+16. useLocation 获取传递的state值
+1.传递参数
+< NavLink to={`detail`} state={ {
+         id:item.id,
+         name:item.name,
+         content: item.content }}>
+   {item.name}
+< /NavLink>
+或
+navigate("/b/child2", { state: { id, title }});
+2.接收参数
+import React from 'react'
+import { useLocation } from 'react-router-dom'
+export default function Detail() {
+  // 这是连续结构赋值 把useLocation里面呢的state解构，在解构state里面的属性
+  const {state:{id,name,content}} = useLocation()
+  return (
+    < div>
+     < ul>
+        < li>id:{id}< /li>
+        < li>content:{content}< /li>
+        < li>name:{name}< /li>
+     < /ul>
+    < /div>
+  )
+}
+注： prop属性中的location已经没有了，所以在类组件不能获取到相应的数据了，
+解决方案就是1. 写成函数 2. 使用高阶组件HOC (13,14,15,16 都是这样)
+
+17. 多组路由
+通常，一个应用中只有一个Routes组件。
+但根据实际需要也可以定义多个路由出口（如侧边栏和主页面都要随URL而变化）
+< Router>
+    < SideBar>
+        < Routes>
+            < Route>< /Route>
+        < /Routes>
+    < /SideBar>
+    < Main>
+        < Routes>
+            < Route>< /Route>
+        < /Routes>
+    < /Main>
+< /Router>
+
+18. 路由组件懒加载
+安装： npm i @loadable/component
+import loadable from '@loadable/component'
+const ComponentNode = loadable(()=>{
+  return import("./"+item.componentPath)
+})
+< Route path={item.path} element={< ComponentNode />}>
+
+19. 动态路由案例
+菜单数据：
+var menuInfo = [
+     {
+         menuId: 2,
+         menuName: "用户管理理",
+         menuUrl: "/index/user",
+         pathRoute:'user',
+         pathname: "userlist",
+         componentPath: "user/UserManger",
+         menuImgClass: 'TeamOutlined',
+         pId:0,
+         menuState: "0",
+         isContainChildren:false,
+         menuChilds: [{
+             menuId: 10,
+             menuName: "添加用户",
+             menuUrl: "/index/user/adduser",
+             pathRoute:'adduser',
+             pathname: "adduser",
+             componentPath: "user/AddUser",
+             menuImgClass: 'VideoCameraAddOutlined',
+             pId:2,
+             menuState: "0",
+             isContainChildren:false,
+             menuChilds: []
+         },{
+             menuId: 11,
+             menuName: "修改用户",
+             menuUrl: "/index/user/modifyUser",
+             pathRoute:'modifyUser',
+             pathname: "modifyUser",
+             componentPath: "user/ModifyUser",
+             menuImgClass: 'VideoCameraAddOutlined',
+             pId:2,
+             menuState: "0",
+             isContainChildren:false,
+             menuChilds: []
+         }]
+     },
+     {
+         menuId: 3,
+         menuName: "角色管理理理",
+         menuUrl: "/index/role",
+         pathRoute:'role',
+         pathname: "role",
+         componentPath: "user/RoleManger",
+         menuImgClass: 'WhatsAppOutlined',
+         pId:0,
+         menuState: "0",
+         isContainChildren:true,
+         menuChilds: [
+             {
+                 menuId: 7,
+                 menuName: "添加角色",
+                 menuUrl: "/index/role/addrole",
+                 pathRoute:'addrole',
+                 pathname: "addrole",
+                 componentPath: "user/AddRole",
+                 menuImgClass: 'VideoCameraAddOutlined',
+                 pId:3,
+                 menuState: "0",
+                 isContainChildren:false,
+                 menuChilds: []
+             },
+             {
+                 menuId: 8,
+                 menuName: "角色详情",
+                 menuUrl: "/index/role/roleInfo",
+                 pathRoute:'roleInfo',
+                 pathname: "roleInfo",
+                 componentPath: "user/RoleInfo",
+                 menuImgClass: 'TagOutlined',
+                 isContainChildren:false,
+                 pId:3,
+                 menuState: "0",
+                 menuChilds: []
+             },
+             {
+                 menuId: 9,
+                 menuName: "角色列表",
+                 menuUrl: "/index/role/rolelist",
+                 pathRoute:'rolelist',
+                 pathname: "rolelist",
+                 componentPath: "user/RoleList",
+                 menuImgClass: 'StarOutlined',
+                 pId:3,
+                 menuState: "0",
+                 isContainChildren:false,
+                 menuChilds: []
+             }
+         ]
+     }
+ ];
+动态路由生成组件：
+// 用于创建路由(可以根据数据，生成动态的路由)
+import {useRoutes} from 'react-router-dom'
+import Login from '../pages/Login'
+import Home from '../pages/Home'
+// react 动态加载组件 @loadable/component
+import loadable from '@loadable/component'
+import {observer,inject} from 'mobx-react'
+const PrivateRoute = (props)=>{
+ function bindRouter(list){
+  let arr = [];
+  list.map((item)=>{
+    const ComponentNode = loadable(()=>{
+        return import("./"+item.componentPath)
+    })
+    if(item.menuChilds && item.menuChilds.length>0){
+      if(item.isContainChildren){
+          arr.push({
+              path:item.pathRoute,
+              element:< ComponentNode/>,
+              children:[...bindRouter(item.menuChilds)]
+          })
+      }else{
+          arr.push({
+              path:item.pathRoute,
+              //element:< ComponentNode/>
+              children:[...bindRouter(item.menuChilds)]
+          })
+      }
+    }else{
+      arr.push({
+          path:item.pathRoute,
+          element:< ComponentNode/>
+      })
+    }
+  })
+  return arr;
+}
+
+const menuInfo = props.user.userInfo.menuInfo ? props.user.userInfo.menuInfo:[];
+  return useRoutes([
+    {
+      path:"/",
+      element:< Login/>
+    },
+    {
+      path:"/index",
+      element:< Home />,
+      children:[...bindRouter(menuInfo)]
+    }
+  ])
+}
+export default inject('user')(observer(PrivateRoute));</pre>
           <h3>React hooks</h3>
-          <pre></pre>
+          <pre>具体的看看 案例 -> 框架 -> react Hooks 总结
+或者这个链接的笔记
+http://bugshouji.com/shareweb/t1534</pre>
           <h3>组件实例的三大核心属性 state，props，refs</h3>
           <pre>
 https://blog.csdn.net/Happyaileaf/article/details/114707761?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-114707761-blog-93223218.pc_relevant_multi_platform_featuressortv2dupreplace&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-114707761-blog-93223218.pc_relevant_multi_platform_featuressortv2dupreplace&utm_relevant_index=1

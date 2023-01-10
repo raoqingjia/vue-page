@@ -383,14 +383,14 @@ EXPOSE 3000
 # docker容器启动时执行的命令,这一步可能有些项目会用pm2来启动,那就需要改成pm2对应的指令
 CMD node index.js
 
-下面是abs运行文件
+---------------abs的dockfile-------------------
 FROM 10.248.50.219:1179/nginx:latest
 RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
   && echo 'Asia/Shanghai' >/etc/timezone
 #add file
 ADD dist.tar    /opt/
 RUN mkdir -p /usr/share/nginx/html/absweb/file
-RUN cp -rf /opt/dist/support/* /usr/share/nginx/html/absweb/ && cp -rf /opt/dist /usr/share/nginx/html/absweb/ui
+RUN cp -rf /opt/dist/support/* /usr/share/nginx/html/absweb/ && cp -rf /opt/dist  /usr/share/nginx/html/absweb/ui
 RUN mkdir -p   /usr/share/nginx/html/absweb/ui/soft
 RUN cp -rf /usr/share/nginx/html/absweb/*exe  /usr/share/nginx/html/absweb/ui/soft/
 RUN sed '22 a       client_max_body_size  3M;' -i /etc/nginx/nginx.conf
@@ -402,7 +402,7 @@ RUN sed '12 a       location /absweb/OpPlatform_web { \n     proxy_pass  http://
 RUN sed '28 a       gzip on;\n gzip_min_length 10k;\n gzip_buffers 4 16k;\n gzip_comp_level 3;\n gzip_types application/json;\n' -i /etc/nginx/conf.d/default.conf
 EXPOSE 80
 
-os的dockfile
+---------------os的dockfile-------------------
 FROM nginx:v1
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -410,12 +410,7 @@ ADD dist.tar /opt/
 RUN chmod -R 777 /opt
 EXPOSE 80
 
-Dockerfile 时区设置  /etc/localtime是用来描述本机时间，而 /etc/timezone是用来描述本机所属的时区
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN echo 'Asia/Shanghai' >/etc/timezone
-chmod命令可以改变权限目录和文件权限，-R是目录下所有文件，777是高权限(读、写、执行)，
-
-omss的dockfile
+---------------omss的dockfile-------------------
 FROM {{ ops_web_image }}
 RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
   && echo 'Asia/Shanghai' >/etc/timezone
@@ -428,6 +423,12 @@ RUN sed -i '27a server_tokens off;' /etc/nginx/nginx.conf
 RUN sed -i 's/nginx\/$nginx_version/nginx/g' /etc/nginx/fastcgi_params
 RUN sed '11 a       location /absweb/zuul { \n     proxy_pass http://10.248.50.224; \n    proxy_set_header Host $host:$server_port; \n     proxy_set_header  X-Real-IP        $remote_addr; \n    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; \n }' -i /etc/nginx/conf.d/default.conf
 EXPOSE 80
+
+
+Dockerfile 时区设置  /etc/localtime是用来描述本机时间，而 /etc/timezone是用来描述本机所属的时区
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo 'Asia/Shanghai' >/etc/timezone
+chmod命令可以改变权限目录和文件权限，-R是目录下所有文件，777是高权限(读、写、执行)，
 </pre>
         </div>
       </div>

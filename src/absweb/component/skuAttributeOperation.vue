@@ -1,0 +1,77 @@
+<template>
+  <div class="char-wrap">
+    <h3 class="title-third margin-b10">
+      <div class="title-fl">
+        <i class="point"></i>
+        <span class="txt-info">产品属性</span>
+      </div>
+    </h3>
+    <!--产品属性分组选择-->
+    <ul class="choose-group clearfix">
+      <!--   *ngFor="let groupItem of skuItem.bizSkuCharGroupSpecLst;let groupIndex = index"
+          如果optionalFlag是 1必选就不用勾选，默认CheckBox为true展示 ，
+                 optionalFlag 2 说明是和其他属性组关联，默认不展示，其他组选中后才展示
+                 optionalFlag 0 说明是选填，要用户选择    -->
+        <li>
+          <label>
+            <i></i>
+            <p>groupItem.groupName</p>
+          </label>
+        </li>
+    </ul>
+    <!-- groupType为1说明是放在产品属性里遍历，为2放在产品资费里遍历 *ngIf="skuItem.bizSkuCharGroupSpecLst && skuItem.bizSkuCharGroupSpecLst.length>0;else other_content;"-->
+    <ul>
+<!--      *ngFor="let groupItem of skuItem.bizSkuCharGroupSpecLst;let groupIndex = index"-->
+        <li >
+          <h4 class="title-fourth">
+            <div class="title-fl">
+              <span class="txt-info">groupItem.groupName</span>
+            </div>
+            <div class="title-fr">
+              <div class="display-wrap">
+                <i></i>
+              </div>
+            </div>
+          </h4>
+<!--          平铺类产品属性分组-->
+          <skuAttributeList></skuAttributeList>
+        </li>
+<!--      表格类产品属性分组-->
+<!--        <li *ngIf="groupItem.checkbox&&groupItem.groupType == 4">-->
+<!--          <app-sku-attribute-group-copy [detailInfo]="detailInfo" [skuItem]="skuItem"-->
+<!--                                        [groupItem]="groupItem"></app-sku-attribute-group-copy>-->
+<!--        </li>-->
+
+    </ul>
+  </div>
+</template>
+
+<script>
+  import skuAttributeList from './skuAttributeList'
+  export default {
+    name: 'skuAttributeOperation',
+    components:{skuAttributeList},
+    props: {
+      orderInfo: {
+        type: Object,
+        required: true,
+      },
+      detailInfo: {
+        type: Object,
+        required: true,
+      }
+    },
+    data() {
+      return {
+
+      }
+    },
+    mounted() {
+    },
+    methods: {
+    }
+  }
+</script>
+<style scoped lang="less">
+  @import "../css/common.less";
+</style>

@@ -36,7 +36,7 @@
         paginationShow:this.$store.getters.listTab=="all"?false:true,
         routes:routes,
         total: 0,     // 记录总条数
-        display: 15,   // 每页显示条数
+        display: 20,   // 每页显示条数
         current: 1   // 当前的页数
       }
     },
@@ -82,7 +82,7 @@
         var flag=[];
         if(type=="all"){
           for(var i=0;i<list.length;i++){
-            if(["h5","css","js","jq","app","other","plugin","java","framework"].indexOf(list[i].type)!==-1){
+            if(["h5","css","js","jq","app","other","java","framework"].indexOf(list[i].type)!==-1){
               flag.push(list[i])
             }
           }

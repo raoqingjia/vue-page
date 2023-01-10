@@ -1,26 +1,3 @@
-# vue-pages
-
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-
-
 
 首页中 笔记 案例 的图片大小一致为 40*50
 
@@ -28,3 +5,19 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 token  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
 git remote set-url origin https://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@github.com/raoqingjia/vue-page.git/
+
+
+
+
+如果需要渲染的文本是从后台读取的，需要手动执行 Prism.highlightAll()，否则出不了效果。
+watch: {
+	text(newValue, oldValue){
+		this.$nextTick(() => {
+			Prism.highlightAll()
+		})
+	}
+}
+
+
+
+<p class="language-bg"> 和 <p class="pre-cmd"> 定义黑色code代码格式

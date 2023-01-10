@@ -1,30 +1,28 @@
 <template>
-  <div class="article">
-    <div class="content">
-      <div class="wrap10">
-        <h2 class="art-title"><span>{{languageText}}</span>
-          <button class="btn" @click="languageToggle()">切换</button>
-        </h2>
-        <div class="art-content clear">
-          <div class="item-wrap">
-            <textarea v-model="toTranslated" class="toTranslated" placeholder="请输入要翻译的文字"></textarea>
+  <div class="translate-wrap" v-if="showWindow">
+    <div class="translate-content">
+      <h2 class="title"><span>{{languageText}}</span>
+        <button class="btn" @click="languageToggle()">切换</button>
+      </h2>
+      <div class="item-wrap clearfix">
+        <div class="item-aside">
+          <textarea v-model="toTranslated" class="toTranslated" placeholder="请输入要翻译的文字"></textarea>
+        </div>
+        <div class="item-aside">
+          <div v-for="(items,index) in resultData.web">
+            <h3>{{index+1}}、{{items.key}}</h3>
+            <p>{{items.value.join("、")}}</p>
           </div>
-          <div class="item-wrap">
-            <strong v-if="resultData.translation[0]">{{resultData.translation[0]}}</strong>
-            <ul v-if="resultData.explains&&resultData.explains.length">
-              <li>引申：</li>
-              <li v-for="(items,index) in resultData.explains">{{items}}</li>
-            </ul>
-            <div v-if="resultData.webdict">
-              <a target="_blank" :href="resultData.webdict">链接🔗</a>
-              <iframe :src="resultData.webdict"></iframe>
-            </div>
+          <div v-if="resultData.webdict">
+            <a target="_blank" :href="resultData.webdict">链接🔗</a>
+            <iframe :src="resultData.webdict"></iframe>
           </div>
         </div>
-        <div class="btn-wrap">
-          <button class="btn" @click="getTransData()">翻译</button>
-          <button class="btn" @click="clearData()">清除</button>
-        </div>
+      </div>
+      <div class="btn-wrap">
+        <button class="btn" @click="getTransData()">翻译</button>
+        <button class="btn" @click="clearData()">清除</button>
+        <button class="btn" @click="closeWindow()">关闭</button>
       </div>
     </div>
   </div>
@@ -33,8 +31,7 @@
 <script>
   import sha256 from 'crypto-js/sha256';
   import jsonp from "fetch-jsonp";
-  import {app_id, app_secret} from '../js/const';
-  import axios from  'axios';
+  import {app_id, app_secret} from '../../js/const';
   export default {
     name: 'translation',
     data() {
@@ -43,12 +40,13 @@
         status: 'zh',
         toTranslated: '',
         resultData: {
-          explains: [],
+          web: [],
           translation: [],
           webdict: '',
           speakUrl:'',
           tSpeakUrl:''
-        }
+        },
+        showWindow: false
       }
     },
     mounted() {
@@ -96,7 +94,7 @@
             return res.json();
           }).then(res => {
             console.log(res);
-            this.resultData.explains = res.explains;
+            this.resultData.web = res.web?res.web:[];
             this.resultData.translation = res.translation;
             this.resultData.webdict = 'https' + data.webdict.url.split("http")[1];
             this.resultData.speakUrl = res.speakUrl;
@@ -110,70 +108,91 @@
         this.toTranslated = '';
         this.resultData = {
           translation: [],
-          explains: [],
+          web: [],
           webdict: '',
           speakUrl:'',
           tSpeakUrl:''
         }
+      },
+      closeWindow() {
+        this.showWindow = false;
       }
     }
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-  .art-content {
-    margin: 0 auto;
-    width: 1200px;
+  .translate-wrap{
+    position: fixed;
+    top: 52px;
+    right: 0;
+    border: 1px solid #cccccc;
+    background: #cccccc;
+    .translate-content {
+      width: 800px;
+      .title{
+        margin: 10px 0;
+      }
+    }
+  }
+
+  .item-wrap{
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .item-wrap {
-    float: left;
-    height: 460px;
-    width: 560px;
-    margin: 0 auto;
-    padding: 12px;
-    font-size: 16px;
-    border: 2px solid #c3c3c3;
-    border-radius: 4px;
-    background-color: #FFFFFF;
-    color: #000000;
-
-    textarea {
-      width: 100%;
-      height: 100%;
+    justify-content: space-evenly;
+    /*align-items: center;*/
+    .item-aside {
+      height: 400px;
+      width: 300px;
+      padding: 12px;
       font-size: 16px;
-    }
-
-    strong {
-      font-size: 18px;
-      padding: 10px 0;
-      margin: 0 0 10px 0;
-    }
-
-    strong, a {
-      display: block;
-      text-align: left;
+      border: 2px solid #c3c3c3;
+      border-radius: 4px;
+      background-color: #FFFFFF;
       color: #000000;
-    }
+      h3{
+        text-align: left;
+        font-size: 16px;
+        line-height: 32px;
+      }
+      textarea {
+        width: 100%;
+        height: 100%;
+        font-size: 16px;
+      }
 
-    ul {
-      border-top: 1px solid #c3c3c3;
-    }
+      strong {
+        font-size: 18px;
+        padding: 10px 0;
+        margin: 0 0 10px 0;
+      }
 
-    ul li {
-      line-height: 32px;
-    }
+      strong, a {
+        display: block;
+        text-align: left;
+        color: #000000;
+      }
+      p{
+        text-align: left;
+        line-height: 28px;
+      }
+      ul {
+        border-top: 1px solid #c3c3c3;
+      }
 
-    iframe {
-      width: 100%;
-      height: 250px;
+      ul li {
+        line-height: 32px;
+      }
+
+      iframe {
+        width: 100%;
+        height: 250px;
+      }
     }
   }
 
-
+  .btn-wrap{
+    margin: 10px 0;
+  }
   .btn {
     font-size: 14px;
     padding: 0 12px;

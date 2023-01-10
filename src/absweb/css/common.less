@@ -1,0 +1,957 @@
+@import "./model.less";
+
+/* You can add global styles to this file, and also import other style files */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del,
+dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label,
+legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header,
+hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, input {
+  margin: 0;
+  padding: 0;
+  outline: none !important;
+}
+
+a {
+  text-decoration: none !important;
+
+}
+
+li {
+  list-style: none;
+}
+
+img {
+  border: none;
+}
+
+input, textarea {
+  border: none;
+  resize: none;
+  outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+
+i {
+  font-style: normal;
+}
+
+body {
+  overflow-y: scroll !important;
+  background: #ebeef5;
+}
+
+.fl {
+  float: left !important;
+}
+
+.fr {
+  float: right !important;
+}
+
+.clearfix:after {
+  content: "";
+  height: 0;
+  display: block;
+  clear: both;
+  *zoom: 1
+}
+
+.hidden {
+  overflow: hidden;
+}
+
+.basep {
+  position: relative;
+}
+
+/* 修改placeholder颜色 */
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #bfbfbf !important;
+}
+
+input:-moz-placeholder, textarea:-moz-placeholder {
+  color: #bfbfbf !important;
+}
+
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  color: #bfbfbf !important;
+}
+
+body {
+  background-color: #eff3f6 !important;
+}
+
+
+.inner {
+  width: 1366px;
+  margin: 0 auto;
+  padding: 10px 0;
+}
+
+
+.wrap {
+  padding: 10px 20px;
+  position: relative;
+  z-index: 100;
+}
+
+//  border 边框的颜色  输入框的颜色，title文字下边框的颜色
+@borderColor: #d7d9e0;
+//  边框圆角统一为4像素
+@borderRadius: 4px;
+
+//  字体的最小值
+@fontSizeMin: 14px;
+
+.required {
+  display: inline-block;
+  color: red;
+  padding-right: 10px;
+}
+
+.block-item {
+  overflow: hidden;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0px 9px 16px rgba(159, 162, 191, 0.18), 0px 2px 2px rgba(159, 162, 191, 0.32);
+  border-radius: 6px;
+  background-color: #ffffff;
+}
+
+.borderRed {
+  border: 2px solid red;
+}
+
+.clear-float() {
+  zoom: 1;
+  &::before,
+  &::after {
+    display: table;
+    content: ' ';
+  }
+  &::after {
+    clear: both;
+    height: 0;
+    font-size: 0;
+    visibility: hidden;
+  }
+}
+
+//  左右结构
+ul.info-colspan {
+  width: 100%;
+  .clear-float(); // 清浮动
+  li {
+    float: left;
+    width: 25%;
+    margin: 15px 0;
+    .clear-float(); // 清浮动
+    label {
+      float: left;
+      width: 37%;
+      line-height: 34px;
+      color: #7a7a99;
+      text-align: right;
+
+      span {
+        &:extend(.required); // 必填红色星号
+      }
+    }
+
+    section {
+      width: 63%;
+      float: left;
+      height: 34px;
+      .clear-float(); // 清浮动
+      p {
+        height: 34px;
+        line-height: 34px;
+
+        span {
+          cursor: pointer;
+        }
+      }
+
+      input[type="text"], p.input-readonly {
+        width: 198px;
+        height: 34px;
+        line-height: 34px;
+        padding: 0 10px;
+        border: 1px solid @borderColor;
+        border-radius: @borderRadius;
+        cursor: default;
+      }
+
+      i {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+      }
+
+      i.head-icon {
+        background: url('../img/icons.png')  -70px -180px no-repeat;
+      }
+
+      i.choose-icon {
+        background: url('../img/icons.png')  -70px -34px no-repeat;
+      }
+
+      i.close-icon {
+        background: url('../img/icons.png')  -70px -874px no-repeat;
+      }
+
+      i.add-icon {
+        background: url('../img/icons.png')  -70px -1381px no-repeat;
+      }
+
+      i.tariff-icon {
+        background: url('../img/icons.png')  -70px -1523px no-repeat;
+      }
+
+      i.contract-icon {
+        background: url('../img/icons.png')  -70px -1052px no-repeat;
+      }
+
+      i.fa-close {
+        position: absolute;
+        top: 10px;
+        right: 95px;
+        z-index: 10;
+        display: none;
+        cursor: pointer;
+      }
+
+      .trigger-input-wrap {
+        float: left;
+        position: relative;
+        .clear-float(); // 清浮动
+        i.close-icon {
+          position: absolute;
+          top: 7px;
+          right: 10px;
+          cursor: pointer;
+          display: none;
+        }
+      }
+
+      .trigger-input-wrap:hover i.fa-close, .trigger-input-wrap:hover i.close-icon {
+        display: block;
+      }
+
+      input[type="text"].trigger-input {
+        float: left;
+        width: 157px;
+        border-right: none;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      input[type="text"].have-click-btn {
+        width: 115px;
+      }
+
+      span.error {
+        display: block;
+        visibility: hidden;
+        font-size: 14px;
+        color: red;
+      }
+
+      p.trigger-p {
+        float: left;
+        width: 160px;
+        height: 34px;
+        line-height: 34px;
+        padding: 0 10px;
+        border: 1px solid @borderColor;
+        border-right: none;
+        border-radius: 4px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      p.readonly {
+        float: left;
+        line-height: 34px;
+        color: #7a7a99;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: default;
+        margin-left: 3px;
+      }
+
+      button {
+        float: left;
+        font-size: @fontSizeMin;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        background-color: #e9e8f1;
+        border: 1px solid @borderColor;
+      }
+
+      button.trigger-btn {
+        width: 38px;
+        height: 36px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+
+      button.click-btn {
+        margin: 0 0 0 5px;
+        width: 38px;
+        height: 34px;
+        border-radius: @borderRadius;
+      }
+
+      .readonly-agreement {
+        pointer-events: none;
+      }
+    }
+  }
+
+
+}
+
+//  上下结构
+ul.info-rowspan {
+  width: 100%;
+  .clear-float(); // 清浮动
+  li {
+    float: left;
+    width: 25%;
+    margin: 0;
+    padding: 0;
+    .clear-float(); // 清浮动
+    > label {
+      line-height: 34px;
+      color: #7a7a99;
+      text-align: right;
+
+      span {
+        &:extend(.required); // 必填红色星号
+      }
+    }
+
+    > section {
+      width: 100%;
+
+      input[type="text"], p.input-readonly {
+        width: 198px;
+        height: 34px;
+        line-height: 34px;
+        padding: 0 10px;
+        border: 1px solid @borderColor;
+        border-radius: @borderRadius;
+        cursor: default;
+      }
+
+      span.error {
+        color: red;
+      }
+
+      .trigger-input-wrap {
+        position: relative;
+        .clear-float(); // 清浮动
+      }
+
+      .trigger-input-wrap:hover i.fa-close {
+        display: block;
+      }
+
+      i.fa-close {
+        position: absolute;
+        top: 10px;
+        left: 145px;
+        z-index: 10;
+        display: none;
+        cursor: pointer;
+      }
+
+      input[type="text"].trigger-input {
+        float: left;
+        width: 160px;
+        border-right: none;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      input[type="text"].have-click-btn {
+        width: 120px;
+      }
+
+      p.trigger-p {
+        float: left;
+        width: 160px;
+        height: 34px;
+        line-height: 34px;
+        padding: 0 10px;
+        border: 1px solid @borderColor;
+        border-right: none;
+        border-radius: 4px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      button {
+        float: left;
+        font-size: @fontSizeMin;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        background-color: #e9e8f1;
+        border: 1px solid @borderColor;
+      }
+
+      button.trigger-btn {
+        width: 38px;
+        height: 34px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+
+      button.click-btn {
+        margin: 0 0 0 5px;
+        width: 38px;
+        height: 34px;
+        border-radius: @borderRadius;
+      }
+
+      i {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+      }
+
+      i.head-icon {
+        background: url('../img/icons.png')  -70px -180px no-repeat;
+      }
+
+      i.choose-icon {
+        background: url('../img/icons.png')  -70px -34px no-repeat;
+      }
+
+      i.add-icon {
+        background: url('../img/icons.png')  -70px -1381px no-repeat;
+      }
+
+      i.tariff-icon {
+        background: url('../img/icons.png')  -70px -1523px no-repeat;
+      }
+
+      i.contract-icon {
+        background: url('../img/icons.png')  -70px -1052px no-repeat;
+      }
+    }
+
+    p.readonly {
+      height: 34px;
+      line-height: 34px;
+      color: #7a7a99;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: default;
+    }
+
+    p.color-strong {
+      color: red !important;
+    }
+
+    .trigger-add-create-wrap {
+      float: left;
+    }
+  }
+}
+
+//  属性样式修改
+ul.char-rowspan {
+  li {
+    height: 90px;
+
+    > section {
+      //width: 198px;
+    }
+
+    .char-name {
+      display: block;
+      text-align: left;
+      max-width: 270px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+
+h1.title-first {
+  width: 100%;
+  height: 58px;
+  line-height: 58px;
+  font-weight: 600;
+  border-bottom: 1px solid @borderColor;
+  .clear-float(); // 清浮动
+  position: relative;
+
+  .title-back-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    background: #0000FF;
+  }
+
+  div.title-fl {
+    float: left;
+    padding: 0 0 0 20px;
+
+    i {
+      display: block;
+      float: left;
+      width: 18px;
+      height: 18px;
+      margin: 20px 0 0;
+    }
+
+    i.head-icon {
+      background: url('../img/icons.png')  -70px -180px no-repeat;
+    }
+
+    i.choose-process {
+      background: url('../img/icons.png')  -70px 0 no-repeat;
+    }
+
+    i.sku-icon {
+      background: url('../img/icons.png')  -70px -218px no-repeat;
+    }
+
+    i.char-icon {
+      background: url('../img/icons.png')  -70px -437px no-repeat;
+    }
+
+    i.rate-icon {
+      background: url('../img/icons.png')  -70px -327px no-repeat;
+    }
+
+    i.search-icon {
+      background: url('../img/icons.png')  -70px -693px no-repeat;
+    }
+
+    i.account-icon {
+      background: url('../img/icons.png')  -70px -1525px no-repeat;
+    }
+
+    i.other-icon {
+      background: url('../img/icons.png')  -70px -911px no-repeat;
+    }
+
+    i.jingban-icon {
+      background: url('../img/icons.png')  -70px -1127px no-repeat;
+    }
+
+    i.qudao-icon {
+      background: url('../img/icons.png')  -70px -1273px no-repeat;
+    }
+
+
+    span.txt-info {
+      display: block;
+      float: left;
+      padding: 0 20px;
+      font-size: 16px;
+      color: #1d1d40;
+    }
+
+    .commodity-circulation {
+      font-size: 14px !important;
+    }
+
+    //  说明文档下载样式
+    div.instruct-file {
+      float: right;
+      margin-top: -3px;
+    }
+  }
+
+  div.img-change-adjust {
+    padding-left: 0;
+
+    div.title-left-img {
+      display: inline-block;
+      width: 18px;
+      height: 30px;
+      margin: 13px 0 0 32px;
+      vertical-align: baseline;
+      background: url("../img/bj-icon.jpg") no-repeat center;
+
+      .sku-icon {
+        float: none;
+      }
+    }
+
+    .title-middle-img {
+      float: none !important;
+      display: inline-block !important;
+      height: 58px;
+      line-height: 58px;
+      vertical-align: top;
+      padding: 0 10px !important;
+      color: #fff !important;
+
+      .sku-icon {
+        margin-right: 20px;
+      }
+    }
+
+    div.title-right-img {
+      display: inline-block;
+      width: 48px;
+      height: 58px;
+      vertical-align: top;
+      background: url("../img/product-right.png") no-repeat center;
+    }
+  }
+
+  div.title-fr {
+    float: right;
+    padding: 0 20px 0;
+    .clear-float(); // 清浮动
+    div.copy-btn {
+      float: left;
+      line-height: 34px;
+    }
+
+    div.template-download {
+      float: left;
+      line-height: 34px;
+    }
+
+    div.template-import-download {
+      line-height: 52px;
+    }
+
+    div.display-wrap {
+      float: left;
+      line-height: 58px;
+      margin-left: 10px;
+
+      i {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+      }
+
+    }
+  }
+}
+
+h1.title-sku {
+  line-height: normal;
+  border: none !important;
+  background-size: cover;
+}
+
+h1.title-sku {
+  line-height: normal;
+  border: none !important;
+  background: url("../img/product-bj.png") left top no-repeat;
+  background-size: cover;
+}
+
+h3.title-third {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  font-weight: normal;
+  border-bottom: 1px solid @borderColor;
+  .clear-float(); // 清浮动
+
+  div.title-fl {
+    float: left;
+    .clear-float(); // 清浮动
+    i.point {
+      display: block;
+      float: left;
+      width: 6px;
+      height: 12px;
+      margin: 13px 0 0;
+      border-radius: 4px;
+      background-color: #1d1d40;
+    }
+
+    span.product-num {
+      color: #372E99 !important;
+      font-weight: bold !important;
+    }
+
+    span.txt-info {
+      display: block;
+      float: left;
+      padding: 0 20px;
+      font-size: 14px;
+      color: #1d1d40;
+      font-weight: 600;
+    }
+  }
+
+  div.title-fr {
+    float: right;
+    padding: 0 0 0 20px;
+    .clear-float(); // 清浮动
+    div.display-wrap {
+      float: left;
+      line-height: 50px;
+      margin: 0 0 0 10px;
+
+      i {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}
+
+h4.title-fourth {
+  width: 100%;
+  height: 34px;
+  line-height: 34px;
+  font-weight: normal;
+  overflow: hidden;
+  .clear-float(); // 清浮动
+  div.title-fl {
+    float: left;
+    .clear-float(); // 清浮动
+    span.txt-info {
+      display: block;
+      float: left;
+      padding: 0;
+      font-size: 14px;
+      color: #7a7a99;
+      //color: #1d1d40;
+      font-weight: 600;
+    }
+  }
+
+  div.title-fr {
+    float: right;
+    padding: 0;
+
+    div.display-wrap {
+      float: left;
+      margin: 0 0 0 10px;
+
+      i {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}
+
+
+/*radio单选效果*/
+label.radio {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: 0 10px -3px 0;
+  overflow: hidden;
+}
+
+label.radio input[type="checkbox"] {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: -16px 0 0 -16px;
+}
+
+label.radio span {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: url("../img/radio.png") no-repeat left center;
+  background-size: cover;
+}
+
+label.radio input:checked + span {
+  background: url("../img/radioed.png") left center no-repeat;
+  background-size: cover;
+}
+
+/*radio单选效果结束*/
+
+/*checkbox多选框效果开始*/
+label.checkbox {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: 0 10px -3px 0;
+  overflow: hidden;
+}
+
+label.checkbox input[type="checkbox"] {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: -16px 0 0 -16px;
+}
+
+label.checkbox span {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: url("../img/checkbox-no.png") no-repeat left center;
+  background-size: cover;
+}
+
+label.checkbox input:checked + span {
+  background: url("../img/checkbox-yes.png") left center no-repeat;
+  background-size: cover;
+}
+
+/*checkbox多选框效果结束*/
+
+
+button.btn {
+  border-radius: 5px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: 0;
+  font-size: 14px;
+  background: #fff;
+  padding: 6px 12px;
+
+  &.blue {
+    background-color: #372e99;
+    color: #fff !important;
+    border: none;
+  }
+
+  &.gray {
+    background: #dcdcf5;
+    color: #372199;
+    border: none;
+  }
+}
+
+
+.choose-wrap {
+  width: 100%;
+  background-color: #fff;
+  margin: 20px 0 0;
+
+  .choose-sku {
+    padding: 10px;
+
+    ul {
+      width: 100%;
+
+      li {
+        float: left;
+        width: calc(25% - 20px);
+        height: 58px;
+        line-height: 58px;
+        margin: 10px;
+        padding: 0 10px;
+        border: 1px solid #d7d9e0;
+        border-radius: 4px;
+        background-color: #FAFAFA;
+
+        label {
+          float: left;
+          margin: 22px 10px 0 0;
+          cursor: pointer;
+        }
+
+        em {
+          display: block;
+          float: left;
+          font-style: normal;
+          font-size: 14px;
+          color: #1D1D40;
+        }
+      }
+    }
+  }
+}
+
+
+.product-wrap {
+  margin: 20px 0 0 0;
+  background-color: #fff;
+
+  .product-info {
+    padding: 10px 20px 20px;
+  }
+}
+
+
+.char-wrap {
+  margin: 10px 0 0 0;
+  padding: 0 20px 10px;
+  background-color: #f7f8fa;
+  border-radius: 4px;
+}
+
+ul.choose-group {
+  margin: 10px 0 0;
+
+  li {
+    float: left;
+    width: 25%;
+    margin: 10px 0;
+  }
+
+  li label {
+    display: table;
+    width: 95%;
+    padding: 0 15px;
+    height: 60px;
+    border: 1px solid #ffddcc;
+    border-radius: 4px;
+    background-color: #ffeee5;
+    cursor: pointer;
+  }
+
+  li p {
+    display: table-cell;
+    vertical-align: middle;
+    width: 95%;
+    line-height: 24px;
+    font-size: 14px;
+    color: #ff5500;
+    cursor: default;
+    text-overflow: ellipsis;
+  }
+
+
+  /*激活状态*/
+
+  li.active label {
+    border: 1px solid #ff7823;
+    background: linear-gradient(to right, #ff9833 0%, #ff461c 100%);
+    position: relative;
+  }
+
+  li.active label p {
+    color: #ffffff;
+  }
+
+  li.active label i {
+    display: block;
+    float: left;
+    width: 18px;
+    height: 18px;
+    margin: 20px 5px 0 0;
+    background: url("../img/icons.png") -144px -619px no-repeat;
+  }
+}
+

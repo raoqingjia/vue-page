@@ -37,6 +37,11 @@ let basicRouter = [
     component: resolve => require(['@/views/list'], resolve)
   },
   {
+    path: '/plugin',
+    name: 'plugin',
+    component: resolve => require(['@/views/plugin'], resolve)
+  },
+  {
     path: '/project',
     name: 'project',
     component: resolve => require(['@/views/project'], resolve)
@@ -51,11 +56,11 @@ let basicRouter = [
     name: 'onlineEdit',
     component: resolve => require(['@/views/onlineEdit'], resolve)
   },
-  {
-    path: '/translation',
-    name: 'translation',
-    component: resolve => require(['@/views/translation'], resolve)
-  }
+  // {
+  //   path: '/translation',
+  //   name: 'translation',
+  //   component: resolve => require(['@/views/translation'], resolve)
+  // }
 ];
 
 export const routes = [
@@ -74,6 +79,11 @@ export const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: resolve => require(['@/views/dashboard/dashboard'], resolve)
+  },
+  {
+    path: '/absweb',
+    name: 'absweb',
+    component: resolve => require(['@/absweb/layout/offerOrder'], resolve)
   }
 ];
 

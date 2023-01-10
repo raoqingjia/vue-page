@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="modal-wrap">
+  <div class="modal" style="width: 900px">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="header-wrap clearfix">
+          <h3>客户列表</h3>
+          <i>x</i>
+        </div>
+        <div class="filter-wrap">
+          <ul class="filter-condition clearfix">
+            <li><span>客户名称/编码</span><input type="text" placeholder="请输入客户名称/客户编码"></li>
+            <li class="btn">
+              <button type="button" class="btn blue">查询</button>
+            </li>
+          </ul>
+        </div>
+        <div class=" clearfix">
+          <table>
+            <thead>
+            <tr>
+              <th></th>
+              <th>客户编码</th>
+              <th>客户名称</th>
+              <th>客户来源</th>
+              <th>行业名称</th>
+              <th>服务等级</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>
+                <label class="radio">
+                  <input type="checkbox">
+                  <span></span>
+                </label>
+              </td>
+              <td>item.customerNumber </td>
+              <td>item.customerName </td>
+              <td>item.custSourceName </td>
+              <td>item.industryName </td>
+              <td>item.valueLevelId</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <button type="button" class="btn blue">确定</button>
+        <button type="button" class="btn gray">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
