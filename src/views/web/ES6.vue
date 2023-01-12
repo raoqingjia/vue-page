@@ -439,52 +439,54 @@ this.$api.project.add()</p></pre>
 
           <h3>Object对象新增的方法</h3>
           <pre>
-ECMAScript 6在全局Object上添加了几个新的方法来完成一些特定任务
-<span>① Object.is()</span>
-ES5中比较操作符（==）或严格比较操作符（===）在一些场景下是存在bug的，例如它认为 +0 和 -0 是相等的， NaN === NaN 会返回 false，所以必须使用 isNaN() 函数才能判断 NaN 。
-ECMAScript 6引入Object.is()方法来补偿上述场景的bug，该函数接受两个参数并在它们相等的返回true。
-<p class="pre-cmd">console.log(+0 == -0);              // true
-console.log(+0 === -0);             // true
-console.log(Object.is(+0, -0));     // false
-
-console.log(NaN == NaN);            // false
-console.log(NaN === NaN);           // false
-console.log(Object.is(NaN, NaN));   // true
-
-console.log(5 == 5);                // true
-console.log(5 == "5");              // true
-console.log(5 === 5);               // true
-console.log(5 === "5");             // false
+<span>Object.is()</span>
+ES5中比较操作符（==）或严格比较操作符（===）在一些场景下是存在bug的，例如它认为 +0 和 -0 是相等的， NaN === NaN 会返回 false，所以必须使用 isNaN() 函数才能判断 NaN。
+很多情况下 Object.is() 的表现和 === 是相同的，何时选择 Object.is() 与 == 或 === 取决于代码的实际情况。
+<p class="pre-cmd">console.log(5 === "5");             // false
 console.log(Object.is(5, 5));       // true
 console.log(Object.is(5, "5"));     // false</p>
-很多情况下 Object.is() 的表现和 === 是相同的。它们之间的区别是前者 认为 +0 和 -0 不相等而 NaN 和 NaN 则是相同的。不过弃用后者是完全没有必要的。何时选择 Object.is() 与 == 或 === 取决于代码的实际情况。
-<span>② Object.assign()</span>
+<span>Object.assign()</span>
 assign可以把一个对象的属性和访问完整的转copy到另外一个对象中,我认为相当于引用了该对象的地址值
-<p class="pre-cmd">var p = {
-    name : "lisi",
-    age : 20,
-    friends : ['张三', '李四']
-}
-var p1 = {};
-Object.assign(p1, p); //则p1中就有了与p相同的属性和方法.  p1是接受者，p是提供者
-console.log(p1);
-//这种copy是浅copy，也就是说如果属性值是对象的话，只是copy的对象的地址值(引用）
-console.log(p1.friends == p.friends);  //true   p1和p的friends同事指向了同一个数组。
-p.friends.push("王五");
-console.log(p1.friends); //['张三', '李四', '王五']
-</p>
-assign方法可以接受任意多的提供者。意味着后面提供者的同名属性和覆盖前面提供者的属性值。
-<p class="pre-cmd">var p = {
-    name : "lisi",
-    age : 20,
-    friends : ['张三', '李四']
-}
-var p1 = {
-    name : 'zs',
-}
-var p2 = {};
-Object.assign(p2, p, p1); //p和p1都是提供者
-console.log(p2.name); // zs 这里p1的name值覆盖了p的</p></pre>
+<p class="pre-cmd">let source = { a: 1 };
+let target = Object.assign({}, source);
+console.log(target)  // { a: 1 }
+source.a = 2;
+console.log(source)  // { a: 2 }
+console.log(target)  // { a: 1 }
+target的值并没有随着source的变化而变化，到这里有人会说，这一看就是深拷贝嘛，来再举个例子
+let source = { a: { b : 1 }, c: 1 };
+let target = Object.assign({}, source);
+console.log(target)  // { a: { b: 1 }, c: 1 }
+source.a.b = 2;
+source.c = 3
+console.log(source)  // { a: { b: 2 }, c: 3 }
+console.log(target)  // { a: { b: 2 }, c: 1 }
+对于Object.assign()而言，如果对象的属性值为简单类型（string，number），通过Object.assign({},srcobj)，得到的新对象为深拷贝；如果属性值是对象或其他引用类型，那对于这个引用数据类型而言是浅拷贝的。</p>
+<span>Object.keys()、Object.values()、Object.entries()</span>
+Object.keys()方法，返回一个数组，属性的键名数组。
+Object.values()方法返回一个数组，属性的键值数组。
+Object.entries()方法返回一个数组，属性的键值对数组。
+<p class="pre-cmd">let obj = {name:"winne",age:22};
+let objKeys = Object.keys(obj);
+let objValues = Object.values(obj);
+let objItem = Object.entries(obj);
+console.log(objKeys);   //["name","age"]
+console.log(objValues); //["winne",22]
+console.log(objItem);   //[["name","winne"],["age",22]]</p>
+<span>Object.freeze()</span>
+Object.freeze() 方法可以冻结一个对象。一个被冻结的对象再也不能被修改；冻结了一个对象则不能向这个对象添加新的属性，不能删除已有属性，不能修改该对象已有属性的可枚举性、可配置性、可写性，以及不能修改已有属性的值。此外，冻结一个对象后该对象的原型也不能被修改。freeze() 返回和传入的参数相同的对象。
+<span>Object.hasOwn()</span>
+如果指定的对象自身有指定的属性，则静态方法 Object.hasOwn() 返回 true。如果属性是继承的或者不存在，该方法返回 false。
+备注： Object.hasOwn() 旨在取代 Object.hasOwnProperty()。
+<p class="pre-cmd">const object1 = {
+  prop: 'exists'
+};
+console.log(Object.hasOwn(object1, 'prop'));
+// Expected output: true
+console.log(Object.hasOwn(object1, 'toString'));
+// Expected output: false</p>
+https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn
+          </pre>
           <h3>新的基本类型：Symbol</h3>
           <pre>
 以前我们有5种基本数据类型：Number、String、Boolean、Null、Undefined
@@ -494,6 +496,144 @@ ES6新增了一种新的数据类型：Symbol
 可以使用 typeof 操作符来判断变量是否为 symbol 。ECMAScript 6 拓展了 typeof 使其操作 symbol 时返回 “symbol”。
 let symbol = Symbol();
 console.log(typeof symbol);   // "symbol"
+          </pre>
+          <h3>迭代器 Iterator</h3>
+          <pre>目前实际项目没用到过 https://www.cnblogs.com/anjingdian/p/16907361.html</pre>
+          <h3>生成器 Generator</h3>
+          <pre>生成器是ES6中新增的一种函数控制、使用的方案，它可以让我们更加灵活的控制函数什么时候继续执行、暂停执行等。平时我们会编写很多的函数，这些函数终止的条件通常是返回值或者发生了异常。
+生成器函数也是一个函数，生成器事实上是一种特殊的迭代器，但是和普通的函数有一些区别：
+A、生成器函数需要在function的后面加一个符号：*
+B、生成器函数可以通过yield关键字来控制函数的执行流程
+C、生成器函数的返回值是一个Generator（生成器）
+个人总结：
+1、yield就类似于按下了暂停键，next()就是开始键，代码书写顺序是先声明Generator，之后按下next()开始键，执行程序后碰到yield就类似于按下了暂停键
+2、一定是先执行next()，后执行一个yield，next()执行循序在yield之前，这个注意理解,不然到next()传参就容易记混淆，还有就是第一个起始的next()肯定是没有入参的，next()里的入参从第二个开始加
+3、generator.next()返回的格式是{ value: undefined, done: false }，next()里没值返回的value就是undefined，如果后续还有yield的话done就是false，done: true说明函数执行完毕
+4、return函数生成器提前结束，return传值后这个生成器函数就会结束，之后调用next不会继续生成值了。
+
+下面着端代码可以解释个人总结的序号2
+<p class="pre-cmd">function* foo(num) {
+  console.log("函数开始执行~");
+  const value1 = 100 * num;
+  console.log("第一段代码:", value1 ,num);
+  const n = yield value1;
+  const value2 = 200 * n;
+  console.log("第二段代码:", value2 , n);
+  const count = yield value2;
+  const value3 = 300 * count;
+  console.log("第三段代码:", value3 , count);
+  yield value3;
+  console.log("函数执行结束~");
+  return "123";
+}
+// 生成器上的next方法可以传递参数
+const generator = foo(5);   //  这里的5对应的是 function* foo(num) 的num
+generator.next(); // 注意这里next没形参
+generator.next(10);  //  入参10对应第一个yield
+generator.next(25);  //  入参25对应第二个yield</p>
+
+下面着端代码可以解释个人总结的序号3
+<p class="pre-cmd">function* foo(num) {
+  console.log("函数开始执行~");
+  const value1 = 100 * num;
+  console.log("第一段代码:", value1);
+  const n = yield value1;
+  const value2 = 200 * n;
+  console.log("第二段代码:", value2);
+  const count = yield value2;
+  console.log("函数执行结束~");
+  return "123"
+}
+const generator = foo(10);
+console.log(generator.next());
+// 第二段代码的执行, 使用了return
+// 那么就意味着相当于在第一段代码的后面加上return, 就会提前终端生成器函数代码继续执行
+console.log(generator.return(15));
+console.log(generator.next());
+console.log(generator.next());</p>
+
+生成器抛出异常 – throw函数
+除了给生成器函数内部传递参数之外，也可以给生成器函数内部抛出异常：
+抛出异常后我们可以在生成器函数中捕获异常；
+但是在catch语句中不能继续yield新的值了，但是可以在catch语句外使用yield继续中断函数的执行；
+<p class="pre-cmd">function* foo() {
+  console.log("代码开始执行~");
+  const value1 = 100;
+  try {
+    yield value1
+  } catch (error) {
+    console.log("捕获到异常情况:", error);
+    yield "abc";
+  }
+  console.log("第二段代码继续执行");
+  const value2 = 200;
+  yield value2;
+  console.log("代码执行结束~");
+}
+const generator = foo();
+const result = generator.next();
+generator.throw("error message");</p>
+
+这是一个利用promise同步等待的代码，利用了promise的then等待结果继续执行，代码嵌套有些费事
+<p class="pre-cmd">function requestData(url) {
+  // 异步请求的代码会被放入到executor中
+  return new Promise((resolve, reject) => {
+    // 模拟网络请求
+    setTimeout(() => {
+      // 拿到请求的结果
+      resolve(url)
+    }, 2000);
+  })
+}
+function* getData() {
+  const res1 = yield requestData("fuyou");
+  console.log(res1);  //打印 params
+  const res2 = yield requestData(res1 + "aaa");
+  const res3 = yield requestData(res2 + "bbb");
+  const res4 = yield requestData(res3 + "ccc");
+}
+const generator = getData();
+const result = generator.next();
+console.log(result.value);  // 打印Promise { < pending> }
+result.value.then(data =>{  // .then是接收正确返回的信息
+  console.log(data); // 打印fuyou
+  if(data){
+   const res = generator.next('params');
+   console.log(res);   // 打印{ value: Promise { < pending> }, done: false }
+  }
+});
+// 打印顺序  1、Promise { < pending> }   2、fuyou   3、params   4、{ value: Promise { < pending> }, done: false }
+</p>
+下面也是同步等待的代码，用了一个iterator全局变量取执行
+<p class="pre-cmd">// 模拟获取，用户数据，订单数据，商品数据
+function getUsers() {
+    setTimeout(() => {
+        let data = '用户数据';
+        iterator.next(data)
+    }, 3000)
+}
+function getOrders(users) {
+    setTimeout(() => {
+        let data = users + '订单数据';
+        iterator.next(data)
+    }, 3000)
+}
+function getGoods(orders) {
+    setTimeout(() => {
+        let data = orders + '商品数据';
+        iterator.next(data)
+    }, 3000)
+}
+function* gen() {
+    let users = yield getUsers()
+    console.log(users) // '用户数据'
+    let orders = yield getOrders(users)
+    console.log(orders) // '用户数据订单数据'
+    let goods = yield getGoods(orders)
+    console.log(goods) // '用户数据订单数据商品数据'
+}
+let iterator = gen();
+iterator.next();</p>
           </pre>
         </div>
       </div>

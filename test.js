@@ -1,29 +1,17 @@
-// 模拟获取，用户数据，订单数据，商品数据
-function getUsers() {
-    setTimeout(() => {
-        let data = '用户数据';
-        iterator.next(data)
-    }, 3000)
+
+
+var p = {
+  name : "lisi",
+  age : 20,
+  friends : ['张三', '李四']
 }
-function getOrders(users) {
-    setTimeout(() => {
-        let data = users + '订单数据';
-        iterator.next(data)
-    }, 3000)
+var p1 = {
+  name : "lisi",
+  age : 20,
+  friends : ['张三', '李四']
 }
-function getGoods(orders) {
-    setTimeout(() => {
-        let data = orders + '商品数据';
-        iterator.next(data)
-    }, 3000)
-}
-function* gen() {
-    let users = yield getUsers()
-    console.log(users) // '用户数据'
-    let orders = yield getOrders(users)
-    console.log(orders) // '用户数据订单数据'
-    let goods = yield getGoods(orders)
-    console.log(goods) // '用户数据订单数据商品数据'
-}
-let iterator = gen();
-iterator.next();
+var p2 = Object.assign({}, p); // 则p1中就有了与p相同的属性和方法.  p1是接受者，p是提供者;
+console.log(p1);
+p.age = 3;
+console.log(p.age);
+console.log(p1.age);

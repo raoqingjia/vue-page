@@ -411,6 +411,13 @@ const jsRouter = [//js案例
     type: "js",
     created: "2022-10-20",
     component: resolve => require(['@/views/js/consoleTime'], resolve)
+  },
+  {
+    path: '/js/promisePending',
+    name: 'Promise { pending }是什么？',
+    type: "js",
+    created: "2022-10-20",
+    component: resolve => require(['@/views/js/promisePending'], resolve)
   }
   ];
 export default jsRouter;
