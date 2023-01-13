@@ -418,6 +418,14 @@ const jsRouter = [//js案例
     type: "js",
     created: "2022-10-20",
     component: resolve => require(['@/views/js/promisePending'], resolve)
+  },
+  {
+    path: '/js/jsIn',
+    name: 'JavaScript in 操作符',
+    type: "js",
+    created: "2022-10-20",
+    component: resolve => require(['@/views/js/jsIn'], resolve)
   }
+
   ];
 export default jsRouter;

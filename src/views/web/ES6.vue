@@ -148,9 +148,9 @@ console.log(message); //abc</p>
 为了简化书写，一般把Value1和Value2写成剩余字符串的形式
 function show(stringArr, ...values){
 }</pre>
-          <h3>对象的简化</h3>
+          <h3>ES6对象</h3>
           <pre>
-<span>1、属性的简化写法</span>
+<span>1、属性的简化写法(也称对象字面量增强)</span>
 <p class="pre-cmd">var foo = 'name1';
 var bar = 'name2';
 var obj = {foo,bar};
@@ -435,8 +435,25 @@ import api from './api'
 Vue.prototype.$api = api
 // 组件使用的时候
 this.$api.project.add()</p></pre>
-
-
+          <h3>ES新特性之Reflect对象</h3>
+          <pre>
+Reflect是ECMAScript2015提供的一个对象，它提供了一些拦截JavaScript操作的静态方法，这些方法与Proxy中的handlers中的方法一致。
+Reflect并不是一个构造函数，也就是说它不能够被实例化。
+Proxy对象中的每一个拦截操作（例如：get、delete等）,内部都对应的调用了Reflect的方法。它提供的静态方法与Proxy中的handlers中的方法名称都一致，具体如下：
+默认调⽤	                           功能
+Reflect.get()	                     获取对象身上某个属性的值
+Reflect.set()	                     在对象上设置属性
+Reflect.has()	                     判断一个对象是否存在某个属性
+Reflect.deleteProperty()	         删除对象上的属性
+Reflect.getPrototypeOf()	         获取指定对象原型的函数
+Reflect.setPrototypeOf()	         设置或改变对象原型的函数
+Reflect.isExtensible()	           判断一个对象是否可扩展 （即是否能够添加新的属性）
+Reflect.preventExtensions()      	 阻止新属性添加到对象
+Reflect.getOwnPropertyDescriptor() 获取给定属性的属性描述符
+Reflect.defineProperty()	         定义或修改一个对象的属性
+Reflect.ownKeys()	                 返回由目标对象自身的属性键组成的数组
+Reflect.apply()	                   对一个函数进行调用操作，同时可以传入一个数组作为调用参数
+Reflect.construct()        	       对构造函数进行 new操作，实现创建类的实例</pre>
           <h3>Object对象新增的方法</h3>
           <pre>
 <span>Object.is()</span>
@@ -486,6 +503,11 @@ console.log(Object.hasOwn(object1, 'prop'));
 console.log(Object.hasOwn(object1, 'toString'));
 // Expected output: false</p>
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn
+          </pre>
+          <h3>Map对象</h3>
+          <pre>Map 对象保存键值对，并且能够记住键的原始插入顺序。任何值（对象或者基本类型）都可以作为一个键或一个值。
+Map 对象是键值对的集合。Map 中的一个键只能出现一次；它在 Map 的集合中是独一无二的。Map 对象按键值对迭代——一个 for...of 循环在每次迭代后会返回一个形式为 [key，value] 的数组
+
           </pre>
           <h3>新的基本类型：Symbol</h3>
           <pre>
