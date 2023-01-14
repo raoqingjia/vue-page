@@ -82,7 +82,7 @@
         var flag=[];
         if(type=="all"){
           for(var i=0;i<list.length;i++){
-            if(["h5","css","js","jq","app","other","java","framework"].indexOf(list[i].type)!==-1){
+            if(["h5","css","js","jq","app","other","java"].indexOf(list[i].type)!==-1){
               flag.push(list[i])
             }
           }
@@ -114,7 +114,7 @@
        var flag=[];
        if(this.$store.getters.listTab=="all"){
          for(var i=0;i<list.length;i++){
-           if(['other','h5','css','js','jq','app','plugin','java',"framework"].indexOf(list[i].type)!==-1){
+           if(['other','h5','css','js','jq','app','plugin','java'].indexOf(list[i].type)!==-1){
              flag.push(list[i]);
            }
          }

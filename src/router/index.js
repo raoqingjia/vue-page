@@ -37,6 +37,11 @@ let basicRouter = [
     component: resolve => require(['@/views/list'], resolve)
   },
   {
+    path: '/framework',
+    name: 'framework',
+    component: resolve => require(['@/views/framework'], resolve)
+  },
+  {
     path: '/plugin',
     name: 'plugin',
     component: resolve => require(['@/views/plugin'], resolve)
