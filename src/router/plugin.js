@@ -168,6 +168,14 @@ const pluginRouter = [
     category:"web",
     created: "2022-10-19",
     component: resolve => require(['@/views/plugin/cryptoJS'], resolve)
+  },
+  {
+    path: '/plugin/axios ',
+    name: 'axios项目中二次封装',
+    type: "plugin",
+    category:"web",
+    created: "2022-10-19",
+    component: resolve => require(['@/views/plugin/axios'], resolve)
   }
 ];
 export default pluginRouter;
