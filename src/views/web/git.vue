@@ -55,17 +55,6 @@ fatal: Authentication failed for 'http://git.xxxx.com/harlan/interface-new.git/'
 解决方法
 输入：git config --system --unset credential.helper
 再次进行 Git 操作，输入正确的用户名，密码即可。          </pre>
-          <h3>GIt设置全局变量</h3>
-          <pre>
-git config --list       可以查看配置的一些东西
-git config --list --global     查找当前global
-git config user.name = git config --get user.name 查找当前user.name
-git config --global user.name zhanghu       设置user.name
-git config --global user.email 10078044533  设置user.email
-git config --global --add user.name othername    添加一个user.name
-git config --global --unset user.name othername  删除user.name中的叫othername
-git config --global --replace-all user.email "输入你的邮箱"
-git config --global --replace-all user.name "输入你的用户名"</pre>
           <h3>Git代码行数统计</h3>
           <pre>进入项目后点击鼠标右键-》调出Git Bash Here命令窗口
 1. 统计项目内所有代码行数
@@ -88,6 +77,17 @@ git log --since =2019-01-01 --until==2019-12-31 --author="peter" --pretty=tforma
 printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }'
 输出结果：
 added lines: 177746, removed lines: 28753, total lines: 148993</pre>
+          <h3>GIt设置全局变量</h3>
+          <pre>
+git config --list       可以查看配置的一些东西
+git config --list --global     查找当前global
+git config user.name = git config --get user.name 查找当前user.name
+git config --global user.name zhanghu       设置user.name
+git config --global user.email 10078044533  设置user.email
+git config --global --add user.name othername    添加一个user.name
+git config --global --unset user.name othername  删除user.name中的叫othername
+git config --global --replace-all user.email "输入你的邮箱"
+git config --global --replace-all user.name "输入你的用户名"</pre>
           <h3>Github把密码换成token</h3>
           <pre>
 1)个人设置页面 -> Setting-> Developer setting ->Personal access tokens -> Generate new token -> New personal access token 页面输入Note标题，设置Expiration失效时间，Select scopes勾选repo(命令行访问仓库)、delete_repo(命令行删除仓库) ->Generate token

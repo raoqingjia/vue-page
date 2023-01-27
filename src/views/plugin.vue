@@ -70,7 +70,7 @@
         float: left;
         font-size: 16px;
         color: #000;
-        max-width: 450px;
+        max-width: 550px;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
