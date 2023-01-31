@@ -7,6 +7,9 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
+          <ul class="catalogue clearfix">
+            <li v-for="(items,index) in catalogue"  :key="index" ><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
+          </ul>
           <h3>node和npm的关联</h3>
           <pre>我们安装了node之后可以发现：node -v 或者npm -v可以查看到node和npm的两个版本，这是为什么呢？二者又有什么关系
 一、npm是什么
@@ -71,7 +74,21 @@ EOL：EOL 是 End of Life 的首字母缩写，进入到 EOL 时间线的版本�
 最近的一个偶数版本在 4 月份发布之后会持续 6 个月。
 待 10 月份会发布一个奇数版本，最近的偶数版本会进入 Active LTS 版本持续时间为 18 个月，这期间几乎不会有不兼容的大功能更新，开发者也可以放心升级到 Active LTS 版本。
 18 个月的 Active LTS 版本到期后，会进入 Maintenance LTS 版本，也就是进入维护期，时间为 12 个月，在这期间仅进行安全、Bug 更新。
-一旦 Maintenance LTS 版本 12 个月的时间已到就会进入 EOL 版本，正式退出历史舞台。</pre>
+一旦 Maintenance LTS 版本 12 个月的时间已到就会进入 EOL 版本，正式退出历史舞台。
+
+npm是围绕着语义版本控制（semver）的思想而设计的，下面是从他们的网站摘抄过来的：
+给定一个版本号：主版本号.次版本号.补丁版本号， 以下这三种情况需要增加相应的版本号:
+主版本号： 当API发生改变，并与之前的版本不兼容的时候
+次版本号： 当增加了功能，但是向后兼容的时候
+补丁版本号： 当做了向后兼容的缺陷修复的时候
+npm使用一个名为package.json的文件，用户可以通过npm install --save命令把项目里所有的依赖项保存在这个文件里。
+例如，运行npm install --save lodash会将以下几行添加到package.json文件中。
+"dependencies": {
+    "lodash": "^4.17.4"
+}
+请注意，在版本号lodash之前有个^字符。这个字符告诉npm，安装主版本等于4的任意一个版本即可。所以如果我现在运行npm进行安装，npm将安装lodash的主版本为4的最新版，可能是 lodash@4.25.5（@是npm约定用来确定包名的指定版本的）。你可以在此处查看所有支持的字符：https://docs.npmjs.com/misc/semver。
+理论上，次版本号的变化并不会影响向后兼容性。因此，安装最新版的依赖库应该是能正常工作的，而且能引入自4.17.4版本以后的重要错误和安全方面的修复。
+但是，另一方面，即使不同的开发人员使用了相同的package.json文件，在他们自己的机器上也可能会安装同一个库的不同种版本，这样就会存在潜在的难以调试的错误和“在我的电脑上…”的情形。</pre>
           <h3>npm参数配置</h3>
            <pre>
 设置npm中的代理
@@ -121,6 +138,38 @@ devDependencies 里面的插件只用于开发环境，不用于生产环境，�
 –-save 就是将要安装的依赖写到package.json的dependencies 对象中去
 --save-dev是将要安装的依赖写到package.json的devDependencies 对象中去
            </pre>
+          <h3>yarn的安装及使用教程</h3>
+          <pre>yarn 是由 Facebook、Google、Exponent 和 Tilde 联合推出了一个新的 JS 包管理工具，yarn 是为了弥补 npm 的一些缺陷而出现的。
+一、同为包管理工具 npm和yarn的区别
+1、并行安装：yarn安装包会同时执行多个任务，npm 需等待上一个任务安装完成才能运行下一个任务
+2、离线模式：如果你已经安装过一个包，用 yarn 再次安装会从缓存中获取，而 npm 会从网络下载
+3、版本锁定：yarn 默认有一个 yarn.lock 文件锁定版本，保证环境统一，而 npm 默认从网络下载最新的最稳定的，版本锁定可以解决包之间版本不兼容问题，npm 也可以通过命令实现版本锁定
+4、更简洁的输出：yarn 安装包时输出的信息较少，npm 输出信息冗余
+二、yarn的安装
+1. nodejs下载安装：
+在 node.js 官网里推荐选择 LTS (长期支持)版本，可在命令行用node -v 查看node的安装版本。顺便 npm -v 查看npm的版本号。
+2. yarn的安装并查看版本:
+npm install -g yarn
+yarn --version
+三、总结
+npm存在的一些不足：
+npm install 下载速度慢，即使是重新 install 时速度依旧慢
+同一个项目，安装的无法保持一致性。原因是因为 package.json 文件中版本号的特点导致在安装的时候代表不同的含义。
+使用 npm 安装多个 js 包时，包会在同一时间下载和安装。安装过程中，其中一个包抛出了一个异常，但 npm 会继续安装其他包，所以错误信息就会在一大堆提示信息中丢失掉，以至于直到执行前，都不会发现实际发生的错误。
+
+Yarn的优点：
+安装速度快 (服务器速度快 , 并且是并行下载)
+版本锁定，安装版本统一
+缓存机制，如果之前已经安装过一个软件包，用Yarn再次安装时之间从缓存中获取，就不用像npm那样再从网络下载了
+输出简洁并且多注册来源处理。安装包时，直观地打印出必要的信息；不管包被不同的库间接关联引用多少次，只会从一个注册来源去装，防止出现混乱不一致。
+npm 与 yarn 常用命令对比
+npm init                             ---- yarn init
+npm install                          ---- yarn
+npm install xxx@1.1.1 -g             ---- yarn global add xxx@1.1.1
+npm install xxx@1.1.1 --save         ---- yarn add xxx@1.1.1
+npm install xxx@1.1.1 --save-dev     ---- yarn add xxx@1.1.1 --dev
+npm uninstall xxx --save(-dev)       ----yarn remove xxx
+npm run xxx                          ---- yarn run xxxx</pre>
           <h3>错误积累及提示</h3>
           <pre>
 一、查看node模块或安装包下的所有版本号的方法：npm view 模块名\安装包名 versions
@@ -165,8 +214,9 @@ at Object.&#60anonymous&#62 (C:\ecWebTest\node_modules\.0.3.8@orchestrator\lib\r
 七、不同的node环境下经常报node-sass错误，多半是环境版本造成的
 node-sass 对应的node版本连接
 https://github.com/sass/node-sass/releases?page=1           </pre>
-          <h3>nodejs全局安装和本地安装的区别 （http://www.cnblogs.com/PeunZhang/p/5629329.html#install-global转载地址）</h3>
+          <h3>nodejs全局安装和本地安装的区别</h3>
           <pre>
+http://www.cnblogs.com/PeunZhang/p/5629329.html#install-global转载地址
 什么是全局安装（global）
 全局安装方式是键入命令：npm install gulp -g 或 npm install gulp --global，
 其中参数-g的含义是代表安装到全局环境里面，包安装在Node安装目录下的node_modules文件夹中，
@@ -205,12 +255,72 @@ https://github.com/sass/node-sass/releases?page=1           </pre>
     data () {
       return {
         created: this.$route.query.created,
-        title: this.$route.query.name
+        title: this.$route.query.name,
+        catalogue:[]
       }
     },
+    mounted:function(){
+      this.$nextTick(function(){
+        this.createCatalogue();
+      })
+    },
     methods: {
-      toggle(){
+      jump (index) {
+//        let jump = document.getElementsByTagName('h3');
+//       // 获取需要滚动的距离
+//        let total = jump[index].offsetTop;
+//        // Chrome
+//        document.body.scrollTop = total;
+//        // Firefox
+//        document.documentElement.scrollTop = total;
+//       // Safari
+//        window.pageYOffset = total
+//        https://www.cnblogs.com/wisewrong/p/6495726.html  参考网站
+        let jump = document.getElementsByTagName('h3');
+        let total = jump[index].offsetTop;  // 获取目标位置滚动的距离
+        let distance = document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
+        // 平滑滚动，时长500ms，每10ms一跳，共50跳
+        let step = total / 50;
+        if (total > distance) {
+          smoothDown()
+        } else {
+          let newTotal = distance - total;  //防止total，let step=total/50太小，移动缓慢
+          step = newTotal / 50;
+          smoothUp()
+        }
 
+        function smoothDown () {
+          if (total>distance ) {
+            distance += step;
+            document.body.scrollTop = distance;
+            document.documentElement.scrollTop = distance;
+            setTimeout(smoothDown, 10)
+          } else {
+            document.body.scrollTop = total;
+            document.documentElement.scrollTop = total
+          }
+        }
+        function smoothUp () {
+          if ( total<distance) {
+            distance -= step;
+            document.body.scrollTop = distance;
+            document.documentElement.scrollTop = distance;
+            setTimeout(smoothUp, 10)
+          } else {
+            document.body.scrollTop = total;
+            document.documentElement.scrollTop = total
+          }
+        }
+      },
+      //创建目录函数
+      createCatalogue(){
+        let object = document.getElementsByTagName('h3');
+        var flag=[];
+        for(var i=0;i<object.length;i++){
+          var o={name:object[i].innerHTML};
+          flag.push(o)
+        }
+        this.catalogue=flag;
       }
     }
   }
