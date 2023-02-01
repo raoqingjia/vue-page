@@ -182,8 +182,16 @@ const pluginRouter = [
     name: 'wow.js、scrollReveal.js、aos.js是页面滚动显示动画的JavaScript',
     type: "plugin",
     category:"web",
-    created: "2023-1-27",
+    created: "2023-01-27",
     component: resolve => require(['@/views/plugin/scrollAnimate'], resolve)
+  },
+  {
+    path: '/plugin/lerna',
+    name: 'lerna管理包含多个软件包',
+    type: "plugin",
+    category:"web",
+    created: "2023-02-01",
+    component: resolve => require(['@/views/plugin/lerna'], resolve)
   }
 ];
 export default pluginRouter;
