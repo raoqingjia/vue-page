@@ -55,6 +55,28 @@ fatal: Authentication failed for 'http://git.xxxx.com/harlan/interface-new.git/'
 解决方法
 输入：git config --system --unset credential.helper
 再次进行 Git 操作，输入正确的用户名，密码即可。          </pre>
+          <h3>Git代码行数统计</h3>
+          <pre>进入项目后点击鼠标右键-》调出Git Bash Here命令窗口
+1. 统计项目内所有代码行数
+在代码路径下运行以下指令，可统计出当前仓库中的总代码行数：
+git log --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END {
+printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }'
+输出结果：
+added lines: 3520, removed lines: 1857, total lines: 1663
+
+2. 统计一定时间内产生的代码行数
+时间参数，--since：起始时间，--until：终止时间：
+git log --since=2020-01-01 --until==2022-12-31 --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END {
+printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }'
+输出结果：
+added lines: 177746, removed lines: 28753, total lines: 148993
+
+3. 统计指定开发者一段时间内产生的代码行数
+要查询的开发者账号名称参数，--author：开发者账号名称，和时间参数可以同时使用。
+git log --since =2019-01-01 --until==2019-12-31 --author="peter" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END {
+printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }'
+输出结果：
+added lines: 177746, removed lines: 28753, total lines: 148993</pre>
           <h3>GIt设置全局变量</h3>
           <pre>
 git config --list       可以查看配置的一些东西
@@ -66,7 +88,7 @@ git config --global --add user.name othername    添加一个user.name
 git config --global --unset user.name othername  删除user.name中的叫othername
 git config --global --replace-all user.email "输入你的邮箱"
 git config --global --replace-all user.name "输入你的用户名"</pre>
-          <h3> github把密码换成token</h3>
+          <h3>Github把密码换成token</h3>
           <pre>
 1)个人设置页面 -> Setting-> Developer setting ->Personal access tokens -> Generate new token -> New personal access token 页面输入Note标题，设置Expiration失效时间，Select scopes勾选repo(命令行访问仓库)、delete_repo(命令行删除仓库) ->Generate token
 2)用自己生成的token登录，把上面生成的token粘贴到输入密码的位置，然后成功push代码
@@ -163,7 +185,7 @@ User userName</p>
 webstrom中报  Could not read from remote repository.
  setting -> git -> SSH executable不小心选成了built-in了 改成native就行
           </pre>
-          <h3>git操作错误合集</h3>
+          <h3>Git操作错误合集</h3>
           <pre>
 1)在 git add  文件夹名称时报错
 Git操作的过程中突然显示Another git process semms to be running in this repository, e.g. an editor opened by

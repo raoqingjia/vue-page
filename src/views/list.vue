@@ -3,7 +3,8 @@
     <div class="content">
       <div class="warp-l">
         <ul>
-          <li class="clearfix" v-for="items in  pageFilter(list_ary) ">
+<!--          <li class="clearfix" v-for="items in  pageFilter(list_ary) "> -->
+          <li class="clearfix" v-for="items in  list_ary ">
             <h3><a href="javascript:;" v-html="items.name"  @click="urlFun(items)"></a><span>Created<time v-html="items.created"></time></span></h3>
           </li>
         </ul>
@@ -13,7 +14,7 @@
           <li v-for="items in caseNav"><a href="javascript:;" :class="[items.code===$store.getters.listTab ? 'active':'']" @click="list_nav(items.code,items)" >{{items.text}}<i>{{list_count(items.code)}}</i></a></li>
         </ul>
       </div>
-      <pagination :total="total" :current-page='current' @pagechange="pagechange" v-if="paginationShow"></pagination>
+<!--      <pagination :total="total" :current-page='current' @pagechange="pagechange" v-if="paginationShow"></pagination>-->
     </div>
 
   </div>
@@ -82,7 +83,7 @@
         var flag=[];
         if(type=="all"){
           for(var i=0;i<list.length;i++){
-            if(["h5","css","js","jq","app","other","java","framework"].indexOf(list[i].type)!==-1){
+            if(["h5","css","js","jq","app","other","java"].indexOf(list[i].type)!==-1){
               flag.push(list[i])
             }
           }
@@ -114,7 +115,7 @@
        var flag=[];
        if(this.$store.getters.listTab=="all"){
          for(var i=0;i<list.length;i++){
-           if(['other','h5','css','js','jq','app','plugin','java',"framework"].indexOf(list[i].type)!==-1){
+           if(['other','h5','css','js','jq','app','plugin','java'].indexOf(list[i].type)!==-1){
              flag.push(list[i]);
            }
          }

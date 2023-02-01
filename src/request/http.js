@@ -5,14 +5,11 @@ import  {absData} from  './data/absweb'
 // http://t.zoukankan.com/fsg6-p-13204535.html   关于配置的文章
 
 // 环境的切换
-// if (process.env.NODE_ENV == 'development') {
-//   axios.defaults.baseURL = 'https://www.baidu.com';}
-// else if (process.env.NODE_ENV == 'debug') {
-//   axios.defaults.baseURL = 'https://www.ceshi.com';
-// }
-// else if (process.env.NODE_ENV == 'production') {
-//   axios.defaults.baseURL = 'https://www.production.com';
-// }
+if (process.env.NODE_ENV == 'development') {
+  axios.defaults.baseURL = 'https://www.baidu.com';
+} else if (process.env.NODE_ENV == 'production') {
+  axios.defaults.baseURL = 'https://www.production.com';
+}
 
 // const headers = {
 //   'Content-Type': 'application/json;charset=UTF-8',
@@ -31,22 +28,14 @@ import  {absData} from  './data/absweb'
 
 
 axios.defaults.baseURL = '/zuul/api/data/';
-
-// 设置请求超时
 // 通过axios.defaults.timeout设置默认的请求超时时间。例如超过了10s，就会告知用户当前请求超时，请刷新等。
-//
 axios.defaults.timeout = 10000;
-
-
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 // 请求拦截
-// 我们在发送请求前可以进行一个请求的拦截，为什么要拦截呢，我们拦截请求是用来做什么的呢？比如，有些请求是需要用户登录之后才能访问的，或者post请求的时候，我们需要序列化我们提交的数据。这时候，我们可以在请求被发送之前进行一个拦截，从而进行我们想要的操作。
-
-
-// 请求拦截
-// 先导入vuex,因为我们要使用到里面的状态对象
-// vuex的路径根据自己的路径去写
-import storage from '@/storage';
+// 我们在发送请求前可以进行一个请求的拦截，为什么要拦截呢，我们拦截请求是用来做什么的呢？
+// 比如，有些请求是需要用户登录之后才能访问的，或者post请求的时候，我们需要序列化我们提交的数据。
+// 这时候，我们可以在请求被发送之前进行一个拦截，从而进行我们想要的操作。
+import storage from '@/storage'; // 先导入vuex,因为我们要使用到里面的状态对象  vuex的路径根据自己的路径去写
 axios.interceptors.request.use(
   config => {
     // 每次发送请求之前判断vuex中是否存在token
@@ -60,8 +49,11 @@ axios.interceptors.request.use(
   error => {
     return Promise.error(error);
   });
-// 这里说一下token，一般是在登录完成之后，将用户的token通过localStorage或者cookie存在本地，然后用户每次在进入页面的时候（即在main.js中），会首先从本地存储中读取token，如果token存在说明用户已经登陆过，则更新vuex中的token状态。然后，在每次请求接口的时候，都会在请求的header中携带token，后台人员就可以根据你携带的token来判断你的登录是否过期，如果没有携带，则说明没有登录过。这时候或许有些小伙伴会有疑问了，就是每个请求都携带token，那么要是一个页面不需要用户登录就可以访问的怎么办呢？其实，你前端的请求可以携带token，但是后台可以选择不接收啊！
-
+// 这里说一下token，一般是在登录完成之后，将用户的token通过localStorage或者cookie存在本地，然后用户每次在进入页面的时候（即在main.js中），
+// 会首先从本地存储中读取token，如果token存在说明用户已经登陆过，则更新vuex中的token状态。
+// 然后，在每次请求接口的时候，都会在请求的header中携带token，后台人员就可以根据你携带的token来判断你的登录是否过期，如果没有携带，则说明没有登录过。
+// 这时候或许有些小伙伴会有疑问了，就是每个请求都携带token，那么要是一个页面不需要用户登录就可以访问的怎么办呢？
+// 其实，你前端的请求可以携带token，但是后台可以选择不接收啊！
 
 // 响应拦截器
 axios.interceptors.response.use(
@@ -95,7 +87,6 @@ axios.interceptors.response.use(
             }
           });
           break;
-
         // 403 token过期
         // 登录过期对用户进行提示
         // 清除本地token和清空vuex中token对象
@@ -166,7 +157,6 @@ export function get(url, params){
     })
   });}
 // post方法：原理同get基本一样，但是要注意的是，post方法必须要使用对提交从参数对象进行序列化的操作，所以这里我们通过node的qs模块来序列化我们的参数。这个很重要，如果没有序列化操作，后台是拿不到你提交的数据的。这就是文章开头我们import QS from 'qs';的原因。如果不明白序列化是什么意思的，就百度一下吧，答案一大堆。
-
 /**
  * post方法，对应post请求
  * @param {String} url [请求的url地址]

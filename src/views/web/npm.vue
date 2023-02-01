@@ -39,8 +39,6 @@ Node.js作者也将Node.js开发完成，但是 Node.js 缺少一个包管理器
 node.js的安装这里就不再多说了。npm由于内置在node.js中，所以就一并安装了。有时候我们只想单独安装npm，不想安装node.js，这是不行的</pre>
           <h3>npm 安装及nvm版本管理</h3>
 <pre>npm install --registry=https://registry.npm.taobao.org
-在v12.16.2以上版本就不在支持window7系统。
-
 安装 nvm 管理多个node环境
 nvm ls-remote  查看有哪些 node 版本
 nvm list 查看本机node版本
@@ -59,7 +57,27 @@ mac安装nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-7、最后执行命令 source ~/.bash_profile</pre>
+7、最后执行命令 source ~/.bash_profile
+
+查看nodejs安装路径的两种方法：
+在打开的cmd命令行窗口中，输入“where node”，回车，此时会出现nodejs的安装路径</pre>
+          <h3>win7安装高版本的node解决办法</h3>
+          <pre>Win7 支持的 NodeJs 最高版本为 13.14.0
+https://nodejs.org/zh-cn/download/releases/   node以往的版本
+win7不可以直接在node官网下载node.js 14.14.0等高版本，要通过解压的方式来安装
+起初为了安装node, 安装的是node.js 13.14.0版本
+但是现在react / Vue不支持低版本的node,怎么解决呢？
+第一步：下载WIN7支持的node 14版本下载地址：Index of /download/release/v14.14.0/，记住一定要下载zip结尾的。
+第二步：解压压缩包，覆盖替换到旧的安装目录。我的是 C:\Program Files\nodejs
+第三步：打开命令行，输入set NODE_SKIP_PLATFORM_CHECK=1，执行它，其作用是忽略平台审查。
+最后 node -v14版本的node就安装好了~~
+要注意的是:每次关闭cmd之后都要重新输入，并且如果已经用nvm控制node版本此法案不可用
+set NODE_SKIP_PLATFORM_CHECK=1, 可以配置系统变量：
+操作步骤：
+1.打开 计算机->属性->高级系统设置->环境变量->系统变量，把node的安装路径增加到Path里面： D:\Program Files\nodejs\
+2.系统变量新增一个变量名：NODE_SKIP_PLATFORM_CHECK
+变量值：1
+就可以不用每次关闭之后启动cmd都要设置了</pre>
           <h3>Node.js 版本知多少</h3>
           <pre>上面说了nvm这里我们再了解一下node安装版本
 先清楚的几个术语

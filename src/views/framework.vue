@@ -6,7 +6,11 @@
           <li class="clearfix" v-for="items in  list_ary() ">
             <h3>
               <a href="javascript:;" v-html="items.name" @click="urlFun(items)"></a>
-              <span><em>{{items.category == 'web'?'前端':'后台'}}</em>Created<time v-html="items.created"></time></span></h3>
+              <span>
+                <em>{{items.category}}</em>
+                Created<time v-html="items.created"></time>
+              </span>
+            </h3>
           </li>
         </ul>
       </div>
@@ -17,14 +21,13 @@
 
 <script>
   import {routes} from '@/router'
-  import pluginRouter from '../router/plugin'
+  import frameworkRouter from '../router/framework'
   import {mapGetters} from 'vuex'
   import pagination from '@/views/component/pagination'
 
   export default {
-    name: 'plugin',
+    name: 'framework',
     created() {
-
     },
     components: {
       'pagination': pagination
@@ -38,7 +41,7 @@
     },
     methods: {
       list_ary() {
-        return pluginRouter.reverse();
+        return frameworkRouter.reverse();
       },
       urlFun(items) {
         this.$router.push({path: items.path, query: {name: items.name, created: items.created}});
@@ -70,7 +73,7 @@
         float: left;
         font-size: 16px;
         color: #000;
-        max-width: 550px;
+        max-width: 450px;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
