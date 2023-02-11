@@ -6,23 +6,30 @@
                 <span>*</span>{{charItem.charName}}
               </label>
                 <!--readonly为0是操作功能 *ngIf="charItem.readonly==0"-->
-                <section v-if="charItem.readonly===0">
-                  <skuCharInput v-if="charItem.charType==='2'||charItem.charType==='3'" :charItem="charItem"></skuCharInput>
-                    <!--          <app-sku-attribute-select *ngIf="charItem.charType=='1'"  [detailInfo]="detailInfo"  [skuItem]="skuItem" [charItem]="charItem" [charIndex]="charIndex" [nextNodeTmp]="nextNodeTmp"></app-sku-attribute-select>-->
-                    <!--          <app-sku-attribute-input *ngIf="charItem.charType=='2'||charItem.charType=='20'"  [detailInfo]="detailInfo" [skuItem]="skuItem" [skuIndex]="skuIndex" [charItem]="charItem" [charIndex]="charIndex" [nextNodeTmp]="nextNodeTmp"></app-sku-attribute-input>--></section>
-                <!--readonly为1是只读  *ngIf="charItem.readonly==1"-->
-              <section v-if="charItem.readonly===1"> <p>{{charItem.charValue?charItem.charValue:'--'}}</p></section>
+                <section v-if="charItem.readonly!==2">
+                  <template v-if="charItem.readonly===0">
+                    <skuCharSelect v-if="charItem.charType==='1'" :charItem="charItem"></skuCharSelect>
+                    <skuCharInput v-if="charItem.charType==='2'" :charItem="charItem"></skuCharInput>
+                    <skuCharDatePicker v-if="charItem.charType==='3'" :charItem="charItem"></skuCharDatePicker>
+                  </template>
+                  <p v-if="charItem.readonly===1"> {{charItem.charValue?charItem.charValue:'--'}}</p>
+                </section>
+
             </li>
         </template>
     </ul>
 </template>
 
 <script>
-  import skuCharInput from './skuCharOperation/skuCharInput'
+  import skuCharInput from './skuCharOperation/skuCharInput';
+  import skuCharDatePicker from './skuCharOperation/skuCharDatePicker';
+  import skuCharSelect from './skuCharOperation/skuCharSelect';
     export default {
         name: 'skuAttributeList',
         components:{
-          skuCharInput
+          skuCharInput,
+          skuCharDatePicker,
+          skuCharSelect
         },
         props: {
             orderInfo: {

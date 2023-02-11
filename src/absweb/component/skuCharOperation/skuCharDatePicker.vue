@@ -1,10 +1,16 @@
 <template>
-  <el-input type="text" v-model="charItem.charValue" ></el-input>
+  <el-date-picker
+    v-model="charItem.charValue"
+    :size="'middle'"
+    :style="{width:'220px',backgroud:'#08203d'}"
+    type="month"
+    placeholder="选择月">
+  </el-date-picker>
 </template>
 
 <script>
   export default {
-    name: 'skuCharInput',
+    name: 'skuCharDatePicker',
     components:{},
     props: {
       orderInfo: {

@@ -1,10 +1,14 @@
 <template>
-  <el-input type="text" v-model="charItem.charValue" ></el-input>
+  <el-select
+    v-model="charItem.charValue"
+    :style="{width:'220px',backgroud:'#08203d'}"
+    placeholder="请选择">
+  </el-select>
 </template>
 
 <script>
   export default {
-    name: 'skuCharInput',
+    name: 'skuCharSelect',
     components:{},
     props: {
       orderInfo: {

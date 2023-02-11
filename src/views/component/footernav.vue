@@ -4,6 +4,7 @@
             <div class="link">
               <ul >
                 <li><a href="javascript:;">框架、插件网站</a></li>
+                <li><a href="https://antv.vision/zh/" target="_blank">蚂蚁数据可视化</a></li>
                 <li><a href="http://www.jqueryfuns.com/" target="_blank">jQuery插件网站</a></li>
                 <li><a href="https://www.angular.cn/" target="_blank">Angular中文网</a></li>
                 <li><a href="https://vuefe.cn/" target="_blank">Vue.js中文网</a></li>
