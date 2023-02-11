@@ -97,19 +97,29 @@
       },
       clickSureBtn() {
         console.log(this.customerList[this.customerChecked[0]]);
-        // 不能这么搞，后续获取数据就是  orderInfo.customerInfo.companyNumber 或者 orderInfo.customerInfo.customerManagers[0].phone
-        // 一个是层级太深，一个是多了好多无用字段
-        // this.$set(this.orderInfo, 'customerInfo', this.customerList[this.customerChecked[0]]);
+        // this.$set(this.orderInfo, 'customerInfo', this.customerList[this.customerChecked[0]]);  这里注释说明不能这么设置，下面那个是解释
+        // 如何数据结构定义为 orderInfo.customerInfo.companyNumber 或者 orderInfo.customerInfo.customerManagers[0].phone 后续获取数据层级太深 一个是层级太深，一个是多了好多无用字段
         const checkedObj = this.customerList[this.customerChecked[0]];
+        // 利用set给this.orderInfo 设置 响应式数据字段
         this.$set(this.orderInfo, 'customerName', checkedObj.customerName);
         this.$set(this.orderInfo, 'customerNumber', checkedObj.customerNumber);
         this.$set(this.orderInfo, 'industryName', checkedObj.industryName);
         this.$set(this.orderInfo, 'companyName', checkedObj.companyName);
         this.$set(this.orderInfo, 'locationName', checkedObj.locationName);
-        this.$set(this.orderInfo, 'valueLevelId', checkedObj.valueLevelId);
         this.$set(this.orderInfo, 'custSourceName', checkedObj.custSourceName);
+        this.$set(this.orderInfo, 'valueLevelId', checkedObj.valueLevelId);
+        this.$set(this.orderInfo, 'valueLevelName', this.setCustLevel(checkedObj.valueLevelId));
         console.log(this.orderInfo);
         this.closeModel();
+      },
+      setCustLevel(data){
+        if(data === '01'){
+          return '金牌'
+        }
+        if(data === '02'){
+          return '银牌'
+        }
+        return '铜牌'
       },
       closeModel() {
         this.detailInfo.queryCustomerInfoModel = false;

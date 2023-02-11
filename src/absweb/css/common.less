@@ -477,7 +477,16 @@ ul.char-rowspan {
     > section {
       //width: 198px;
     }
-
+    input[type='text']{
+      width: 198px;
+      height: 34px;
+      line-height: 34px;
+      font-size: 14px;
+      padding: 0 10px;
+      border: 1px solid #d7d9e0;
+      border-radius: 4px;
+      cursor: default;
+    }
     .char-name {
       display: block;
       text-align: left;
@@ -912,7 +921,61 @@ ul.choose-group {
 
   li label {
     display: table;
+    width: 300px;
+    padding: 0 15px;
+    height: 60px;
+    border: 1px solid #ffddcc;
+    border-radius: 4px;
+    background-color: #ffeee5;
+    cursor: pointer;
+  }
+
+  li p {
+    display: table-cell;
+    vertical-align: middle;
     width: 95%;
+    line-height: 24px;
+    font-size: 14px;
+    color: #ff5500;
+    cursor: default;
+    text-overflow: ellipsis;
+  }
+
+
+  /*激活状态*/
+
+  li.active label {
+    border: 1px solid #ff7823;
+    background: linear-gradient(to right, #ff9833 0%, #ff461c 100%);
+    position: relative;
+  }
+
+  li.active label p {
+    color: #ffffff;
+  }
+
+  li.active label i {
+    display: block;
+    float: left;
+    width: 18px;
+    height: 18px;
+    margin: 20px 5px 0 0;
+    background: url("../img/icons.png") -144px -619px no-repeat;
+  }
+}
+
+ul.char-group {
+  margin: 10px 0 0;
+
+  li {
+    float: left;
+    width: 25%;
+    margin: 10px 0;
+  }
+
+  li label {
+    display: table;
+    width: 300px;
     padding: 0 15px;
     height: 60px;
     border: 1px solid #ffddcc;
