@@ -70,6 +70,7 @@
       border: 1px solid #c3c3c3;
       margin-bottom: 20px;
       cursor: pointer;
+      background: #fff;
     }
   }
 </style>

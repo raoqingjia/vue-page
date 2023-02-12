@@ -3,7 +3,16 @@
     v-model="charItem.charValue"
     :style="{width:'220px',backgroud:'#08203d'}"
     placeholder="请选择">
+    <el-option
+      :style="{padding:'0 8px'}"
+      v-for="item in charItem.bizCharEnumSpecLst"
+      :key="item.code"
+      :label="item.value"
+      :value="item.code">
+    </el-option>
   </el-select>
+
+
 </template>
 
 <script>

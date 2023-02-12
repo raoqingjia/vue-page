@@ -1,5 +1,5 @@
 <template>
-  <el-input type="text" v-model="charItem.charValue" ></el-input>
+  <el-input type="text" :style="{width:'220px',backgroud:'#08203d'}" v-model="charItem.charValue" ></el-input>
 </template>
 
 <script>

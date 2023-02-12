@@ -11,6 +11,7 @@
             1.Node.js引入方式
           </h3>
           <pre>
+官网  http://momentjs.com/
 npm install moment
 var moment = require('moment');
 主要是的获取默认本地时间，进行格式化。默认是英文显示格式，可以加入其他国家语言解析。
