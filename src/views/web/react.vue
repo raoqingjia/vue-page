@@ -66,6 +66,23 @@ class组件要素 render  方法  变量
 7、给组件标签添加属性时，需要注意两个地方，就是把class属性写成className，for属性写成htmlFor，这是因为class和for时JS里面的保留字
 
  jsx  JavaScript  XML         </pre>
+          <h3>React 脚手架修改 Webpack 配置的两种方案</h3>
+          <pre>npm run eject：
+可以通过执行 npm run eject 弹出 Webpack 配置信息，直接修改。不推荐。
+craco：
+使用 craco 在 React 脚手架的基础上进行 Webpack 配置。
+安装 craco：npm install craco。
+在根目录下创建 craco.config.js 配置文件编写配置信息。
+使用 craco 启动项目：将 package.json 中 scripts 里的 react-scripts 改为 craco，才能将 craco.config.js 中的配置合并到 React 脚手架的配置信息中。</pre>
+
+          <h3>React项目中配置使用less</h3>
+          <pre>
+            https://blog.csdn.net/qq_44539570/article/details/126008388
+          </pre>
+          <h3>React项目中配置使用jsx</h3>
+          <pre>
+           http://www.gaodaima.com/72970.html
+          </pre>
           <h3>React的class组件及属性详解</h3>
           <pre>
             https://blog.csdn.net/fanlehai/article/details/121350042
@@ -690,12 +707,10 @@ HashRouter是通过 hash 值来对路由进行控制。使用 HashRouter，路�
 function App() {
   return (
      < HashRouter>
-      < Router>
         < Routes>
           < Route path="/product/:id" element={< ProductDetails/>}>< /Route>
           < Route path="/home" element={< StudentList />}>< /Route>
         < /Routes>
-      < /Router>
      < /HashRouter>
   );
 }
