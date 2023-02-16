@@ -14,7 +14,7 @@
     <div class="choose-sku">
       <ul class="clearfix">
         <li v-for="(skuItem , index) in orderInfo.bizSkuSpecLst" :key="index">
-          <label class="checkbox">
+          <label :class="{'radio':skuItem.optType === 'radio','checkbox':skuItem.optType !== 'radio', }">
             <input type="checkbox" v-model="skuItem.checkbox" @click="chooseSku(skuItem)">
             <span></span>
           </label>

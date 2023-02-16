@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <div class="wrap" v-if="!detailInfo.pageLoading">
     <div class="block-item  customer-info">
       <h1 class="title-first">
         <div class="title-fl">
@@ -29,25 +29,25 @@
         <li>
           <label><span>*</span>客户等级：</label>
           <section>
-            <p class="input-readonly" >{{setCustLevel(orderInfo.valueLevelId)}}</p>
+            <p class="input-readonly">{{orderInfo.valueLevelName}}</p>
           </section>
         </li>
         <li>
           <label><span>*</span>客户所在省：</label>
           <section>
-            <input type="text" readonly  :value="orderInfo.companyName">
+            <input type="text" readonly :value="orderInfo.companyName">
           </section>
         </li>
         <li>
           <label><span>*</span>客户所在地市：</label>
           <section>
-            <input type="text" readonly  :value="orderInfo.locationName">
+            <input type="text" readonly :value="orderInfo.locationName">
           </section>
         </li>
         <li>
           <label><span>*</span>客户来源：</label>
           <section>
-            <input type="text" readonly  :value="orderInfo.custSourceName">
+            <input type="text" readonly :value="orderInfo.custSourceName">
           </section>
         </li>
         <li>
@@ -65,84 +65,78 @@
         </li>
       </ul>
     </div>
-    <chooseSku  :orderInfo="orderInfo" v-if="orderInfo.bizSkuSpecLst && orderInfo.bizSkuSpecLst.length>0"></chooseSku>
-
-
-
-
-    <div class="product-wrap block-item">
-      <h1 class="title-first title-sku">
-        <div class="title-fl img-change-adjust">
-          <div class="title-left-img"></div>
-          <span class="txt-info title-middle-img">skuItem.skuName</span>
-        </div>
-        <div class="title-fr">
-          <div class="display-wrap">
-            <i></i>
+    <chooseSku :orderInfo="orderInfo" v-if="orderInfo.bizSkuSpecLst.length>0"></chooseSku>
+    <div class="product-wrap block-item"  v-for="(skuItem , skuIndex) in orderInfo.bizSkuSpecLst" :key="skuIndex">
+      <div v-if="skuItem.checkbox">
+        <h1 class="title-first title-sku">
+          <div class="title-fl img-change-adjust">
+            <div class="title-left-img"></div>
+            <span class="txt-info title-middle-img">{{skuItem.skuName}}</span>
           </div>
+          <div class="title-fr">
+            <div class="display-wrap">
+              <i></i>
+            </div>
+          </div>
+        </h1>
+        <div class="product-info" v-if="skuItem.checkbox">
+          <skuAttributeOperation :orderInfo="orderInfo" :detailInfo="detailInfo" :skuItem="skuItem"></skuAttributeOperation>
         </div>
-      </h1>
-      <div class="product-info">
-        <skuAttributeOperation :orderInfo="orderInfo" :detailInfo="detailInfo"></skuAttributeOperation>
-<!--        <app-sku-attribute-operation *ngIf="!(skuItem.alias!=null&&skuItem.alias.indexOf('NOBIZCHAR')!=-1)" [detailInfo]="detailInfo" [skuItem]="skuItem" [skuIndex]="skuIndex" [pipeArgs]="'first'"  [nextNodeTmp]="nextNodeTmp"></app-sku-attribute-operation>-->
-<!--        <app-sku-rate-operation [detailInfo]="detailInfo" [skuItem]="skuItem" [skuIndex]="skuIndex"-->
-<!--                                [disabled]="rateDisable" [nextNodeTmp]="nextNodeTmp"></app-sku-rate-operation>-->
-<!--        <app-sku-charge-operation [detailInfo]="detailInfo" [skuItem]="skuItem"></app-sku-charge-operation>-->
       </div>
     </div>
-<!--    <div class="account-info"></div>-->
-<!--    <div class="other-info"></div>-->
-<!--    <div class="btn-wrap">-->
-<!--      <button type="button"> 提交订单</button>-->
-<!--      <button type="button"> 提交订单</button>-->
-<!--    </div>-->
+    <!--        <app-sku-attribute-operation *ngIf="!(skuItem.alias!=null&&skuItem.alias.indexOf('NOBIZCHAR')!=-1)" [detailInfo]="detailInfo" [skuItem]="skuItem" [skuIndex]="skuIndex" [pipeArgs]="'first'"  [nextNodeTmp]="nextNodeTmp"></app-sku-attribute-operation>-->
+    <!--        <app-sku-rate-operation [detailInfo]="detailInfo" [skuItem]="skuItem" [skuIndex]="skuIndex"-->
+    <!--                                [disabled]="rateDisable" [nextNodeTmp]="nextNodeTmp"></app-sku-rate-operation>-->
+    <!--        <app-sku-charge-operation [detailInfo]="detailInfo" [skuItem]="skuItem"></app-sku-charge-operation>-->
+    <!--    <div class="account-info"></div>-->
+    <!--    <div class="other-info"></div>-->
+    <!--    <div class="btn-wrap">-->
+    <!--      <button type="button"> 提交订单</button>-->
+    <!--      <button type="button"> 提交订单</button>-->
+    <!--    </div>-->
 
-    <queryCustomerInfo ref="queryCustomerInfoTmp" v-if="detailInfo.queryCustomerInfoModel" :detailInfo="detailInfo" :orderInfo="orderInfo"></queryCustomerInfo>
+    <queryCustomerInfo ref="queryCustomerInfoTmp" v-if="detailInfo.queryCustomerInfoModel" :detailInfo="detailInfo"
+                       :orderInfo="orderInfo"></queryCustomerInfo>
   </div>
-
 </template>
 
 <script>
   import queryCustomerInfo from '../component/queryCustomerInfo';
   import chooseSku from '../component/chooseSku';
   import skuAttributeOperation from '../component/skuAttributeOperation';
-  import { getFirstPackageSpecInfo} from '../../request/api';
+  import {getFirstPackageSpecInfo} from '../../request/api';
+
   export default {
-    components:{
+    components: {
       queryCustomerInfo,
       chooseSku,
       skuAttributeOperation
     },
     name: "offerOrder",
-    mounted(){
-      getFirstPackageSpecInfo({}).then((result)=>{
+    mounted() {
+      getFirstPackageSpecInfo({}).then((result) => {
+
         for (const key in result.data[0]) {
-          this.$set(this.orderInfo, key, result.data[0][key]);
+          this.detailInfo.pageLoading = false;
+          this.$set(this.orderInfo, key, result.data[0][key]);  //为orderInfo绑定数据
         }
       });
     },
-    data(){
-      return{
-        orderInfo:{},
-        detailInfo:{
-          queryCustomerInfoModel : false
+    data() {
+      return {
+        orderInfo: {},
+        detailInfo: {
+          pageLoading:true,
+          queryCustomerInfoModel: false, // 选择客户弹窗，弹窗是否展示字段放这里是为了避免子组件里的逻辑加载
         }
       }
     },
-    methods:{
-      getCustomerInfo(){
+    methods: {
+      getCustomerInfo() {
         this.detailInfo.queryCustomerInfoModel = true;
         console.log(this.detailInfo);
       },
-      setCustLevel(data){
-         if(data === '01'){
-           return '金牌'
-         }
-        if(data === '02'){
-          return '银牌'
-        }
-        return '铜牌'
-      }
+
     }
   }
 </script>
