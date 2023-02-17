@@ -231,5 +231,19 @@ const otherRouter = [{
     created: "2022-08-20",
     component: resolve => require(['@/views/other/finishAndDOMContentLoaded'], resolve)
   },
+  {
+    path: '/other/changeHosts',
+    name: '修改hosts文件实现在本地使域名解析到指定IP',
+    type: "other",
+    created: "2023-02-02",
+    component: resolve => require(['@/views/other/changeHosts'], resolve)
+  },
+  {
+    path: '/other/netsh',
+    name: 'netsh 网络配置命令行工具',
+    type: "other",
+    created: "2023-02-02",
+    component: resolve => require(['@/views/other/netsh'], resolve)
+  },
 ];
 export default otherRouter;

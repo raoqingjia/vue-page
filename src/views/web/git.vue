@@ -46,15 +46,7 @@ git push -f  origin master    加了参数-u后，以后即可直接用git push 
 在 Mac 本子上执行如下命令：
 git --version
 如果本子上已经安装了 git 工具，会输出类似下面的版本信息：
-git version 2.24.3 (Apple Git-128)
-
-7.git执行 git push 报以下错误：
-remote: HTTP Basic: Access denied
-fatal: Authentication failed for 'http://git.xxxx.com/harlan/interface-new.git/'
-原因:账号密码验证不通过，密码或者权限不对，导致 Git 操作失败。
-解决方法
-输入：git config --system --unset credential.helper
-再次进行 Git 操作，输入正确的用户名，密码即可。          </pre>
+git version 2.24.3 (Apple Git-128)</pre>
           <h3>Git代码行数统计</h3>
           <pre>进入项目后点击鼠标右键-》调出Git Bash Here命令窗口
 1. 统计项目内所有代码行数
@@ -212,7 +204,19 @@ git pull
 
 4)git push时报10053
 这种情况只是暂时跟服务器断了联系，重新提交即可
-          </pre></div>
+
+5)[git 报错] [up to date] master -＞ origin/masterrefusing to merge unrelated histories
+翻译： master -> origin/master拒绝合并不相关的历史
+原因：远程仓库与本地仓库存在不同，并且没有建立过连接，git识别为两个独立的库，不能直接拉取或者推送。需要使用者确认没有关联的文件是否允许更新到本地仓库。
+解决：git pull origin master --allow-unrelated-histories
+
+6)git执行 git push 报以下错误：
+remote: HTTP Basic: Access denied
+fatal: Authentication failed for 'http://git.xxxx.com/harlan/interface-new.git/'
+原因:账号密码验证不通过，密码或者权限不对，导致 Git 操作失败。
+解决方法
+输入：git config --system --unset credential.helper
+再次进行 Git 操作，输入正确的用户名，密码即可。      </pre></div>
       </div>
     </div>
   </div>

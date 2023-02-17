@@ -174,8 +174,11 @@ npm存在的一些不足：
 npm install 下载速度慢，即使是重新 install 时速度依旧慢
 同一个项目，安装的无法保持一致性。原因是因为 package.json 文件中版本号的特点导致在安装的时候代表不同的含义。
 使用 npm 安装多个 js 包时，包会在同一时间下载和安装。安装过程中，其中一个包抛出了一个异常，但 npm 会继续安装其他包，所以错误信息就会在一大堆提示信息中丢失掉，以至于直到执行前，都不会发现实际发生的错误。
-
-Yarn的优点：
+四、查看 yarn 配置
+yarn config get registry
+或者
+yarn config list
+五、Yarn的优点：
 安装速度快 (服务器速度快 , 并且是并行下载)
 版本锁定，安装版本统一
 缓存机制，如果之前已经安装过一个软件包，用Yarn再次安装时之间从缓存中获取，就不用像npm那样再从网络下载了
@@ -188,6 +191,13 @@ npm install xxx@1.1.1 --save         ---- yarn add xxx@1.1.1
 npm install xxx@1.1.1 --save-dev     ---- yarn add xxx@1.1.1 --dev
 npm uninstall xxx --save(-dev)       ----yarn remove xxx
 npm run xxx                          ---- yarn run xxxx</pre>
+          <h3>Mac下安装npm无法使用出现command not found</h3>
+          <pre>Mac下安装npm无法使用出现command not found
+1.全局安装和安装到指定目录下的 package.json 是不一样的效果，输入npm list -g --depth 0中查看是否安装到了全局
+2.建立文件夹 touch .bash_profile
+3.打开文件夹 open .bash_profile
+4.输入内容 export PATH=$PATH:/Users/zhangjunhua/.npm-global/bin，然后保存
+5.更新配置 source .bash_profile</pre>
           <h3>错误积累及提示</h3>
           <pre>
 一、查看node模块或安装包下的所有版本号的方法：npm view 模块名\安装包名 versions
@@ -284,16 +294,6 @@ http://www.cnblogs.com/PeunZhang/p/5629329.html#install-global转载地址
     },
     methods: {
       jump (index) {
-//        let jump = document.getElementsByTagName('h3');
-//       // 获取需要滚动的距离
-//        let total = jump[index].offsetTop;
-//        // Chrome
-//        document.body.scrollTop = total;
-//        // Firefox
-//        document.documentElement.scrollTop = total;
-//       // Safari
-//        window.pageYOffset = total
-//        https://www.cnblogs.com/wisewrong/p/6495726.html  参考网站
         let jump = document.getElementsByTagName('h3');
         let total = jump[index].offsetTop;  // 获取目标位置滚动的距离
         let distance = document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
