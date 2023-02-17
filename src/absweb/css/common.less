@@ -1018,3 +1018,236 @@ ul.char-group {
   }
 }
 
+.attr-group{
+  .char-wrap {
+    margin: 10px 0 0 0;
+    padding: 0 20px 10px;
+    background-color: #f7f8fa;
+    border-radius: 4px;
+  }
+
+  ul.choose-group {
+    margin: 10px 0 0;
+  }
+
+  ul.choose-group li {
+    float: left;
+    width: 25%;
+    margin: 10px 0;
+  }
+
+  ul.choose-group li label {
+    display: table;
+    width: 95%;
+    padding: 0 15px;
+    height: 60px;
+    border: 1px solid #ffddcc;
+    border-radius: 4px;
+    background-color: #ffeee5;
+    cursor: pointer;
+  }
+
+  ul.choose-group li p {
+    display: table-cell;
+    vertical-align: middle;
+    width: 95%;
+    line-height: 24px;
+    font-size: 14px;
+    color: #ff5500;
+    cursor: default;
+    text-overflow: ellipsis;
+  }
+
+
+  /*激活状态*/
+  ul.choose-group li.active label {
+    border: 1px solid #ff7823;
+    background: linear-gradient(to right, #ff9833 0%, #ff461c 100%);
+    position: relative;
+  }
+
+  ul.choose-group li.active label p {
+    color: #ffffff;
+  }
+
+  ul.choose-group li.active label i {
+    display: block;
+    float: left;
+    width: 18px;
+    height: 18px;
+    margin: 20px 5px 0 0;
+    //background: url("../../../assets/images/icons.png") -144px -619px no-repeat;
+  }
+
+  .before-flag {
+    font-size: 12px;
+    width: 80px;
+    cursor: pointer;
+    padding: 2px 11px;
+    margin: 0 0 10px;
+    border: 1px solid #e6e7eb;
+    border-radius: 13px;
+    font-weight: 600;
+    background-color: #ffffff;
+
+    span {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    i {
+      display: inline-block;
+      vertical-align: middle;
+      width: 12px;
+      height: 7px;
+      margin-left: 4px;
+    }
+  }
+
+  .before-flag:hover {
+    span {
+      color: rgba(255, 85, 0, 1);
+    }
+
+    .icon-down {
+      //background: url('../../../assets/images/archiveDetails/detailsSprite.png') -102px -65px no-repeat;
+    }
+
+    .icon-up {
+      //background: url('../../../assets/images/archiveDetails/detailsSprite.png') -182px -65px no-repeat;
+    }
+  }
+
+  .prompt-icon {
+    display: block !important;
+    float: left !important;
+    margin: 7px 0 0 10px;
+  }
+
+  span.btn {
+    display: block;
+    float: left;
+    font-size: 14px;
+    color: #999fa9;
+    padding: 0 6px;
+    line-height: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin: 0 8px 0 0;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  span.operate-icon:hover {
+    color: #FF5500;
+    border: 1px solid #FF5500;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    background-color: transparent;
+  }
+
+  table {
+    border-top: 1px solid #dcdde0;
+    border-bottom: 1px solid #dcdde0;
+  }
+
+  table thead tr {
+    height: 48px;
+  }
+
+  table tbody tr {
+    border-top: 1px solid #dcdde0;
+  }
+  table tbody tr.before-change {
+    background-color: #FEF6F2;
+  }
+
+  table th {
+    color: #7a7a99;
+    background-color: #f0f2f5;
+    font-weight: normal;
+  }
+
+  table th, table td {
+    font-size: 14px;
+    padding: 8px;
+    min-width: 160px;
+    vertical-align: middle;
+    white-space: nowrap; /*强制不换行*/
+  }
+
+  table th.operate, table td.operate, table th.serialNum, table td.serialNum {
+    min-width: 40px;
+    text-align: center;
+  }
+
+  table tr th:first-of-type, table tr td:first-of-type {
+    border-left: none;
+  }
+
+  table th span.required {
+    width: 15px;
+    color: red;
+    font-weight: bold;
+    display: inline-block;
+    text-align: left;
+  }
+
+  table td {
+    color: #495262;
+    vertical-align: middle;
+  }
+
+  table i.operate-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    //background: url("../../../assets/images/icons.png") -36px -655px no-repeat; /*-1311*/
+  }
+
+  table td.operate span {
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  input[type="text"] {
+    display: block;
+    line-height: 34px;
+    height: 34px;
+    width: 100%;
+    padding: 0 10px;
+    font-size: 14px;
+    color: #354052;
+    border: 1px solid #ced0da;
+    border-radius: 4px;
+  }
+
+  .pagination-wrap {
+    margin: 10px 0;
+  }
+
+  .hide-input {
+    border: 1px solid red;
+    width: 5px;
+    height: 5px;
+    overflow: hidden;
+    margin: 0 -6px 0 0;
+  }
+
+  .group-title{
+    display: block;
+    float: left;
+    padding: 0;
+    margin: 0 0 0 20px;
+    font-size: 14px;
+    color: #7a7a99;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+}

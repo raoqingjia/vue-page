@@ -5,7 +5,7 @@
     placeholder="请选择">
     <el-option
       :style="{padding:'0 8px'}"
-      v-for="item in charItem.bizCharEnumSpecLst"
+      v-for="(item,i) in charItem.bizCharEnumSpecLst"
       :key="item.code"
       :label="item.value"
       :value="item.code">
@@ -34,7 +34,11 @@
 
       }
     },
+    created(){
+      console.log(this.charItem);
+    },
     mounted() {
+
     },
     methods: {
     }

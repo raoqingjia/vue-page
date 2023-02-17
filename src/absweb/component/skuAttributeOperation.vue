@@ -9,27 +9,22 @@
     <!-- groupType为1说明是放在产品属性里遍历，为2放在产品资费里遍历 *ngIf="skuItem.bizSkuCharGroupSpecLst && skuItem.bizSkuCharGroupSpecLst.length>0;else other_content;"-->
     <ul  v-for="(groupItem , groupIndex) in skuItem.bizSkuCharGroupSpecLst">
         <li  v-if="groupItem.checkbox">
-          <h4 class="title-fourth">
-            <div class="title-fl">
-              <span class="txt-info">{{groupItem.groupName}}</span>
-            </div>
-            <div class="title-fr">
-              <div class="display-wrap">
-                <i></i>
-              </div>
-            </div>
-          </h4>
+
           <skuAttributeList v-if="groupItem.groupType==='1'" :skuItem ="skuItem" :groupItem="groupItem"></skuAttributeList>
+          <skuAttributeTable v-if="groupItem.groupType==='4'" :skuItem ="skuItem" :groupItem="groupItem"></skuAttributeTable>
         </li>
     </ul>
   </div>
 </template>
 
 <script>
-  import skuAttributeList from './skuAttributeList'
+  import skuAttributeList from './skuAttributeList';
+  import skuAttributeTable from './skuAttributeTable';
+
+
   export default {
     name: 'skuAttributeOperation',
-    components:{skuAttributeList},
+    components:{skuAttributeList,skuAttributeTable},
     props: {
       orderInfo: {
         type: Object,
