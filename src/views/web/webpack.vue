@@ -50,21 +50,6 @@ npm install --save-dev html-webpack-plugin  打包 HTML 资源
 npm install --save-dev html-loader url-loader file-loader   打包图片资源
 npm install webpack-dev-server 安装webpack-dev-server实现了自动编译刷新浏览器  运行指令: npx webpack-dev-server
 npm install --save-dev mini-css-extract-plugin   提取 css 成单独文件</pre>
-          <h3>webpack命令配置</h3>
-          <pre>webpack --progress --colors  当项目逐渐变大，webpack 的编译时间会变长，可以通过参数让编译的输出内容带有进度和颜色
-webpack --display-error-details  方便出错时能查阅更详尽的信息
-webpack --config XXX.js   使用另一份配置文件（比如webpack.config2.js）来打包
-webpack --watch    监听变动并自动打包,开启监听模式后，没有变化的模块会在编译后缓存到内存中，而不会每次都被重新编译
-webpack -p   压缩混淆脚本，这个非常非常重要！
-webpack -d   生成map映射文件，告知哪些模块被最终打包到哪里了
-
-开启webpack-dev-server服务，http://localhost:8080/webpack-dev-server/ 可以浏览项目中的页面和编译后的资源输出，并且通过一个 socket.io 服务实时监听它们的变化并自动刷新页面。
-实时监听是有条件的：
-1、所有的文件在同一个目录下
-2、简单css可以，但是css预编译器sass就做不到实时监控
-webpack --display-error-details//打印错误日志
-
-          </pre>
           <h3>编译打包应用</h3>
           <pre>webpack 能够编译打包 js 和 json 文件。能将 es6 的模块化语法转换成浏览器能识别的语法。能压缩代码。不能编译打包 css、img 等文件。不能将 js 的 es6 基本语法转化为 es5 以下语法。
 webpack 开发环境的基本配置
@@ -356,11 +341,46 @@ webpack-cli提供的参数 node-env 官网配置地址  https://webpack.js.org/a
 
 
           </pre>
+          <h3>@ 代表src目录的设置</h3>
+          <pre>方法一
+const path = require('path') // 导入node.js中 专门操作路径的模块
+module.exports = {
+    mode: 'production',
+    devtool: 'nosources-source-map',
+    resolve: {
+        alias: {
+            // 告诉 webpack，@ 符号代表src这一层目录
+            '@': path.join(__dirname, './src/')
+        }
+    }
+}
+方法二
+'use strict'
+const path = require('path')
+const resolve = dir => path.join(__dirname, dir)
+module.exports = {
+  configureWebpack: {
+    name: 'vue Element Admin',
+    resolve: {
+      alias: {
+        '@': resolve('src')
+      }
+    }
+  }
+} </pre>
           <h3>配置source-map打印控制台报错信息</h3>
           <pre>https://webpack.docschina.org/configuration/devtool/ 官方介绍
 Devtool作用：
 此选项控制是否生成，以及如何生成 source map。
-使用 SourceMapDevToolPlugin 进行更细粒度的配置。查看 source-map-loader 来处理已有的 source map
+module.exports = {
+    mode: 'development', // 开发阶段
+    devtool: 'eval-source-map'  // 运行时 报错的行数 与 源代码行数 一致， 方便排查问题
+}
+module.exports = {
+    mode: 'production', // 生产发布
+    devtool: 'nosources-source-map' // 防止源码泄露，提高网站安全性
+}
+
 
 devtool选项有这么几个：
 source-map、cheap-module-source-map、eval-source-map、cheap-module-eval-source-map
@@ -424,6 +444,100 @@ module.exports = {
   devtool: 'cheap-module-source-map'
   .....
 }</pre>
+          <h3>webpack-cli 命令配置</h3>
+          <pre>webpack-cli 命令的选项比较多，详细可以通过 webpack-cli 的文档进行查阅，这里总结我们日常用的最多的几个选项（options）：
+–config：指定一个 Webpack 配置文件的路径；
+–mode：指定打包环境的mode，取值为development和production，分别对应着开发环境和生产环境；
+–json：输mode出 Webpack 打包的结果，可以使用webpack --json > stats.json方式将打包结果输出到指定的文件；
+–progress：显示 Webpack 打包进度；
+–watch, -w：watch 模式打包，监控文件变化之后重新开始打包；
+–color, --colors/–no-color, --no-colors：控制台输出的内容是否开启颜色；
+–hot：开启 Hot Module Replacement模式，后面会详细介绍；
+–profile：会详细的输出每个环节的用时（时间），方便排查打包速度瓶颈。
+$ webpack -p//压缩混淆脚本，这个非常非常重要！
+$ webpack -d//生成map映射文件，告知哪些模块被最终打包到哪里了其中的 </pre>
+          <h3>webpack-dev-server【devServer属性配置】</h3>
+          <pre>DevServer 是webpack开发服务器
+webpack-dev-server：一个服务器插件，相当于webpack+apache，启动一个web服务并实时更新修改，会自动监听变化，自动打包构建，自动更新刷新浏览器
+特点：
+不会产生dist文件，将打包结果暂时存在内存中，内部的http-sever访问这些文件并读取数据，发送给浏览器
+减少磁盘的读取，提高构建效率
+写法：在webpack.config.js文件中，通过属性devServer: { } 设置与 webpack-dev-server相关的配置
+安装：下载安装webpack-dev-server库
+$ npm i -D webapck-dev-server
+配置package.json 和 webpack.config.js
+"scripts": {
+  "dev": "webpack-dev-server --inline --open --progress --colors --config build/webpack.dev.conf.js",
+  "serve":"webpack-dev-server --env.NODE_ENV=development --progress --disable-host-check",
+   ......
+},
+当运行 npm run dev 的时候，devServer首先会在内存中创建类似的dist目录，这里不会看到生成的dist打包文件，是因为webpack-dev-server是将打包编译结果放在内存中，内部的http-sever会访问这些文件并读取数据，再发送给浏览器 ，由浏览器打开进行预览
+
+webpack-dev-server其它配置
+mode: 'development',
+entry: {},
+output: {},
+devtool:'#source-map',
+module: {rules: []},
+devServer: {
+    contentBase: resolve('./'), // 对外提供的访问内容的路径，只有在提供静态文件访问的情况下才需要使用该配置。
+    compress: true, // 配置是否启用 gzip 压缩。boolean 为类型，默认为 false。
+    host: 'localhost' || baseDevServer.host,
+    inline: true, // 切换dev-server的两种模式，默认情况server使用inline mode(live reload及构建信息的相关代码会被插入到bundle中。)。
+       // false:切换到iframe mode(使用iframe mode会在通知栏下方显示构建信息)
+    port: baseDevServer.port || 9000,
+    quiet: true, // 当启用该配置，除了初始化信息会被写到console中，其他任何信息都不会被写进去。
+                // errors和warnings也不会被写到console中。
+    useLocalIp: baseDevServer.useLocalIp || false,
+    overlay: { // 在编译过程中有任何错误，可以显示在网页上,在浏览器上全屏显示编译的errors或warnings。默认是关闭的
+      warnings: false,
+      errors: true
+    },
+    headers: { // 向所有的请求添加headers
+      "X-Custom-Foo": "bar"
+    },
+    historyApiFallback: true, // 当使用html5 history api,将会在响应404时返回index.html。
+    historyApiFallback: {
+       rewrites: [ // 通过传递一个object来对该共呢个做更多的定
+         { from: /^\/$/, to: '/views/landing.html' },
+         { from: /^\/subpage/, to: '/views/subpage.html' },
+         { from: /./, to: '/views/404.html' }
+       ],
+       disableDotRule: true // 当在路径中使用.符号，需要使用disableDotRule配置。
+    },
+    https: true, // 默认情况下dev-server使用http协议，通过配置可以支持https
+    https: {
+       key: fs.readFileSync("/path/to/server.key"),
+       cert: fs.readFileSync("/path/to/server.crt"),
+       ca: fs.readFileSync("/path/to/ca.pem"),
+    },
+    open: false, // 第一次构建是否自动用浏览器打开网页，默认是true
+    openPage: '/different/page', // 配置项用于打开指定 URL 的网页
+    hot: true, // 开启热更新HMR，只能跟新css。js和图片需要手动更新
+    hotOnly:true, 启用HMR，当编译失败时，不刷新页面。
+    proxy: {
+     '/api': {
+         target: 'https://api.github.com', // 代理地址
+         pathRewrite: {
+           '^/api': ''
+         },
+         // 默认代理服务器，会以我们实际在浏览器请求的主机名【localhost:8080】，作为代理服务器的主机名，
+         // 然后代理服务器会带上这个主机名，去请求github，然而 github是不认识 【localhost:8080】
+         //  changeOrigin: true 就是以实际代理请求发生过程中的主机名去请求，如：代理服务器的主机名
+         changeOrigin: true
+      }
+   }
+},
+resolve: {
+   extensions: ['.js', '.vue', '.json'],
+   alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': resolve('./')
+   }
+},
+plugins: [
+   new webpack.HotModuleReplacementPlugin() // HMR 特性所需要的插件
+]</pre>
           <h3>本地服务器devServer</h3>
           <pre>在开发模式下，DevServer 提供虚拟服务器，让我们进行开发和调试,需要单独安装
 命令
@@ -474,16 +588,31 @@ http://localhost:8080/app.js --> http://localhost:8080/assets/app.js
 当您有一个单独的API后端开发服务器，并且想要在同一个域上发送API请求时，则代理这些 url
 proxy: {
     '/proxy': {
-        target: 'http://your_api_server.com',
-        changeOrigin: true,
-        pathRewrite: {
-            '^/proxy': ''
+        target: 'http://10.248.50.224',  // 实际请求地址ip
+        ws：true,      //  如果开启了WebSockets配置这个参数
+        secure:false,   //  如果使用https，会有安全校验，设置secure为false
+        changeOrigin: true,  // 是否跨域
+        pathRewrite: {       // 请求路径重写
+            '^/api': ''    // 将 /api/xxx --> /xxx （去掉/api）
         }
   }
-假设你主机名为 localhost:8080 , 请求 API 的 url 是 http：//your_api_server.com/user/list
+假设你主机名为 localhost:8080 , 请求 API 的 url 是 http：//10.248.50.224/user/list
 '/proxy'：如果点击某个按钮，触发请求 API 事件，这时请求 url 是http：//localhost:8080/proxy/user/list
-changeOrigin：如果 true ，那么 http：//localhost:8080/proxy/user/list 变为 http：//your_api_server.com/proxy/user/list 。但还不是我们要的 url
-pathRewrite：重写路径。匹配 /proxy ，然后变为” ，那么 url 最终为 http：//your_api_server.com/user/list
+changeOrigin：如果 true ，那么 http：//localhost:8080/proxy/user/list 变为 http：//10.248.50.224/proxy/user/list 。但还不是我们要的 url
+pathRewrite：重写路径。匹配 /proxy ，然后变为” ，那么 url 最终为 http：//10.248.50.224/user/list
+将请求代理到同一目标
+
+13.如果要将多个特定路径代理到同一目标，则可以使用具有context属性的一个或多个对象的数组：
+const url='http://192.168.0111.8888'
+module.exports = {
+  //...
+  devServer: {
+    proxy: [{
+      context: ['/auth', '/api'],
+      target: url,
+    }]
+  }
+}
 
 完整配置如下:
 devServer: {
