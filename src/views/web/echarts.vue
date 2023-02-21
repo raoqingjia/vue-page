@@ -11,18 +11,313 @@
             <li v-for="(items,index) in catalogue"  :key="index" ><a @click="jump(index)">{{index+1}}、{{items.name}}</a></li>
           </ul>
           <h3>文档常用链接</h3>
-          <pre>案例和文档
+          <pre>echarts相关优秀项目网站
 https://www.makeapie.cn/
 https://pie.antcode.net/
 https://echarts.apache.org/zh/option.html
-
-DataV.GeoAtlas地理小工具系列
-https://datav.aliyun.com/portal/school/atlas/area_selector  阿里生成的china数据在map3d和geo3d上是无法显示名称的，但是省份或者市是可以的
+https://www.isqqw.com/#/homepage
+http://www.ppchart.com/
+https://www.hcharts.cn/
 
 可以借鉴的案例
-https://www.makeapie.cn/echarts_content/xlw6cwVrpX.html  地图、航线与柱状图关联展示
-https://www.makeapie.cn/echarts_content/xr5cqmiBBf.html  地图带阴影，散点图，航线
+Echarts图形-扩展属性：航线图的线条以及图标修改
+https://wiki.smartbi.com.cn/pages/viewpage.action?pageId=76679914
+Echarts 主题修改，可以作为自定义图表示例
+https://echarts.apache.org/zh/theme-builder.html
+地图、航线与柱状图关联展示
+https://www.makeapie.cn/echarts_content/xlw6cwVrpX.html
+地图带阴影，散点图，航线
+https://www.makeapie.cn/echarts_content/xr5cqmiBBf.html
+
+Echarts官网Json数据获取方式
+1、network数据
+2、拿图中的数据举例吧，你只需要先拿到 data/asset/data/product.json
+然后在前面拼上 http://echarts.baidu.com/
+得到的完整地址是 http://echarts.baidu.com/data/asset/data/product.json </pre>
+          <h3>ECharts GL</h3>
+          <pre>ECharts GL （后面统一简称 GL）为 ECharts 补充了丰富的三维可视化组件，这篇文章我们会简单介绍如何基于 GL 实现一些常见的三维可视化作品。
+echarts-gl 中使用的地图类型同 geo 组件相同(ECharts 中提供了两种格式的地图数据，一种是可以直接 script 标签引入的 js 文件，引入后会自动注册地图名字和数据。还有一种是 JSON 文件，需要通过 AJAX 异步加载后手动注册。)
+npm install echarts -S
+npm install echarts-gl -S</pre>
+          <h3>echarts-mapJson</h3>
+          <pre>echarts的地图数据格式是GeoJSON
+https://geojson.org/
+GeoJSON是一种对各种地理数据结构进行编码的格式，基于Javascript对象表示法(JavaScript Object Notation, 简称JSON)的地理空间信息数据交换格式。GeoJSON对象可以表示几何、特征或者特征集合。
+
+中国地图GeoJSON数据
+https://geojson.cn/
+https://www.hcharts.cn/mapdata
+https://hxkj.vip/demo/echartsMap/
+https://datav.aliyun.com/portal/school/atlas/area_selector
+(2022年11月datav.aliyun.com生成的china数据在map3d和geo3d上是无法显示名称的，但是省份或者市是可以的)
+
+echarts GeoJSON格式的 js或json 世界地图等数据下载
+https://github.com/apache/echarts/tree/master/test/data/map/js
+https://github.com/apache/echarts/tree/master/test/data/map/json</pre>
+          <h3>Echarts地图加载慢的问题</h3>
+          <pre>前提了解：ECharts 中提供了两种格式的地图数据，一种是可以直接 script 标签引入的 js 文件，引入后会自动注册地图名字和数据。还有一种是 JSON 文件，需要通过 AJAX 异步加载后手动注册
+
+1、生产反映加载地图项目时很慢，有个6M的文件刷新就会加载，使用打包分析的工具发现都是echarts的中国地图的json文件在打包时被打到了chunkjs里面
+经过多种尝试，发现之前使用的require引入的json文件，将require改成使用axios请求的方式去引入之后，重新打包，不会再将json文件打到chunkjs里去，成功解决了这个问题
+
+2、开发项目中 需要使用到全国地图，当添加china.json（文件大小50kb+）的时候很卡，图表加载总是好几秒才出来。而且还会阻塞后面的图表渲染。也就是程序阻塞了
+第一种办法：页面初始加载的时候 预加载 china.json文件 ，使用ajax请求，可是每次刷新图表都会重新加载一次china.json
+第二种办法：这里就要预习到js堆栈的问题了，使用setTimeout(()=>{},0)包裹图表函数。让地图最后渲染（因为它比较卡）。这样页面速度就瞬间提升了。而且不会重复加载文件。
           </pre>
+          <h3>Echart世界地图文字汉化</h3>
+          <pre>下载的世界地图注册文件为英文的国家名称，为提升用户体验修改为中文的国家名称及中文的数据提示。
+实现思路
+1 - 从官网下载world.json地图注册文件
+2 - 将注册文件中的英文名映射为中文名
+3 - 将映射后的注册文件进行地图注册
+具体实现
+1 - 获取world.json文件
+2 - 引入映射文件（根据要显示中文/英文，映入不同的映射文件，目前Echarts地图注册文件支持215个国家的显示。）
+import {mapZHName} from "./data/mapZHName"
+3 - 数据库地图映射
+formatWorldMapToZH(data) {
+  let zhFeatures = [];
+  if (data.features) {
+    zhFeatures = data.features.map(item => {
+      if (mapZHName[item.properties.name]){
+        item.properties.name = mapZHName[item.properties.name];
+      }
+      return item;
+    })
+  }
+  data.features = zhFeatures
+  return data;
+}
+4 - 注册地图
+initWorldMap() {
+  if (!this.worldMap){
+    axios.get(worldMap)
+      .then(res => {
+        // 地图映射
+        this.worldMap = this.formatWorldMapToZH(res.data);
+        let myChart = this.echarts.init(document.getElementById('worldMap'));
+      	this.echarts.registerMap('world', this.worldMap);
+      })
+  }
+},
+映射文件mapZHName.js
+export let mapZHName = {
+  'Afghanistan': '阿富汗',
+  'Angola': '安哥拉',
+  'Albania': '阿尔巴尼亚',
+  'United Arab Emirates': '阿联酋',
+  'Argentina': '阿根廷',
+  'Armenia': '亚美尼亚',
+  'Australia': '澳大利亚',
+  'Austria': '奥地利',
+  'Azerbaijan': '阿塞拜疆',
+  'Burundi': '布隆迪',
+  'Belgium': '比利时',
+  'Benin': '贝宁',
+  'Burkina Faso': '布基纳法索',
+  'Bangladesh': '孟加拉',
+  'Bulgaria': '保加利亚',
+  'Belarus': '白俄罗斯',
+  'Belize': '伯利兹',
+  'Bermuda': '百慕大',
+  'Bolivia': '玻利维亚',
+  'Brazil': '巴西',
+  'Brunei': '文莱',
+  'Bhutan': '不丹',
+  'Botswana': '博茨瓦纳',
+  'Canada': '加拿大',
+  'Switzerland': '瑞士',
+  'Chile': '智利',
+  'China': '中国',
+  'Cameroon': '喀麦隆',
+  'Colombia': '哥伦比亚',
+  'Costa Rica': '哥斯达黎加',
+  'Cuba': '古巴',
+  'Cyprus': '塞浦路斯',
+  'Germany': '德国',
+  'Djibouti': '吉布提',
+  'Denmark': '丹麦',
+  'Algeria': '阿尔及利亚',
+  'Ecuador': '厄瓜多尔',
+  'Egypt': '埃及',
+  'Eritrea': '厄立特里亚',
+  'Spain': '西班牙',
+  'Estonia': '爱沙尼亚',
+  'Ethiopia': '埃塞俄比亚',
+  'Finland': '芬兰',
+  'Fiji': '斐济',
+  'France': '法国',
+  'Gabon': '加蓬',
+  'United Kingdom': '英国',
+  'Georgia': '格鲁吉亚',
+  'Ghana': '加纳',
+  'Guinea': '几内亚',
+  'Gambia': '冈比亚',
+  'Greece': '希腊',
+  'Greenland': '格陵兰',
+  'Guatemala': '危地马拉',
+  'Guyana': '圭亚那',
+  'Honduras': '洪都拉斯',
+  'Croatia': '克罗地亚',
+  'Haiti': '海地',
+  'Hungary': '匈牙利',
+  'Indonesia': '印度尼西亚',
+  'India': '印度',
+  'Ireland': '爱尔兰',
+  'Iran': '伊朗',
+  'Iraq': '伊拉克',
+  'Iceland': '冰岛',
+  'Israel': '以色列',
+  'Italy': '意大利',
+  'Jamaica': '牙买加',
+  'Jordan': '约旦',
+  'Japan': '日本',
+  'Kazakhstan': '哈萨克斯坦',
+  'Kenya': '肯尼亚',
+  'Kyrgyzstan': '吉尔吉斯斯坦',
+  'Cambodia': '柬埔寨',
+  'Korea': '韩国',
+  'Kuwait': '科威特',
+  'Lebanon': '黎巴嫩',
+  'Liberia': '利比里亚',
+  'Libya': '利比亚',
+  'Sri Lanka': '斯里兰卡',
+  'Lesotho': '莱索托',
+  'Lithuania': '立陶宛',
+  'Luxembourg': '卢森堡',
+  'Latvia': '拉脱维亚',
+  'Morocco': '摩洛哥',
+  'Moldova': '摩尔多瓦',
+  'Madagascar': '马达加斯加',
+  'Mexico': '墨西哥',
+  'Macedonia': '马其顿',
+  'Mali': '马里',
+  'Myanmar': '缅甸',
+  'Montenegro': '黑山',
+  'Mongolia': '蒙古',
+  'Mozambique': '莫桑比克',
+  'Mauritania': '毛里塔尼亚',
+  'Malawi': '马拉维',
+  'Malaysia': '马来西亚',
+  'Namibia': '纳米比亚',
+  'New Caledonia': '新喀里多尼亚',
+  'Niger': '尼日尔',
+  'Nigeria': '尼日利亚',
+  'Nicaragua': '尼加拉瓜',
+  'Netherlands': '荷兰',
+  'Norway': '挪威',
+  'Nepal': '尼泊尔',
+  'New Zealand': '新西兰',
+  'Oman': '阿曼',
+  'Pakistan': '巴基斯坦',
+  'Panama': '巴拿马',
+  'Peru': '秘鲁',
+  'Philippines': '菲律宾',
+  'Papua New Guinea': '巴布亚新几内亚',
+  'Poland': '波兰',
+  'Puerto Rico': '波多黎各',
+  'Portugal': '葡萄牙',
+  'Paraguay': '巴拉圭',
+  'Qatar': '卡塔尔',
+  'Romania': '罗马尼亚',
+  'Russia': '俄罗斯',
+  'Rwanda': '卢旺达',
+  'Saudi Arabia': '沙特阿拉伯',
+  'Sudan': '苏丹',
+  'Senegal': '塞内加尔',
+  'Sierra Leone': '塞拉利昂',
+  'El Salvador': '萨尔瓦多',
+  'Somalia': '索马里',
+  'Suriname': '苏里南',
+  'Slovakia': '斯洛伐克',
+  'Slovenia': '斯洛文尼亚',
+  'Sweden': '瑞典',
+  'Swaziland': '斯威士兰',
+  'Syria': '叙利亚',
+  'Chad': '乍得',
+  'Togo': '多哥',
+  'Thailand': '泰国',
+  'Tajikistan': '塔吉克斯坦',
+  'Turkmenistan': '土库曼斯坦',
+  'Trinidad and Tobago': '特立尼达和多巴哥',
+  'Tunisia': '突尼斯',
+  'Turkey': '土耳其',
+  'Uganda': '乌干达',
+  'Ukraine': '乌克兰',
+  'Uruguay': '乌拉圭',
+  'United States': '美国',
+  'Uzbekistan': '乌兹别克斯坦',
+  'Venezuela': '委内瑞拉',
+  'Vietnam': '越南',
+  'Vanuatu': '瓦努阿图',
+  'Yemen': '也门',
+  'South Africa': '南非',
+  'Zambia': '赞比亚',
+  'Zimbabwe': '津巴布韦',
+  'Liechtenstein':'列支敦士登',
+  'Serbia':'塞尔维亚',
+  "Aland": "奥兰群岛",
+  "Andorra": "安道尔",
+  "American Samoa": "美属萨摩亚",
+  "Antigua and Barb.": "安提瓜和巴布达",
+  "Bahrain": "巴林",
+  "Bahamas": "巴哈马",
+  "Bosnia and Herz.": "波斯尼亚和黑塞哥维那",
+  "Barbados": "巴巴多斯",
+  "Central African Rep.": "中非",
+  "Dem. Rep. Congo": "刚果民主共和国",
+  "Congo": "刚果",
+  "Comoros": "科摩罗",
+  "Cape Verde": "佛得角",
+  "Curaçao": "库拉索",
+  "Cayman Is.": "开曼群岛",
+  "Czech Rep.": "捷克",
+  "Dominica": "多米尼克",
+  "Falkland Is.": "福克兰群岛",
+  "Faeroe Is.": "法罗群岛",
+  "Micronesia": "密克罗尼西亚联邦",
+  "Guinea-Bissau": "几内亚比绍",
+  "Eq. Guinea": "赤道几内亚",
+  "Grenada": "格林纳达",
+  "Guam": "关岛",
+  "Isle of Man": "马恩岛",
+  "Br. Indian Ocean Ter.": "英属印度洋领地",
+  "Jersey": "泽西岛",
+  "Kiribati": "基里巴斯",
+  "Lao PDR": "老挝",
+  "Saint Lucia": "圣卢西亚",
+  "Malta": "马耳他",
+  "N. Mariana Is.": "北马里亚纳群岛",
+  "Montserrat": "蒙特塞拉特岛",
+  "Mauritius": "毛里求斯",
+  "Niue": "纽埃岛",
+  "Palau": "帕劳",
+  "Dem. Rep. Korea":"韩国",
+  "Palestine": "巴勒斯坦",
+  "Fr. Polynesia": "法属波利尼西亚",
+  "S. Sudan": "南苏丹",
+  "Singapore": "新加坡",
+  "Saint Helena":"圣赫勒拿",
+  "Solomon Is.": "所罗门群岛",
+  "St. Pierre and Miquelon": "圣皮埃尔和密克隆群岛",
+  "São Tomé and Principe": "圣多美和普林西比",
+  "Seychelles": "塞舌尔",
+  "Turks and Caicos Is.": "特克斯和凯科斯群岛",
+  "Timor-Leste": "东帝汶",
+  "Tonga": "汤加",
+  "Tanzania": "坦桑尼亚",
+  "St. Vin. and Gren.": "圣文森特和格林纳丁斯",
+  "U.S. Virgin Is.": "美属维尔京群岛",
+  "Samoa": "萨摩亚",
+  "W. Sahara":"西撒哈拉",
+  "Fr. S. Antarctic Lands":"马提尼克岛",
+  "Côte d'Ivoire":"科特迪瓦",
+  "N. Cyprus":"东塞浦路斯",
+  "Dominican Rep.": "多米尼加",
+  "Heard I. and McDonald Is.":"赫德岛和麦克唐纳群岛",
+  "Siachen Glacier":"锡亚琴冰川",
+  "S. Geo. and S. Sandw. Is.":"南乔治亚岛与南桑威奇群岛"
+};</pre>
           <h3>Option的配置的通用配置</h3>
           <pre>
 backgroundColor                                     背景色
