@@ -115,7 +115,6 @@
     name: "offerOrder",
     mounted() {
       getFirstPackageSpecInfo({}).then((result) => {
-
         for (const key in result.data[0]) {
           this.detailInfo.pageLoading = false;
           this.$set(this.orderInfo, key, result.data[0][key]);  //为orderInfo绑定数据

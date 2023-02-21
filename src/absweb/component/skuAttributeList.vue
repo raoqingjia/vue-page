@@ -19,9 +19,9 @@
           <!--readonly为0是操作功能 *ngIf="charItem.readonly==0"-->
           <section v-if="charItem.readonly!==2">
             <template v-if="charItem.readonly===0">
-              <skuCharSelect v-if="charItem.charType==='1'" :charItem="charItem"></skuCharSelect>
-              <skuCharInput v-if="charItem.charType==='2'" :charItem="charItem"></skuCharInput>
-              <skuCharDatePicker v-if="charItem.charType==='3'" :charItem="charItem"></skuCharDatePicker>
+              <skuCharSelect v-if="charItem.charType==='1'" :skuItem="skuItem" :charItem="charItem"></skuCharSelect>
+              <skuCharInput v-if="charItem.charType==='2'" :skuItem="skuItem" :charItem="charItem"></skuCharInput>
+              <skuCharDatePicker v-if="charItem.charType==='3'" :skuItem="skuItem" :charItem="charItem"></skuCharDatePicker>
             </template>
             <p v-if="charItem.readonly===1"> {{charItem.charValue?charItem.charValue:'--'}}</p>
           </section>

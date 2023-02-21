@@ -15,7 +15,9 @@
 1. Git强制更新并覆盖本地修改
 git fetch --all     从远程拉取最新的代码 不merge
 git reset --hard origin/develop    使用指定分支的代码（此处develop）强制覆盖代码
-git pull    从远程拉取最新的代码 自动merge
+git pull    从远程拉取最新的代码 自动merge（其实也可以不用，第二步命令做过了其实）
+单条执行
+git fetch --all &&  git reset --hard origin/master && git pull
 
 2. Git回退代码到指定版本
 git log     查看所有的历史版本

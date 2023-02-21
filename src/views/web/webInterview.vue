@@ -95,7 +95,13 @@ https://zhuanlan.zhihu.com/p/49067231
 https://blog.csdn.net/weixin_34090562/article/details/88702472?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link</pre
           >
           <h3>说一下浏览器输入URL发生了什么？</h3>
-          <pre>
+          <pre>1.输入url地址后，通过DNS解析为ip地址
+2.浏览器终于得到了IP以后，向服务器发送TCP连接，TCP连接经过三次握手
+3.浏览器发送HTTP请求
+4.服务器处理请求（返回状态）
+5.浏览器解析渲染页面
+6.断开TCP连接：四次挥手
+
 【得分点】
 DNS解析、TCP握手、HTTP缓存、重定向、服务器状态码、渲染引擎和JS引擎互斥、渲染过程、浏览器进程、网路进程、渲染进程
 【参考答案】
@@ -504,6 +510,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 ul.catalogue li {
+  padding: 4px 8px;
   float: none !important;
+}
+ul.catalogue li a{
+  float: none !important;
+  display: block;
+  font-size: 16px;
 }
 </style>

@@ -300,21 +300,6 @@ export default  {
         }, {
           "checkbox": true,
           "skuNum": "5005501",
-          "groupNum": "YWDG",
-          "groupName": "业务功能订购信息",
-          "groupType": "1",
-          "optionalFlag": "1",
-          "charSize": 4,
-          "optType": "3",
-          "alias": null,
-          "showLine": "1",
-          "resetStyle": null,
-          "setImg": null,
-          "note": "DICT标准产品集成服务-业务功能订购信息",
-          "limitCount": null
-        }, {
-          "checkbox": true,
-          "skuNum": "5005501",
           "groupNum": "FW",
           "groupName": "服务项目信息",
           "groupType": "4",
@@ -327,7 +312,24 @@ export default  {
           "setImg": null,
           "note": "DICT标准产品集成服务-服务项目",
           "limitCount": null
-        }, {
+        },
+          {
+            "checkbox": true,
+            "skuNum": "5005501",
+            "groupNum": "YWDG",
+            "groupName": "业务功能订购信息",
+            "groupType": "1",
+            "optionalFlag": "1",
+            "charSize": 4,
+            "optType": "3",
+            "alias": null,
+            "showLine": "1",
+            "resetStyle": null,
+            "setImg": null,
+            "note": "DICT标准产品集成服务-业务功能订购信息",
+            "limitCount": null
+          },
+          {
           "checkbox": true,
           "skuNum": "5005501",
           "groupNum": "HJ",
@@ -1271,7 +1273,7 @@ export default  {
           "optionalFlag": 0,
           "backOptionalFlag": null,
           "readonly": 0,
-          "charType": "22",
+          "charType": "1",
           "alias": "serviceItem_RADIO",
           "placeHolder": "请选择",
           "changed": false,

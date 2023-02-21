@@ -180,6 +180,14 @@ const cssRouter = [ //css案例
     type: "css",
     created: "2020-03-02",
     component: resolve => require(['@/views/css/inlineBlockNoAlign'], resolve)
+  },
+  {
+    path: '/css/inlineBlockNoAlign',
+    name: 'display inline-block 后不对齐的解决办法',
+    type: "css",
+    created: "2020-03-02",
+    component: resolve => require(['@/views/css/inlineBlockNoAlign'], resolve)
   }
+
   ];
 export default cssRouter;
