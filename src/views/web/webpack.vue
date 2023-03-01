@@ -637,6 +637,12 @@ devServer: {
             errors: true
         }
     }</pre>
+          <h3>webpack 日常报错积累</h3>
+          <pre>1、浏览器报错500，Cannot read property 'split' of null
+主要是devServer.proxy.target 这里引起的
+比如http://192.168.2.181:8000/写成了http//192.168.2.181:8000/，很难看出来吧，就是少了一个冒号：
+我是.env.developmen配的 VUE_APP_BASE_TARGET 多了个分号 -> VUE_APP_BASE_TARGET= 'http://10.248.50.224';
+          </pre>
         </div>
       </div>
     </div>

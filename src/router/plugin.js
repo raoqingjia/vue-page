@@ -192,6 +192,14 @@ const pluginRouter = [
     category:"web",
     created: "2023-02-01",
     component: resolve => require(['@/views/plugin/lerna'], resolve)
+  },
+  {
+    path: '/plugin/jsencryptAndEncryptlong',
+    name: 'jsencrypt 与 encryptlong',
+    type: "plugin",
+    category:"web",
+    created: "2023-02-11",
+    component: resolve => require(['@/views/plugin/jsencryptAndEncryptlong'], resolve)
   }
 ];
 export default pluginRouter;

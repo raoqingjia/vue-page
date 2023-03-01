@@ -188,6 +188,14 @@ const frameworkRouter = [ // 前端框架
     category:"React",
     created: "2022-10-04",
     component: resolve => require(['@/views/framework/reactHooks'], resolve)
+  },
+  {
+    path: '/framework/ruoyiCannotFindModule',
+    name: '若以VUE框架部署前端项目报错 Cannot find module ‘@/views/.....‘',
+    type: "framework",
+    category:"Vue",
+    created: "2023-02-21",
+    component: resolve => require(['@/views/framework/ruoyiCannotFindModule'], resolve)
   }
 ];
 export default frameworkRouter;
