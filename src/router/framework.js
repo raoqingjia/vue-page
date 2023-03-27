@@ -191,11 +191,19 @@ const frameworkRouter = [ // 前端框架
   },
   {
     path: '/framework/ruoyiCannotFindModule',
-    name: '若以VUE框架部署前端项目报错 Cannot find module ‘@/views/.....‘',
+    name: '若依Vue框架部署前端项目报错 Cannot find module ‘@/views/.....‘',
     type: "framework",
     category:"Vue",
     created: "2023-02-21",
     component: resolve => require(['@/views/framework/ruoyiCannotFindModule'], resolve)
+  },
+  {
+    path: '/framework/componentCardSolt',
+    name: 'Vue中solt卡槽 Angular中ng-content React中prop 组件插槽',
+    type: "framework",
+    category:"Angular,Vue,React",
+    created: "2023-02-21",
+    component: resolve => require(['@/views/framework/componentCardSolt'], resolve)
   }
 ];
 export default frameworkRouter;

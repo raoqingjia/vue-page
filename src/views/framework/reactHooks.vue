@@ -144,7 +144,5 @@ function Example() {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  pre.language-js {
-    background: #000 !important;
-  }
+
 </style>
