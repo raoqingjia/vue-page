@@ -188,6 +188,14 @@ const frameworkRouter = [ // 前端框架
     category:"React",
     created: "2022-10-04",
     component: resolve => require(['@/views/framework/reactHooks'], resolve)
+  },
+  {
+    path: '/framework/use2install2component',
+    name: 'Vue.use()、Vue.install()、Vue.component()',
+    type: "framework",
+    category:"Vue",
+    created: "2022-03-10",
+    component: resolve => require(['@/views/framework/use2install2component'], resolve)
   }
 ];
 export default frameworkRouter;
