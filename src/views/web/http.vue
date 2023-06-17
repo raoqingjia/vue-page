@@ -267,7 +267,15 @@ nginx默认上传文件的大小是1M，可nginx的设置中修改。
 五、调取后台接口报500浏览器response中显示：
 {"timestamp":1523438392792,"status":500,"error":"Internal Server Error","exception":"com.netflix.zuul.exception.ZuulException","message":"GENERAL"}
 结论是网关报错
-           </pre>
+
+六、(failed)net" ERR CONNECTION ABORTED
+post 接口请求，报文格式为属性组入参为11.3kb   接口调取偶尔报错信息为(failed)net" ERR CONNECTION ABORTED
+原因：
+1.服务器限制文件上传的权限
+2.post请求时提交的数据过多
+3.服务器未开启
+4.跨域请求
+5、10.209.247.77 F5 访问后端nginx慢 ，从69 主机访问就没问题，流量限制，从77 访问就报超时、资源池array转发后端主机接口访问超时</pre>
           <h3>扩展</h3>
           <pre>
 相关文档网站
