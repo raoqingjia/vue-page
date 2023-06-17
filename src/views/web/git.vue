@@ -84,8 +84,12 @@ git config --global --replace-all user.email "输入你的邮箱"
 git config --global --replace-all user.name "输入你的用户名"</pre>
           <h3>Github把密码换成token</h3>
           <pre>
-1)个人设置页面 -> Setting-> Developer setting ->Personal access tokens -> Generate new token -> New personal access token 页面输入Note标题，设置Expiration失效时间，Select scopes勾选repo(命令行访问仓库)、delete_repo(命令行删除仓库) ->Generate token
-2)用自己生成的token登录，把上面生成的token粘贴到输入密码的位置，然后成功push代码
+问题描述和原因分析：
+remote: Support for password authentication was removed on August 13, 2021. Please use a personal access token instead.
+翻译过来：（远程:支持密码认证已于2021年8月13日删除。 请使用个人访问令牌）
+
+1)个人设置页面 -> Setting-> Developer setting ->Personal access tokens -> Generate new token -> New personal access token 页面输入Note标题，设置Expiration失效时间(最多就一年)，Select scopes勾选repo(命令行访问仓库)、delete_repo(命令行删除仓库) ->Generate token
+2)用自己生成的token登录，把上面生成的token粘贴到输入密码的位置，然后成功push代码 或者按下面序号3方法操作
 3)把token直接添加远程仓库链接中，
 git remote set-url origin https://your_token@github.com/USERNAME/REPO.git
 your_token：换成你自己得到的token   USERNAME：是你自己github的用户名   REPO：是你的仓库名称
