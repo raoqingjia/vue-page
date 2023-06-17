@@ -152,7 +152,7 @@ vuex中有默认的五个核心概念：
 state：存储状态（变量）
 mutations：修改状态，并且是同步的。在组件中通过this.$store.commit(‘xxx’,params)使用。这个和我们组件中的自定义事件类似。
 actions：提交 mutation，异步操作。在组件中通过this.$store.dispath(‘xxx’)使用
-getters：对数据获取之前的再次编译，可以理解为state的计算属性。在组件中通过 this.$store.getters.xxx使用
+getters：对数据获取之前的再次编译，可以理解为state的计算属性。在组件中多在computed通过this.$store.getters.xxx使用
 modules：store的子模块，为了开发大型项目，方便状态管理而使用的，即将store分割为模块，使store对象不会太臃肿。（官文示例 https://vuex.vuejs.org/zh/guide/modules.html）
 
 白话文解释
@@ -163,6 +163,159 @@ mapAction是类似把action中的方法关联到当前vue组件实例中（官�
 mapState 是因为一个组件需要获取多个变量状态计算，如果将写到methods方法里，每次状态改变都要调取一遍methods定义的方法，这样有些重复多余，于是就可以用mapState来解决
 个人理解：mapAction是要写在methods里，mapState要写在computed里面，mapAction方法里变量单一，不需要根据变量改变随时计算，mapState则是要根据变量更改重新触发计算
           </pre>
+          <h3>vuex中this.$store.commit和this.$store.dispatch的用法</h3>
+          <pre>前言
+this.store.dispatch()与this.store.commit()方法的区别总的来说他们只是存取方式的不同,两个方法都是传值给vuex的mutation改变state
+区别
+commit()同步操作
+this.$store.commit('方法名',值)  // 存储
+this.$store.state.方法名  // 取值
+dispatch()异步操作
+this.$store.dispatch('方法名',值) // 存储
+this.$store.getters.方法名  // 取值
+
+当操作行为中含有异步操作:
+比如向后台发送请求获取数据，就需要使用action的dispatch去完成了。
+其他使用commit即可。
+commit => mutations,用来触发同步操作的方法。
+dispatch =>actions,用来触发异步操作的方法。
+在store中注册了mutation和action，在组件中用dispatch调用action，然后action用commit调用mutation。
+
+实战
+this.$store.commit()
+import Vue from "vue";
+import Vuex from "vuex";
+Vue.use(Vuex);
+export const store = new Vuex.Store({
+    // state专门用来保存 共享的状态值
+  state: {
+    // 保存登录状态
+    login: false
+  },
+    // mutations: 专门书写方法,用来更新 state 中的值
+  mutations: {
+    // 登录
+    doLogin(state) {
+      state.login = true;
+    },
+    // 退出
+    doLogout(state) {
+      state.login = false;
+    }
+  }
+});
+< script>
+// 使用vux的 mapState需要引入
+import { mapState } from "vuex";
+export default {
+  // 官方推荐: 给组件起个名字, 便于报错时的提示
+  name: "Header",
+  // 引入vuex 的 store 中的state值, 必须在计算属性中书写!
+  computed: {
+    // mapState辅助函数, 可以快速引入store中的值
+    // 此处的login代表,  store文件中的 state 中的 login, 登录状态
+    ...mapState(["login"])
+  },
+  methods: {
+    logout() {
+      this.$store.commit("doLogout");
+    }
+  }
+};
+< /script>
+< script>
+export default {
+  name: "Login",
+  data() {
+    return {
+      uname: "",
+      upwd: ""
+    };
+  },
+  methods: {
+    doLogin() {
+      console.log(this.uname, this.upwd);
+      let data={
+        uname:this.uname,
+        upwd:this.upwd
+      }
+      this.axios
+        .post("user_login.php", data)
+        .then(res => {
+          console.log(res);
+          let code = res.data.code;
+          if (code == 1) {
+            alert("恭喜您, 登录成功! 即将跳转到首页");
+            // 路由跳转指定页面
+            this.$router.push({ path: "/" });
+            //更新 vuex 的 state的值, 必须通过 mutations 提供的方法才可以
+            // 通过 commit('方法名') 就可以出发 mutations 中的指定方法
+            this.$store.commit("doLogin");
+          } else {
+            alert("很遗憾, 登陆失败!");
+          }
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+
+  }
+};
+< /script>
+
+this.$store.dispatch()
+store/modules文件夹里的user.js,声明user并释放出来
+const user = {
+  state: {
+    token: '',
+    roles: null,
+    isMasterAccount:true,
+  },
+  mutations: {
+    SET_TOKEN: (state, token) => {
+      state.token ="Bearer " +token
+    },
+  },
+  actions: {
+    // 登录
+    Login({
+      commit
+    }, userInfo) {
+      return new Promise((resolve, reject) => {
+        login(userInfo.account, userInfo.password).then(x => {
+          if(x.status==200){
+            const tokenV = x.data.token.tokenValue
+            commit('SET_TOKEN', tokenV)
+            document.cookie=`AuthInfo=Bearer ${tokenV};path:/`;
+            token="Bearer "+tokenV;
+            //setToken("Bearer " +token)
+            resolve();
+          }
+
+        }).catch(error => {
+          console.log("登录失败")
+          reject(error)
+        })
+      })
+    },
+  }
+}
+export default user
+注：必须要用commit(‘SET_TOKEN’, tokenV)调用mutations里的方法，才能在store存储成功
+handleLogin() {
+  this.loading = true
+  this.$store.dispatch('Login', this.loginForm).then(() => {
+     this.$router.push({
+         path: '/manage/merchant/account'
+     }); //登录成功之后重定向到首页
+     this.loading = false
+     // this.$router.push({ path: this.redirect || '/' })
+   }).catch(() => {
+       this.loading = false
+   })
+}
+this.$store.dispatch(‘Login’, this.loginForm)来调取store里的user.js的login方法，从而要更新</pre>
           <h3>vuex高级点的玩法就是分modules</h3>
           <pre>
 目的是开发大型项目，方便状态管理而使用的，即将store分割为模块，使store对象不会太臃肿

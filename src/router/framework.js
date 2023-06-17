@@ -204,6 +204,14 @@ const frameworkRouter = [ // 前端框架
     category:"Angular,Vue,React",
     created: "2023-02-21",
     component: resolve => require(['@/views/framework/componentCardSolt'], resolve)
+  },
+  {
+    path: '/framework/use2install2component',
+    name: 'Vue.use()、Vue.install()、Vue.component()',
+    type: "framework",
+    category:"Vue",
+    created: "2022-03-10",
+    component: resolve => require(['@/views/framework/use2install2component'], resolve)
   }
 ];
 export default frameworkRouter;

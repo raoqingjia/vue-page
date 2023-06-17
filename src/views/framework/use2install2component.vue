@@ -17,7 +17,7 @@
 
 <script>
     export default {
-        name: '',
+        name: 'use2install2component',
         data() {
             return {
                 created: this.$route.query.created,
