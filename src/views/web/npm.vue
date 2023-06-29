@@ -61,6 +61,9 @@ export NVM_DIR="$HOME/.nvm"
 
 查看nodejs安装路径的两种方法：
 在打开的cmd命令行窗口中，输入“where node”，回车，此时会出现nodejs的安装路径</pre>
+          <h3>nvm下管理多个node环境注意</h3>
+          <pre>1、比如我本地nvm安装了 12.20.2 和 16.17.0的node版本
+我在16.17.0全局安装了  npm i -g anywhere后等我切换到了12.20.2之后anywhere是不在存在的，是需要重新安装anywhere的，这个要注意</pre>
           <h3>win7安装高版本的node解决办法</h3>
           <pre>Win7 支持的 NodeJs 最高版本为 13.14.0
 https://nodejs.org/zh-cn/download/releases/   node以往的版本
