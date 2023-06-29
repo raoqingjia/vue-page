@@ -200,6 +200,14 @@ const pluginRouter = [
     category:"web",
     created: "2023-02-11",
     component: resolve => require(['@/views/plugin/jsencryptAndEncryptlong'], resolve)
+  },
+  {
+    path: '/plugin/anywhere',
+    name: '本地替代Apache  Tomcat 的工具 anywhere',
+    type: "plugin",
+    category:"web",
+    created: "2023-04-06",
+    component: resolve => require(['@/views/plugin/anywhere'], resolve)
   }
 ];
 export default pluginRouter;
