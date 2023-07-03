@@ -9,7 +9,7 @@
         <div class="art-content">
           <pre>
 JWT全称为json web token,他的本质是一个对JSON对象加密后的字符串，当服务器认证通过后一个包含用户信息的josn对象，返给用户，典型的JWT由三个部分组成，每一个部分由点（.）分隔，这样就构成JWT，
-
+JWT根据工号信息不同，返回出的JWT长度是不一样的，它不是等长的
 例子如下：
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ (三种不同的信息)
 第一部分：头部（header）  头部包含所使用的签名算法和令牌的类型(即JWT)，这部分会被编码为Base64URL格式。
