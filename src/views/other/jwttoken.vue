@@ -19,7 +19,8 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 const msg = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ';
 
 解析方式一
-let user = decodeURIComponent(escape(window.atob(msg.split('.')[1])));  //  将JWT切割   获取需要的载荷
+const str = msg.split('.')[1].replace(/-/g, "+").replace(/_/g, "/");  //  将JWT切割转义   获取需要的载荷
+let user = decodeURIComponent(escape(window.atob(str)));
 let res = JSON.parse(user)     //将获取的字符串转换成JSON对象
 
 解析方式二
