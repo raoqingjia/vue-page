@@ -425,6 +425,13 @@ const jsRouter = [//js案例
     type: "js",
     created: "2022-10-20",
     component: resolve => require(['@/views/js/jsIn'], resolve)
+  },
+  {
+    path: '/js/mapAndFilter',
+    name: 'map和filter的区别',
+    type: "js",
+    created: "2023-01-07",
+    component: resolve => require(['@/views/js/mapAndFilter'], resolve)
   }
 
   ];
