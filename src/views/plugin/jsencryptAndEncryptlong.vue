@@ -7,9 +7,19 @@
           <span v-html="created"></span>
         </p>
         <div class="art-content">
+          <h3>简介</h3>
+          <pre>jsencrypt和encryptlong都是rsa加密，加密的对象一定要是字符串。 简单数据用前者，如果加密的是对象并且数据还挺多的，比如含有token 用后者。
+npm install jsencrypt --save
+npm i encryptlong --save
+npm install --save js-base64    //  base64 解密 为了解决中文乱码</pre>
+          <h3>项目实战中的问题</h3>
+          <pre>1、 在解密时失败我在使用jsencrypt，来进行rsa加密时，发现，加密长文本的时候，会报错。提示文本太长了。此时使用encryptlong这个js库，来解决这个问题的。
+2、 当使用encryptlong这个js库输入很长的中文文本后，加密解密还是会失败。如果全是字母或者数字的长文本，加密解密是正常的。此时就需要将中文转成base64字符，在进行rsa加密
 
-          <h3>
-          </h3>
+import {Base64} from 'js-base64' // node自带
+encrypt加密可能有特殊符号，传参最好再转一下
+const param = {staffNumber : Base64.encode(encrypt(this.logInfo.name)), pageId: 1}</pre>
+          <h3>使用步骤</h3>
           <pre>import { JSEncrypt as JSEncryptLong } from 'encryptlong'
 import JSEncrypt from 'jsencrypt';
 // 密钥对生成 http://web.chacuo.net/netrsakeypair
@@ -49,12 +59,43 @@ export function decryptLong(txt) {
   const encryptor = new JSEncryptLong()
   encryptor.setPrivateKey(privateKey) // 设置私钥
   return encryptor.decryptLong(txt) // 对数据进行解密
+}</pre>
+          <h3>见到一个高级玩法</h3>
+          <pre>import JSEncrypt  from 'jsencrypt'
+import Encrypt from 'encryptlong'
+import { Base64 }from 'js-base64'
+
+type RsaKeyObj = Record<'PublicKey'| 'PrivateKey',string>
+type EncryptDecryptFunc< T> = (message: T) => string | false
+
+const Rsa_Keys: RsaKeyObj = {
+    PublicKey: '', // 公钥A
+    PrivateKey: '' // 私钥B
 }
 
-import {Base64} from 'js-base64' // node自带
-encrypt加密可能有特殊符号，传参最好再转一下
-const param = {staffNumber : Base64.encode(encrypt(this.logInfo.name)), pageId: 1}</pre>
+// 公钥A加密
+export const encrypt: EncryptDecryptFunc< String> = (message)=> {
+    const encryptor = new JSEncrypt()
+    encryptor.setPublicKey(Rsa_Keys.PublicKey)
+    return encryptor.encrypt(message)
+}
 
+export const encryptObj: EncryptDecryptFunc< Object> = (message) => encrypt(JSON.stringify(message))
+
+// 私钥B解密
+export const decrypt: EncryptDecryptFunc< String> = (message)=> {
+    const decryptor = new Encrypt()
+    decryptor.setPrivateKey(Rsa_Keys.PrivateKey)
+    return decryptor.decryptLong(message)
+}
+// 后台数据是先包一层rsa加密 又包了一层base64加密
+// base64 解密decrypt数据 2次解密是为了rsa解密的乱码
+export const decrypt64: EncryptDecryptFunc< String> = (message) => Base64.decode(decrypt(message))
+
+使用：
+import { encrypt, decrypt64 } from '@/utils/rsa'
+const resultEncrypt = encrypt(JSON.stringify({ name: '', password: '' }))
+const data = decrypt64(response.data)</pre>
         </div>
       </div>
     </div>
@@ -64,21 +105,21 @@ const param = {staffNumber : Base64.encode(encrypt(this.logInfo.name)), pageId: 
 <script>
   export default {
     name: 'jsencryptAndEncryptlong',
-    data () {
+    data() {
       return {
         created: this.$route.query.created,
         title: this.$route.query.name,
-        catalogue:[]
+        catalogue: []
       }
     },
-    mounted:function(){
-      this.$nextTick(function(){
+    mounted: function () {
+      this.$nextTick(function () {
         this.createCatalogue();
       })
     },
-    computed:{},
+    computed: {},
     methods: {
-      jump (index) {
+      jump(index) {
 //        let jump = document.getElementsByTagName('h3');
 //       // 获取需要滚动的距离
 //        let total = jump[index].offsetTop;
@@ -102,8 +143,8 @@ const param = {staffNumber : Base64.encode(encrypt(this.logInfo.name)), pageId: 
           smoothUp()
         }
 
-        function smoothDown () {
-          if (total>distance ) {
+        function smoothDown() {
+          if (total > distance) {
             distance += step;
             document.body.scrollTop = distance;
             document.documentElement.scrollTop = distance;
@@ -113,8 +154,9 @@ const param = {staffNumber : Base64.encode(encrypt(this.logInfo.name)), pageId: 
             document.documentElement.scrollTop = total
           }
         }
-        function smoothUp () {
-          if ( total<distance) {
+
+        function smoothUp() {
+          if (total < distance) {
             distance -= step;
             document.body.scrollTop = distance;
             document.documentElement.scrollTop = distance;
@@ -126,14 +168,14 @@ const param = {staffNumber : Base64.encode(encrypt(this.logInfo.name)), pageId: 
         }
       },
       //创建目录函数
-      createCatalogue(){
+      createCatalogue() {
         let object = document.getElementsByTagName('h3');
-        var flag=[];
-        for(var i=0;i<object.length;i++){
-          var o={name:object[i].innerHTML};
+        var flag = [];
+        for (var i = 0; i < object.length; i++) {
+          var o = {name: object[i].innerHTML};
           flag.push(o)
         }
-        this.catalogue=flag;
+        this.catalogue = flag;
       }
     }
   }
