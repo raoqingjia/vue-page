@@ -245,5 +245,12 @@ const otherRouter = [{
     created: "2023-02-02",
     component: resolve => require(['@/views/other/netsh'], resolve)
   },
+  {
+    path: '/other/gatewayUltraVires',
+    name: '基于gateway网关统一实现页面“垂直越权”校验问题修复',
+    type: "other",
+    created: "2023-07-21",
+    component: resolve => require(['@/views/other/gatewayUltraVires'], resolve)
+  },
 ];
 export default otherRouter;
