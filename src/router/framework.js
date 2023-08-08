@@ -212,6 +212,14 @@ const frameworkRouter = [ // 前端框架
     category:"Vue",
     created: "2022-03-10",
     component: resolve => require(['@/views/framework/use2install2component'], resolve)
+  },
+  {
+    path: '/framework/projectAutoExit',
+    name: '实现系统15分钟不操作自动退出到登录页',
+    type: "framework",
+    category:"Angular,Vue,React",
+    created: "2022-04-15",
+    component: resolve => require(['@/views/framework/projectAutoExit'], resolve)
   }
 ];
 export default frameworkRouter;
