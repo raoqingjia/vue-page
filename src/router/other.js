@@ -252,5 +252,12 @@ const otherRouter = [{
     created: "2023-07-21",
     component: resolve => require(['@/views/other/gatewayUltraVires'], resolve)
   },
+  {
+    path: '/other/sessionStorageShare',
+    name: '多窗口之间sessionStorage不能共享状态吗?',
+    type: "other",
+    created: "2023-08-08",
+    component: resolve => require(['@/views/other/sessionStorageShare'], resolve)
+  },
 ];
 export default otherRouter;
