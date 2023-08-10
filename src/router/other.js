@@ -225,6 +225,13 @@ const otherRouter = [{
     component: resolve => require(['@/views/other/getCacheForIE'], resolve)
   },
   {
+    path: '/other/learnOptions',
+    name: '跨域时遇到的options 请求详解',
+    type: "other",
+    created: "2022-07-12",
+    component: resolve => require(['@/views/other/learnOptions'], resolve)
+  },
+  {
     path: '/other/finishAndDOMContentLoaded',
     name: '浏览器中 DOMContentLoaded 和 Load 和 Finish 代表着什么？',
     type: "other",
