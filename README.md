@@ -121,3 +121,10 @@ highstock,highChart,
 5. 使用 ckeditor 完成富文本编辑器功能
 6. 使用 lazyload 实现图片延迟加载，和 iScroll 实现上拉追加下拉刷新数据，优化页面性能，减轻服务器负载
 用 nuxt.js 开发
+
+
+
+
+
+
+https://www.ajihuo.com/idea/4222.html  webstrom  激活码
