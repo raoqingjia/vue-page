@@ -225,6 +225,13 @@ const otherRouter = [{
     component: resolve => require(['@/views/other/getCacheForIE'], resolve)
   },
   {
+    path: '/other/learnOptions',
+    name: '跨域时遇到的options 请求详解',
+    type: "other",
+    created: "2022-07-12",
+    component: resolve => require(['@/views/other/learnOptions'], resolve)
+  },
+  {
     path: '/other/finishAndDOMContentLoaded',
     name: '浏览器中 DOMContentLoaded 和 Load 和 Finish 代表着什么？',
     type: "other",
@@ -244,6 +251,20 @@ const otherRouter = [{
     type: "other",
     created: "2023-02-02",
     component: resolve => require(['@/views/other/netsh'], resolve)
+  },
+  {
+    path: '/other/gatewayUltraVires',
+    name: '基于gateway网关统一实现页面“垂直越权”校验问题修复',
+    type: "other",
+    created: "2023-07-21",
+    component: resolve => require(['@/views/other/gatewayUltraVires'], resolve)
+  },
+  {
+    path: '/other/sessionStorageShare',
+    name: '多窗口之间sessionStorage不能共享状态吗?',
+    type: "other",
+    created: "2023-08-08",
+    component: resolve => require(['@/views/other/sessionStorageShare'], resolve)
   },
 ];
 export default otherRouter;

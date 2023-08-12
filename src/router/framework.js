@@ -158,6 +158,14 @@ const frameworkRouter = [ // 前端框架
     component: resolve => require(['@/views/framework/angularInnerHTML'], resolve)
   },
   {
+    path: '/framework/vue2LessonThree',
+    name: 'VUE2.0项目疑点总结',
+    type: "framework",
+    category:"Vue",
+    created: "2022-06-11",
+    component: resolve => require(['@/views/framework/vue2LessonThree'], resolve)
+  },
+  {
     path: '/framework/vueImgUseSrc',
     name: 'vue img使用动态:src',
     type: "framework",
@@ -210,8 +218,16 @@ const frameworkRouter = [ // 前端框架
     name: 'Vue.use()、Vue.install()、Vue.component()',
     type: "framework",
     category:"Vue",
-    created: "2022-03-10",
+    created: "2023-03-10",
     component: resolve => require(['@/views/framework/use2install2component'], resolve)
+  },
+  {
+    path: '/framework/projectAutoExit',
+    name: '实现系统15分钟不操作自动退出到登录页',
+    type: "framework",
+    category:"Angular,Vue,React",
+    created: "2023-04-15",
+    component: resolve => require(['@/views/framework/projectAutoExit'], resolve)
   }
 ];
 export default frameworkRouter;

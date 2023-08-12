@@ -432,6 +432,13 @@ const jsRouter = [//js案例
     type: "js",
     created: "2023-01-07",
     component: resolve => require(['@/views/js/mapAndFilter'], resolve)
+  },
+  {
+    path: '/js/jsAddCopyright',
+    name: 'JS复制内容自动添加版权信息',
+    type: "js",
+    created: "2023-01-08",
+    component: resolve => require(['@/views/js/jsAddCopyright'], resolve)
   }
 
   ];
