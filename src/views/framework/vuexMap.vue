@@ -6,10 +6,11 @@
         <p class="art-time">
           <span v-html="created"></span>
         </p>
-        <div class="art-content">
-<!--          <PreviewWord :fileUrl="'static/demo/vuexMap.docx'"></PreviewWord>-->
+        <PreviewWord :fileUrl="'static/file/vuexMap.docx'"
+                     :fileName="'vuex：弄懂mapState、mapGetters、mapMutations、mapActions.docx'"></PreviewWord>
 
-        </div>
+      </div>
+      <div >
       </div>
     </div>
   </div>
@@ -19,7 +20,9 @@
    import PreviewWord from '@/views/component/previewWord'
     export default {
         name: 'vuexMap',
-        components:{PreviewWord},
+        components:{
+          PreviewWord
+        },
         data() {
           return {
             created: this.$route.query.created,
@@ -32,64 +35,6 @@
           })
         },
         methods: {
-          jump(index) {
-//        let jump = document.getElementsByTagName('h3');
-//       // 获取需要滚动的距离
-//        let total = jump[index].offsetTop;
-//        // Chrome
-//        document.body.scrollTop = total;
-//        // Firefox
-//        document.documentElement.scrollTop = total;
-//       // Safari
-//        window.pageYOffset = total
-//        https://www.cnblogs.com/wisewrong/p/6495726.html  参考网站
-            let jump = document.getElementsByTagName('h3');
-            let total = jump[index].offsetTop;  // 获取目标位置滚动的距离
-            let distance = document.documentElement.scrollTop || document.body.scrollTop; //获取当前滚动轴的位置
-            // 平滑滚动，时长500ms，每10ms一跳，共50跳
-            let step = total / 50;
-            if (total > distance) {
-              smoothDown()
-            } else {
-              let newTotal = distance - total;  //防止total，let step=total/50太小，移动缓慢
-              step = newTotal / 50;
-              smoothUp()
-            }
-
-            function smoothDown() {
-              if (total > distance) {
-                distance += step;
-                document.body.scrollTop = distance;
-                document.documentElement.scrollTop = distance;
-                setTimeout(smoothDown, 10)
-              } else {
-                document.body.scrollTop = total;
-                document.documentElement.scrollTop = total
-              }
-            }
-
-            function smoothUp() {
-              if (total < distance) {
-                distance -= step;
-                document.body.scrollTop = distance;
-                document.documentElement.scrollTop = distance;
-                setTimeout(smoothUp, 10)
-              } else {
-                document.body.scrollTop = total;
-                document.documentElement.scrollTop = total
-              }
-            }
-          },
-          //创建目录函数
-          createCatalogue() {
-            let object = document.getElementsByTagName('h3');
-            var flag = [];
-            for (var i = 0; i < object.length; i++) {
-              object[i].innerHTML = ((i + 1) + ". " + object[i].innerHTML);
-              flag.push({name: object[i].innerHTML})
-            }
-            this.catalogue = flag;
-          }
         }
     }
 </script>

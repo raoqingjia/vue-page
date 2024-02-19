@@ -1,5 +1,5 @@
 <template>
-      <header class="clearfix">
+      <header class="header-wrap clearfix">
         <div class="inner clearfix">
           <div class="fl logo">
             <a href="javascript:;"><span>Always On The Road</span></a>

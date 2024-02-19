@@ -170,7 +170,7 @@ pre.language-js ,code[class*="language-"], pre[class*="language-"]{
   margin: 0 auto;
 }
 
-header {
+.header-wrap {
   position: fixed;
   top: 0;
   left: 0;
@@ -180,28 +180,28 @@ header {
   color: #FFFFFF;
 }
 
-header a {
+.header-wrap a {
   line-height: 50px;
 }
 
-header .logo a {
+.header-wrap .logo a {
   display: inline-block;
   font-size: 20px;
   color: #FFFFFF;
 }
 
-header .logo span {
-  color: red;
+.header-wrap .logo span {
+.header-wrapcolor: red;
 }
 
-header ul {
+.header-wrap ul {
 }
 
-header ul li {
+.header-wrap ul li {
   float: left;
 }
 
-header ul li a {
+.header-wrap ul li a {
   display: inline-block;
   padding: 0 20px;
   color: #eef2f1;
@@ -210,32 +210,32 @@ header ul li a {
   text-align: left;
 }
 
-header ul li a.active {
+.header-wrap ul li a.active {
   background-color: #f24644;
   border-bottom: 2px #f24644 solid;
 }
 
-header .btn {
+.header-wrap .btn {
   display: none;
   float: right;
 }
 
-header .btn i {
+.header-wrap .btn i {
   margin: 10px 0 0 0;
   font-size: 25px;
   vertical-align: middle;
 }
 
-footer {
+.footer-wrap {
   background-color: #373d41;
   padding: 20px 0;
 }
 
-footer .link {
+.footer-wrap .link {
   width: 100%;
 }
 
-footer ul {
+.footer-wrap ul {
   vertical-align: top;
   display: inline-block;
   width: 33.33%;
@@ -243,26 +243,26 @@ footer ul {
 }
 
 
-footer ul li {
+.footer-wrap ul li {
   text-align: center;
   font-size: 14px;
   color: #ffffff;
   line-height: 24px;
 }
 
-footer ul li:first-child {
+.footer-wrap ul li:first-child {
   line-height: 30px;
   font-weight: 600;
 
   margin: 0 0 5px 0;
 }
 
-footer ul li:first-child a {
+.footer-wrap ul li:first-child a {
   padding: 5px;
   border-bottom: 1px #ffffff solid;
 }
 
-footer ul li a {
+.footer-wrap ul li a {
   color: #ffffff;
 }
 
@@ -743,11 +743,11 @@ a.a-download{
     width: 94%;
   }
 
-  header .btn {
+  .header-wrap .btn {
     display: block;
   }
 
-  header ul {
+  .header-wrap ul {
     width: 100%;
     position: absolute;
     left: 0;
@@ -755,11 +755,11 @@ a.a-download{
     background-color: #222;
   }
 
-  header ul li {
+  .header-wrap ul li {
     float: none;
   }
 
-  header ul li a {
+  .header-wrap ul li a {
     display: block;
     text-align: center;
   }

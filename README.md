@@ -122,9 +122,17 @@ highstock,highChart,
 6. 使用 lazyload 实现图片延迟加载，和 iScroll 实现上拉追加下拉刷新数据，优化页面性能，减轻服务器负载
 用 nuxt.js 开发
 
+nodejs处理xlsx文件生成json文件
+https://blog.csdn.net/Charonmomo/article/details/130688125?spm=1001.2014.3001.5502
 
-
-
-
+http://www.manongjc.com/detail/10-gqpkajffwvfgbbl.html
 
 https://www.ajihuo.com/idea/4222.html  webstrom  激活码
+
+
+https://www.cnblogs.com/jackson-yqj/p/10329448.html  NodeJs之word文件生成与解析
+
+express框架知识点
+https://blog.csdn.net/qq_43551056/article/details/130333035?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-130333035-blog-110129130.235^v39^pc_relevant_anti_t3_base&spm=1001.2101.3001.4242.1&utm_relevant_index=3
+https://blog.csdn.net/qq_31754591/article/details/123678722
+

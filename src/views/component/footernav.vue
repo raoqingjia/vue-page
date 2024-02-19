@@ -1,5 +1,5 @@
 <template>
-      <footer>
+      <footer class='footer-wrap'>
         <div class="inner">
             <div class="link">
               <ul >
@@ -44,6 +44,7 @@
                 <li><a href="http://www.sioe.cn/yingyong/yanse-rgb-16/" target="_blank">RGB颜色转换工具</a></li>
                 <li><a href="http://tool.oschina.net/diff/" target="_blank">代码对比/归并</a></li>
                 <li><a href="http://zb.yuanrenbang.com/plus/list.php?tid=8" target="_blank">证书类在线生成器</a></li>
+                <li><a href="https://speedpdf.com/zh-cn/" target="_blank">speedpdf 文档转换</a></li>
               </ul>
             </div>
         </div>

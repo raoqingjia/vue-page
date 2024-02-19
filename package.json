@@ -13,6 +13,8 @@
     "axios": "^0.18.0",
     "child_process": "^1.0.2",
     "crypto-js": "^4.1.1",
+    "docx": "^8.2.4",
+    "docx-preview": "^0.1.20",
     "echarts": "^5.2.2",
     "echarts-wordcloud": "^2.0.0",
     "element-ui": "^2.15.6",
@@ -25,7 +27,9 @@
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.22.1",
     "node-sass": "^7.0.1",
+    "officegen": "^0.6.5",
     "open": "0.0.5",
+    "pdf2html": "^3.1.0",
     "prismjs": "^1.29.0",
     "sass-loader": "^6.0.7",
     "swiper": "^3.4.2",
@@ -33,7 +37,8 @@
     "vue": "^2.5.2",
     "vue-i18n": "^8.27.2",
     "vue-router": "^3.0.1",
-    "vue-waterfall-easy": "^2.4.4"
+    "vue-waterfall-easy": "^2.4.4",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

@@ -34,8 +34,7 @@ import {default as a} from './d'</pre>
 原因：由于vue中尽量不使用dom元素，因此在不得不使用是就采用ref
 方法：先将需要获取的目标元素绑定ref属性，使用时直接this.$refs.ref的属性值
 2、父组件调用子组件:
-方法：this.$refs.子组件的ref的属性值
-          </pre>
+方法：this.$refs.子组件的ref的属性值</pre>
           <h3>3、props</h3>
           <pre></pre>
           <h3></h3>

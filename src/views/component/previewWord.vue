@@ -1,185 +1,101 @@
 <template>
   <div>
-    <h3 class="title" :style="{color:restStyle.fontColor}">{{title}}</h3>
-    <ul v-if="displayType===0" class="colspan">
-      <li v-for="(items,index) in list" :key="index" class="clearfix">
-        <p class="txt">
-          <span class="fl" :style="{color:restStyle.fontColor}">{{items.name}}</span>
-          <span class="fr">{{items.data}}</span>
-        </p>
-        <dl class="bar">
-          <dt :style="{width:(items.data/baseDate*100)+'%', background: 'linear-Gradient(to right, ' + restStyle.dataBg[0]+ ', '+ restStyle.dataBg[1]+')'}" class="data-bg"></dt>
-          <dd class="base-bg"></dd>
-        </dl>
-      </li>
-    </ul>
-    <ul v-if="displayType===1" class="rowspan">
-      <li v-for="(items,index) in list" :key="index" class="clearfix">
-        <label class="name" :style="{color:restStyle.fontColor}">{{items.name}}</label>
-        <dl class="bar">
-          <dt
-            :style="{width:(items.data/baseDate*100)+'%', background: 'linear-Gradient(to right, ' + restStyle.dataBg[0]+ ', '+ restStyle.dataBg[1]+')'}"
-            class="data-bg"></dt>
-          <dd class="base-bg"></dd>
-        </dl>
-        <label class="data">{{items.data}}</label>
-      </li>
-    </ul>
+    <a  @click="downLoad()">文档下载</a>
+    <div ref="fileItem"></div>
   </div>
 </template>
 <script>
+import axios from "axios";
+var docx = require("docx-preview");
+// import {DocxPreview ,docx} from 'docx-preview';
   export default {
-    name: 'sortBar',
+    name: 'previewWord',
     data() {
       return {
         current: this.currentPage
       }
     },
     props: {
-      list: {
-        type: Array,
-        default: []
+      fileUrl: {
+        type: String,
+        default: ''
+      },
+      fileName: {
+        type: String,
+        default: ''
       },
       baseDate: {
         type: Number,
         default: 100
-      },
-      restStyle: { // 重置样式
-        type: Object,
-        default: 0
-      },
-      title: {
-        type: String,
-        default: ''
-      },
-      displayType: {// 每页显示条数
-        type: Number,
-        default: 0
       }
     },
     computed: {
-      setWidth() {
-        return '80%';
-      },
     },
     created() {
 
     },
     mounted() {
+      this.goPreview();
     },
-    methods: {}
+    methods: {
+      // 预览
+      goPreview() {
+        axios.request({
+          url: this.fileUrl, // 直接填写json文件在public下的路径即可
+          method: 'get',
+          responseType: 'blob',
+        }).then(res => {
+          console.log(res);
+          // const   options = {
+          //   className: string = "docx", // 默认和文档样式类的类名/前缀
+          //   inWrapper: boolean = true, // 启用围绕文档内容渲染包装器
+          //   ignoreWidth: boolean = false, // 禁止页面渲染宽度
+          //   ignoreHeight: boolean = false, // 禁止页面渲染高度
+          //   ignoreFonts: boolean = false, // 禁止字体渲染
+          //   breakPages: boolean = true, // 在分页符上启用分页
+          //   ignoreLastRenderedPageBreak: boolean = true,//禁用lastRenderedPageBreak元素的分页
+          //   experimental: boolean = false, //启用实验性功能（制表符停止计算）
+          //   trimXmlDeclaration: boolean = true, //如果为真，xml声明将在解析之前从xml文档中删除
+          //   debug: boolean = false, // 启用额外的日志记录
+          // }
+          docx.renderAsync(res.data, this.$refs.fileItem); // 渲染到页面
+        }).catch(err => {
+          alert("抱歉，服务出错！")
+        });
+      },
+      // 下载
+      downLoad() {
+        axios({
+          method: "get",
+          responseType: "blob", // 因为是流文件，所以要指定blob类型
+          url: this.fileUrl, // 自己的服务器，提供的一个word下载文件接口
+        }).then(({ data }) => {
+          console.log(data); // 后端返回的是流文件
+          const blob = new Blob([data]); // 把得到的结果用流对象转一下
+          var a = document.createElement("a"); //创建一个<a></a>标签
+          a.href = URL.createObjectURL(blob); // 将流文件写入a标签的href属性值
+          a.download = this.fileName; //设置文件名
+          a.style.display = "none"; // 障眼法藏起来a标签
+          document.body.appendChild(a); // 将a标签追加到文档对象中
+          a.click(); // 模拟点击了a标签，会触发a标签的href的读取，浏览器就会自动下载了
+          a.remove(); // 一次性的，用完就删除a标签
+        });
+      },
+    }
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-  @height: 16px;
-  h3.title {
-    padding: 15px 20px 5px;
-    text-align: left;
-    font-size: 16px;
-    font-weight: bold;
 
-  }
-
-  ul.colspan {
-    width: 100%;
-    padding: 5px 0 15px;
-
-    li {
-      margin: 0 0 8px 0;
-      padding: 0 20px;
-
-      p.txt {
-        span {
-          display: block;
-          font-size: 14px;
-          color: #c6ccd8;
-          line-height: 36px;
-        }
-      }
-
-      .bar {
-        width: 100%;
-        height: 12px;
-        overflow: hidden;
-        position: relative;
-        z-index: 1;
-      }
-
-      .data-bg {
-        height: 100%;
-        width: 60%;
-        border-radius: 6px;
-        /*background: linear-gradient(to right, #eed180, #e95d58);*/
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 3;
-      }
-
-      .base-bg {
-        height: 100%;
-        width: 100%;
-        border-radius: 6px;
-        background-color: #fef7f1;
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 2;
-      }
-    }
-  }
-
-  ul.rowspan {
-    width: 100%;
-    padding: 5px 0;
-    li {
-      margin: 0 0 8px 0;
-      padding: 0 20px;
-      label {
-        display: block;
-        float: left;
-        font-size: 14px;
-        color: #c6ccd8;
-        line-height: 36px;
-      }
-      .name {
-        width: 20%;
-        text-align: right;
-      }
-      .data {
-        width: 10%;
-        text-align: left;
-      }
-      .bar {
-        float: left;
-        width: 63%;
-        height: 12px;
-        margin: 12px 15px 0;
-        overflow: hidden;
-        position: relative;
-        z-index: 1;
-      }
-      .data-bg {
-        height: 100%;
-        border-radius: 6px;
-        /*background: linear-gradient(to right, #eed180, #e95d58);*/
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 3;
-      }
-      .base-bg {
-        height: 100%;
-        width: 100%;
-        border-radius: 6px;
-        background-color: #fef7f1;
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 2;
-      }
-    }
-  }
+// :deep(.docx-wrapper) {
+//   background-color: #fff !important;//设置灰边
+// }
 
 </style>
+<!--
+
+首先下载安装docx-preview，引入
+npm install xlsx docx-preview --save
+import { defaultOptions, renderAsync } from "docx-preview";
+var docxx = require("docx-preview");
+-->
